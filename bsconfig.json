@@ -1,0 +1,19 @@
+{
+  "name": "dame.bio",
+  "refmt": 3,
+  "reason": {
+    "react-jsx": 2
+  },
+  "sources": [
+    {
+      "dir": "components"
+    }
+  ],
+  "bs-dependencies": [
+    "bs-react-native",
+    "reason-react",
+    "@phenomic/preset-react-app",
+    "@phenomic/plugin-renderer-react",
+    "@phenomic/api-client"
+  ]
+}
