@@ -11,7 +11,8 @@ let make = (_) => {
           {j|
 html {
   height: 100%;
-  background: black;
+  /* background: black; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
 }
 body {
   min-height:100%;
@@ -33,6 +34,16 @@ body {
   src: url('public/assets/fonts/IndieFlower-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+}
+
+.dbPost {
+  font-size: 14px;
+  line-height: 1.8571428;
+}
+
+.dbPost img {
+  margin: 20px 0;
+  max-width: 100%;
 }
 |j}
           |> text

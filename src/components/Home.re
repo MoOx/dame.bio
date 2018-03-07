@@ -54,7 +54,6 @@ let fetchPosts = (page, postsFetched, nbPostsFetched, failure) =>
 
 let component = ReasonReact.reducerComponent("Home");
 
-/*let make = (~posts) => {*/
 let make = _children => {
   let nextPagePress = (_event, self) => self.ReasonReact.send(NextPage);
   let previousPagePress = (_event, self) =>
@@ -111,6 +110,7 @@ let make = _children => {
     },
     render: ({state, handle}) =>
       <Background>
+        <CommonThings />
         <Header />
         <Container>
           <MainContent>
@@ -149,42 +149,7 @@ let make = _children => {
         </Container>
         <Footer />
       </Background>
-    /*
-       (
-         switch (posts: Structures.postsEdge) {
-         | Inactive
-         | Loading =>
-           <Text> ("Chargement ..." |> text) </Text>
-         | Errored =>
-           <Text>
-             ("Une erreur est survenue" |> text)
-           </Text>
-         | Idle(posts) => <PostList posts />
-         }
-       )
-     */
   };
 };
 
-/*
- let jsComponent =
-   ReasonReact.wrapReasonForJs(
-     ~component,
-     (jsProps) => make(~posts=Structures.jsPosts(jsProps##posts))
-   );
-
- let queries = (_) => {
-   let posts =
-     PhenomicPresetReactApp.query(
-       List({
-         path: "posts",
-         by: Some("default"),
-         value: None,
-         order: None,
-         limit: None
-       })
-     );
-   {"posts": posts}
- };
- */
-let jsComponent = ReasonReact.wrapReasonForJs(~component, _jsProps => make());
+let default = ReasonReact.wrapReasonForJs(~component, _jsProps => make());

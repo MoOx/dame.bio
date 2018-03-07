@@ -9,7 +9,7 @@ let styles =
         "block":
           style([
             flex(1.),
-            flexBasis(Pt(350.)),
+            /* flexBasis(Pt(350.)), */
             borderWidth(1.),
             borderColor("#F0F0EF"),
             marginRight(Pt(40.)),
@@ -29,8 +29,9 @@ let styles =
         "title":
           style([
             fontFamily("IndieFlower"),
-            fontSize(Float(22.)),
-            lineHeight(28.),
+            fontSize(Float(32.)),
+            lineHeight(28. *. 1.5),
+            marginBottom(Pt(10.)),
             color("#524D43")
           ]),
         "link": style([padding(Pt(10.))])
@@ -38,31 +39,29 @@ let styles =
     )
   );
 
-let findMainTag = (item: Structures.post) : Structures.term =>
+let findMainTag = (post: Structures.post) : Structures.term =>
   List.find(
     (term: Structures.term) => ! term.hasParent,
-    item.terms.categories
+    post.terms.categories
   );
 
-let component = ReasonReact.statelessComponent("PostPreview");
+let component = ReasonReact.statelessComponent("PostDetail");
 
-let make = (~item: Structures.post, _) => {
+let make = (~post: Structures.post, _) => {
   ...component,
   render: _self => {
-    let mainTag = findMainTag(item);
+    let mainTag = findMainTag(post);
     let href =
       "/"
       ++ String.lowercase(mainTag.slug)
       ++ "/"
-      ++ String.lowercase(item.slug)
+      ++ String.lowercase(post.slug)
       ++ "/";
-    <View key=(string_of_int(item.id)) style=styles##block>
-      <TextLink href>
-        <ImageWithAspectRatio
-          uri=List.hd(item.featuredMedia).media_details.sizes.medium.source_url
-        />
-      </TextLink>
+    <View key=(string_of_int(post.id)) style=styles##block>
       <View style=styles##text>
+        <Text style=styles##title>
+          (ReasonReact.stringToElement(post.title))
+        </Text>
         <View style=styles##row>
           <TextLink
             style=styles##category
@@ -81,9 +80,17 @@ let make = (~item: Structures.post, _) => {
             </TextLink>
           </Text>
         </View>
-        <TextLink style=styles##title href>
-          (ReasonReact.stringToElement(item.title))
-        </TextLink>
+        <div
+          className="dbPost"
+          dangerouslySetInnerHTML={
+            "__html":
+              Js.String.replaceByRe(
+                [%re "/=\"\\/wp-content/g"],
+                "=\"https://dame.bio/wp-content",
+                post.contentHTML
+              )
+          }
+        />
       </View>
     </View>;
   }

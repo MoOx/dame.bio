@@ -1,6 +1,6 @@
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("Sidebar");
+let component = ReasonReact.statelessComponent("MainContent");
 
 let styles =
   StyleSheet.create(

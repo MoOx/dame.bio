@@ -2,8 +2,7 @@ import * as React from "react";
 import Head from "react-helmet";
 
 export default ({ App, render }: PhenomicHtmlPropsType) => {
-  // if needed, you can know if you are in development or in static rendering
-  // const isDev = process.env.PHENOMIC_ENV === "development"
+  const isDev = process.env.PHENOMIC_ENV === "development";
   const { Main, State, Script, Style } = render(<App />);
   const helmet = Head.renderStatic();
   return (
@@ -22,6 +21,7 @@ export default ({ App, render }: PhenomicHtmlPropsType) => {
         <Main />
         <State />
         <Script />
+        {isDev && <script src="http://localhost:8097" />}
       </body>
     </html>
   );

@@ -6,7 +6,7 @@ let styles =
   StyleSheet.create(
     Style.(
       {
-        "imageContainer": style([overflow(Hidden)]),
+        "imageContainer": style([display(Flex), overflow(Hidden)]),
         "image":
           style([
             position(Absolute),

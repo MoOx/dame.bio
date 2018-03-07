@@ -93,6 +93,7 @@ type post = {
   date: string,
   slug: string,
   title: string,
+  contentHTML: string,
   featuredMedia: list(media),
   terms
 };
@@ -106,6 +107,7 @@ let decodePost = json : post =>
     date: json |> field("date", string),
     slug: json |> field("slug", string),
     title: json |> at(["title", "rendered"], string),
+    contentHTML: json |> at(["content", "rendered"], string),
     featuredMedia:
       json |> at(["_embedded", "wp:featuredmedia"], decodeFeaturedMedia),
     terms: json |> at(["_embedded", "wp:term"], decodeTerms)
