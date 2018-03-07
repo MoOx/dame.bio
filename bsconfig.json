@@ -4,14 +4,25 @@
   "reason": {
     "react-jsx": 2
   },
+  "package-specs": {
+    "module": "es6"
+  },
   "sources": [
     {
-      "dir": "components"
+      "dir": "src",
+      "subdirs": true
+    },
+    {
+      "dir": "assets/SVGs/components"
     }
   ],
+  "bsc-flags": ["-bs-super-errors"],
   "bs-dependencies": [
-    "bs-react-native",
+    "bs-fetch",
+    "bs-json",
     "reason-react",
+    "bs-react-native",
+    "bs-react-helmet",
     "@phenomic/preset-react-app",
     "@phenomic/plugin-renderer-react",
     "@phenomic/api-client"

@@ -1,24 +1,13 @@
 import * as React from "react";
 import { Router, Route, browserHistory } from "react-router";
 import { createApp } from "@phenomic/preset-react-app/lib/client";
+import { createContainer } from "@phenomic/preset-react-app/lib/es6/src/phenomicPresetReactApp.js";
 
-const {
-  createContainer
-} = require("@phenomic/preset-react-app/lib/js/src/phenomicPresetReactApp.js");
-
-const Home = require("./lib/js/components/home");
-const Post = require("./lib/js/components/post");
+import Home from "./lib/es6/src/components/Home";
 
 export default createApp(() => (
   <Router history={browserHistory}>
-    <Route
-      path="/"
-      component={createContainer(Home.jsComponent, Home.queries)}
-    />
-    <Route
-      path="blog/*"
-      component={createContainer(Post.jsComponent, Post.queries)}
-    />
+    <Route path="/" component={Home} />
   </Router>
 ));
 
