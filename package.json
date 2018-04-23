@@ -3,9 +3,9 @@
   "name": "dame.bio",
   "version": "3.0.0",
   "devDependencies": {
-    "@phenomic/cli": "^1.0.0-alpha.20",
-    "@phenomic/core": "^1.0.0-alpha.20",
-    "@phenomic/preset-react-app": "^1.0.0-alpha.20",
+    "@phenomic/cli": "^1.0.0-beta.2",
+    "@phenomic/core": "^1.0.0-beta.2",
+    "@phenomic/preset-react-app": "^1.0.0-beta.2",
     "babel-jest": "^21.2.0",
     "babel-plugin-react-native-web": "^0.3.3",
     "babel-preset-react-native": "^4.0.0",
@@ -16,8 +16,8 @@
     "bs-react-native": "^0.5.0",
     "jest": "^21.2.1",
     "npm-run-all": "^4.0.2",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
     "react-helmet": "^5.2.0",
     "react-native": "^0.51.0",
     "react-native-web": "^0.3.2",
@@ -31,17 +31,21 @@
     "reason:cleanup": "bsb -clean-world",
     "reason:compile": "bsb -make-world",
     "svg:convert:web": "svgr -d assets/SVGs/components assets/SVGs",
-    "postsvg:convert:web": "cd assets/SVGs/components && find ./ -name \"*.js\" | xargs -I '{}' basename '{}' | sed 's/\\.js//' | xargs -I '{}' mv '{}.js'  '{}.web.js'",
+    "postsvg:convert:web":
+      "cd assets/SVGs/components && find ./ -name \"*.js\" | xargs -I '{}' basename '{}' | sed 's/\\.js//' | xargs -I '{}' mv '{}.js'  '{}.web.js'",
     "svg:convert:native": "svgr --native -d assets/SVGs/components assets/SVGs",
-    "svg:convert:re": "node scripts/generate-svg-reason.js assets/SVGs/components",
-    "svg:convert": "trash assets/SVGs/components && yarn svg:convert:web && yarn svg:convert:native && yarn svg:convert:re",
+    "svg:convert:re":
+      "node scripts/generate-svg-reason.js assets/SVGs/components",
+    "svg:convert":
+      "trash assets/SVGs/components && yarn svg:convert:web && yarn svg:convert:native && yarn svg:convert:re",
     "prepare": "yarn reason:cleanup && yarn reason:compile && yarn svg:convert",
     "start": "echo Choose start:web or start:native",
     "start:reason": "yarn reason:compile -w",
     "start:web": "yarn reason:cleanup && npm-run-all --parallel start:web:*",
     "start:web:js": "phenomic start",
     "start:web:reason": "yarn start:reason",
-    "start:native": "yarn reason:cleanup && npm-run-all --parallel start:native:*",
+    "start:native":
+      "yarn reason:cleanup && npm-run-all --parallel start:native:*",
     "start:native:js": "react-native start",
     "start:native:reason": "yarn start:reason",
     "run:native:ios": "react-native run-ios",
@@ -51,9 +55,7 @@
     "test": "jest"
   },
   "phenomic": {
-    "presets": [
-      "@phenomic/preset-react-app"
-    ]
+    "presets": ["@phenomic/preset-react-app"]
   },
   "jest": {
     "preset": "react-native"
