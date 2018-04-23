@@ -109,7 +109,7 @@ let make = _children => {
       ReasonReact.NoUpdate;
     },
     render: ({state, handle}) =>
-      <Background>
+      <View>
         <CommonThings />
         <Header />
         <Container>
@@ -148,7 +148,7 @@ let make = _children => {
           <Sidebar />
         </Container>
         <Footer />
-      </Background>
+      </View>
   };
 };
 

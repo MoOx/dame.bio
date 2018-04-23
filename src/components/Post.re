@@ -60,7 +60,7 @@ let make = (~splat, _children) => {
     ReasonReact.NoUpdate;
   },
   render: ({state}) =>
-    <Background>
+    <View>
       <CommonThings />
       <Header />
       <Container>
@@ -84,7 +84,7 @@ let make = (~splat, _children) => {
         <Sidebar />
       </Container>
       <Footer />
-    </Background>
+    </View>
 };
 
 let default =
