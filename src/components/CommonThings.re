@@ -16,6 +16,7 @@ html {
 }
 body {
   min-height:100%;
+  background: url("/images/bg-paper-tile.jpg") repeat;
 }
 
 @supports(padding: max(0px)) {
