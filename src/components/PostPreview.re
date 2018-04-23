@@ -1,3 +1,5 @@
+open Helpers;
+
 open BsReactNative;
 
 let imageRatio = 240. /. 350.;
@@ -10,8 +12,9 @@ let styles =
           style([
             flex(1.),
             flexBasis(Pt(350.)),
-            borderWidth(1.),
-            borderColor("#F0F0EF"),
+            borderWidth(0.75),
+            borderColor("#EBEBEB"),
+            backgroundColor("#FFF"),
             marginRight(Pt(40.)),
             marginBottom(Pt(40.))
           ]),
@@ -24,8 +27,15 @@ let styles =
             color("#DE6D88")
           ]),
         "actions":
-          style([fontSize(Float(10.)), lineHeight(12.), color("#bbb")]),
-        "action": style([]),
+          style([
+            display(Flex),
+            flexDirection(Row),
+            marginBottom(Pt(10.)),
+            fontSize(Float(10.)),
+            color("#bbb")
+          ]),
+        "action":
+          style([display(Flex), flexDirection(Row), marginHorizontal(Pt(4.))]),
         "title":
           style([
             fontFamily("IndieFlower"),
@@ -67,23 +77,36 @@ let make = (~item: Structures.post, _) => {
           <TextLink
             style=styles##category
             href=("/tag/" ++ Utils.encodeURI(mainTag.slug))>
-            (ReasonReact.stringToElement(String.uppercase(mainTag.name)))
+            (String.uppercase(mainTag.name) |> text)
           </TextLink>
           <Text style=styles##actions>
             <TextLink style=styles##action href="#like">
               <SVGFavorite fill="#ddd" width=12. height=12. />
-              (ReasonReact.stringToElement({j| 4|j}))
+              (
+                (
+                  if (item.likes != 0) {
+                    " " ++ (item.likes |> string_of_int);
+                  } else {
+                    "";
+                  }
+                )
+                |> text
+              )
             </TextLink>
-            (ReasonReact.stringToElement(" | "))
+            <Text style=styles##action> (" | " |> text) </Text>
             <TextLink style=styles##action href=(href ++ "#comments")>
               <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
-              (ReasonReact.stringToElement({j| 12|j}))
+              (
+                switch item.comments {
+                | None => "" |> text
+                | Some(comments) =>
+                  " " ++ (List.length(comments) |> string_of_int) |> text
+                }
+              )
             </TextLink>
           </Text>
         </View>
-        <TextLink style=styles##title href>
-          (ReasonReact.stringToElement(item.title))
-        </TextLink>
+        <TextLink style=styles##title href> (item.title |> text) </TextLink>
       </View>
     </View>;
   }

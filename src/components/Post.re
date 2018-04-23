@@ -77,7 +77,7 @@ let make = (~splat, _children) => {
           (
             switch state.post {
             | None => nothing
-            | Some(post) => <PostDetail post />
+            | Some(item) => <PostDetail item />
             }
           )
         </MainContent>

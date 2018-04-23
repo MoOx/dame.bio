@@ -88,6 +88,38 @@ let decodeTerms = json : terms => {
   };
 };
 
+type comment = {
+  type_: string,
+  id: int,
+  parent: int,
+  author: int,
+  author_name: string,
+  author_url: string,
+  author_avatar_url: string,
+  date: string,
+  content: string
+};
+
+let decodeReply = json : comment =>
+  Json.Decode.{
+    type_: json |> field("type", string),
+    id: json |> field("id", int),
+    parent: json |> field("parent", int),
+    author: json |> field("author", int),
+    author_name: json |> field("author_name", string),
+    author_url: json |> field("author_url", string),
+    author_avatar_url: json |> at(["author_avatar_urls", "96"], string),
+    date: json |> field("date", string),
+    content: json |> at(["content", "rendered"], string)
+  };
+
+let decodeReplies = json : list(comment) =>
+  Json.Decode.(Array.unsafe_get(Obj.magic(json), 0) |> array(decodeReply))
+  |> Array.to_list;
+
+let decodeFeaturedMedia = json : list(media) =>
+  Json.Decode.(json |> array(decodeMedia)) |> Array.to_list;
+
 type post = {
   id: int,
   date: string,
@@ -95,11 +127,10 @@ type post = {
   title: string,
   contentHTML: string,
   featuredMedia: list(media),
+  comments: option(list(comment)),
+  likes: int,
   terms
 };
-
-let decodeFeaturedMedia = json : list(media) =>
-  Json.Decode.(json |> array(decodeMedia)) |> Array.to_list;
 
 let decodePost = json : post =>
   Json.Decode.{
@@ -108,8 +139,10 @@ let decodePost = json : post =>
     slug: json |> field("slug", string),
     title: json |> at(["title", "rendered"], string),
     contentHTML: json |> at(["content", "rendered"], string),
+    comments: json |> optional(at(["_embedded", "replies"], decodeReplies)),
     featuredMedia:
       json |> at(["_embedded", "wp:featuredmedia"], decodeFeaturedMedia),
+    likes: json |> at(["meta", "db_like"], int),
     terms: json |> at(["_embedded", "wp:term"], decodeTerms)
   };
 

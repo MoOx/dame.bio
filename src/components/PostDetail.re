@@ -1,3 +1,5 @@
+open Helpers;
+
 open BsReactNative;
 
 let imageRatio = 240. /. 350.;
@@ -24,8 +26,15 @@ let styles =
             color("#DE6D88")
           ]),
         "actions":
-          style([fontSize(Float(10.)), lineHeight(12.), color("#bbb")]),
-        "action": style([]),
+          style([
+            display(Flex),
+            flexDirection(Row),
+            marginBottom(Pt(10.)),
+            fontSize(Float(10.)),
+            color("#bbb")
+          ]),
+        "action":
+          style([display(Flex), flexDirection(Row), marginHorizontal(Pt(4.))]),
         "title":
           style([
             fontFamily("IndieFlower"),
@@ -39,44 +48,57 @@ let styles =
     )
   );
 
-let findMainTag = (post: Structures.post) : Structures.term =>
+let findMainTag = (item: Structures.post) : Structures.term =>
   List.find(
     (term: Structures.term) => ! term.hasParent,
-    post.terms.categories
+    item.terms.categories
   );
 
 let component = ReasonReact.statelessComponent("PostDetail");
 
-let make = (~post: Structures.post, _) => {
+let make = (~item: Structures.post, _) => {
   ...component,
   render: _self => {
-    let mainTag = findMainTag(post);
+    let mainTag = findMainTag(item);
     let href =
       "/"
       ++ String.lowercase(mainTag.slug)
       ++ "/"
-      ++ String.lowercase(post.slug)
+      ++ String.lowercase(item.slug)
       ++ "/";
-    <View key=(string_of_int(post.id)) style=styles##block>
+    <View key=(string_of_int(item.id)) style=styles##block>
       <View style=styles##text>
-        <Text style=styles##title>
-          (ReasonReact.stringToElement(post.title))
-        </Text>
+        <Text style=styles##title> (item.title |> text) </Text>
         <View style=styles##row>
           <TextLink
             style=styles##category
             href=("/tag/" ++ Utils.encodeURI(mainTag.slug))>
-            (ReasonReact.stringToElement(String.uppercase(mainTag.name)))
+            (String.uppercase(mainTag.name) |> text)
           </TextLink>
           <Text style=styles##actions>
             <TextLink style=styles##action href="#like">
               <SVGFavorite fill="#ddd" width=12. height=12. />
-              (ReasonReact.stringToElement({j| 4|j}))
+              (
+                (
+                  if (item.likes != 0) {
+                    " " ++ (item.likes |> string_of_int);
+                  } else {
+                    "";
+                  }
+                )
+                |> text
+              )
             </TextLink>
-            (ReasonReact.stringToElement(" | "))
+            <Text style=styles##action> (" | " |> text) </Text>
             <TextLink style=styles##action href=(href ++ "#comments")>
               <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
-              (ReasonReact.stringToElement({j| 12|j}))
+              (
+                switch item.comments {
+                | None => "" |> text
+                | Some(comments) =>
+                  " " ++ (List.length(comments) |> string_of_int) |> text
+                }
+              )
             </TextLink>
           </Text>
         </View>
@@ -87,7 +109,7 @@ let make = (~post: Structures.post, _) => {
               Js.String.replaceByRe(
                 [%re "/=\"\\/wp-content/g"],
                 "=\"https://dame.bio/wp-content",
-                post.contentHTML
+                item.contentHTML
               )
           }
         />
