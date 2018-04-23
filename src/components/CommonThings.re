@@ -39,11 +39,26 @@ body {
 .dbPost {
   font-size: 14px;
   line-height: 1.8571428;
+  color: #49443A;
+}
+
+.dbPost a {
+  color: #3ba013;
+}
+
+.dbPost strong {
+  font-weight: 800;
 }
 
 .dbPost img {
   margin: 20px 0;
   max-width: 100%;
+}
+
+.dbPost .ingredients dt,
+.dbPost .tips-title {
+  font-weight: 800;
+  font-size: 16px;
 }
 |j}
           |> text
