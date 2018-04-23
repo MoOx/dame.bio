@@ -128,19 +128,22 @@ let make = _children => {
               List.length(state.posts) > 0 ?
                 <PostList posts=state.posts /> : nothing
             )
-            <View>
+            <View
+              style=Style.(
+                      style([flexDirection(Row), justifyContent(SpaceAround)])
+                    )>
               (
                 state.page > 1 ?
-                  <Text onPress=(handle(previousPagePress))>
-                    ("Articles plus frais" |> text)
-                  </Text> :
+                  <BannerButton onPress=(handle(previousPagePress))>
+                    ("Articles plus récents" |> text)
+                  </BannerButton> :
                   nothing
               )
               (
                 state.nbTotal > state.page * per_page ?
-                  <Text onPress=(handle(nextPagePress))>
+                  <BannerButton onPress=(handle(nextPagePress))>
                     ("Encore plus d'articles" |> text)
-                  </Text> :
+                  </BannerButton> :
                   nothing
               )
             </View>
