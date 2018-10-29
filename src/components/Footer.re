@@ -7,7 +7,7 @@ let make = _children => {
   render: _self =>
     <View>
       <Container>
-        <Text> (ReasonReact.stringToElement("Footer")) </Text>
+        <Text> (ReasonReact.string("Footer")) </Text>
       </Container>
     </View>
 };

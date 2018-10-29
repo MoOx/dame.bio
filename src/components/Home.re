@@ -105,8 +105,7 @@ let make = _children => {
         })
       },
     didMount: ({send}) => {
-      send(Fetch) |> ignore;
-      ReasonReact.NoUpdate;
+      send(Fetch);
     },
     render: ({state, handle}) =>
       <View>

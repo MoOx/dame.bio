@@ -29,7 +29,7 @@ let make = (~posts, _) => {
              <PostPreview item key=(string_of_int(item.id)) />
            )
         |> Array.of_list
-        |> ReasonReact.arrayToElement
+        |> ReasonReact.array
       )
     </View>
 };

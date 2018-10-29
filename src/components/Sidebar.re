@@ -68,11 +68,11 @@ let make = children => {
         </View>
         <View style=styles##block>
           <Text style=styles##blockTitle>
-            (ReasonReact.stringToElement({j|Bienvenue|j}))
+            (ReasonReact.string({j|Bienvenue|j}))
           </Text>
           <Text style=styles##blockText>
             (
-              ReasonReact.stringToElement(
+              ReasonReact.string(
                 {j|Nulla minus aut mollitia rem voluptatem voluptas facere. Beatae aperiam qui et quia non dolorum esse. Illum quae totam cumque sint dolor nobis. Cum aut et qui aut adipisci debitis tempora. Tempore sit at sint et maxime rerum dolorem.|j}
               )
             )

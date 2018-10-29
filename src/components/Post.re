@@ -56,8 +56,7 @@ let make = (~splat, _children) => {
       ReasonReact.Update({fetching: false, post: None, error: Some(err)})
     },
   didMount: ({send}) => {
-    send(Fetch) |> ignore;
-    ReasonReact.NoUpdate;
+    send(Fetch);
   },
   render: ({state}) =>
     <View>

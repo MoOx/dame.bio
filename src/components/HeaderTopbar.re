@@ -28,16 +28,16 @@ let make = _children => {
       <SocialIcons wrapperStyle=styles##icons iconStyle=styles##topbarLink />
       <View style=styles##topbarLinks>
         <TextLink style=styles##topbarLink href="/a-propos">
-          (ReasonReact.stringToElement({j|À Propos|j}))
+          (ReasonReact.string({j|À Propos|j}))
         </TextLink>
         <TextLink style=styles##topbarLink href="/univers">
-          (ReasonReact.stringToElement({j|Univers du site|j}))
+          (ReasonReact.string({j|Univers du site|j}))
         </TextLink>
         <TextLink style=styles##topbarLink href="/colibri">
-          (ReasonReact.stringToElement({j|Un colibri en action|j}))
+          (ReasonReact.string({j|Un colibri en action|j}))
         </TextLink>
         <TextLink style=styles##topbarLink href="/contact">
-          (ReasonReact.stringToElement({j|Contact|j}))
+          (ReasonReact.string({j|Contact|j}))
         </TextLink>
       </View>
     </Container>
