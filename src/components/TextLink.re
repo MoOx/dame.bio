@@ -58,13 +58,13 @@ module CreateComponent = (Impl: View.Impl) : TextLinkComponent => {
       ~props=
         Js.Undefined.(
           {
-            "href": from_opt(href),
+            "href": fromOption(href),
             "accessibilityRole": "link",
-            "accessible": from_opt(MyUtilsRN.optBoolToOptJsBoolean(accessible)),
+            "accessible": fromOption(MyUtilsRN.optBoolToOptJsBoolean(accessible)),
             "allowFontScaling":
-              from_opt(MyUtilsRN.optBoolToOptJsBoolean(allowFontScaling)),
+              fromOption(MyUtilsRN.optBoolToOptJsBoolean(allowFontScaling)),
             "ellipsizeMode":
-              from_opt(
+              fromOption(
                 MyUtilsRN.option_map(
                   fun
                   | `head => "head"
@@ -74,17 +74,17 @@ module CreateComponent = (Impl: View.Impl) : TextLinkComponent => {
                   ellipsizeMode
                 )
               ),
-            "numberOfLines": from_opt(numberOfLines),
-            "onLayout": from_opt(onLayout),
-            "onLongPress": from_opt(onLongPress),
-            "onPress": from_opt(onPress),
-            "pressRetentionOffset": from_opt(pressRetentionOffset),
-            "selectable": from_opt(MyUtilsRN.optBoolToOptJsBoolean(selectable)),
-            "style": from_opt(style),
-            "testID": from_opt(testID),
-            "selectionColor": from_opt(selectionColor),
+            "numberOfLines": fromOption(numberOfLines),
+            "onLayout": fromOption(onLayout),
+            "onLongPress": fromOption(onLongPress),
+            "onPress": fromOption(onPress),
+            "pressRetentionOffset": fromOption(pressRetentionOffset),
+            "selectable": fromOption(MyUtilsRN.optBoolToOptJsBoolean(selectable)),
+            "style": fromOption(style),
+            "testID": fromOption(testID),
+            "selectionColor": fromOption(selectionColor),
             "textBreakStrategy":
-              from_opt(
+              fromOption(
                 MyUtilsRN.option_map(
                   fun
                   | `simple => "simple"
@@ -94,10 +94,10 @@ module CreateComponent = (Impl: View.Impl) : TextLinkComponent => {
                 )
               ),
             "adjustsFontSizeToFit":
-              from_opt(MyUtilsRN.optBoolToOptJsBoolean(adjustsFontSizeToFit)),
-            "minimumFontScale": from_opt(minimumFontScale),
+              fromOption(MyUtilsRN.optBoolToOptJsBoolean(adjustsFontSizeToFit)),
+            "minimumFontScale": fromOption(minimumFontScale),
             "suppressHighlighting":
-              from_opt(MyUtilsRN.optBoolToOptJsBoolean(suppressHighlighting))
+              fromOption(MyUtilsRN.optBoolToOptJsBoolean(suppressHighlighting))
           }
         ),
       switch value {

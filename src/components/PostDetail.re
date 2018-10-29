@@ -13,7 +13,7 @@ let styles =
             flex(1.),
             /* flexBasis(Pt(350.)), */
             borderWidth(1.),
-            borderColor("#F0F0EF"),
+            borderColor(String("#F0F0EF")),
             marginRight(Pt(40.)),
             marginBottom(Pt(40.))
           ]),
@@ -23,7 +23,7 @@ let styles =
           style([
             marginBottom(Pt(10.)),
             fontSize(Float(10.)),
-            color("#DE6D88")
+            color(String("#DE6D88"))
           ]),
         "actions":
           style([
@@ -31,7 +31,7 @@ let styles =
             flexDirection(Row),
             marginBottom(Pt(10.)),
             fontSize(Float(10.)),
-            color("#bbb")
+            color(String("#bbb"))
           ]),
         "action":
           style([display(Flex), flexDirection(Row), marginHorizontal(Pt(4.))]),
@@ -41,7 +41,7 @@ let styles =
             fontSize(Float(32.)),
             lineHeight(28. *. 1.5),
             marginBottom(Pt(10.)),
-            color("#524D43")
+            color(String("#524D43"))
           ]),
         "link": style([padding(Pt(10.))])
       }

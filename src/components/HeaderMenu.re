@@ -33,7 +33,7 @@ let styles =
             paddingHorizontal(Pt(20.)),
             lineHeight(65.), /* 73 - transparent part */
             textAlign(Center),
-            color("#4E7E3B")
+            color(String("#4E7E3B"))
           ])
       }
     )

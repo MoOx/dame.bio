@@ -6,8 +6,8 @@ let styles =
   StyleSheet.create(
     Style.(
       {
-        /* "topbarWrapper": style([backgroundColor("#7BA55F")]), */
-        "topbarWrapper": style([backgroundColor("#006579")]),
+        /* "topbarWrapper": style([backgroundColor(String("#7BA55F"))]), */
+        "topbarWrapper": style([backgroundColor(String("#006579"))]),
         "icons": style([flexDirection(Row)]),
         "topbarLinks": style([flexDirection(Row)]),
         "topbarLink":
@@ -15,7 +15,7 @@ let styles =
             paddingVertical(Pt(6.)),
             paddingHorizontal(Pt(12.)),
             fontSize(Float(12.)),
-            color("#fff")
+            color(String("#fff"))
           ])
       }
     )

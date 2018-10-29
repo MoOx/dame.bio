@@ -6,4 +6,4 @@ let list = list => list |> Array.of_list |> ReasonReact.arrayToElement;
 
 let nodeList = node => node##list |> Array.to_list;
 
-module Head = ReactHelmet;
+module Head = BsReactHelmet;

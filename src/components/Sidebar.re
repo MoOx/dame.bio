@@ -7,7 +7,7 @@ let styles =
     Style.(
       {
         "sidebar": style([flex(1.), flexDirection(Row), flexBasis(Pt(350.))]),
-        "bar": style([backgroundColor("#F2DBDD"), width(Pt(4.))]),
+        "bar": style([backgroundColor(String("#F2DBDD")), width(Pt(4.))]),
         "blocks": style([flex(1.)]),
         "avatar": style([maxWidth(Pt(400.))]),
         "avatarDeco":
@@ -28,10 +28,10 @@ let styles =
             marginBottom(Pt(12.)),
             fontFamily("IndieFlower"),
             /* fontWeight(`Bold), */
-            color("#DE6D88")
+            color(String("#DE6D88"))
           ]),
         "blockText":
-          style([fontWeight(`_300), marginBottom(Pt(12.)), color("#49443A")]),
+          style([fontWeight(`_300), marginBottom(Pt(12.)), color(String("#49443A"))]),
         "icons": style([flexDirection(Row)]),
         "icon": style([padding(Pt(4.))]),
         "iconWrapper": style([zIndex(1), lineHeight(24.), padding(Pt(6.))]),

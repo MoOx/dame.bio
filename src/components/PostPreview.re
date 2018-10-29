@@ -13,8 +13,8 @@ let styles =
             flex(1.),
             flexBasis(Pt(350.)),
             borderWidth(0.75),
-            borderColor("#EBEBEB"),
-            backgroundColor("#FFF"),
+            borderColor(String("#EBEBEB")),
+            backgroundColor(String("#FFF")),
             marginRight(Pt(40.)),
             marginBottom(Pt(40.))
           ]),
@@ -24,7 +24,7 @@ let styles =
           style([
             marginBottom(Pt(10.)),
             fontSize(Float(10.)),
-            color("#DE6D88")
+            color(String("#DE6D88"))
           ]),
         "actions":
           style([
@@ -32,7 +32,7 @@ let styles =
             flexDirection(Row),
             marginBottom(Pt(10.)),
             fontSize(Float(10.)),
-            color("#bbb")
+            color(String("#bbb"))
           ]),
         "action":
           style([display(Flex), flexDirection(Row), marginHorizontal(Pt(4.))]),
@@ -41,7 +41,7 @@ let styles =
             fontFamily("IndieFlower"),
             fontSize(Float(22.)),
             lineHeight(28.),
-            color("#524D43")
+            color(String("#524D43"))
           ]),
         "link": style([padding(Pt(10.))])
       }

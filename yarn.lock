@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+"@glennsl/bs-json@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@glennsl/bs-json/-/bs-json-2.0.0.tgz#e621aac1e94d49bc12bf493b67c01c39e61a6415"
+  integrity sha512-Dx3+enF0Pjj4c0axSL3BA80jfPKnXP4utfesh7sQFxgHIXKRTVShzz3mTuRtJ00cBxGXMTlMK1z4OAvmtk7lJg==
+
+"@moox/bs-react-helmet@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@moox/bs-react-helmet/-/bs-react-helmet-1.0.0.tgz#554b1ccc03e3ef62f09910ac7294d80b41efa1f3"
+  integrity sha512-lYvu5lI5Pt2LDbYKnLOYH0YHuTGqeLPkeF0rykQdNtd4aEDLQlaE98QCraR7mvdNPxZSGFQJ8UPLNiGKqDgLsw==
+
 "@phenomic/api-client@^1.0.0-beta.2":
   version "1.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/@phenomic/api-client/-/api-client-1.0.0-beta.2.tgz#2281dce46825564a6156c164685f00e80d399890"
@@ -1777,35 +1787,20 @@ browserslist@^2.1.2:
     caniuse-lite "^1.0.30000744"
     electron-to-chromium "^1.3.24"
 
-bs-fetch@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/bs-fetch/-/bs-fetch-0.2.0.tgz#0537d70169c5746b16eeba8639df7442057db7cf"
-  integrity sha512-J5Er3wM+thKJ7MRBHOXuz8SETaPr+duM2oWdO+lG2EyehHmaHpwSmY8kaMEo4U0QtthXMoDi6dOv9527nVc4Yg==
+bs-fetch@^0.3.0:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/bs-fetch/-/bs-fetch-0.3.1.tgz#9c7d074b27e6bb2b9f2ec985964f32bcac49f79e"
+  integrity sha512-MxwnuuXPldXnoCtlpeN5JNbbmb1tVgsqpLfVunvuMLAIQNyP0TqoImHiQRTz38PBSN8/iX+2yVlm+PFJfnHHiA==
 
-bs-json@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/bs-json/-/bs-json-1.0.1.tgz#0e25ed5ba7164ab131e494669b755da9844cc37e"
-  integrity sha512-0KaYGnn3CJnXwVnEWyTv9yejF991I2O118olKA4APPW8lxVt737Wu4M+UWU+GK8jjEDVb768lM/CdplvBmyy8g==
+bs-platform@^3.0.0:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-3.1.5.tgz#fb34ee4702bc9163848d5537096c4f31ebaeed40"
+  integrity sha1-+zTuRwK8kWOEjVU3CWxPMeuu7UA=
 
-bs-platform@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-2.1.0.tgz#63560ff8f7142c9c0631559df1c35590b9f6d8b2"
-  integrity sha1-Y1YP+PcULJwGMVWd8cNVkLn22LI=
-
-bs-react-helmet@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/bs-react-helmet/-/bs-react-helmet-0.2.1.tgz#b9c8e47586924ccc42ade26f7e4cf327ba9a8045"
-  integrity sha1-ucjkdYaSTMxCreJvfkzzJ7qagEU=
-  dependencies:
-    react "^16.0.0"
-    react-dom "^16.0.0"
-    react-helmet "^5.2.0"
-    reason-react "^0.2.4"
-
-bs-react-native@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/bs-react-native/-/bs-react-native-0.5.0.tgz#f3b147905009fe45edb302cd13d969bb3f52d9aa"
-  integrity sha512-NtI38WMSHh0yMA2Yz00NkXwQC+wxU/boxqAJChjnJpTa1jT3Rqu8HhH+TekMTWkdsHxdNYz+6cI/j5IBmDDodw==
+bs-react-native@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/bs-react-native/-/bs-react-native-0.8.0.tgz#1e68b75ed78aad858548456fd985632b8642acfe"
+  integrity sha1-Hmi3XteKrYWFSEVv2YVjK4ZCrP4=
 
 bser@^2.0.0:
   version "2.0.0"
@@ -7489,7 +7484,7 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-dom@>=15.0.0, "react-dom@>=15.0.0 || >=16.0.0", react-dom@^16.0.0:
+"react-dom@>=15.0.0 || >=16.0.0":
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.2.0.tgz#69003178601c0ca19b709b33a83369fe6124c044"
   integrity sha512-zpGAdwHVn9K0091d+hr+R0qrjoJ84cIBFL2uU60KvWBPfZ7LPSrfqviTxGHWN0sjPZb2hxWzMexwrvJdKePvjg==
@@ -7674,7 +7669,7 @@ react-transform-hmr@^1.0.4:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react@>=15.0.0, "react@>=15.0.0 || >=16.0.0", react@^16.0.0:
+"react@>=15.0.0 || >=16.0.0":
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
   integrity sha512-ZmIomM7EE1DvPEnSFAHZn9Vs9zJl5A9H7el0EGTE6ZbW9FKe/14IYAlPbC8iH25YarEQxZL+E8VW7Mi7kfQrDQ==
@@ -7778,14 +7773,6 @@ readdirp@^2.0.0:
     minimatch "^3.0.2"
     readable-stream "^2.0.2"
     set-immediate-shim "^1.0.1"
-
-reason-react@^0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/reason-react/-/reason-react-0.2.4.tgz#96d85a533fc93e695818dbb3e6a8ae05fbf0de7d"
-  integrity sha512-u9ETR/OQX4/a2NrTtJweS9wm867f82iQxvEytGfmu06SuwiYYAMSGvUMZZSzIwQMWc9f4pUuPnkyRFpkDFPaKA==
-  dependencies:
-    react ">=15.0.0"
-    react-dom ">=15.0.0"
 
 reason-react@^0.3.1:
   version "0.3.1"

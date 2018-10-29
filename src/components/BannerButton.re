@@ -16,7 +16,7 @@ let styles =
             fontSize(Float(24.)),
             paddingHorizontal(Pt(60.)),
             paddingVertical(Pt(20.)),
-            color("#fff")
+            color(String("#fff"))
           ])
       }
     )
