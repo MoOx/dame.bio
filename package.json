@@ -16,6 +16,7 @@
     "bs-react-native": "^0.10.0",
     "jest": "^21.2.1",
     "npm-run-all": "^4.0.2",
+    "prettier": "^1.14.3",
     "react": "^16.6.0",
     "react-art": "^16.6.0",
     "react-dom": "^16.6.0",
@@ -29,6 +30,9 @@
     "trash-cli": "^1.4.0"
   },
   "scripts": {
+    "format": "yarn format:most && yarn format:re",
+    "format:most": "prettier --write \"**/*.{js,json,css,md}\" \"!package.json\"",
+    "format:re": "find . -name \"*.re\" | grep -v \"node_modules\" | xargs bsrefmt --in-place",
     "reason:cleanup": "bsb -clean-world",
     "reason:compile": "bsb -make-world",
     "svg:convert:web": "svgr -d assets/SVGs/components assets/SVGs",
