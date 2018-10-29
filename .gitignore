@@ -60,6 +60,6 @@ lib
 assets/SVGs/components
 tmp
 
-# not native versionned yet
+# no native versionned yet
 android
 ios
