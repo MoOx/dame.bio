@@ -6,6 +6,7 @@ let make = _ => {
   ...component,
   render: _self =>
     <Head>
+      <meta charSet="utf-8" />
       <style>
         {
           {j|
