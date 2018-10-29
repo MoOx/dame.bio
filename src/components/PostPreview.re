@@ -48,21 +48,22 @@ let styles =
     )
   );
 
-let findMainTag = (item: Structures.post) : Structures.term =>
+let findRootCategory = (item: Structures.post) : Structures.term => {
   List.find(
     (term: Structures.term) => ! term.hasParent,
     item.terms.categories
   );
+}
 
 let component = ReasonReact.statelessComponent("PostPreview");
 
 let make = (~item: Structures.post, _) => {
   ...component,
   render: _self => {
-    let mainTag = findMainTag(item);
+    let rootCategory = findRootCategory(item);
     let href =
       "/"
-      ++ String.lowercase(mainTag.slug)
+      ++ String.lowercase(rootCategory.slug)
       ++ "/"
       ++ String.lowercase(item.slug)
       ++ "/";
@@ -76,8 +77,8 @@ let make = (~item: Structures.post, _) => {
         <View style=styles##row>
           <TextLink
             style=styles##category
-            href=("/tag/" ++ Utils.encodeURI(mainTag.slug))>
-            (String.uppercase(mainTag.name) |> text)
+            href=("/tag/" ++ Utils.encodeURI(rootCategory.slug))>
+            (String.uppercase(rootCategory.name) |> text)
           </TextLink>
           <Text style=styles##actions>
             <TextLink style=styles##action href="#like">
