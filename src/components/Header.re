@@ -4,16 +4,14 @@ let component = ReasonReact.statelessComponent("Header");
 
 let styles =
   StyleSheet.create(
-    Style.(
-      {
-        "header":
-          style([
-            justifyContent(Center),
-            alignItems(Center),
-            marginBottom(Pt(60.))
-          ])
-      }
-    )
+    Style.{
+      "header":
+        style([
+          justifyContent(Center),
+          alignItems(Center),
+          marginBottom(Pt(60.)),
+        ]),
+    },
   );
 
 let make = _children => {
@@ -23,5 +21,5 @@ let make = _children => {
       <HeaderTopbar />
       <HeaderLogo />
       <HeaderMenu />
-    </View>
+    </View>,
 };

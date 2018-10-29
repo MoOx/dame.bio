@@ -12,10 +12,10 @@ type action =
 type state = {
   fetching: bool,
   post: option(Structures.post),
-  error: option(string)
+  error: option(string),
 };
 
-external toExn : Js.Promise.error => Js.Exn.t = "%identity";
+external toExn: Js.Promise.error => Js.Exn.t = "%identity";
 
 let fetchPost = (id, postFetched, failure) =>
   Js.Promise.(
@@ -36,7 +36,7 @@ let make = (~splat, _children) => {
   ...component,
   initialState: () => {fetching: false, post: None, error: None},
   reducer: (action, state) =>
-    switch action {
+    switch (action) {
     | Fetch =>
       ReasonReact.UpdateWithSideEffects(
         {...state, fetching: true},
@@ -45,45 +45,43 @@ let make = (~splat, _children) => {
             fetchPost(
               splat,
               post => send(PostFetched(post)),
-              error => send(FetchError(error))
+              error => send(FetchError(error)),
             )
             |> ignore
-        )
+        ),
       )
     | PostFetched(post) =>
       ReasonReact.Update({fetching: false, post: Some(post), error: None})
     | FetchError(err) =>
       ReasonReact.Update({fetching: false, post: None, error: Some(err)})
     },
-  didMount: ({send}) => {
-    send(Fetch);
-  },
+  didMount: ({send}) => send(Fetch),
   render: ({state}) =>
     <View>
       <CommonThings />
       <Header />
       <Container>
         <MainContent>
-          (
-            state.fetching ? <Text> ("Chargement ..." |> text) </Text> : nothing
-          )
-          (
-            switch state.error {
+          {
+            state.fetching ? <Text> {"Chargement ..." |> text} </Text> : nothing
+          }
+          {
+            switch (state.error) {
             | None => nothing
-            | Some(error) => <Text> (error |> text) </Text>
+            | Some(error) => <Text> {error |> text} </Text>
             }
-          )
-          (
-            switch state.post {
+          }
+          {
+            switch (state.post) {
             | None => nothing
             | Some(item) => <PostDetail item />
             }
-          )
+          }
         </MainContent>
         <Sidebar />
       </Container>
       <Footer />
-    </View>
+    </View>,
 };
 
 let default =

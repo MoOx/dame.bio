@@ -8,40 +8,40 @@
  */
 type mediaSize = {source_url: string};
 
-let decodeMediaSize = json : mediaSize =>
+let decodeMediaSize = json: mediaSize =>
   Json.Decode.{source_url: json |> field("source_url", string)};
 
 type mediaSizes = {
   thumbnail: mediaSize,
   medium: mediaSize,
-  large: mediaSize
+  large: mediaSize,
 };
 
-let decodeMediaSizes = json : mediaSizes =>
+let decodeMediaSizes = json: mediaSizes =>
   Json.Decode.{
     thumbnail: json |> field("thumbnail", decodeMediaSize),
     medium: json |> field("medium", decodeMediaSize),
-    large: json |> field("large", decodeMediaSize)
+    large: json |> field("large", decodeMediaSize),
   };
 
 type mediaDetails = {
   width: int,
   height: int,
-  sizes: mediaSizes
+  sizes: mediaSizes,
 };
 
-let decodeMediaDetails = json : mediaDetails =>
+let decodeMediaDetails = json: mediaDetails =>
   Json.Decode.{
     width: json |> field("width", int),
     height: json |> field("height", int),
-    sizes: json |> field("sizes", decodeMediaSizes)
+    sizes: json |> field("sizes", decodeMediaSizes),
   };
 
 type media = {media_details: mediaDetails};
 
-let decodeMedia = json : media =>
+let decodeMedia = json: media =>
   Json.Decode.{
-    media_details: json |> field("media_details", decodeMediaDetails)
+    media_details: json |> field("media_details", decodeMediaDetails),
   };
 
 type term = {
@@ -49,39 +49,40 @@ type term = {
   slug: string,
   name: string,
   taxonomy: string,
-  hasParent: bool
+  hasParent: bool,
 };
 
-let decodeHasParent = json : bool => {
+let decodeHasParent = json: bool => {
   let links = Js.Json.decodeObject(json);
-  switch links {
+  switch (links) {
   | Some(_) =>
-    [%raw {|Boolean(links.up)|}]
+    %raw
+    {|Boolean(links.up)|}
   | None => false
   };
 };
 
-let decodeTerm = json : term =>
+let decodeTerm = json: term =>
   Json.Decode.{
     id: json |> field("id", int),
     slug: json |> field("slug", string),
     name: json |> field("name", string),
     taxonomy: json |> field("taxonomy", string),
-    hasParent: json |> field("_links", decodeHasParent)
+    hasParent: json |> field("_links", decodeHasParent),
   };
 
 type terms = {
   categories: list(term),
-  tags: list(term)
+  tags: list(term),
 };
 
-let decodeTerms = json : terms => {
+let decodeTerms = json: terms => {
   let termsArray = Js.Json.decodeArray(json);
-  switch termsArray {
+  switch (termsArray) {
   | Some(termsArray) => {
       categories:
         Json.Decode.(termsArray[0] |> array(decodeTerm)) |> Array.to_list,
-      tags: Json.Decode.(termsArray[1] |> array(decodeTerm)) |> Array.to_list
+      tags: Json.Decode.(termsArray[1] |> array(decodeTerm)) |> Array.to_list,
     }
   | None => {categories: [], tags: []}
   };
@@ -96,10 +97,10 @@ type comment = {
   author_url: string,
   author_avatar_url: string,
   date: string,
-  content: string
+  content: string,
 };
 
-let decodeReply = json : comment =>
+let decodeReply = json: comment =>
   Json.Decode.{
     type_: json |> field("type", string),
     id: json |> field("id", int),
@@ -109,14 +110,14 @@ let decodeReply = json : comment =>
     author_url: json |> field("author_url", string),
     author_avatar_url: json |> at(["author_avatar_urls", "96"], string),
     date: json |> field("date", string),
-    content: json |> at(["content", "rendered"], string)
+    content: json |> at(["content", "rendered"], string),
   };
 
-let decodeReplies = json : list(comment) =>
+let decodeReplies = json: list(comment) =>
   Json.Decode.(Array.unsafe_get(Obj.magic(json), 0) |> array(decodeReply))
   |> Array.to_list;
 
-let decodeFeaturedMedia = json : list(media) =>
+let decodeFeaturedMedia = json: list(media) =>
   Json.Decode.(json |> array(decodeMedia)) |> Array.to_list;
 
 type post = {
@@ -128,10 +129,10 @@ type post = {
   featuredMedia: list(media),
   comments: option(list(comment)),
   likes: int,
-  terms
+  terms,
 };
 
-let decodePost = json : post =>
+let decodePost = json: post =>
   Json.Decode.{
     id: json |> field("id", int),
     date: json |> field("date", string),
@@ -142,10 +143,10 @@ let decodePost = json : post =>
     featuredMedia:
       json |> at(["_embedded", "wp:featuredmedia"], decodeFeaturedMedia),
     likes: json |> at(["meta", "db_like"], int),
-    terms: json |> at(["_embedded", "wp:term"], decodeTerms)
+    terms: json |> at(["_embedded", "wp:term"], decodeTerms),
   };
 
-let decodePosts = json : list(post) =>
+let decodePosts = json: list(post) =>
   Json.Decode.(json |> array(decodePost)) |> Array.to_list;
 /* let doNothing = (a) => a; */
 /* type postEdge = PhenomicPresetReactApp.edge(post); */

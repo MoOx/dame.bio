@@ -26,7 +26,7 @@ module type TextLinkComponent = {
     ReasonReact.component(
       ReasonReact.stateless,
       ReasonReact.noRetainedProps,
-      unit
+      unit,
     );
 };
 
@@ -51,67 +51,67 @@ module CreateComponent = (Impl: View.Impl) : TextLinkComponent => {
         ~minimumFontScale=?,
         ~suppressHighlighting=?,
         ~value=?,
-        children
+        children,
       ) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=Impl.view,
       ~props=
-        Js.Undefined.(
-          {
-            "href": fromOption(href),
-            "accessibilityRole": "link",
-            "accessible": fromOption(MyUtilsRN.optBoolToOptJsBoolean(accessible)),
-            "allowFontScaling":
-              fromOption(MyUtilsRN.optBoolToOptJsBoolean(allowFontScaling)),
-            "ellipsizeMode":
-              fromOption(
-                MyUtilsRN.option_map(
-                  fun
-                  | `head => "head"
-                  | `middle => "middle"
-                  | `tail => "tail"
-                  | `clip => "clip",
-                  ellipsizeMode
-                )
+        Js.Undefined.{
+          "href": fromOption(href),
+          "accessibilityRole": "link",
+          "accessible":
+            fromOption(MyUtilsRN.optBoolToOptJsBoolean(accessible)),
+          "allowFontScaling":
+            fromOption(MyUtilsRN.optBoolToOptJsBoolean(allowFontScaling)),
+          "ellipsizeMode":
+            fromOption(
+              MyUtilsRN.option_map(
+                fun
+                | `head => "head"
+                | `middle => "middle"
+                | `tail => "tail"
+                | `clip => "clip",
+                ellipsizeMode,
               ),
-            "numberOfLines": fromOption(numberOfLines),
-            "onLayout": fromOption(onLayout),
-            "onLongPress": fromOption(onLongPress),
-            "onPress": fromOption(onPress),
-            "pressRetentionOffset": fromOption(pressRetentionOffset),
-            "selectable": fromOption(MyUtilsRN.optBoolToOptJsBoolean(selectable)),
-            "style": fromOption(style),
-            "testID": fromOption(testID),
-            "selectionColor": fromOption(selectionColor),
-            "textBreakStrategy":
-              fromOption(
-                MyUtilsRN.option_map(
-                  fun
-                  | `simple => "simple"
-                  | `highQuality => "highQuality"
-                  | `balanced => "balanced",
-                  textBreakStrategy
-                )
+            ),
+          "numberOfLines": fromOption(numberOfLines),
+          "onLayout": fromOption(onLayout),
+          "onLongPress": fromOption(onLongPress),
+          "onPress": fromOption(onPress),
+          "pressRetentionOffset": fromOption(pressRetentionOffset),
+          "selectable":
+            fromOption(MyUtilsRN.optBoolToOptJsBoolean(selectable)),
+          "style": fromOption(style),
+          "testID": fromOption(testID),
+          "selectionColor": fromOption(selectionColor),
+          "textBreakStrategy":
+            fromOption(
+              MyUtilsRN.option_map(
+                fun
+                | `simple => "simple"
+                | `highQuality => "highQuality"
+                | `balanced => "balanced",
+                textBreakStrategy,
               ),
-            "adjustsFontSizeToFit":
-              fromOption(MyUtilsRN.optBoolToOptJsBoolean(adjustsFontSizeToFit)),
-            "minimumFontScale": fromOption(minimumFontScale),
-            "suppressHighlighting":
-              fromOption(MyUtilsRN.optBoolToOptJsBoolean(suppressHighlighting))
-          }
-        ),
-      switch value {
+            ),
+          "adjustsFontSizeToFit":
+            fromOption(
+              MyUtilsRN.optBoolToOptJsBoolean(adjustsFontSizeToFit),
+            ),
+          "minimumFontScale": fromOption(minimumFontScale),
+          "suppressHighlighting":
+            fromOption(
+              MyUtilsRN.optBoolToOptJsBoolean(suppressHighlighting),
+            ),
+        },
+      switch (value) {
       | Some(string) =>
         Array.append([|ReasonReact.string(string)|], children)
       | None => children
-      }
+      },
     );
 };
 
-include
-  CreateComponent(
-    {
-      [@bs.module "react-native"]
-      external view : ReasonReact.reactClass = "Text";
-    }
-  );
+include CreateComponent({
+  [@bs.module "react-native"] external view: ReasonReact.reactClass = "Text";
+});

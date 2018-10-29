@@ -17,12 +17,12 @@ type state = {
   posts: list(Structures.post),
   page: int,
   nbTotal: int,
-  error: option(string)
+  error: option(string),
 };
 
 let per_page = 8;
 
-external toExn : Js.Promise.error => Js.Exn.t = "%identity";
+external toExn: Js.Promise.error => Js.Exn.t = "%identity";
 
 let fetchPosts = (page, postsFetched, nbPostsFetched, failure) =>
   Js.Promise.(
@@ -32,12 +32,13 @@ let fetchPosts = (page, postsFetched, nbPostsFetched, failure) =>
       ++ "&per_page="
       ++ string_of_int(per_page)
       ++ "&page="
-      ++ string_of_int(page)
+      ++ string_of_int(page),
     )
     |> then_(response => {
          let wpTotal =
-           Fetch.Response.headers(response) |> Fetch.Headers.get("X-WP-Total");
-         switch wpTotal {
+           Fetch.Response.headers(response)
+           |> Fetch.Headers.get("X-WP-Total");
+         switch (wpTotal) {
          | None => nbPostsFetched(0)
          | Some(nb) => nbPostsFetched(int_of_string(nb))
          };
@@ -65,10 +66,10 @@ let make = _children => {
       page: 1,
       posts: [],
       nbTotal: 0,
-      error: None
+      error: None,
     },
     reducer: (action, state) =>
-      switch action {
+      switch (action) {
       | Fetch =>
         ReasonReact.UpdateWithSideEffects(
           {...state, fetching: true},
@@ -78,21 +79,21 @@ let make = _children => {
                 state.page,
                 posts => send(PostsFetched(posts)),
                 nb => send(NbPostsFetched(nb)),
-                error => send(FetchError(error))
+                error => send(FetchError(error)),
               )
               |> ignore
-          )
+          ),
         )
       | NbPostsFetched(nbTotal) => ReasonReact.Update({...state, nbTotal})
       | PreviousPage =>
         ReasonReact.UpdateWithSideEffects(
           {...state, page: state.page - 1},
-          (({send}) => send(Fetch))
+          (({send}) => send(Fetch)),
         )
       | NextPage =>
         ReasonReact.UpdateWithSideEffects(
           {...state, page: state.page + 1},
-          (({send}) => send(Fetch))
+          (({send}) => send(Fetch)),
         )
       | PostsFetched(posts) =>
         ReasonReact.Update({...state, fetching: false, posts, error: None})
@@ -101,56 +102,54 @@ let make = _children => {
           ...state,
           fetching: false,
           posts: [],
-          error: Some(err)
+          error: Some(err),
         })
       },
-    didMount: ({send}) => {
-      send(Fetch);
-    },
+    didMount: ({send}) => send(Fetch),
     render: ({state, handle}) =>
       <View>
         <CommonThings />
         <Header />
         <Container>
           <MainContent>
-            (
+            {
               state.fetching ?
-                <Text> ("Chargement ..." |> text) </Text> : nothing
-            )
-            (
-              switch state.error {
+                <Text> {"Chargement ..." |> text} </Text> : nothing
+            }
+            {
+              switch (state.error) {
               | None => nothing
-              | Some(error) => <Text> (error |> text) </Text>
+              | Some(error) => <Text> {error |> text} </Text>
               }
-            )
-            (
+            }
+            {
               List.length(state.posts) > 0 ?
-                <PostList posts=state.posts /> : nothing
-            )
+                <PostList posts={state.posts} /> : nothing
+            }
             <View
               style=Style.(
-                      style([flexDirection(Row), justifyContent(SpaceAround)])
-                    )>
-              (
+                style([flexDirection(Row), justifyContent(SpaceAround)])
+              )>
+              {
                 state.page > 1 ?
-                  <BannerButton onPress=(handle(previousPagePress))>
-                    ("Articles plus récents" |> text)
+                  <BannerButton onPress={handle(previousPagePress)}>
+                    {"Articles plus récents" |> text}
                   </BannerButton> :
                   nothing
-              )
-              (
+              }
+              {
                 state.nbTotal > state.page * per_page ?
-                  <BannerButton onPress=(handle(nextPagePress))>
-                    ("Encore plus d'articles" |> text)
+                  <BannerButton onPress={handle(nextPagePress)}>
+                    {"Encore plus d'articles" |> text}
                   </BannerButton> :
                   nothing
-              )
+              }
             </View>
           </MainContent>
           <Sidebar />
         </Container>
         <Footer />
-      </View>
+      </View>,
   };
 };
 

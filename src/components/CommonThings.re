@@ -2,12 +2,12 @@ open Helpers;
 
 let component = ReasonReact.statelessComponent("CommonThings");
 
-let make = (_) => {
+let make = _ => {
   ...component,
   render: _self =>
     <Head>
       <style>
-        (
+        {
           {j|
 html {
   height: 100%;
@@ -63,7 +63,7 @@ body {
 }
 |j}
           |> text
-        )
+        }
       </style>
-    </Head>
+    </Head>,
 };
