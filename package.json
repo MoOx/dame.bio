@@ -11,7 +11,7 @@
     "babel-preset-react-native": "^4.0.0",
     "bs-fetch": "^0.3.0",
     "@glennsl/bs-json": "^2.0.0",
-    "bs-platform": "^3.0.0",
+    "bs-platform": "^4.0.0",
     "@moox/bs-react-helmet": "^1.0.0",
     "bs-react-native": "^0.8.0",
     "jest": "^21.2.1",
