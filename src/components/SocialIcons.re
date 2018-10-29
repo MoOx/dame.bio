@@ -15,32 +15,6 @@ let make =
   ...component,
   render: _self =>
     <View style=wrapperStyle>
-      <TextLink style=iconStyle href="https://www.facebook.com/Damebio/">
-        {
-          iconWrapperFunc(
-            ~children=[|
-              <SVGSocialFacebook
-                fill=iconColor
-                width=iconSize
-                height=iconSize
-              />,
-            |],
-          )
-        }
-      </TextLink>
-      <TextLink style=iconStyle href="https://twitter.com/damebio/">
-        {
-          iconWrapperFunc(
-            ~children=[|
-              <SVGSocialTwitter
-                fill=iconColor
-                width=iconSize
-                height=iconSize
-              />,
-            |],
-          )
-        }
-      </TextLink>
       <TextLink style=iconStyle href="https://www.instagram.com/dame.bio/">
         {
           iconWrapperFunc(
@@ -68,11 +42,11 @@ let make =
           )
         }
       </TextLink>
-      <TextLink style=iconStyle href="http://www.hellocoton.fr/mapage/liloue">
+      <TextLink style=iconStyle href="https://twitter.com/damebio/">
         {
           iconWrapperFunc(
             ~children=[|
-              <SVGSocialHelloCoton
+              <SVGSocialTwitter
                 fill=iconColor
                 width=iconSize
                 height=iconSize
@@ -81,27 +55,44 @@ let make =
           )
         }
       </TextLink>
-      <TextLink style=iconStyle href="#">
+      <TextLink style=iconStyle href="https://www.facebook.com/Damebio/">
         {
           iconWrapperFunc(
             ~children=[|
-              <SVGSocialYoutube
+              <SVGSocialFacebook
                 fill=iconColor
                 width=iconSize
                 height=iconSize
               />,
-            |],
-          )
-        }
-      </TextLink>
-      <TextLink style=iconStyle href="#">
-        {
-          iconWrapperFunc(
-            ~children=[|
-              <SVGRssFeed fill=iconColor width=iconSize height=iconSize />,
             |],
           )
         }
       </TextLink>
     </View>,
+  /*
+   <TextLink style=iconStyle href="#">
+     {
+       iconWrapperFunc(
+         ~children=[|
+           <SVGSocialYoutube
+             fill=iconColor
+             width=iconSize
+             height=iconSize
+           />,
+         |],
+       )
+     }
+   </TextLink>
+   */
+  /*
+   <TextLink style=iconStyle href="#">
+     {
+       iconWrapperFunc(
+         ~children=[|
+           <SVGRssFeed fill=iconColor width=iconSize height=iconSize />,
+         |],
+       )
+     }
+   </TextLink>
+   */
 };
