@@ -21,7 +21,6 @@ export default ({ App, render }: PhenomicHtmlPropsType) => {
         <Main />
         <State />
         <Script />
-        {isDev && <script src="http://localhost:8097" />}
       </body>
     </html>
   );
