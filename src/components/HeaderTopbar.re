@@ -6,7 +6,8 @@ let styles =
   StyleSheet.create(
     Style.(
       {
-        "topbarWrapper": style([backgroundColor("#7BA55F")]),
+        /* "topbarWrapper": style([backgroundColor("#7BA55F")]), */
+        "topbarWrapper": style([backgroundColor("#006579")]),
         "icons": style([flexDirection(Row)]),
         "topbarLinks": style([flexDirection(Row)]),
         "topbarLink":
