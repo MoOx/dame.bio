@@ -3,9 +3,9 @@
   "name": "dame.bio",
   "version": "3.0.0",
   "devDependencies": {
-    "@phenomic/cli": "^1.0.0-beta.2",
-    "@phenomic/core": "^1.0.0-beta.2",
-    "@phenomic/preset-react-app": "^1.0.0-beta.2",
+    "@phenomic/cli": "^1.0.0-beta.4",
+    "@phenomic/core": "^1.0.0-beta.4",
+    "@phenomic/preset-react-app": "^1.0.0-beta.4",
     "babel-jest": "^21.2.0",
     "babel-plugin-react-native-web": "^0.3.3",
     "babel-preset-react-native": "^4.0.0",
