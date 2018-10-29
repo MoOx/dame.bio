@@ -31,8 +31,8 @@ body {
 }
 
 @font-face {
-  font-family: 'IndieFlower';
-  src: url('public/assets/fonts/IndieFlower-webfont.woff') format('woff');
+  font-family: IndieFlower;
+  src: url(/fonts/IndieFlower-webfont.woff) format('woff');
   font-weight: normal;
   font-style: normal;
 }
