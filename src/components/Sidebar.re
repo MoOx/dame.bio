@@ -52,7 +52,7 @@ let make = children => {
             resizeMode=`contain
             style=styles##avatarDeco
             source=(
-              URI(
+              `URI(
                 Image.(
                   imageURISource(~uri="/images/avatar-background.png", ())
                 )
@@ -61,7 +61,7 @@ let make = children => {
             <Image
               style=styles##avatarImage
               source=(
-                URI(Image.(imageURISource(~uri="/images/avatar.jpg", ())))
+                `URI(Image.(imageURISource(~uri="/images/avatar.jpg", ())))
               )
             />
           </ImageBackground>
@@ -89,7 +89,7 @@ let make = children => {
                 resizeMode=`contain
                 style=styles##iconBackground
                 source=(
-                  URI(
+                  `URI(
                     Image.(
                       imageURISource(~uri="/images/pink/circle-bg-lg.png", ())
                     )

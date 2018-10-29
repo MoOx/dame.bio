@@ -34,7 +34,7 @@ let make = (~uri, _) => {
               )>
         <Image
           style=styles##image
-          source=(URI(Image.(imageURISource(~uri, ()))))
+          source=(`URI(Image.(imageURISource(~uri, ()))))
         />
       </View>
     </View>

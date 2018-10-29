@@ -30,7 +30,7 @@ let make = (~onPress, children) => {
         style=styles##image
         resizeMode=`contain
         source=(
-          URI(
+          `URI(
             Image.(
               imageURISource(
                 ~uri="/images/banner-button.png",

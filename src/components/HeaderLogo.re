@@ -34,7 +34,7 @@ let make = _children => {
         resizeMode=`contain
         style=styles##backgroundImage
         source=(
-          URI(Image.(imageURISource(~uri="/images/header-background.png", ())))
+          `URI(Image.(imageURISource(~uri="/images/header-background.png", ())))
         )
       />
       <TextLink style=styles##logo href="/">
