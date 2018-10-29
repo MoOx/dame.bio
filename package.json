@@ -16,13 +16,14 @@
     "bs-react-native": "^0.5.0",
     "jest": "^21.2.1",
     "npm-run-all": "^4.0.2",
-    "react": "^16.3.0",
-    "react-dom": "^16.3.0",
+    "react": "^16.6.0",
+    "react-art": "^16.6.0",
+    "react-dom": "^16.6.0",
     "react-helmet": "^5.2.0",
     "react-native": "^0.51.0",
-    "react-native-web": "^0.3.2",
+    "react-native-web": "^0.9.0",
     "react-router": "^3.2.0",
-    "react-test-renderer": "^16.2.0",
+    "react-test-renderer": "^16.6.0",
     "reason-react": "^0.3.1",
     "svgr": "^1.5.0",
     "trash-cli": "^1.4.0"
@@ -31,21 +32,17 @@
     "reason:cleanup": "bsb -clean-world",
     "reason:compile": "bsb -make-world",
     "svg:convert:web": "svgr -d assets/SVGs/components assets/SVGs",
-    "postsvg:convert:web":
-      "cd assets/SVGs/components && find ./ -name \"*.js\" | xargs -I '{}' basename '{}' | sed 's/\\.js//' | xargs -I '{}' mv '{}.js'  '{}.web.js'",
+    "postsvg:convert:web": "cd assets/SVGs/components && find ./ -name \"*.js\" | xargs -I '{}' basename '{}' | sed 's/\\.js//' | xargs -I '{}' mv '{}.js'  '{}.web.js'",
     "svg:convert:native": "svgr --native -d assets/SVGs/components assets/SVGs",
-    "svg:convert:re":
-      "node scripts/generate-svg-reason.js assets/SVGs/components",
-    "svg:convert":
-      "trash assets/SVGs/components && yarn svg:convert:web && yarn svg:convert:native && yarn svg:convert:re",
+    "svg:convert:re": "node scripts/generate-svg-reason.js assets/SVGs/components",
+    "svg:convert": "trash assets/SVGs/components && yarn svg:convert:web && yarn svg:convert:native && yarn svg:convert:re",
     "prepare": "yarn reason:cleanup && yarn reason:compile && yarn svg:convert",
     "start": "echo Choose start:web or start:native",
     "start:reason": "yarn reason:compile -w",
     "start:web": "yarn reason:cleanup && npm-run-all --parallel start:web:*",
     "start:web:js": "phenomic start",
     "start:web:reason": "yarn start:reason",
-    "start:native":
-      "yarn reason:cleanup && npm-run-all --parallel start:native:*",
+    "start:native": "yarn reason:cleanup && npm-run-all --parallel start:native:*",
     "start:native:js": "react-native start",
     "start:native:reason": "yarn start:reason",
     "run:native:ios": "react-native run-ios",
@@ -55,7 +52,9 @@
     "test": "jest"
   },
   "phenomic": {
-    "presets": ["@phenomic/preset-react-app"]
+    "presets": [
+      "@phenomic/preset-react-app"
+    ]
   },
   "jest": {
     "preset": "react-native"

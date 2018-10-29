@@ -471,10 +471,15 @@ arrify@^1.0.1:
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
   integrity sha1-iYUI2iIm84DfkEcoRWhJwVAaSw0=
 
-art@^0.10.0, art@^0.10.1:
+art@^0.10.0:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/art/-/art-0.10.1.tgz#38541883e399225c5e193ff246e8f157cf7b2146"
   integrity sha1-OFQYg+OZIlxeGT/yRujxV897IUY=
+
+art@^0.10.1:
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/art/-/art-0.10.3.tgz#b01d84a968ccce6208df55a733838c96caeeaea2"
+  integrity sha512-HXwbdofRTiJT6qZX/FnchtldzJjS3vkLJxQilc3Xj+ma2MXjY4UAyQ0ls1XZYVnDvVIBiFZbC6QsvtW86TD6tQ==
 
 asap@~2.0.3:
   version "2.0.6"
@@ -4601,10 +4606,10 @@ ini@~1.3.0:
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.4.tgz#0537cb79daf59b59a1a517dff706c86ec039162e"
   integrity sha1-BTfLedr1m1mhpRff9wbIbsA5Fi4=
 
-inline-style-prefixer@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/inline-style-prefixer/-/inline-style-prefixer-4.0.0.tgz#30a03df1b346ba6b1fb8a812bc3c9dabef48022d"
-  integrity sha1-MKA98bNGumsfuKgSvDydq+9IAi0=
+inline-style-prefixer@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/inline-style-prefixer/-/inline-style-prefixer-4.0.2.tgz#d390957d26f281255fe101da863158ac6eb60911"
+  integrity sha512-N8nVhwfYga9MiV9jWlwfdj1UDIaZlBFu4cJSJkIr7tZX7sHpHhGR5su1qdpW+7KPL8ISTvCIkcaFi/JdBknvPg==
   dependencies:
     bowser "^1.7.3"
     css-in-js-utils "^2.0.0"
@@ -7246,6 +7251,14 @@ prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
+prop-types@^15.6.2:
+  version "15.6.2"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
+  integrity sha512-3pboPvLiWD7dkI3qf3KbUe6hKFKa52w+AE0VCqECtf+QHAKgOL37tTaNCnuX1nAAQ4ZhyP+kYVKf8rLmJ/feDQ==
+  dependencies:
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
 property-accessors@^1.1:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/property-accessors/-/property-accessors-1.1.3.tgz#1dde84024631865909ef30703365680c5f928b15"
@@ -7417,17 +7430,17 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-art@^16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/react-art/-/react-art-16.2.0.tgz#3b6914a6c9da64f83910896fa8cdae6ddf2aa589"
-  integrity sha512-ltVa/zC2QXdGQpvcHjWgFRGZagT9ehXHiWSUU1zvflRO3bhtly5BtdCn1gA++sMfVyiVDtya3dmyXA3MYD7JVA==
+react-art@^16.6.0:
+  version "16.6.0"
+  resolved "https://registry.yarnpkg.com/react-art/-/react-art-16.6.0.tgz#2e8e601e04948e13cbf3d2ff6b7415b1a0ceaf8f"
+  integrity sha512-wXKfurwH8r4OjZurT9qLmQnKPAHDmKREr4JWM5AqJEctRmHeflRiaPi7lUR/oq8Ovl3g/A0BvqDrbLwQOgu9Gw==
   dependencies:
     art "^0.10.1"
     create-react-class "^15.6.2"
-    fbjs "^0.8.16"
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    prop-types "^15.6.0"
+    prop-types "^15.6.2"
+    scheduler "^0.10.0"
 
 react-clone-referenced-element@^1.0.1:
   version "1.0.1"
@@ -7486,15 +7499,15 @@ react-dom@>=15.0.0, "react-dom@>=15.0.0 || >=16.0.0", react-dom@^16.0.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-dom@^16.3.0:
-  version "16.3.1"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.3.1.tgz#6a3c90a4fb62f915bdbcf6204422d93a7d4ca573"
-  integrity sha512-2Infg89vzahq8nfVi1GkjPqq0vrBvf0f3T0+dTtyjq4f6HKOqKixAK25Vr593O3QTx4kw/vmUtAJwerlevNWOA==
+react-dom@^16.6.0:
+  version "16.6.0"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.6.0.tgz#6375b8391e019a632a89a0988bce85f0cc87a92f"
+  integrity sha512-Stm2D9dXEUUAQdvpvhvFj/DEXwC2PAL/RwEMhoN4dvvD2ikTlJegEXf97xryg88VIAU22ZAP7n842l+9BTz6+w==
   dependencies:
-    fbjs "^0.8.16"
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    prop-types "^15.6.0"
+    prop-types "^15.6.2"
+    scheduler "^0.10.0"
 
 react-error-overlay@^3.0.0:
   version "3.0.0"
@@ -7522,10 +7535,15 @@ react-hot-loader@^3.0.0-beta.7:
     redbox-react "^1.3.6"
     source-map "^0.6.1"
 
-react-native-web@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.3.2.tgz#869de266ab75145229d1df8dfb95d60c1410b986"
-  integrity sha512-fQRRyCVmpy0WDR6IGQ7sbBmwcLiQqftgoMmqSmHNNGwFn1u0qZl9mXUSEU+3BIogpzQgtRBDIpB8g8evDfqXbA==
+react-is@^16.6.0:
+  version "16.6.0"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.6.0.tgz#456645144581a6e99f6816ae2bd24ee94bdd0c01"
+  integrity sha512-q8U7k0Fi7oxF1HvQgyBjPwDXeMplEsArnKt2iYhuIF86+GBbgLHdAmokL3XUFjTd7Q363OSNG55FOGUdONVn1g==
+
+react-native-web@^0.9.0:
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.9.4.tgz#8909504cc80a1efcea54997b7516c384ced4eedd"
+  integrity sha512-hEzUwXVDX/LCghSKyeoluY/8Vmu5PdCjDvT2wse7wLjGJvK/fJGxf9h27C+xCOX8eDyo7hQh1+y8s860PLJynA==
   dependencies:
     array-find-index "^1.0.2"
     create-react-class "^15.6.2"
@@ -7533,10 +7551,9 @@ react-native-web@^0.3.2:
     deep-assign "^2.0.0"
     fbjs "^0.8.16"
     hyphenate-style-name "^1.0.2"
-    inline-style-prefixer "^4.0.0"
+    inline-style-prefixer "^4.0.2"
     normalize-css-color "^1.0.2"
     prop-types "^15.6.0"
-    react-art "^16.2.0"
     react-timer-mixin "^0.13.3"
 
 react-native@^0.51.0:
@@ -7634,14 +7651,15 @@ react-side-effect@^1.1.0:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
 
-react-test-renderer@^16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.2.0.tgz#bddf259a6b8fcd8555f012afc8eacc238872a211"
-  integrity sha512-Kd4gJFtpNziR9ElOE/C23LeflKLZPRpNQYWP3nQBY43SJ5a+xyEGSeMrm2zxNKXcnCbBS/q1UpD9gqd5Dv+rew==
+react-test-renderer@^16.6.0:
+  version "16.6.0"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.6.0.tgz#fe490096bed55c3f4e92c023da3b89f9d03fceb3"
+  integrity sha512-w+Y3YT7OX1LP5KO7HCd0YR34Ol1qmISHaooPNMRYa6QzmwtcWhEGuZPr34wO8UCBIokswuhyLQUq7rjPDcEtJA==
   dependencies:
-    fbjs "^0.8.16"
     object-assign "^4.1.1"
-    prop-types "^15.6.0"
+    prop-types "^15.6.2"
+    react-is "^16.6.0"
+    scheduler "^0.10.0"
 
 react-timer-mixin@^0.13.2, react-timer-mixin@^0.13.3:
   version "0.13.3"
@@ -7666,15 +7684,15 @@ react@>=15.0.0, "react@>=15.0.0 || >=16.0.0", react@^16.0.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react@^16.3.0:
-  version "16.3.1"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.3.1.tgz#4a2da433d471251c69b6033ada30e2ed1202cfd8"
-  integrity sha512-NbkxN9jsZ6+G+ICsLdC7/wUD26uNbvKU/RAxEWgc9kcdKvROt+5d5j2cNQm5PSFTQ4WNGsR3pa4qL2Q0/WSy1w==
+react@^16.6.0:
+  version "16.6.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.6.0.tgz#b34761cfaf3e30f5508bc732fb4736730b7da246"
+  integrity sha512-zJPnx/jKtuOEXCbQ9BKaxDMxR0001/hzxXwYxG8septeyYGfsgAei6NgfbVgOhbY1WOP2o3VPs/E9HaN+9hV3Q==
   dependencies:
-    fbjs "^0.8.16"
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    prop-types "^15.6.0"
+    prop-types "^15.6.2"
+    scheduler "^0.10.0"
 
 read-all-stream@^3.0.0:
   version "3.1.0"
@@ -8256,6 +8274,14 @@ sax@~1.1.1:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.1.6.tgz#5d616be8a5e607d54e114afae55b7eaf2fcc3240"
   integrity sha1-XWFr6KXmB9VOEUr65Vt+ry/MMkA=
+
+scheduler@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.10.0.tgz#7988de90fe7edccc774ea175a783e69c40c521e1"
+  integrity sha512-+TSTVTCBAA3h8Anei3haDc1IRwMeDmtI/y/o3iBe3Mjl2vwYF9DtPDt929HyRmV/e7au7CLu8sc4C4W0VOs29w==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 schema-utils@^0.3.0:
   version "0.3.0"
