@@ -55,9 +55,8 @@ type term = {
 let decodeHasParent = json : bool => {
   let links = Js.Json.decodeObject(json);
   switch links {
-  | Some(somelinks) =>
-    /* links[0] == somelinks */
-    [%raw {|Boolean(links[0].up)|}]
+  | Some(_) =>
+    [%raw {|Boolean(links.up)|}]
   | None => false
   };
 };
