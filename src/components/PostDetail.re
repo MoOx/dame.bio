@@ -42,11 +42,32 @@ let styles =
         style([
           fontFamily("IndieFlower"),
           fontSize(Float(32.)),
-          lineHeight(28. *. 1.5),
+          lineHeight(32. *. 1.5),
           marginBottom(Pt(10.)),
           color(String("#524D43")),
         ]),
       "link": style([padding(Pt(10.))]),
+      "subtitle":
+        style([
+          fontFamily("IndieFlower"),
+          fontSize(Float(28.)),
+          lineHeight(28. *. 1.5),
+          marginBottom(Pt(10.)),
+          color(String("#524D43")),
+        ]),
+      "comments": style([]),
+      "comment": style([flexDirection(Row)]),
+      "commentAvatar":
+        style([width(Pt(48.)), height(Pt(48.)), borderRadius(100.)]),
+      "commentTextContainer": style([flex(1.)]),
+      "commentLink":
+        style([color(String("#524D43")), textDecorationLine(None)]),
+      "commentDate":
+        style([
+          fontSize(Float(11.)),
+          color(String("rgb(170, 170, 170)")),
+        ]),
+      "commentContent": style([flexShrink(1.)]),
     },
   );
 
@@ -70,7 +91,9 @@ let make = (~item: Structures.post, _) => {
       ++ "/";
     <View key={string_of_int(item.id)} style=styles##block>
       <View style=styles##text>
-        <Text style=styles##title> {item.title |> text} </Text>
+        <Text style=styles##title>
+          <span dangerouslySetInnerHTML={"__html": item.title} />
+        </Text>
         <View style=styles##row>
           <TextLink
             style=styles##category
@@ -111,10 +134,70 @@ let make = (~item: Structures.post, _) => {
               Js.String.replaceByRe(
                 [%re "/=\"\\/wp-content/g"],
                 "=\"https://dame.bio/wp-content",
-                item.contentHTML,
+                Js.String.replaceByRe(
+                  [%re "/\\u2b50\\ufe0e(<br \\/>?)/g"],
+                  ""
+                  ++ "<span style=\"display: block; text-align: center; margin: 40px;\">"
+                  ++ "<span style=\"display: inline-block;background: url(/images/line_flower.png) no-repeat; height: 14px; width: 68px;\"></span>"
+                  /* ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-left.png) no-repeat; height: 21px; width: 17px;\"></span>"
+                     ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-tile.png) repeat-x; height: 21px; width: 80%;\"></span>"
+                     ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-right.png) no-repeat; height: 21px; width: 66px;\"></span>" */
+                  ++ "</span>",
+                  item.contentHTML,
+                ),
               ),
           }
         />
+        <Spacer />
+        <View>
+          <Text style=styles##subtitle> {"Commentaires" |> text} </Text>
+        </View>
+        <View style=styles##comments>
+          {
+            switch (item.comments) {
+            | None => <Text> {"Pas de commentaires" |> text} </Text>
+            | Some(comments) =>
+              comments
+              |> List.map((comment: Structures.comment) =>
+                   <View
+                     key={string_of_int(comment.id)} style=styles##comment>
+                     <Image
+                       style=styles##commentAvatar
+                       resizeMode=`contain
+                       source={
+                                `URI(
+                                  Image.(
+                                    imageURISource(
+                                      ~uri=comment.author_avatar_url,
+                                      (),
+                                    )
+                                  ),
+                                )
+                              }
+                     />
+                     <Spacer />
+                     <View style=styles##commentTextContainer>
+                       <TextLink
+                         href={comment.author_url} style=styles##commentLink>
+                         {comment.author_name |> text}
+                       </TextLink>
+                       <Text style=styles##commentDate>
+                         {comment.date |> Date.relativeDate |> text}
+                       </Text>
+                       <Text style=styles##commentContent>
+                         <div
+                           className="dbComment"
+                           dangerouslySetInnerHTML={"__html": comment.content}
+                         />
+                       </Text>
+                     </View>
+                   </View>
+                 )
+              |> Array.of_list
+              |> ReasonReact.array
+            }
+          }
+        </View>
       </View>
     </View>;
   },

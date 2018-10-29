@@ -62,6 +62,12 @@ body {
   font-weight: 800;
   font-size: 16px;
 }
+
+.dbComment {
+  font-size: 14px;
+  line-height: 1.8571428;
+  color: #49443A;
+}
 |j}
           |> text
         }
