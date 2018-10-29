@@ -3,6 +3,8 @@
   "name": "dame.bio",
   "version": "3.0.0",
   "devDependencies": {
+    "@glennsl/bs-json": "^3.0.0",
+    "@moox/bs-react-helmet": "^1.0.0",
     "@phenomic/cli": "^1.0.0-beta.4",
     "@phenomic/core": "^1.0.0-beta.4",
     "@phenomic/preset-react-app": "^1.0.0-beta.4",
@@ -10,9 +12,7 @@
     "babel-plugin-react-native-web": "^0.3.3",
     "babel-preset-react-native": "^4.0.0",
     "bs-fetch": "^0.3.0",
-    "@glennsl/bs-json": "^3.0.0",
     "bs-platform": "4.0.6",
-    "@moox/bs-react-helmet": "^1.0.0",
     "bs-react-native": "^0.10.0",
     "jest": "^21.2.1",
     "npm-run-all": "^4.0.2",
