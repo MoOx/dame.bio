@@ -10,7 +10,7 @@ let styles =
       "comments": style([]),
       "comment": style([flexDirection(Row)]),
       "commentAvatar":
-        style([width(Pt(48.)), height(Pt(48.)), borderRadius(100.)]),
+        style([width(Pt(40.)), height(Pt(40.)), borderRadius(100.)]),
       "commentTextContainer": style([flex(1.)]),
       "commentLink":
         style([color(String("#524D43")), textDecorationLine(Style.None)]),
@@ -51,8 +51,9 @@ let make = (~comments: Structures.comments, _) => {
                             )
                           }
                  />
-                 <Spacer />
+                 <Spacer size=S/>
                  <View style=styles##commentTextContainer>
+                   <Spacer size=XXS/>
                    <TextLink
                      href={comment.author_url} style=styles##commentLink>
                      {comment.author_name |> text}
