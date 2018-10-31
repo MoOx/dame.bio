@@ -2,19 +2,42 @@ open BsReactNative;
 
 let component = ReasonReact.statelessComponent("Spacer");
 
+let space = 20.;
+
+type size =
+  | XXL
+  | XL
+  | L
+  | M
+  | S
+  | XS
+  | XXS;
+
 let styles =
   StyleSheet.create(
     Style.{
-      "normal": style([width(Pt(20.)), height(Pt(20.))]),
-      "large": style([width(Pt(40.)), height(Pt(40.))]),
-      "small": style([width(Pt(10.)), height(Pt(10.))]),
+      "xxl": style([width(Pt(space *. 4.)), height(Pt(space *. 4.))]),
+      "xl": style([width(Pt(space *. 3.)), height(Pt(space *. 3.))]),
+      "l": style([width(Pt(space *. 2.)), height(Pt(space *. 2.))]),
+      "m": style([width(Pt(space *. 1.)), height(Pt(space *. 1.))]),
+      "s": style([width(Pt(space *. 3./.4.)), height(Pt(space *. 3./.4.))]),
+      "xs": style([width(Pt(space *. 2./.4.)), height(Pt(space *. 2./.4.))]),
+      "xxs": style([width(Pt(space *. 1./.4.)), height(Pt(space *. 1./.4.))]),
     },
   );
 
-let make = (~large=false, ~small=false, _) => {
+let make = (~size=M, _) => {
   ...component,
   render: _self =>
     <View
-      style={large ? styles##large : small ? styles##small : styles##normal}
+      style={switch (size) {
+        | XXL => styles##xxl;
+        | XL => styles##xl;
+        | L => styles##l;
+        | M => styles##m;
+        | S => styles##s;
+        | XS => styles##xs;
+        | XXS => styles##xxs;
+      }}
     />,
 };

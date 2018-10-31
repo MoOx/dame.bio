@@ -51,7 +51,7 @@ let make = children => {
   render: _self =>
     <View style=styles##sidebar>
       <View style=styles##bar />
-      <Spacer large=true />
+      <Spacer size=L />
       <View style=styles##blocks>
         <View style=styles##avatar>
           <ImageBackground
