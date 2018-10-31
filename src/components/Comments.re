@@ -34,6 +34,7 @@ let make = (~comments: Structures.comments, _) => {
         | None => <Text> {"Pas de commentaires" |> text} </Text>
         | Some(comments) =>
           comments
+          |> List.rev
           |> List.map((comment: Structures.comment) =>
                <View key={string_of_int(comment.id)} style=styles##comment>
                  <Image
