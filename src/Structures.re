@@ -120,6 +120,8 @@ let decodeReplies = json: list(comment) =>
 let decodeFeaturedMedia = json: list(media) =>
   Json.Decode.(json |> array(decodeMedia)) |> Array.to_list;
 
+type comments = option(list(comment))
+
 type post = {
   id: int,
   date: string,
@@ -127,7 +129,7 @@ type post = {
   title: string,
   contentHTML: string,
   featuredMedia: list(media),
-  comments: option(list(comment)),
+  comments,
   likes: int,
   terms,
 };
