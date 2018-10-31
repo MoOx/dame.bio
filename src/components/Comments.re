@@ -37,6 +37,7 @@ let make = (~comments: Structures.comments, _) => {
           |> List.rev
           |> List.map((comment: Structures.comment) =>
                <View key={string_of_int(comment.id)} style=styles##comment>
+                 {comment.parent > 0 ? <Spacer size=XL /> : nothing}
                  <Image
                    style=styles##commentAvatar
                    resizeMode=`contain
