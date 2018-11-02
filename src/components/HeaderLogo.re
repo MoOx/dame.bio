@@ -18,8 +18,8 @@ let styles =
       "backgroundImage":
         style([
           left(Pct(-50.)),
-          width(Pt(3599. /. 2.)),
-          height(Pt(266. /. 2.)),
+          width(Pt(2523. *. 0.5)),
+          height(Pt(163. *. 0.5)),
         ]),
       "logo": style([position(Relative), zIndex(1)]),
       "logoImage": style([zIndex(2)]),
