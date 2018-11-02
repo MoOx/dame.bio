@@ -100,7 +100,7 @@ type comment = {
   content: string,
 };
 
-let decodeReply = json: comment =>
+let decodeComment = json: comment =>
   Json.Decode.{
     type_: json |> field("type", string),
     id: json |> field("id", int),
@@ -113,14 +113,18 @@ let decodeReply = json: comment =>
     content: json |> at(["content", "rendered"], string),
   };
 
-let decodeReplies = json: list(comment) =>
-  Json.Decode.(Array.unsafe_get(Obj.magic(json), 0) |> array(decodeReply))
+let decodeComments = json: list(comment) =>
+  Json.Decode.(json |> array(decodeComment))
+  |> Array.to_list;
+
+let decodePartialComments = json: list(comment) =>
+  Json.Decode.(Array.unsafe_get(Obj.magic(json), 0) |> array(decodeComment))
   |> Array.to_list;
 
 let decodeFeaturedMedia = json: list(media) =>
   Json.Decode.(json |> array(decodeMedia)) |> Array.to_list;
 
-type comments = option(list(comment))
+type comments = list(comment)
 
 type post = {
   id: int,
@@ -129,7 +133,7 @@ type post = {
   title: string,
   contentHTML: string,
   featuredMedia: list(media),
-  comments,
+  comments: option(comments),
   likes: int,
   terms,
 };
@@ -141,7 +145,7 @@ let decodePost = json: post =>
     slug: json |> field("slug", string),
     title: json |> at(["title", "rendered"], string),
     contentHTML: json |> at(["content", "rendered"], string),
-    comments: json |> optional(at(["_embedded", "replies"], decodeReplies)),
+    comments: json |> optional(at(["_embedded", "replies"], decodePartialComments)),
     featuredMedia:
       json |> at(["_embedded", "wp:featuredmedia"], decodeFeaturedMedia),
     likes: json |> at(["meta", "db_like"], int),

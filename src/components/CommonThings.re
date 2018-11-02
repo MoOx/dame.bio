@@ -62,11 +62,9 @@ body {
   font-size: 16px;
 }
 
-.dbComment {
-  font-size: 14px;
-  line-height: 1.8571428;
-  color: #49443A;
-}
+/* keep wordpress html default rendering */
+.dbComment { white-space: normal }
+.dbComment p { margin: 0; }
 |j}
           |> text
         }

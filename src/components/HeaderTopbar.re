@@ -5,7 +5,6 @@ let component = ReasonReact.statelessComponent("HeaderTopbar");
 let styles =
   StyleSheet.create(
     Style.{
-      /* "topbarWrapper": style([backgroundColor(String("#7BA55F"))]), */
       "topbarWrapper": style([backgroundColor(String("#006579"))]),
       "icons": style([flexDirection(Row)]),
       "topbarLinks": style([flexDirection(Row)]),
