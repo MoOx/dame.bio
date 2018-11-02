@@ -111,7 +111,9 @@ let make = (~item: Structures.post, _) => {
             </TextLink>
           </Text>
         </View>
-        <TextLink style=styles##title href> {item.title |> text} </TextLink>
+        <TextLink style=styles##title href>
+          <span dangerouslySetInnerHTML={"__html": item.title} />
+        </TextLink>
       </View>
     </View>;
   },
