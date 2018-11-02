@@ -29,8 +29,6 @@ let styles =
         style([
           fontSize(Float(24.)),
           marginBottom(Pt(12.)),
-          fontFamily("IndieFlower"),
-          /* fontWeight(`Bold), */
           color(String("#DE6D88")),
         ]),
       "blockText":

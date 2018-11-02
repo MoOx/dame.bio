@@ -41,10 +41,10 @@ let styles =
         ]),
       "title":
         style([
-          fontFamily("IndieFlower"),
           fontSize(Float(22.)),
+          fontWeight(`_300),
           lineHeight(28.),
-          color(String("#524D43")),
+          color(String("#1C1C1C")),
         ]),
       "link": style([padding(Pt(10.))]),
     },

@@ -40,20 +40,19 @@ let styles =
         ]),
       "title":
         style([
-          fontFamily("IndieFlower"),
           fontSize(Float(32.)),
+          fontWeight(`_300),
           lineHeight(32. *. 1.5),
           marginBottom(Pt(10.)),
-          color(String("#524D43")),
+          color(String("#006579")),
         ]),
       "link": style([padding(Pt(10.))]),
       "subtitle":
         style([
-          fontFamily("IndieFlower"),
           fontSize(Float(28.)),
           lineHeight(28. *. 1.5),
           marginBottom(Pt(10.)),
-          color(String("#524D43")),
+          color(String("#1C1C1C")),
         ]),
     },
   );
