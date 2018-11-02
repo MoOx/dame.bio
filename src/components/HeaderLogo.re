@@ -22,7 +22,15 @@ let styles =
           height(Pt(163. *. 0.5)),
         ]),
       "logo": style([position(Relative), zIndex(1)]),
-      "logoImage": style([zIndex(2)]),
+      "logoImage": style([]),
+      "logoEffectWrapper":
+        style([position(Absolute), top(Pt(-15.)), left(Pct(50.))]),
+      "logoEffect":
+        style([
+          left(Pct(-50.)),
+          width(Pt(685. *. 0.55)),
+          height(Pt(290. *. 0.55)),
+        ]),
     },
   );
 
@@ -46,9 +54,23 @@ let make = _children => {
                  }
         />
       </View>
+      <Spacer />
       <TextLink style=styles##logo href="/">
         <View style=styles##logoImage>
           <SVGDameBioLogo width=350. height=140. fill="#67B44B" />
+        </View>
+        <View style=styles##logoEffectWrapper>
+          <Image
+            resizeMode=`cover
+            style=styles##logoEffect
+            source={
+                     `URI(
+                       Image.(
+                         imageURISource(~uri="/images/logo-effect.png", ())
+                       ),
+                     )
+                   }
+          />
         </View>
       </TextLink>
     </View>,
