@@ -12,12 +12,11 @@ let make = _ => {
           {j|
 html {
   height: 100%;
-  /* background: black; */
+  background: #fefefe;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
 }
 body {
   min-height:100%;
-  background: url("/images/bg-paper-tile.jpg") repeat;
 }
 
 @supports(padding: max(0px)) {
