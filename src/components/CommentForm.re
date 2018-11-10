@@ -2,8 +2,6 @@ open BsReactNative;
 
 open Helpers;
 
-let apiBaseUrl = "https://dame.bio/";
-
 let opaque = 1.;
 let transparent = 0.;
 let yVisible = 0.;

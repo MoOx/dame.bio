@@ -1,3 +1,5 @@
+let apiBaseUrl = "https://dame.bio/";
+
 let nothing = ReasonReact.null;
 
 let text = ReasonReact.string;

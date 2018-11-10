@@ -2,8 +2,6 @@ open BsReactNative;
 
 open Helpers;
 
-let apiBaseUrl = "https://dame.bio/";
-
 type action =
   | Fetch
   | CommentsFetched(Structures.comments)
