@@ -183,12 +183,14 @@ type action =
   | CommentSuccess((comment, Structures.comment))
   | CommentError((comment, errors));
 
-type state =
+type commentState =
   | New
   | InProgress(comment)
   | Sent((comment, Js.Json.t))
   | Posted((comment, Structures.comment))
   | Errored((comment, errors));
+
+type state = {comment: commentState};
 
 let sendComment = (commentToSend, success, failure) =>
   Js.Promise.(
@@ -239,11 +241,11 @@ let component = ReasonReact.reducerComponent("CommentForm");
 
 let make = (~postId, ~parentCommentId, _children) => {
   ...component,
-  initialState: () => New,
+  initialState: () => {comment: New},
   reducer: (action, state) =>
     switch (action) {
     | CommentEdit(comment) =>
-      switch (state) {
+      switch (state.comment) {
       /* unless we are currently waiting for server reply for a comment
          we just allow edition of the comment, even if status is errored */
       /* | New */
@@ -253,17 +255,18 @@ let make = (~postId, ~parentCommentId, _children) => {
         Js.log("You can't edit while posting");
         ReasonReact.NoUpdate;
       /* | Errored((comment, string)) */
-      | _ => ReasonReact.Update(InProgress(comment))
+      | _ => ReasonReact.Update({comment: InProgress(comment)})
       }
     | CommentSend(comment) =>
-      switch (state) {
+      switch (state.comment) {
       | New =>
-        ReasonReact.Update(
-          Errored((
-            comment,
-            {message: {j|Vous n'avez encore rien écrit|j}, email: None},
-          )),
-        )
+        ReasonReact.Update({
+          comment:
+            Errored((
+              comment,
+              {message: {j|Vous n'avez encore rien écrit|j}, email: None},
+            )),
+        })
       /* | InProgress(comment) */
       | Sent(_) =>
         Js.log("You can't post while posting already");
@@ -320,7 +323,7 @@ let make = (~postId, ~parentCommentId, _children) => {
         Js.Dict.set(pl, "post", Js.Json.number(float_of_int(postId)));
         let payload = Js.Json.object_(pl);
         ReasonReact.UpdateWithSideEffects(
-          Sent((comment, payload)),
+          {comment: Sent((comment, payload))},
           (
             ({send}) =>
               sendComment(
@@ -333,13 +336,13 @@ let make = (~postId, ~parentCommentId, _children) => {
         );
       }
     | CommentSuccess((comment, response)) =>
-      ReasonReact.Update(Posted((comment, response)))
+      ReasonReact.Update({comment: Posted((comment, response))})
     | CommentError((comment, err)) =>
-      ReasonReact.Update(Errored((comment, err)))
+      ReasonReact.Update({comment: Errored((comment, err))})
     },
   didUpdate: ({oldSelf, newSelf}) => {
     let (animate, showPreview) =
-      switch (oldSelf.state, newSelf.state) {
+      switch (oldSelf.state.comment, newSelf.state.comment) {
       | (New, InProgress(newComment)) => (
           true,
           String.length(newComment.name) > 0
@@ -371,7 +374,7 @@ let make = (~postId, ~parentCommentId, _children) => {
       {parentCommentId > 0 ? <Spacer size=XL /> : nothing}
       <View>
         {
-          switch (state) {
+          switch (state.comment) {
           | Sent((_, _)) =>
             <> <Text> {{j|Envoi...|j} |> text} </Text> <Spacer /> </>
           | Posted((_, comment)) => <Comment comment canReply=false />
@@ -380,7 +383,7 @@ let make = (~postId, ~parentCommentId, _children) => {
         }
         {
           let errors =
-            switch (state) {
+            switch (state.comment) {
             | New => noErrors
             | InProgress(_) => noErrors
             | Sent((_, _)) => noErrors
@@ -410,7 +413,7 @@ let make = (~postId, ~parentCommentId, _children) => {
           };
 
           let comment =
-            switch (state) {
+            switch (state.comment) {
             | New => newComment()
             | InProgress(comment) => comment
             | Sent((comment, _)) => comment
@@ -506,9 +509,9 @@ let make = (~postId, ~parentCommentId, _children) => {
                   onFocus={
                     () => {
                       let shouldEditComment =
-                        switch (state) {
+                        switch (state.comment) {
                         | New => true
-                        | InProgress(_) => true
+                        | InProgress(_) => false
                         | Sent((_, _)) => false
                         | Posted((_, _)) => false
                         | Errored((_, _)) => false
