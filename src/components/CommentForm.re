@@ -99,7 +99,7 @@ let styles =
         style([
           zIndex(1),
           position(Absolute),
-          top(Pt(30.)),
+          top(Pt(29.)),
           right(Pt(10.)),
           padding(Pt(10.)),
         ]),
