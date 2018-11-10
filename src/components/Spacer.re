@@ -11,7 +11,8 @@ type size =
   | M
   | S
   | XS
-  | XXS;
+  | XXS
+  | Custom(float);
 
 let styles =
   StyleSheet.create(
@@ -38,6 +39,7 @@ let make = (~size=M, _) => {
         | S => styles##s;
         | XS => styles##xs;
         | XXS => styles##xxs;
+        | Custom(value) => Style.(style([width(Pt(value)), height(Pt(value))]));
       }}
     />,
 };
