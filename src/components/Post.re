@@ -15,8 +15,6 @@ type state = {
   error: option(string),
 };
 
-external toExn: Js.Promise.error => Js.Exn.t = "%identity";
-
 let fetchPost = (id, postFetched, failure) =>
   Js.Promise.(
     Fetch.fetch(apiBaseUrl ++ "wp-json/wp/v2/posts?_embed&slug=" ++ id)

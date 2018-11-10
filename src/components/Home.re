@@ -22,8 +22,6 @@ type state = {
 
 let per_page = 8;
 
-external toExn: Js.Promise.error => Js.Exn.t = "%identity";
-
 let fetchPosts = (page, postsFetched, nbPostsFetched, failure) =>
   Js.Promise.(
     Fetch.fetch(
