@@ -8,32 +8,29 @@ let opaque = 1.;
 let transparent = 0.;
 let yVisible = 0.;
 let yHidden = 40.;
-let animatedMetaPreviewOpacity = Animated.Value.create(transparent);
-let animatedMetaPreviewY = Animated.Value.create(yHidden);
-let animatedMetaTextInputOpacity = Animated.Value.create(transparent);
-let animatedMetaTextInputY = Animated.Value.create(-. yHidden);
 
-let animateFormMeta = showPreview =>
+let animateFormMeta =
+    (~showPreview, ~previewOpacity, ~previewY, ~textInputOpacity, ~textInputY) =>
   Animated.start(
     Animated.parallel(
       [|
         Animated.spring(
-          ~value=animatedMetaPreviewOpacity,
+          ~value=previewOpacity,
           ~toValue=`raw(showPreview ? opaque : transparent),
           (),
         ),
         Animated.spring(
-          ~value=animatedMetaPreviewY,
+          ~value=previewY,
           ~toValue=`raw(showPreview ? yVisible : yHidden),
           (),
         ),
         Animated.spring(
-          ~value=animatedMetaTextInputOpacity,
+          ~value=textInputOpacity,
           ~toValue=`raw(showPreview ? transparent : opaque),
           (),
         ),
         Animated.spring(
-          ~value=animatedMetaTextInputY,
+          ~value=textInputY,
           ~toValue=`raw(showPreview ? -. yHidden : yVisible),
           (),
         ),
@@ -53,11 +50,7 @@ let styles =
           paddingVertical(Pt(2.)),
         ]),
       "commentBox": style([flex(1.)]),
-      "metaPreview":
-        style([
-          opacity(Animated(animatedMetaPreviewOpacity)),
-          Transform.makeAnimated(~translateY=animatedMetaPreviewY, ()),
-        ]),
+      "metaPreview": style([]),
       "metaPreviewName":
         style([
           color(String("#49443A")),
@@ -71,11 +64,7 @@ let styles =
           lineHeight(24.),
           color(String("#bdbdbd")),
         ]),
-      "textInputs":
-        style([
-          opacity(Animated(animatedMetaTextInputOpacity)),
-          Transform.makeAnimated(~translateY=animatedMetaTextInputY, ()),
-        ]),
+      "textInputs": style([]),
       "textInputWrapper": style([flex(1.), paddingBottom(Pt(10.))]),
       "textInput":
         style([
@@ -190,7 +179,17 @@ type commentState =
   | Posted((comment, Structures.comment))
   | Errored((comment, errors));
 
-type state = {comment: commentState};
+type animatedState = {
+  metaPreviewOpacity: Animated.Value.t,
+  metaPreviewY: Animated.Value.t,
+  metaTextInputOpacity: Animated.Value.t,
+  metaTextInputY: Animated.Value.t,
+};
+
+type state = {
+  comment: commentState,
+  animated: animatedState,
+};
 
 let sendComment = (commentToSend, success, failure) =>
   Js.Promise.(
@@ -241,7 +240,15 @@ let component = ReasonReact.reducerComponent("CommentForm");
 
 let make = (~postId, ~parentCommentId, _children) => {
   ...component,
-  initialState: () => {comment: New},
+  initialState: () => {
+    comment: New,
+    animated: {
+      metaPreviewOpacity: Animated.Value.create(transparent),
+      metaPreviewY: Animated.Value.create(yHidden),
+      metaTextInputOpacity: Animated.Value.create(transparent),
+      metaTextInputY: Animated.Value.create(-. yHidden),
+    },
+  },
   reducer: (action, state) =>
     switch (action) {
     | CommentEdit(comment) =>
@@ -255,12 +262,13 @@ let make = (~postId, ~parentCommentId, _children) => {
         Js.log("You can't edit while posting");
         ReasonReact.NoUpdate;
       /* | Errored((comment, string)) */
-      | _ => ReasonReact.Update({comment: InProgress(comment)})
+      | _ => ReasonReact.Update({...state, comment: InProgress(comment)})
       }
     | CommentSend(comment) =>
       switch (state.comment) {
       | New =>
         ReasonReact.Update({
+          ...state,
           comment:
             Errored((
               comment,
@@ -323,7 +331,7 @@ let make = (~postId, ~parentCommentId, _children) => {
         Js.Dict.set(pl, "post", Js.Json.number(float_of_int(postId)));
         let payload = Js.Json.object_(pl);
         ReasonReact.UpdateWithSideEffects(
-          {comment: Sent((comment, payload))},
+          {...state, comment: Sent((comment, payload))},
           (
             ({send}) =>
               sendComment(
@@ -336,9 +344,9 @@ let make = (~postId, ~parentCommentId, _children) => {
         );
       }
     | CommentSuccess((comment, response)) =>
-      ReasonReact.Update({comment: Posted((comment, response))})
+      ReasonReact.Update({...state, comment: Posted((comment, response))})
     | CommentError((comment, err)) =>
-      ReasonReact.Update({comment: Errored((comment, err))})
+      ReasonReact.Update({...state, comment: Errored((comment, err))})
     },
   didUpdate: ({oldSelf, newSelf}) => {
     let (animate, showPreview) =
@@ -365,7 +373,13 @@ let make = (~postId, ~parentCommentId, _children) => {
       | _ => (false, false)
       };
     if (animate) {
-      animateFormMeta(showPreview);
+      animateFormMeta(
+        ~showPreview,
+        ~previewOpacity=newSelf.state.animated.metaPreviewOpacity,
+        ~previewY=newSelf.state.animated.metaPreviewY,
+        ~textInputOpacity=newSelf.state.animated.metaTextInputOpacity,
+        ~textInputY=newSelf.state.animated.metaTextInputY,
+      );
     };
   },
 
@@ -408,7 +422,14 @@ let make = (~postId, ~parentCommentId, _children) => {
             };
           Js.log(errors);
           switch (errors.name, errors.email) {
-          | (Some(_), Some(_)) => animateFormMeta(false)
+          | (Some(_), Some(_)) =>
+            animateFormMeta(
+              ~showPreview=false,
+              ~previewOpacity=state.animated.metaPreviewOpacity,
+              ~previewY=state.animated.metaPreviewY,
+              ~textInputOpacity=state.animated.metaTextInputOpacity,
+              ~textInputY=state.animated.metaTextInputY,
+            )
           | _ => ()
           };
 
@@ -439,7 +460,19 @@ let make = (~postId, ~parentCommentId, _children) => {
             </View>
             <Spacer size=XS />
             <View style=styles##commentBox>
-              <Animated.View style=styles##metaPreview>
+              <Animated.View
+                style=Style.(
+                  concat([
+                    styles##metaPreview,
+                    style([
+                      opacity(Animated(state.animated.metaPreviewOpacity)),
+                      Transform.makeAnimated(
+                        ~translateY=state.animated.metaPreviewY,
+                        (),
+                      ),
+                    ]),
+                  ])
+                )>
                 <View style=styles##row>
                   <Spacer size=S />
                   {
@@ -541,7 +574,19 @@ let make = (~postId, ~parentCommentId, _children) => {
                 }
               </View>
               <Spacer size=XXS />
-              <Animated.View style=styles##textInputs>
+              <Animated.View
+                style=Style.(
+                  concat([
+                    styles##textInputs,
+                    style([
+                      opacity(Animated(state.animated.metaTextInputOpacity)),
+                      Transform.makeAnimated(
+                        ~translateY=state.animated.metaTextInputY,
+                        (),
+                      ),
+                    ]),
+                  ])
+                )>
                 <View style=styles##row>
                   <View style=styles##textInputWrapper>
                     <TextInput
