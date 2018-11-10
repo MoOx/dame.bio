@@ -16,16 +16,19 @@ let make = (~comment: Structures.comment, ~postId, _) => {
     switch (action) {
     | Reply => ReasonReact.Update(ReplyOpen)
     },
-  render: ({state, send}) => {
+  render: ({state, send}) =>
     <>
-      <Comment comment canReply={true} onReply=(() => send(Reply) |> ignore) />
+      <Comment
+        comment
+        separator={comment.parent == 0}
+        canReply=true
+        onReply={() => send(Reply) |> ignore}
+      />
       {
         switch (state) {
         | None => nothing
-        | ReplyOpen =>
-          <CommentForm postId parentCommentId=comment.id />
+        | ReplyOpen => <CommentForm postId parentCommentId={comment.id} />
         }
       }
-    </>;
-  },
+    </>,
 };

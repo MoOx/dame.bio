@@ -391,7 +391,7 @@ let make = (~postId, ~parentCommentId, _children) => {
           switch (state.comment) {
           | Sent((_, _)) =>
             <> <Text> {{j|Envoi...|j} |> text} </Text> <Spacer /> </>
-          | Posted((_, comment)) => <Comment comment canReply=false />
+          | Posted((_, comment)) => <Comment comment canReply=false separator={false} />
           | _ => nothing
           }
         }

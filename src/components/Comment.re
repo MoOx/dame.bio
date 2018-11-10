@@ -64,12 +64,19 @@ let styles =
 
 let component = ReasonReact.statelessComponent("Comment");
 
-let make = (~comment: Structures.comment, ~canReply, ~onReply=() => (), _) => {
+let make =
+    (
+      ~comment: Structures.comment,
+      ~separator,
+      ~canReply,
+      ~onReply=() => (),
+      _,
+    ) => {
   ...component,
   render: _self => {
     let isOwner = comment.author == 2;
     <>
-      {comment.parent == 0 ? <> <CommentSeparator /> <Spacer /> </> : nothing}
+      {separator ? <> <CommentSeparator /> <Spacer /> </> : nothing}
       <View style=styles##comment>
         {comment.parent > 0 ? <Spacer size=XL /> : nothing}
         <View>
