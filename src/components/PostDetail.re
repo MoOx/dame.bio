@@ -49,14 +49,6 @@ let styles =
           fontWeight(`_300),
         ]),
       "link": style([padding(Pt(10.))]),
-      "subtitle":
-        style([
-          marginBottom(Pt(10.)),
-          fontSize(Float(28.)),
-          lineHeight(28. *. 1.5),
-          color(String("#006579")),
-          fontWeight(`_300),
-        ]),
     },
   );
 
@@ -136,10 +128,6 @@ let make = (~item: Structures.post, _) => {
             ),
         }
       />
-      <Spacer />
-      <View>
-        <Text style=styles##subtitle> {"Commentaires" |> text} </Text>
-      </View>
       <Spacer />
       <PostComments postId={item.id} />
     </View>;

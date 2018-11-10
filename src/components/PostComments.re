@@ -15,8 +15,6 @@ type state = {
   error: option(string),
 };
 
-external toExn: Js.Promise.error => Js.Exn.t = "%identity";
-
 let fetchComments = (id, commentsFetched, failure) =>
   Js.Promise.(
     Fetch.fetch(apiBaseUrl ++ "wp-json/wp/v2/comments?per_page=100&post=" ++ string_of_int(id))
@@ -70,13 +68,9 @@ let make = (~postId, _children) => {
       {
         switch (state.comments) {
         | None => nothing
-        | Some(comments) => <Comments comments />
+        | Some(comments) => <Comments postId comments />
         }
       }
     </View>,
 };
 
-let default =
-  ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~postId=jsProps##params##postId, [||])
-  );
