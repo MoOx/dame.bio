@@ -109,7 +109,7 @@ let decodeComment = json: comment =>
     author_name: json |> field("author_name", string),
     author_url: json |> field("author_url", string),
     author_avatar_url: json |> at(["author_avatar_urls", "96"], string),
-    date: json |> field("date", string),
+    date: json |> field("date_gmt", string),
     content: json |> at(["content", "rendered"], string),
   };
 
