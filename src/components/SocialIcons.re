@@ -29,7 +29,7 @@ let make =
         }
       </TextLink>
       <TextLink
-        style=iconStyle href="https://fr.pinterest.com/source/dame.bio/">
+        style=iconStyle href="https://www.pinterest.com/damebio/">
         {
           iconWrapperFunc(
             ~children=[|
