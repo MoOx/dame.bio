@@ -4,6 +4,8 @@ module type TextLinkComponent = {
   let make:
     (
       ~href: string=?,
+      ~onMouseEnter: unit => unit=?,
+      ~onMouseLeave: unit => unit=?,
       ~accessible: bool=?,
       ~allowFontScaling: bool=?,
       ~ellipsizeMode: [ | `clip | `head | `middle | `tail]=?,
@@ -34,6 +36,8 @@ module CreateComponent = (Impl: View.Impl) : TextLinkComponent => {
   let make =
       (
         ~href=?,
+        ~onMouseEnter=?,
+        ~onMouseLeave=?,
         ~accessible=?,
         ~allowFontScaling=?,
         ~ellipsizeMode=?,
@@ -58,6 +62,8 @@ module CreateComponent = (Impl: View.Impl) : TextLinkComponent => {
       ~props=
         Js.Undefined.{
           "href": fromOption(href),
+          "onMouseEnter": fromOption(onMouseEnter),
+          "onMouseLeave": fromOption(onMouseLeave),
           "accessibilityRole": "link",
           "accessible":
             fromOption(MyUtilsRN.optBoolToOptJsBoolean(accessible)),
