@@ -504,7 +504,7 @@ let make = (~postId, ~parentCommentId, _children) => {
                       styles##textInputWrapper,
                     ])
                   }>
-                  <TextInput
+                  <TextInputAutoMultilines
                     style=Style.(
                       concat([
                         styles##textInput,
@@ -524,7 +524,6 @@ let make = (~postId, ~parentCommentId, _children) => {
                       )
                       ++ "..."
                     }
-                    multiline=true
                     onChangeText={
                       text =>
                         send(
