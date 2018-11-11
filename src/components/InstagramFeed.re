@@ -84,7 +84,7 @@ type state = {
 let fetchData = (success, failure) =>
   Js.Promise.(
     Fetch.fetch(
-      "https://api.instagram.com/v1/users/2129304591/media/recent?access_token=2129304591.6e128d6.673b14118bd848028911564d7001ffe0&count=20",
+      "https://api.instagram.com/v1/users/2129304591/media/recent?access_token=2129304591.6e128d6.673b14118bd848028911564d7001ffe0&count=10",
     )
     |> then_(response => Fetch.Response.json(response))
     |> then_(json => Obj.magic(json)##data |> success |> resolve)
