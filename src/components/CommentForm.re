@@ -403,7 +403,6 @@ let make = (~postId, ~parentCommentId, _children) => {
               | Sent((_, _)) => noErrors
               | Posted((_, _)) => noErrors
               | Errored((comment, errors)) =>
-                Js.log2("ERRORS", errors);
                 let email =
                   String.length(comment.email) == 0 ?
                     Some("Requis") : errors.email;
@@ -420,7 +419,6 @@ let make = (~postId, ~parentCommentId, _children) => {
                   };
                 {email, name, content};
               };
-            Js.log(errors);
             switch (errors.name, errors.email) {
             | (Some(_), Some(_)) =>
               animateFormMeta(
