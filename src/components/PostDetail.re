@@ -77,7 +77,7 @@ let make = (~item: Structures.post, _) => {
       <View style=styles##row>
         <TextLink
           style=styles##category
-          href={"/tag/" ++ Utils.encodeURI(rootCategory.slug)}>
+          href={"/" ++ Utils.encodeURI(rootCategory.slug) ++ "/"}>
           {String.uppercase(rootCategory.name) |> text}
         </TextLink>
         <Text style=styles##actions>

@@ -81,20 +81,17 @@ let make = _children => {
         }
       />
       <View style=styles##menuLinks>
-        <TextLink style=styles##menuLink href="/tag/permaculture">
+        <TextLink style=styles##menuLink href="/alimentation/">
+          {{j|Alimentation|j} |> text}
+        </TextLink>
+        <TextLink style=styles##menuLink href="/permaculture/">
           {{j|Permaculture|j} |> text}
         </TextLink>
-        <TextLink style=styles##menuLink href="/tag/cuisine">
-          {{j|Cuisine|j} |> text}
-        </TextLink>
-        <TextLink style=styles##menuLink href="/tag/bien-etre">
+        <TextLink style=styles##menuLink href="/bien-etre/">
           {{j|Bien-être|j} |> text}
         </TextLink>
-        <TextLink style=styles##menuLink href="/tag/lifestyle">
+        <TextLink style=styles##menuLink href="/lifestyle/">
           {{j|Lifestyle|j} |> text}
-        </TextLink>
-        <TextLink style=styles##menuLink href="/tag/decouvertes">
-          {{j|Découvertes|j} |> text}
         </TextLink>
       </View>
     </View>,
