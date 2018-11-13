@@ -128,7 +128,9 @@ let make = (~item: Structures.post, _) => {
             ),
         }
       />
-      <Spacer />
+      <Spacer size=L />
+      <Author />
+      <Spacer size=XXL />
       <PostComments postId={item.id} />
     </View>;
   },
