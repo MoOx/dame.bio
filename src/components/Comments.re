@@ -14,6 +14,13 @@ let styles =
           color(String("#006579")),
           fontWeight(`_300),
         ]),
+      "noComment":
+        style([
+          textAlign(Center),
+          fontSize(Float(18.)),
+          color(String("#d6d5d2")),
+          fontWeight(`_600),
+        ]),
     },
   );
 
@@ -33,7 +40,7 @@ let make = (~postId, ~comments: Structures.comments, _) => {
           | [] =>
             <>
               <Spacer size=L />
-              <Text>
+              <Text style=styles##noComment>
                 {
                   "Aucun commentaire pour l'instant. Laissez le votre !" |> text
                 }
