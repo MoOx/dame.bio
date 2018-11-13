@@ -21,7 +21,7 @@ let styles =
 let make = _children => {
   ...component,
   render: _self =>
-    <Container wrapperStyle=styles##topbarWrapper>
+    <ContainerWithSpace wrapperStyle=styles##topbarWrapper>
       <SocialIcons wrapperStyle=styles##icons iconStyle=styles##topbarLink />
       <View style=styles##topbarLinks>
         <TextLink style=styles##topbarLink href="/a-propos">
@@ -37,5 +37,5 @@ let make = _children => {
           {ReasonReact.string({j|Contact|j})}
         </TextLink>
       </View>
-    </Container>,
+    </ContainerWithSpace>,
 };

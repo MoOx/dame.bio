@@ -74,7 +74,6 @@ let make = (~splat, _children) => {
             }
           }
         </MainContent>
-        <Sidebar />
       </Container>
       <Footer />
     </View>,

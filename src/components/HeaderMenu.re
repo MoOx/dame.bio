@@ -10,7 +10,7 @@ let styles =
       "menu":
         style([
           flexDirection(Row),
-          maxWidth(Pt(1200.)),
+          maxWidth(Pt(1000.)),
           width(Pct(100.)),
           justifyContent(Center),
         ]),

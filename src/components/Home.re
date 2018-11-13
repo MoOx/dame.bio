@@ -142,7 +142,6 @@ let make = _children => {
               }
             </View>
           </MainContent>
-          <Sidebar />
         </Container>
         <Footer />
       </View>,
