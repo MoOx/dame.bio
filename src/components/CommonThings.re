@@ -38,29 +38,66 @@ body {
 }
 
 .dbPost {
-  font-size: 14px;
-  line-height: 1.8571428;
+  font-size: 16px;
+  line-height: 29px;
   color: #49443A;
 }
 
-.dbPost a {
-  color: #3ba013;
+  .dbPost a {
+    color: #3ba013;
+  }
+
+  .dbPost strong {
+    font-weight: 800;
+  }
+
+  .dbPost img {
+    /* margin: 20px 0; */
+    max-width: 100%;
+  }
+
+  .dbPost .ingredients dt,
+  .dbPost .tips-title {
+    font-weight: 800;
+    font-size: 18px;
+  }
+
+  .dbPost dd {
+    margin: 0 0 0 20px;
+  }
+  
+  .dbPost dd::before {
+    content: "· "
+  }
+  
+.wp-block-image {
+  margin: 40px;
 }
 
-.dbPost strong {
-  font-weight: 800;
-}
+  .wp-block-image .dbtmp-element-protector-wrapper {
+    display: block;
+    position: relative;
+  }
 
-.dbPost img {
-  margin: 20px 0;
-  max-width: 100%;
-}
+  .wp-block-image .dbtmp-element-protector-wrapper img {
+    display: block;
+  }
 
-.dbPost .ingredients dt,
-.dbPost .tips-title {
-  font-weight: 800;
-  font-size: 16px;
-}
+  .wp-block-image .dbtmp-element-protector-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+  .wp-block-image figcaption {
+    color: #555d66;
+    font-size: 14px;
+    margin-bottom: 1em;
+    margin-top: .5em;
+    text-align: center;
+  }
 
 /* keep wordpress html default rendering */
 .dbComment { white-space: normal }
