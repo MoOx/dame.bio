@@ -19,13 +19,20 @@ let styles =
           backgroundColor(String("#fff")),
           paddingHorizontal(Pt(20.)),
         ]),
-      "row": style([flexDirection(Row), justifyContent(SpaceBetween)]),
-      "category":
+      "metaRow": style([flexDirection(Row), justifyContent(SpaceBetween)]),
+      "tags":
         style([
-          marginBottom(Pt(10.)),
-          fontSize(Float(10.)),
-          color(String("#DE6D88")),
+          flexDirection(Row),
+          flexWrap(Wrap),
+          justifyContent(Center),
         ]),
+      "tag":
+        style([
+          fontSize(Float(16.)),
+          lineHeight(29.),
+          color(String("#006579")),
+        ]),
+      "category": style([fontSize(Float(14.)), color(String("#DE6D88"))]),
       "actions":
         style([
           display(Flex),
@@ -70,11 +77,11 @@ let make = (~item: Structures.post, _) => {
       ++ "/"
       ++ String.lowercase(item.slug)
       ++ "/";
-    <View key={string_of_int(item.id)} style=styles##block>
+    <View style=styles##block>
       <Text style=styles##title>
         <span dangerouslySetInnerHTML={"__html": item.title} />
       </Text>
-      <View style=styles##row>
+      <View style=styles##metaRow>
         <TextLink
           style=styles##category
           href={"/" ++ Utils.encodeURI(rootCategory.slug) ++ "/"}>
@@ -129,6 +136,23 @@ let make = (~item: Structures.post, _) => {
         }
       />
       <Spacer size=L />
+      <View style=styles##tags>
+        {
+          Belt.List.map(item.terms.tags, tag =>
+            <Text key={tag.slug}>
+              <TextLink
+                style=styles##tag
+                href={"/tags/" ++ Utils.encodeURI(tag.slug) ++ "/"}>
+                {"#" ++ tagifyString(tag.name) |> text}
+              </TextLink>
+              {" " |> text}
+            </Text>
+          )
+          ->Belt.List.toArray
+          ->ReasonReact.array
+        }
+      </View>
+      <Spacer size=XXL />
       <Author />
       <Spacer size=XXL />
       <PostComments postId={item.id} />
