@@ -78,6 +78,7 @@ let make = (~item: Structures.post, _) => {
       ++ String.lowercase(item.slug)
       ++ "/";
     <View style=styles##block>
+      <PostRelatedPosts postId={item.id} />
       <Text style=styles##title>
         <span dangerouslySetInnerHTML={"__html": item.title} />
       </Text>
@@ -89,7 +90,7 @@ let make = (~item: Structures.post, _) => {
         </TextLink>
         <Text style=styles##actions>
           <TextLink style=styles##action href="#like">
-            <SVGFavorite fill="#ddd" width=12. height=12. />
+            <SVGFavorite fill="#ddd" width=16. height=16. />
             {
               (
                 if (item.likes != 0) {
@@ -103,7 +104,7 @@ let make = (~item: Structures.post, _) => {
           </TextLink>
           <Text style=styles##action> {" | " |> text} </Text>
           <TextLink style=styles##action href={href ++ "#comments"}>
-            <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
+            <SVGSpeechBubbleOutline fill="#ddd" width=16. height=16. />
             {
               switch (item.comments) {
               | None => "" |> text
@@ -114,6 +115,7 @@ let make = (~item: Structures.post, _) => {
           </TextLink>
         </Text>
       </View>
+      <Spacer />
       <div
         className="dbPost"
         dangerouslySetInnerHTML={

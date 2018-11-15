@@ -28,7 +28,7 @@ let styles =
           flexGrow(1.),
           fontFamily("IndieFlower"),
           fontWeight(`Bold),
-          fontSize(Float(26.)),
+          fontSize(Float(24.)),
           paddingHorizontal(Pt(20.)),
           lineHeight(65.), /* 73 - transparent part */
           textAlign(Center),
@@ -81,6 +81,7 @@ let make = _children => {
         }
       />
       <View style=styles##menuLinks>
+        <Spacer size=L />
         <TextLink style=styles##menuLink href="/alimentation/">
           {{j|Alimentation|j} |> text}
         </TextLink>
@@ -93,6 +94,7 @@ let make = _children => {
         <TextLink style=styles##menuLink href="/lifestyle/">
           {{j|Lifestyle|j} |> text}
         </TextLink>
+        <Spacer size=L />
       </View>
     </View>,
 };
