@@ -110,7 +110,7 @@ let make = _children => {
           <MainContent>
             {
               state.fetching ?
-                <Text> {"Chargement ..." |> text} </Text> : nothing
+                <LoadingIndicator /> : nothing
             }
             {
               switch (state.error) {

@@ -26,7 +26,7 @@ let fetchComments = (id, commentsFetched, failure) =>
        })
   );
 
-let component = ReasonReact.reducerComponent("Comments");
+let component = ReasonReact.reducerComponent("PostComments");
 
 let make = (~postId, _children) => {
   ...component,
@@ -55,7 +55,7 @@ let make = (~postId, _children) => {
   render: ({state}) =>
     <View>
       {
-        state.fetching ? <Text> {"Chargement ..." |> text} </Text> : nothing
+        state.fetching ? <LoadingIndicator /> : nothing
       }
       {
         switch (state.error) {

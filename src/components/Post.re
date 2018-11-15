@@ -59,7 +59,7 @@ let make = (~splat, _children) => {
       <Container>
         <MainContent>
           {
-            state.fetching ? <Text> {"Chargement ..." |> text} </Text> : nothing
+            state.fetching ? <LoadingIndicator /> : nothing
           }
           {
             switch (state.error) {
