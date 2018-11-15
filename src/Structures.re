@@ -1,11 +1,3 @@
-/*
- type post = {
-   id: string,
-   title: string,
-   tags: list(string),
-   body: PhenomicPresetReactApp.BodyRenderer.jsBody
- };
- */
 type mediaSize = {source_url: string};
 
 let decodeMediaSize = json: mediaSize =>
@@ -154,18 +146,3 @@ let decodePost = json: post =>
 
 let decodePosts = json: list(post) =>
   Json.Decode.(json |> array(decodePost)) |> Array.to_list;
-/* let doNothing = (a) => a; */
-/* type postEdge = PhenomicPresetReactApp.edge(post); */
-/* let jsPostToReason = (jsProps) => {
-     id: jsProps##id,
-     title: jsProps##title,
-     tags: jsProps##tags,
-     body: jsProps##body
-   }; */
-/* let jsPost = (jsPost) =>
-   PhenomicPresetReactApp.jsEdgeToReason(jsPost, doNothing); */
-/* type postsEdge = PhenomicPresetReactApp.edge(list(post)); */
-/* let jsPostsToReason = (posts) =>
-   posts##list |> Array.map(jsPostToReason) |> Array.to_list; */
-/* let jsPosts = (jsPosts) =>
-   PhenomicPresetReactApp.jsEdgeToReason(jsPosts, jsPostsToReason); */
