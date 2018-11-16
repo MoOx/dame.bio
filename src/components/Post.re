@@ -18,7 +18,7 @@ let fetchPost = (id, postFetched, failure) =>
     Fetch.fetch(apiBaseUrl ++ "wp-json/wp/v2/posts?_embed&slug=" ++ id)
     |> then_(response => Fetch.Response.json(response))
     |> then_(json =>
-         json |> Structures.decodePosts |> List.hd |> postFetched |> resolve
+         json |> Structures.decodePosts |> Belt.List.head |> postFetched |> resolve
        )
     |> catch(err => {
          Js.log(err);
@@ -40,7 +40,10 @@ let make = (~splat, _children) => {
           ({send}) =>
             fetchPost(
               splat,
-              post => send(PostFetched(post)),
+              post => switch (post) {
+                | Some(post) => send(PostFetched(post))
+                | None => send(FetchError("Aucun article trouvé"))
+              },
               error => send(FetchError(error)),
             )
             |> ignore

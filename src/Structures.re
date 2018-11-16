@@ -159,3 +159,23 @@ let decodeRelatedPosts = json: list(post) =>
   Json.Decode.(
     json |> field("rendered", string) |> Json.parseOrRaise |> decodePosts
   );
+
+let findRootCategory = (item: post): term =>
+  switch (
+    Belt.List.getBy(item.terms.categories, (term: term) =>
+      !term.hasParent
+    )
+  ) {
+  | Some(term) => term
+  | None =>
+    switch (Belt.List.head(item.terms.categories)) {
+    | Some(term) => term
+    | None => {
+        id: 0,
+        slug: "non-classe",
+        name: "",
+        taxonomy: "",
+        hasParent: false,
+      }
+    }
+  };

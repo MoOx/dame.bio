@@ -53,18 +53,12 @@ let styles =
     },
   );
 
-let findRootCategory = (item: Structures.post): Structures.term =>
-  List.find(
-    (term: Structures.term) => !term.hasParent,
-    item.terms.categories,
-  );
-
 let component = ReasonReact.statelessComponent("PostDetail");
 
 let make = (~item: Structures.post, _) => {
   ...component,
   render: _self => {
-    let rootCategory = findRootCategory(item);
+    let rootCategory = Structures.findRootCategory(item);
     let href =
       "/"
       ++ String.lowercase(rootCategory.slug)
@@ -102,7 +96,7 @@ let make = (~item: Structures.post, _) => {
               switch (item.comments) {
               | None => "" |> text
               | Some(comments) =>
-                " " ++ (List.length(comments) |> string_of_int) |> text
+                " " ++ (Belt.List.length(comments) |> string_of_int) |> text
               }
             }
           </TextLink>

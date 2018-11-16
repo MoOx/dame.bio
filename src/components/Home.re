@@ -119,7 +119,7 @@ let make = _children => {
               }
             }
             {
-              List.length(state.posts) > 0 ?
+              Belt.List.length(state.posts) > 0 ?
                 <PostList posts={state.posts} /> : nothing
             }
             <View

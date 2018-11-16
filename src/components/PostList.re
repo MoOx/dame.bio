@@ -22,7 +22,7 @@ let make = (~posts, _) => {
     <View style=styles##list>
       {
         posts
-        |> List.map((item: Structures.post) =>
+        -> Belt.List.map((item: Structures.post) =>
              <PostPreview item key={string_of_int(item.id)} />
            )
         |> Array.of_list

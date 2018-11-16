@@ -174,7 +174,7 @@ let extendView =
                 | `adjustable => "adjustable"
                 | `allowsDirectInteraction => "allowsDirectInteraction"
                 | `pageTurn => "pageTurn";
-              traits |> List.map(to_string) |> Array.of_list;
+              traits -> Belt.List.map(to_string) |> Array.of_list;
             },
             accessibilityTraits,
           ),
