@@ -154,3 +154,8 @@ let decodePost = json: post =>
 
 let decodePosts = json: list(post) =>
   Json.Decode.(json |> array(decodePost)) |> Array.to_list;
+
+let decodeRelatedPosts = json: list(post) =>
+  Json.Decode.(
+    json |> field("rendered", string) |> Json.parseOrRaise |> decodePosts
+  );
