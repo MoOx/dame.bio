@@ -10,14 +10,8 @@ let styles =
       "block":
         style([
           flex(1.),
-          /* flexBasis(Pt(350.)), */
-          /* borderWidth(1.),
-             borderRadius(6.), */
           borderColor(String("#F0F0EF")),
-          marginRight(Pt(40.)),
-          marginBottom(Pt(40.)),
           backgroundColor(String("#fff")),
-          paddingHorizontal(Pt(20.)),
         ]),
       "metaRow": style([flexDirection(Row), justifyContent(SpaceBetween)]),
       "tags":
@@ -78,7 +72,6 @@ let make = (~item: Structures.post, _) => {
       ++ String.lowercase(item.slug)
       ++ "/";
     <View style=styles##block>
-      <PostRelatedPosts postId={item.id} />
       <Text style=styles##title>
         <span dangerouslySetInnerHTML={"__html": item.title} />
       </Text>
@@ -115,30 +108,30 @@ let make = (~item: Structures.post, _) => {
           </TextLink>
         </Text>
       </View>
-      <Spacer />
-      <div
-        className="dbPost"
-        dangerouslySetInnerHTML={
-          "__html":
-            Js.String.replaceByRe(
-              [%re "/=\"\\/wp-content/g"],
-              "=\"https://dame.bio/wp-content",
+      <SpacedView vertical=M>
+        <div
+          className="dbPost"
+          dangerouslySetInnerHTML={
+            "__html":
               Js.String.replaceByRe(
-                [%re "/\\u2b50\\ufe0e(<br \\/>?)/g"],
-                ""
-                ++ "<span style=\"display: block; text-align: center; margin: 40px;\">"
-                ++ "<span style=\"display: inline-block;background: url(/images/line_flower.png) no-repeat; height: 14px; width: 68px;\"></span>"
-                /* ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-left.png) no-repeat; height: 21px; width: 17px;\"></span>"
-                   ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-tile.png) repeat-x; height: 21px; width: 80%;\"></span>"
-                   ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-right.png) no-repeat; height: 21px; width: 66px;\"></span>" */
-                ++ "</span>",
-                item.contentHTML,
+                [%re "/=\"\\/wp-content/g"],
+                "=\"https://dame.bio/wp-content",
+                Js.String.replaceByRe(
+                  [%re "/\\u2b50\\ufe0e(<br \\/>?)/g"],
+                  ""
+                  ++ "<span style=\"display: block; text-align: center; margin: 40px;\">"
+                  ++ "<span style=\"display: inline-block;background: url(/images/line_flower.png) no-repeat; height: 14px; width: 68px;\"></span>"
+                  /* ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-left.png) no-repeat; height: 21px; width: 17px;\"></span>"
+                     ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-tile.png) repeat-x; height: 21px; width: 80%;\"></span>"
+                     ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-right.png) no-repeat; height: 21px; width: 66px;\"></span>" */
+                  ++ "</span>",
+                  item.contentHTML,
+                ),
               ),
-            ),
-        }
-      />
-      <Spacer size=L />
-      <View style=styles##tags>
+          }
+        />
+      </SpacedView>
+      <SpacedView vertical=L style=styles##tags>
         {
           Belt.List.map(item.terms.tags, tag =>
             <Text key={tag.slug}>
@@ -153,10 +146,9 @@ let make = (~item: Structures.post, _) => {
           ->Belt.List.toArray
           ->ReasonReact.array
         }
-      </View>
-      <Spacer size=XXL />
+      </SpacedView>
       <Author />
-      <Spacer size=XXL />
+      <Spacer size=L />
       <PostComments postId={item.id} />
     </View>;
   },

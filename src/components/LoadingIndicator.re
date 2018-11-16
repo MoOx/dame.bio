@@ -15,9 +15,7 @@ let component = ReasonReact.statelessComponent("LoadingIndicator");
 let make = _children => {
   ...component,
   render: _self =>
-    <View>
-      <Spacer size=XXL />
+    <SpacedView vertical=XXL>
       <ActivityIndicator size=`large />
-      <Spacer size=XXL />
-    </View>,
+    </SpacedView>,
 };

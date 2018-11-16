@@ -10,12 +10,10 @@ let styles =
       "block":
         style([
           flex(1.),
-          flexBasis(Pt(350.)),
+          flexBasis(Pt(340.)),
           borderWidth(0.75),
           borderColor(String("#EBEBEB")),
           backgroundColor(String("#FFF")),
-          marginRight(Pt(40.)),
-          marginBottom(Pt(40.)),
         ]),
       "row": style([flexDirection(Row), justifyContent(SpaceBetween)]),
       "text": style([padding(Pt(20.))]),
@@ -68,7 +66,7 @@ let make = (~item: Structures.post, _) => {
       ++ "/"
       ++ String.lowercase(item.slug)
       ++ "/";
-    <View key={string_of_int(item.id)} style=styles##block>
+    <SpacedView key={string_of_int(item.id)} style=styles##block vertical=M horizontal=M>
       <TextLink href>
         <ImageWithAspectRatio
           uri={
@@ -115,6 +113,6 @@ let make = (~item: Structures.post, _) => {
           <span dangerouslySetInnerHTML={"__html": item.title} />
         </TextLink>
       </View>
-    </View>;
+    </SpacedView>;
   },
 };

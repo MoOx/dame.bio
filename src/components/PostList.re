@@ -10,7 +10,6 @@ let styles =
           flexDirection(Row),
           flexWrap(Wrap),
           alignItems(FlexStart),
-          marginRight(Pt(10.)),
         ]),
     },
   );
