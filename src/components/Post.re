@@ -71,8 +71,8 @@ let make = (~splat, _children) => {
       })
     },
   didMount: ({send}) => send(Fetch),
-  didUpdate: ({oldSelf, newSelf}) =>
-    if (oldSelf.state.splat != splat) {
+  didUpdate: ({newSelf}) =>
+    if (newSelf.state.splat != splat) {
       newSelf.send(Fetch);
     },
   render: ({state}) =>
