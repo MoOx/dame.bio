@@ -40,7 +40,7 @@ let make = (~splat, _children) => {
     switch (action) {
     | Fetch =>
       ReasonReact.UpdateWithSideEffects(
-        {...state, splat, fetching: true},
+        {splat, fetching: true, post: None, error: None},
         (
           ({send}) =>
             fetchPost(
