@@ -74,6 +74,7 @@ body {
   margin: 40px;
   display: block;
   position: relative;
+  background: #eee;
 }
 
   .dbtmp-element-protector-wrapper img {

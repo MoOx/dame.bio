@@ -13,6 +13,7 @@ let styles =
           bottom(Pt(0.)),
           right(Pt(0.)),
           left(Pt(0.)),
+          backgroundColor(String("#eee")),
         ]),
     },
   );
