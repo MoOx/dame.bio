@@ -8,6 +8,7 @@ type action =
   | FetchError(string);
 
 type state = {
+  splat: string,
   fetching: bool,
   post: option(Structures.post),
   error: option(string),
@@ -18,7 +19,11 @@ let fetchPost = (id, postFetched, failure) =>
     Fetch.fetch(apiBaseUrl ++ "wp-json/wp/v2/posts?_embed&slug=" ++ id)
     |> then_(response => Fetch.Response.json(response))
     |> then_(json =>
-         json |> Structures.decodePosts |> Belt.List.head |> postFetched |> resolve
+         json
+         |> Structures.decodePosts
+         |> Belt.List.head
+         |> postFetched
+         |> resolve
        )
     |> catch(err => {
          Js.log(err);
@@ -30,40 +35,53 @@ let component = ReasonReact.reducerComponent("Post");
 
 let make = (~splat, _children) => {
   ...component,
-  initialState: () => {fetching: false, post: None, error: None},
+  initialState: () => {splat, fetching: false, post: None, error: None},
   reducer: (action, state) =>
     switch (action) {
     | Fetch =>
       ReasonReact.UpdateWithSideEffects(
-        {...state, fetching: true},
+        {...state, splat, fetching: true},
         (
           ({send}) =>
             fetchPost(
               splat,
-              post => switch (post) {
+              post =>
+                switch (post) {
                 | Some(post) => send(PostFetched(post))
                 | None => send(FetchError("Aucun article trouvé"))
-              },
+                },
               error => send(FetchError(error)),
             )
             |> ignore
         ),
       )
     | PostFetched(post) =>
-      ReasonReact.Update({fetching: false, post: Some(post), error: None})
+      ReasonReact.Update({
+        ...state,
+        fetching: false,
+        post: Some(post),
+        error: None,
+      })
     | FetchError(err) =>
-      ReasonReact.Update({fetching: false, post: None, error: Some(err)})
+      ReasonReact.Update({
+        ...state,
+        fetching: false,
+        post: None,
+        error: Some(err),
+      })
     },
   didMount: ({send}) => send(Fetch),
+  didUpdate: ({oldSelf, newSelf}) =>
+    if (oldSelf.state.splat != splat) {
+      newSelf.send(Fetch);
+    },
   render: ({state}) =>
     <View>
       <CommonThings />
       <Header />
       <Container>
         <MainContent>
-          {
-            state.fetching ? <LoadingIndicator /> : nothing
-          }
+          {state.fetching ? <LoadingIndicator /> : nothing}
           {
             switch (state.error) {
             | None => nothing
