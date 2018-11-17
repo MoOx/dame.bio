@@ -142,9 +142,9 @@ let make = (~item: Structures.post, _) => {
         }
       </SpacedView>
       <Author />
-      <Spacer size=L />
+      <Spacer size=XL />
       <PostRelatedPosts postId={item.id} />
-      <Spacer size=L />
+      <Spacer size=XL />
       <PostComments postId={item.id} />
     </View>;
   },
