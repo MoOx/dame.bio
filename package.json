@@ -15,8 +15,10 @@
     "bs-fetch": "^0.3.0",
     "bs-platform": "4.0.6",
     "bs-react-native": "^0.10.0",
+    "husky": "^1.1.4",
     "intl-relativeformat": "^2.1.0",
     "jest": "^21.2.1",
+    "lint-staged": "^8.0.5",
     "md5": "^2.2.1",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.14.3",
@@ -58,6 +60,21 @@
     "build:web": "yarn reason:compile && phenomic build",
     "build:native": "echo @todo",
     "test": "jest"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.re": [
+      "bsrefmt --in-place",
+      "git add"
+    ],
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "phenomic": {
     "presets": [
