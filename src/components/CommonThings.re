@@ -70,20 +70,17 @@ body {
     content: "· "
   }
 
-.wp-block-image {
+.dbtmp-element-protector-wrapper {
   margin: 40px;
+  display: block;
+  position: relative;
 }
 
-  .wp-block-image .dbtmp-element-protector-wrapper {
-    display: block;
-    position: relative;
-  }
-
-  .wp-block-image .dbtmp-element-protector-wrapper img {
+  .dbtmp-element-protector-wrapper img {
     display: block;
   }
 
-  .wp-block-image .dbtmp-element-protector-overlay {
+  .dbtmp-element-protector-overlay {
     position: absolute;
     top: 0;
     left: 0;
