@@ -15,7 +15,11 @@ type state = {
 
 let fetchComments = (id, commentsFetched, failure) =>
   Js.Promise.(
-    Fetch.fetch(apiBaseUrl ++ "wp-json/wp/v2/comments?per_page=100&post=" ++ string_of_int(id))
+    Fetch.fetch(
+      apiBaseUrl
+      ++ "wp-json/wp/v2/comments?per_page=100&post="
+      ++ string_of_int(id),
+    )
     |> then_(response => Fetch.Response.json(response))
     |> then_(json =>
          json |> Structures.decodeComments |> commentsFetched |> resolve
@@ -47,16 +51,19 @@ let make = (~postId, _children) => {
         ),
       )
     | CommentsFetched(comments) =>
-      ReasonReact.Update({fetching: false, comments: Some(comments), error: None})
+      ReasonReact.Update({
+        fetching: false,
+        comments: Some(comments),
+        error: None,
+      })
     | FetchError(err) =>
       ReasonReact.Update({fetching: false, comments: None, error: Some(err)})
     },
   didMount: ({send}) => send(Fetch),
   render: ({state}) =>
     <View>
-      {
-        state.fetching ? <LoadingIndicator /> : nothing
-      }
+      <a name="comments" />
+      {state.fetching ? <LoadingIndicator /> : nothing}
       {
         switch (state.error) {
         | None => nothing
@@ -71,4 +78,3 @@ let make = (~postId, _children) => {
       }
     </View>,
 };
-
