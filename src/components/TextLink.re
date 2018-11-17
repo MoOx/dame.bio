@@ -112,7 +112,7 @@ module CreateComponent = (Impl: View.Impl) : TextLinkComponent => {
         },
       switch (value) {
       | Some(string) =>
-        Array.append([|ReasonReact.string(string)|], children)
+        Belt.Array.concat([|ReasonReact.string(string)|], children)
       | None => children
       },
     );

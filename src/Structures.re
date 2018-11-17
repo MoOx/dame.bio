@@ -81,8 +81,8 @@ let decodeTerms = json: terms => {
   switch (termsArray) {
   | Some(termsArray) => {
       categories:
-        Json.Decode.(termsArray[0] |> array(decodeTerm)) |> Array.to_list,
-      tags: Json.Decode.(termsArray[1] |> array(decodeTerm)) |> Array.to_list,
+        Json.Decode.(termsArray[0] |> array(decodeTerm)) |> Belt.List.fromArray,
+      tags: Json.Decode.(termsArray[1] |> array(decodeTerm)) |> Belt.List.fromArray,
     }
   | None => {categories: [], tags: []}
   };
@@ -114,11 +114,11 @@ let decodeComment = json: comment =>
   };
 
 let decodeComments = json: list(comment) =>
-  Json.Decode.(json |> array(decodeComment)) |> Array.to_list;
+  Json.Decode.(json |> array(decodeComment)) |> Belt.List.fromArray;
 
 let decodePartialComments = json: list(comment) =>
-  Json.Decode.(Array.unsafe_get(Obj.magic(json), 0) |> array(decodeComment))
-  |> Array.to_list;
+  Json.Decode.(Belt.Array.getUnsafe(Obj.magic(json), 0) |> array(decodeComment))
+  |> Belt.List.fromArray;
 
 type comments = list(comment);
 
@@ -146,14 +146,14 @@ let decodePost = json: post =>
     featuredMedia:
       json
       |> at(["_embedded", "wp:featuredmedia"], json =>
-           json |> array(decodeMedia) |> Array.to_list
+           json |> array(decodeMedia) |> Belt.List.fromArray
          ),
     likes: json |> at(["meta", "db_like"], int),
     terms: json |> at(["_embedded", "wp:term"], decodeTerms),
   };
 
 let decodePosts = json: list(post) =>
-  Json.Decode.(json |> array(decodePost)) |> Array.to_list;
+  Json.Decode.(json |> array(decodePost)) |> Belt.List.fromArray;
 
 let decodeRelatedPosts = json: list(post) =>
   Json.Decode.(

@@ -25,8 +25,8 @@ let make = (~posts, _) => {
         -> Belt.List.map((item: Structures.post) =>
              <PostPreview item key={string_of_int(item.id)} />
            )
-        |> Array.of_list
-        |> ReasonReact.array
+        -> Belt.List.toArray
+        -> ReasonReact.array
       }
     </View>,
 };
