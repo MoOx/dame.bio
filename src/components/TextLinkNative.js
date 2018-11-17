@@ -38,6 +38,7 @@ const shouldIgnoreEvent = (event: SyntheticEvent<HTMLAnchorElement>) =>
 const goToUrl = (event: SyntheticEvent<HTMLAnchorElement>) => {
   if (isSameOrigin(event.currentTarget)) {
     event.preventDefault();
+    window.scrollTo(0, 0);
     // extract to get only interesting parts
     const { pathname, search, hash } = event.currentTarget;
     browserHistory.push({ pathname, search, hash });
