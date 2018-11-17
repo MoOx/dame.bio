@@ -16,3 +16,9 @@ export default createApp(() => (
 if (module.hot) {
   module.hot.accept(() => renderApp(routes));
 }
+
+// it's that easy to have for initial loading ?
+// will have to double check in prod (static)
+require("@phenomic/plugin-renderer-react/lib/components/Link.hash.js").default(
+  window.location.hash
+);
