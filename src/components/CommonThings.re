@@ -65,11 +65,11 @@ body {
   .dbPost dd {
     margin: 0 0 0 20px;
   }
-  
+
   .dbPost dd::before {
     content: "· "
   }
-  
+
 .wp-block-image {
   margin: 40px;
 }
@@ -90,7 +90,7 @@ body {
     right: 0;
     bottom: 0;
   }
-  
+
   .wp-block-image figcaption {
     color: #555d66;
     font-size: 14px;
@@ -102,6 +102,7 @@ body {
 /* keep wordpress html default rendering */
 .dbComment { white-space: normal }
 .dbComment p { margin: 0; }
+.dbComment a { color: #49443A; }
 |j}
           |> text
         }
