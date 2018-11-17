@@ -9,7 +9,14 @@ type state =
 
 let component = ReasonReact.reducerComponent("PostComment");
 
-let make = (~comment: Structures.comment, ~postId, _) => {
+let rec make =
+        (
+          ~comment: Structures.comment,
+          ~postId,
+          ~parentCommentId,
+          ~comments: list(Structures.comment),
+          _,
+        ) => {
   ...component,
   initialState: () => None,
   reducer: (action, _) =>
@@ -29,6 +36,26 @@ let make = (~comment: Structures.comment, ~postId, _) => {
         | None => nothing
         | ReplyOpen => <CommentForm postId parentCommentId={comment.id} />
         }
+      }
+      {
+        comments
+        ->Belt.List.reverse
+        ->Belt.List.map(comment =>
+            comment.parent == parentCommentId ?
+              ReasonReact.element(
+                ~key=string_of_int(comment.id),
+                make(
+                  ~comment,
+                  ~postId,
+                  ~comments,
+                  ~parentCommentId=comment.id,
+                  [||],
+                ),
+              ) :
+              nothing
+          )
+        ->Belt.List.toArray
+        ->ReasonReact.array
       }
     </>,
 };

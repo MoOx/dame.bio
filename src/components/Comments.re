@@ -51,7 +51,15 @@ let make = (~postId, ~comments: Structures.comments, _) => {
             comments
             ->Belt.List.reverse
             ->Belt.List.map(comment =>
-                <PostComment key={string_of_int(comment.id)} comment postId />
+                comment.parent == 0 ?
+                  <PostComment
+                    key={string_of_int(comment.id)}
+                    comment
+                    parentCommentId={comment.id}
+                    postId
+                    comments
+                  /> :
+                  nothing
               )
             ->Belt.List.toArray
             ->ReasonReact.array
