@@ -49,7 +49,7 @@ let fetchPosts = (page, postsFetched, nbPostsFetched, failure) =>
        })
   );
 
-let component = ReasonReact.reducerComponent("Home");
+let component = ReasonReact.reducerComponent("RoutePosts");
 
 let make = _children => {
   let nextPagePress = (_event, self) => self.ReasonReact.send(NextPage);
@@ -103,45 +103,38 @@ let make = _children => {
       },
     didMount: ({send}) => send(Fetch),
     render: ({state, handle}) =>
-      <View>
-        <CommonThings />
-        <Header />
-        <Container>
-          <MainContent>
-            {state.fetching ? <LoadingIndicator /> : nothing}
-            {
-              switch (state.error) {
-              | None => nothing
-              | Some(error) => <Text> {error |> text} </Text>
-              }
-            }
-            {
-              Belt.List.length(state.posts) > 0 ?
-                <PostList posts={state.posts} /> : nothing
-            }
-            <View
-              style=Style.(
-                style([flexDirection(Row), justifyContent(SpaceAround)])
-              )>
-              {
-                state.page > 1 ?
-                  <BannerButton onPress={handle(previousPagePress)}>
-                    {"Articles plus récents" |> text}
-                  </BannerButton> :
-                  nothing
-              }
-              {
-                state.nbTotal > state.page * per_page ?
-                  <BannerButton onPress={handle(nextPagePress)}>
-                    {"Encore plus d'articles" |> text}
-                  </BannerButton> :
-                  nothing
-              }
-            </View>
-          </MainContent>
-        </Container>
-        <Footer />
-      </View>,
+      <WebsiteWrapper>
+        {state.fetching ? <LoadingIndicator /> : nothing}
+        {
+          switch (state.error) {
+          | None => nothing
+          | Some(error) => <Text> {error |> text} </Text>
+          }
+        }
+        {
+          Belt.List.length(state.posts) > 0 ?
+            <PostList posts={state.posts} /> : nothing
+        }
+        <View
+          style=Style.(
+            style([flexDirection(Row), justifyContent(SpaceAround)])
+          )>
+          {
+            state.page > 1 ?
+              <BannerButton onPress={handle(previousPagePress)}>
+                {"Articles plus récents" |> text}
+              </BannerButton> :
+              nothing
+          }
+          {
+            state.nbTotal > state.page * per_page ?
+              <BannerButton onPress={handle(nextPagePress)}>
+                {"Encore plus d'articles" |> text}
+              </BannerButton> :
+              nothing
+          }
+        </View>
+      </WebsiteWrapper>,
   };
 };
 

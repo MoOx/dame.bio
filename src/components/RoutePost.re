@@ -31,7 +31,7 @@ let fetchPost = (id, postFetched, failure) =>
        })
   );
 
-let component = ReasonReact.reducerComponent("Post");
+let component = ReasonReact.reducerComponent("RoutePost");
 
 let make = (~splat, _children) => {
   ...component,
@@ -76,28 +76,21 @@ let make = (~splat, _children) => {
       newSelf.send(Fetch);
     },
   render: ({state}) =>
-    <View>
-      <CommonThings />
-      <Header />
-      <Container>
-        <MainContent>
-          {state.fetching ? <LoadingIndicator /> : nothing}
-          {
-            switch (state.error) {
-            | None => nothing
-            | Some(error) => <Text> {error |> text} </Text>
-            }
-          }
-          {
-            switch (state.post) {
-            | None => nothing
-            | Some(item) => <PostDetail key={item.slug} item />
-            }
-          }
-        </MainContent>
-      </Container>
-      <Footer />
-    </View>,
+    <WebsiteWrapper>
+      {state.fetching ? <LoadingIndicator /> : nothing}
+      {
+        switch (state.error) {
+        | None => nothing
+        | Some(error) => <Text> {error |> text} </Text>
+        }
+      }
+      {
+        switch (state.post) {
+        | None => nothing
+        | Some(item) => <PostDetail key={item.slug} item />
+        }
+      }
+    </WebsiteWrapper>,
 };
 
 let default =
