@@ -108,10 +108,7 @@ let make = _children => {
         <Header />
         <Container>
           <MainContent>
-            {
-              state.fetching ?
-                <LoadingIndicator /> : nothing
-            }
+            {state.fetching ? <LoadingIndicator /> : nothing}
             {
               switch (state.error) {
               | None => nothing

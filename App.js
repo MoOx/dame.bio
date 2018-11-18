@@ -3,13 +3,13 @@ import { Router, Route, browserHistory } from "react-router";
 import { createApp } from "@phenomic/preset-react-app/lib/client";
 import { createContainer } from "@phenomic/preset-react-app/lib/es6/src/phenomicPresetReactApp.js";
 
-import Home from "./lib/es6/src/components/Home";
-import Post from "./lib/es6/src/components/Post";
+import RoutePosts from "./lib/es6/src/components/RoutePosts";
+import RoutePost from "./lib/es6/src/components/RoutePost";
 
 export default createApp(() => (
   <Router history={browserHistory}>
-    <Route path="/" component={Home} />
-    <Route path="/:cat/*" component={Post} />
+    <Route path="/" component={RoutePosts} />
+    <Route path="/:cat/*" component={RoutePost} />
   </Router>
 ));
 
