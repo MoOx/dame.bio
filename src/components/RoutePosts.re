@@ -20,7 +20,8 @@ type state = {
 
 let per_page = 8;
 
-let fetchPosts = (page, postsFetched, nbPostsFetched, failure) =>
+let fetchPosts =
+    (~categories, ~tags, ~page, postsFetched, nbPostsFetched, failure) =>
   Js.Promise.(
     Fetch.fetch(
       apiBaseUrl
@@ -28,7 +29,19 @@ let fetchPosts = (page, postsFetched, nbPostsFetched, failure) =>
       ++ "&per_page="
       ++ string_of_int(per_page)
       ++ "&page="
-      ++ string_of_int(page),
+      ++ string_of_int(page)
+      ++ (
+        switch (categories) {
+        | None => ""
+        | Some(c) => "&categories=" ++ c
+        }
+      )
+      ++ (
+        switch (tags) {
+        | None => ""
+        | Some(t) => "&tags=" ++ t
+        }
+      ),
     )
     |> then_(response => {
          let wpTotal =
@@ -51,7 +64,7 @@ let fetchPosts = (page, postsFetched, nbPostsFetched, failure) =>
 
 let component = ReasonReact.reducerComponent("RoutePosts");
 
-let make = _children => {
+let make = (~categories=?, ~tags=?, _) => {
   let nextPagePress = (_event, self) => self.ReasonReact.send(NextPage);
   let previousPagePress = (_event, self) =>
     self.ReasonReact.send(PreviousPage);
@@ -72,7 +85,9 @@ let make = _children => {
           (
             ({send}) =>
               fetchPosts(
-                state.page,
+                ~categories,
+                ~tags,
+                ~page=state.page,
                 posts => send(PostsFetched(posts)),
                 nb => send(NbPostsFetched(nb)),
                 error => send(FetchError(error)),
