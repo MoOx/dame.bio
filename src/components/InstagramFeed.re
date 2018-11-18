@@ -121,7 +121,7 @@ let make = _children => {
   didMount: ({send}) => send(Fetching),
   render: ({state}) =>
     <View>
-      {state.fetching ? <Text> {"..." |> text} </Text> : nothing}
+      {state.fetching ? <LoadingIndicator /> : nothing}
       {
         switch (state.error) {
         | None => nothing
@@ -147,4 +147,3 @@ let make = _children => {
       }
     </View>,
 };
-
