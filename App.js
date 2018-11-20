@@ -9,6 +9,7 @@ import RoutePost from "./lib/es6/src/components/RoutePost";
 export default createApp(() => (
   <Router history={browserHistory}>
     <Route path="/" component={RoutePosts} />
+    <Route path="/page/:page" component={RoutePosts} />
     <Route path="/:cat/*" component={RoutePost} />
   </Router>
 ));

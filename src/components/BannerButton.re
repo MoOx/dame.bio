@@ -20,10 +20,10 @@ let styles =
     },
   );
 
-let make = (~onPress, children) => {
+let make = (~href, children) => {
   ...component,
   render: _self =>
-    <TouchableOpacity onPress style=styles##container>
+    <TextLink href style=styles##container>
       <ImageBackground
         style=styles##image
         resizeMode=`contain
@@ -41,5 +41,5 @@ let make = (~onPress, children) => {
                }>
         <Text style=styles##children> ...children </Text>
       </ImageBackground>
-    </TouchableOpacity>,
+    </TextLink>,
 };
