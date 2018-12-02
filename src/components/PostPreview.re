@@ -50,65 +50,76 @@ let styles =
 
 let component = ReasonReact.statelessComponent("PostPreview");
 
-let make = (~item: Structures.post, _) => {
+let make = (~item, _) => {
   ...component,
   render: _self => {
     let rootCategory = Structures.findRootCategory(item);
     let href =
       "/"
-      ++ String.lowercase(rootCategory.slug)
+      ++ String.lowercase(
+           switch (rootCategory##slug) {
+           | Some(s) => s
+           | _ => "_"
+           },
+         )
       ++ "/"
-      ++ String.lowercase(item.slug)
+      ++ String.lowercase(
+           switch (item##slug) {
+           | Some(s) => s
+           | None => item##id
+           },
+         )
       ++ "/";
-    <SpacedView key={string_of_int(item.id)} style=styles##block vertical=M horizontal=M>
+    <SpacedView key=item##id style=styles##block vertical=M horizontal=M>
       <TextLink href>
         {
-          switch (
-            Belt.List.head(item.featuredMedia)
-          ) {
-          | Some(media) => <ImageWithAspectRatio uri=media.media_details.sizes.medium.source_url />
-          | None => nothing
-          }
+          "test" |> text
+          /* switch ([%get_in item#??featuredImage#??mediaDetails#?sizes]) {
+             | Some(sizes) =>
+               switch (sizes |> Belt.Array.get(1)) {
+               | Some(size) =>
+                 switch (size##sourceUrl) {
+                 | Some(uri) => <ImageWithAspectRatio uri />
+                 | None => nothing
+                 }
+               | None => nothing
+               }
+             | None => nothing
+             } */
         }
       </TextLink>
-      <View style=styles##text>
-        <View style=styles##row>
-          <TextLink
-            style=styles##category
-            href={"/" ++ Utils.encodeURI(rootCategory.slug) ++ "/"}>
-            {String.uppercase(rootCategory.name) |> text}
-          </TextLink>
-          <Text style=styles##actions>
-            <TextLink style=styles##action href="#like">
-              <SVGFavorite fill="#ddd" width=12. height=12. />
-              {
-                (
-                  if (item.likes != 0) {
-                    " " ++ (item.likes |> string_of_int);
-                  } else {
-                    "";
-                  }
-                )
-                |> text
-              }
-            </TextLink>
-            <Text style=styles##action> {" | " |> text} </Text>
-            <TextLink style=styles##action href={href ++ "#comments"}>
-              <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
-              {
-                switch (item.comments) {
-                | None => "" |> text
-                | Some(comments) =>
-                  " " ++ (Belt.List.length(comments) |> string_of_int) |> text
-                }
-              }
-            </TextLink>
-          </Text>
-        </View>
-        <TextLink style=styles##title href>
-          <span dangerouslySetInnerHTML={"__html": item.title} />
-        </TextLink>
-      </View>
     </SpacedView>;
+    /* <View style=styles##text>
+         <View style=styles##row>
+           <TextLink
+             style=styles##category
+             href={"/" ++ Utils.encodeURI(rootCategory##slug) ++ "/"}>
+             {String.uppercase(rootCategory##name) |> text}
+           </TextLink>
+           <Text style=styles##actions>
+             <TextLink style=styles##action href="#like">
+               <SVGFavorite fill="#ddd" width=12. height=12. />
+               {
+                 (item##likes != 0 ? " " ++ (item##likes |> string_of_int) : "")
+                 |> text
+               }
+             </TextLink>
+             <Text style=styles##action> {" | " |> text} </Text>
+             <TextLink style=styles##action href={href ++ "#comments"}>
+               <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
+               {
+                 switch (item##comments) {
+                 | None => "" |> text
+                 | Some(comments) =>
+                   " " ++ (Belt.List.length(comments) |> string_of_int) |> text
+                 }
+               }
+             </TextLink>
+           </Text>
+         </View>
+         <TextLink style=styles##title href>
+           <span dangerouslySetInnerHTML={"__html": item##title} />
+         </TextLink>
+       </View> */
   },
 };

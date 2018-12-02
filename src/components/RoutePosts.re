@@ -10,106 +10,76 @@ let per_page = 8;
 type status =
   | Loading
   | Ready
-  | Error;
+  | Error(option(string));
 
-type res = {
-  total: int,
-  items: list(Structures.post),
-};
+module GetItems = [%graphql
+  {|
+  query getItems($categoryName: String, $after: String){
+    posts(first: 8, after: $after, where: {categoryName: $categoryName}) {
+      edges {
+        node {
+          id
+          title
+          slug
+          featuredImage {
+            mediaDetails {
+              sizes {
+                name
+                sourceUrl
+              }
+            }
+          }
+          dateGmt
+          commentCount
+          categories {
+            nodes {
+              name
+              slug
+              parent {
+                id
+              }
+            }
+          }
+          tags {
+            nodes {
+              name
+              slug
+            }
+          }
+        }
+      }
+    }
+  }
+|}
+];
 
-let fetchItems = (~page, success, failure) =>
-  Fetch.fetch(
-    apiBaseUrl
-    ++ "wp-json/wp/v2/posts?_embed"
-    ++ "&per_page="
-    ++ string_of_int(per_page)
-    ++ "&page="
-    ++ string_of_int(page),
-  )
-  |> Js.Promise.then_(response =>
-       Fetch.Response.json(response)
-       |> Js.Promise.then_(json => {
-            let total =
-              switch (
-                Fetch.Response.headers(response)
-                |> Fetch.Headers.get("X-WP-Total")
-              ) {
-              | None => 0
-              | Some(nb) => int_of_string(nb)
-              };
-            let items = json |> Structures.decodePosts;
-            success({total, items}) |> Js.Promise.resolve;
-          })
-     )
-  |> Js.Promise.catch(err => err |> failure |> Js.Promise.resolve);
-
-type initialPropsArgs = {
-  .
-  "params": {
-    .
-    "categories": string,
-    "tags": string,
-  },
-};
-
-let getInitialProps = args =>
-  Js.Promise.make((~resolve, ~reject) =>
-    fetchItems(
-      ~page=
-        switch (Js.Nullable.toOption(args##params##page)) {
-        | None => 1
-        | Some(i) => int_of_string(i)
-        },
-      res => resolve(. {"total": res.total, "items": res.items}),
-      err => reject(. Js.Exn.raiseError("Oops!")),
-    )
-    |> ignore
-  );
+module GetItemsQuery = ReasonApollo.CreateQuery(GetItems);
 
 let component = ReasonReact.statelessComponent("RoutePosts");
 
-let make = (~status, ~page, ~total, ~items, ~error, _) => {
+let make = (~status, _) => {
   ...component,
   render: _ =>
     <WebsiteWrapper>
       {
         switch (status) {
         | Loading => <LoadingIndicator />
-        | Error =>
-          switch (error) {
-          | None => nothing
-          | Some(error) => <Text> {error |> text} </Text>
-          }
+        | Error(error) => <Error label=error />
         | Ready =>
-          switch (items) {
-          | [] => nothing
-          | _ =>
-            <>
-              <PostList posts=items />
-              <View
-                style=Style.(
-                  style([flexDirection(Row), justifyContent(SpaceAround)])
-                )>
-                {
-                  page > 1 ?
-                    <BannerButton
-                      href={
-                        page == 2 ? "/" : "/page/" ++ string_of_int(page - 1)
-                      }>
-                      {"Articles plus récents" |> text}
-                    </BannerButton> :
-                    nothing
-                }
-                {
-                  total > page * per_page ?
-                    <BannerButton href={"/page/" ++ string_of_int(page + 1)}>
-                      {"Encore plus d'articles" |> text}
-                    </BannerButton> :
-                    nothing
-                }
-              </View>
-            </>
-          }
+          <GetItemsQuery>
+            ...(
+                 ({result}) =>
+                   switch (result) {
+                   | Loading => <LoadingIndicator />
+                   | Error(error) => <Error label={Some(error##message)} />
+                   | Data(response) =>
+                     switch ([%get_in response##posts#??edges]) {
+                     | None => <Error label={Some({j|Aucun résultat|j})} />
+                     | Some(items) => <PostList items />
+                     }
+                   }
+               )
+          </GetItemsQuery>
         }
       }
     </WebsiteWrapper>,
@@ -123,27 +93,13 @@ let composedComponent =
         | "loading" => Loading
         | "ready" => Ready
         | "error"
-        | _ => Error
+        | _ => Error(Js.Nullable.toOption(jsProps##error))
         },
-      ~page=
-        switch (Js.Nullable.toOption(jsProps##params##page)) {
-        | None => 1
-        | Some(i) => int_of_string(i)
-        },
-      ~total=
-        switch (Js.Nullable.toOption(jsProps##total)) {
-        | None => 0
-        | Some(i) => i
-        },
-      ~items=
-        switch (Js.Nullable.toOption(jsProps##items)) {
-        | None => []
-        | Some(i) => i
-        },
-      ~error=Js.Nullable.toOption(jsProps##error),
       [||],
     )
   );
-let inject = [%bs.raw {| (cls, fn) => cls.getInitialProps = fn |}];
-inject(composedComponent, getInitialProps);
-let default = withInitialProps(composedComponent);
+
+/* let inject = [%bs.raw {| (cls, fn) => cls.getInitialProps = fn |}];
+   inject(composedComponent, getInitialProps); */
+
+let default = withInitialProps(WithApolloClient.make(composedComponent));

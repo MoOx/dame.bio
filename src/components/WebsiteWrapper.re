@@ -7,6 +7,6 @@ let make = children => {
       <CommonThings />
       <Header />
       <Container> <MainContent> ...children </MainContent> </Container>
-      <Footer />
+      /* <Footer /> */
     </>,
 };

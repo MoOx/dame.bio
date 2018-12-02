@@ -52,14 +52,20 @@ buck-out/
 */fastlane/Preview.html
 */fastlane/screenshots
 
-# custom
+### custom
+
+## compilation
 dist
 lib
+tmp
+# ocaml/reason
 .merlin
 .bsb.lock
+#graplql
+.graphql_ppx_cache
+graphql_schema.json
+# svg as components via svgr
 assets/SVGs/components
-tmp
-
-# no native versionned yet
+# native code not versionned yet
 android
 ios

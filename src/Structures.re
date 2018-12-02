@@ -81,8 +81,11 @@ let decodeTerms = json: terms => {
   switch (termsArray) {
   | Some(termsArray) => {
       categories:
-        Json.Decode.(termsArray[0] |> array(decodeTerm)) |> Belt.List.fromArray,
-      tags: Json.Decode.(termsArray[1] |> array(decodeTerm)) |> Belt.List.fromArray,
+        Json.Decode.(termsArray[0] |> array(decodeTerm))
+        |> Belt.List.fromArray,
+      tags:
+        Json.Decode.(termsArray[1] |> array(decodeTerm))
+        |> Belt.List.fromArray,
     }
   | None => {categories: [], tags: []}
   };
@@ -117,7 +120,9 @@ let decodeComments = json: list(comment) =>
   Json.Decode.(json |> array(decodeComment)) |> Belt.List.fromArray;
 
 let decodePartialComments = json: list(comment) =>
-  Json.Decode.(Belt.Array.getUnsafe(Obj.magic(json), 0) |> array(decodeComment))
+  Json.Decode.(
+    Belt.Array.getUnsafe(Obj.magic(json), 0) |> array(decodeComment)
+  )
   |> Belt.List.fromArray;
 
 type comments = list(comment);
@@ -160,22 +165,39 @@ let decodeRelatedPosts = json: list(post) =>
     json |> field("rendered", string) |> Json.parseOrRaise |> decodePosts
   );
 
-let findRootCategory = (item: post): term =>
-  switch (
-    Belt.List.getBy(item.terms.categories, (term: term) =>
-      !term.hasParent
-    )
-  ) {
-  | Some(term) => term
-  | None =>
-    switch (Belt.List.head(item.terms.categories)) {
-    | Some(term) => term
-    | None => {
-        id: 0,
-        slug: "non-classe",
-        name: "",
-        taxonomy: "",
-        hasParent: false,
+let noCategory = {
+  "name": Some(""),
+  "slug": Some("non-classe"),
+  "parent": Some({"id": Some(0)}),
+};
+
+let findRootCategory = item =>
+  switch (item##categories) {
+  | None => noCategory
+  | Some(categories) =>
+    switch (
+      categories
+      ->Belt.List.fromArray
+      ->Belt.List.getBy(cat =>
+          switch ([%get_in cat#??node#?parent]) {
+          | None => true
+          | Some(_) => false
+          }
+        )
+    ) {
+    | Some(cat) =>
+      switch ([%get_in cat#??node]) {
+      | Some(c) => c
+      | None => noCategory
+      }
+    | None =>
+      switch (categories->Belt.List.fromArray->Belt.List.head) {
+      | Some(cat) =>
+        switch ([%get_in cat#??node]) {
+        | Some(c) => c
+        | None => noCategory
+        }
+      | None => noCategory
       }
     }
   };
