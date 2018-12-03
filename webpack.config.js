@@ -7,6 +7,13 @@ module.exports = (config: PhenomicConfig) => {
   return Object.assign({}, webpackConfig, {
     module: {
       rules: [
+        // https://github.com/apollographql/apollo-link-state/issues/302
+        // https://github.com/graphql/graphql-js/issues/1272#issuecomment-393903706
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: "javascript/auto"
+        },
         // react-native-web
         {
           test: /\.js$/,
