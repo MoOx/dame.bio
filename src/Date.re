@@ -6,7 +6,7 @@ external createRelativeFormat: string => relativeFormat =
 
 /* https://github.com/yahoo/intl-relativeformat/issues/34 */
 %raw
-{|window.IntlRelativeFormat = IntlRelativeformat|};
+{|(typeof window !== "undefined" ? window : global).IntlRelativeFormat = IntlRelativeformat|};
 
 %raw
 {|require('intl-relativeformat/dist/locale-data/fr.js')|};

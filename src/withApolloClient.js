@@ -5,11 +5,11 @@ import { ApolloProvider, getDataFromTree } from "react-apollo";
 
 let isBrowser = typeof window !== "undefined";
 
-export default ComposedComponent => {
+export default (ComposedComponent, getAllPossibleUrls) => {
   return class Apollo extends React.Component {
     static displayName = "withApolloClient(?)";
     static async getInitialProps(initialPropsArgs) {
-      let appProps = {};
+      let appProps = initialPropsArgs;
       if (ComposedComponent.getInitialProps) {
         appProps = await ComposedComponent.getInitialProps(initialPropsArgs);
       }
@@ -32,7 +32,7 @@ export default ComposedComponent => {
 
         // getDataFromTree does not call componentWillUnmount
         // head side effect therefore need to be cleared manually
-        Head.rewind();
+        Helmet.rewind();
       }
 
       // Extract query data from the Apollo store
@@ -42,6 +42,19 @@ export default ComposedComponent => {
         ...appProps,
         apolloState
       };
+    }
+
+    static async getAllPossibleUrls(...args) {
+      if (ComposedComponent.getAllPossibleUrls) {
+        return await ComposedComponent.getAllPossibleUrls(...args);
+      }
+      if (getAllPossibleUrls) {
+        return await getAllPossibleUrls(...args);
+      }
+      console.warn(
+        "No getAllPossibleUrls() defined from " + ComposedComponent.displayName
+      );
+      return [];
     }
 
     constructor(props) {

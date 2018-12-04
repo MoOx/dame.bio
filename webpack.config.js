@@ -1,8 +1,11 @@
 import path from "path";
 
 import defaultWebpackConfig from "@phenomic/plugin-bundler-webpack/lib/webpack.config.js";
+/*
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+*/
 
-module.exports = (config: PhenomicConfig) => {
+module.exports = (config /*: PhenomicConfig*/) => {
   const webpackConfig = defaultWebpackConfig(config);
   return Object.assign({}, webpackConfig, {
     module: {
@@ -13,22 +16,20 @@ module.exports = (config: PhenomicConfig) => {
           test: /\.mjs$/,
           include: /node_modules/,
           type: "javascript/auto"
-        },
-        // react-native-web
-        {
-          test: /\.js$/,
-          include: [
-            path.resolve("lib"),
-            path.resolve("src"),
-            path.resolve("node_modules", "bs-react-native")
-          ],
-          loader: require.resolve("babel-loader"),
-          options: {
-            babelrc: false,
-            plugins: [require.resolve("babel-plugin-react-native-web")]
-          }
         }
       ].concat(webpackConfig.module.rules)
-    }
+    },
+    resolve: Object.assign({}, webpackConfig.resolve, {
+      alias: {
+        "react-native$": "react-native-web"
+      }
+    })
+    /*
+    plugins: [
+      new BundleAnalyzerPlugin({
+        analyzerMode: "static"
+      })
+    ].concat(webpackConfig.plugins)
+    */
   });
 };

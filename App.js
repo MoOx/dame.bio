@@ -6,6 +6,14 @@ import { createContainer } from "@phenomic/preset-react-app/lib/es6/src/phenomic
 import RoutePosts from "./lib/es6/src/components/RoutePosts";
 import RoutePost from "./lib/es6/src/components/RoutePost";
 
+RoutePosts.getAllPossibleUrls = () => {
+  return ["/"];
+};
+
+RoutePost.getAllPossibleUrls = () => {
+  return [];
+};
+
 export default createApp(() => (
   <Router history={browserHistory}>
     <Route path="/" component={RoutePosts} />
@@ -20,6 +28,8 @@ if (module.hot) {
 
 // it's that easy to have for initial loading ?
 // will have to double check in prod (static)
-require("@phenomic/plugin-renderer-react/lib/components/Link.hash.js").default(
-  window.location.hash
-);
+if (typeof window !== "undefined") {
+  require("@phenomic/plugin-renderer-react/lib/components/Link.hash.js").default(
+    window.location.hash
+  );
+}

@@ -58,6 +58,10 @@ module GetItems = [%graphql
 |}
 ];
 
+/* let getAllPossibleUrls = (args) => {
+     Js.log2("args", args);
+   } */
+
 module GetItemsQuery = ReasonApollo.CreateQuery(GetItems);
 
 let component = ReasonReact.statelessComponent("RoutePosts");
@@ -154,7 +158,9 @@ let composedComponent =
     )
   );
 
+/* let getInitialProps = (...args) => args; */
 /* let inject = [%bs.raw {| (cls, fn) => cls.getInitialProps = fn |}];
    inject(composedComponent, getInitialProps); */
 
+/* let default = withInitialProps(WithApolloClient.make(composedComponent), getAllPossibleUrls); */
 let default = withInitialProps(WithApolloClient.make(composedComponent));
