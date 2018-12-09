@@ -18,10 +18,15 @@ export default (ComposedComponent, getAllPossibleUrls) => {
       // and extract the resulting data
       const apollo = initApollo();
       if (!isBrowser) {
+        console.log(
+          "SSR/Apollo: retrieving data for " + initialPropsArgs.pathname + "..."
+        );
         try {
           // Run all GraphQL queries
           await getDataFromTree(
-            <ComposedComponent {...appProps} apolloClient={apollo} />
+            <ApolloProvider client={apollo}>
+              <ComposedComponent status="ready" {...appProps} />
+            </ApolloProvider>
           );
         } catch (error) {
           // Prevent Apollo Client GraphQL errors from crashing SSR.
@@ -37,7 +42,6 @@ export default (ComposedComponent, getAllPossibleUrls) => {
 
       // Extract query data from the Apollo store
       const apolloState = apollo.cache.extract();
-
       return {
         ...appProps,
         apolloState
@@ -66,6 +70,16 @@ export default (ComposedComponent, getAllPossibleUrls) => {
       return (
         <ApolloProvider client={this.apolloClient}>
           <ComposedComponent {...this.props} />
+          {!isBrowser &&
+            this.props.apolloState && (
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `window.__APOLLO_STATE__=${JSON.stringify(
+                    this.props.apolloState
+                  ).replace(/</g, "\\u003c")};`
+                }}
+              />
+            )}
         </ApolloProvider>
       );
     }

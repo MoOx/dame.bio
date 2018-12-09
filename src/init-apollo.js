@@ -1,13 +1,7 @@
 import { ApolloClient, InMemoryCache, HttpLink } from "apollo-boost";
-// import fetch from 'isomorphic-fetch'
 
 let apolloClient = null;
 let isBrowser = typeof window !== "undefined";
-
-// // Polyfill fetch() on the server (used by apollo-client)
-// if (!isBrowser) {
-//   global.fetch = fetch
-// }
 
 function create(initialState) {
   return new ApolloClient({
@@ -17,11 +11,17 @@ function create(initialState) {
       uri: "https://dame.bio/graphql",
       credentials: "same-origin"
     }),
-    cache: new InMemoryCache().restore(initialState || {})
+    cache: new InMemoryCache().restore(
+      initialState || (isBrowser ? window.__APOLLO_STATE__ : undefined) || {}
+    )
   });
 }
 
 export default function initApollo(initialState) {
+  if (!isBrowser) {
+    return create(initialState);
+  }
+
   if (!apolloClient) {
     apolloClient = create(initialState);
   }
