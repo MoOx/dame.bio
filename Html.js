@@ -1,7 +1,9 @@
+// @flow
+
 import * as React from "react";
 import Head from "react-helmet";
 
-export default ({ App, render }: PhenomicHtmlPropsType) => {
+export default ({ App, render } /*: PhenomicHtmlPropsType*/) => {
   const isDev = process.env.PHENOMIC_ENV === "development";
   const { Main, State, Script, Style } = render(<App />);
   const helmet = Head.renderStatic();

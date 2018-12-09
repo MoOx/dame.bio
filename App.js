@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Router, Route, browserHistory } from "react-router";
 import { createApp } from "@phenomic/preset-react-app/lib/client";
-import { createContainer } from "@phenomic/preset-react-app/lib/es6/src/phenomicPresetReactApp.js";
+import { createContainer } from "@phenomic/preset-react-app/lib/es6/src/phenomicPresetReactApp.bs.js";
 
-import RoutePosts from "./lib/es6/src/components/RoutePosts";
-import RoutePost from "./lib/es6/src/components/RoutePost";
+import RoutePosts from "./lib/es6/src/components/RoutePosts.bs.js";
+import RoutePost from "./lib/es6/src/components/RoutePost.bs.js";
 
 RoutePosts.getAllPossibleUrls = () => {
   return ["/"];

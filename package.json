@@ -5,9 +5,9 @@
   "devDependencies": {
     "@glennsl/bs-json": "^3.0.0",
     "@moox/bs-react-helmet": "^1.0.0",
-    "@phenomic/cli": "^1.0.0-beta.5",
-    "@phenomic/core": "^1.0.0-beta.5",
-    "@phenomic/preset-react-app": "^1.0.0-beta.5",
+    "@phenomic/cli": "^1.0.0-beta.7",
+    "@phenomic/core": "^1.0.0-beta.7",
+    "@phenomic/preset-react-app": "^1.0.0-beta.7",
     "@svgr/cli": "^3.1.0",
     "apollo-boost": "^0.1.22",
     "babel-jest": "^21.2.0",
