@@ -107,7 +107,8 @@ let make = (~status, ~after, _) => {
                                  pageInfo
                                  ->Belt.Option.flatMap(p => p##startCursor)
                                  ->Belt.Option.map(cursor =>
-                                     <BannerButton href={"/after/" ++ cursor}>
+                                     <BannerButton
+                                       href={"/after/" ++ cursor ++ "/"}>
                                        {{j|Articles plus récents|j} |> text}
                                      </BannerButton>
                                    )
@@ -121,7 +122,8 @@ let make = (~status, ~after, _) => {
                                  pageInfo
                                  ->Belt.Option.flatMap(p => p##endCursor)
                                  ->Belt.Option.map(cursor =>
-                                     <BannerButton href={"/after/" ++ cursor}>
+                                     <BannerButton
+                                       href={"/after/" ++ cursor ++ "/"}>
                                        {{j|Encore plus d'articles|j} |> text}
                                      </BannerButton>
                                    )
