@@ -67,6 +67,8 @@ let make = (~name, ~url, _) => {
         style=styles##avatarImage
         resizeMode=`contain
         source={`URI(Image.(imageURISource(~uri=url, ())))}
+        /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
+        defaultSource={`URI(Image.(defaultURISource(~uri=url, ())))}
       />
     </View>,
 };

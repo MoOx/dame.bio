@@ -44,6 +44,9 @@ let styles =
     },
   );
 
+let uriBg = "/images/avatar-background.png";
+let uri = "/images/avatar.jpg";
+
 let make = _ => {
   ...component,
   render: _self =>
@@ -52,23 +55,14 @@ let make = _ => {
         <ImageBackground
           resizeMode=`contain
           style=styles##avatarDeco
-          source={
-                   `URI(
-                     Image.(
-                       imageURISource(
-                         ~uri="/images/avatar-background.png",
-                         (),
-                       )
-                     ),
-                   )
-                 }>
+          source={`URI(Image.(imageURISource(~uri=uriBg, ())))}
+          /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
+          defaultSource={`URI(Image.(defaultURISource(~uri=uriBg, ())))}>
           <Image
             style=styles##avatarImage
-            source={
-                     `URI(
-                       Image.(imageURISource(~uri="/images/avatar.jpg", ())),
-                     )
-                   }
+            source={`URI(Image.(imageURISource(~uri, ())))}
+            /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
+            defaultSource={`URI(Image.(defaultURISource(~uri, ())))}
           />
         </ImageBackground>
       </View>
@@ -87,22 +81,17 @@ let make = _ => {
           iconStyle=styles##icon
           iconSize=24.
           iconWrapperFunc={
-            (~children) =>
+            (~children) => {
+              let uri = "/images/pink/circle-bg-lg.png";
               <ImageBackground
                 resizeMode=`contain
                 style=styles##iconBackground
-                source={
-                         `URI(
-                           Image.(
-                             imageURISource(
-                               ~uri="/images/pink/circle-bg-lg.png",
-                               (),
-                             )
-                           ),
-                         )
-                       }>
+                source={`URI(Image.(imageURISource(~uri, ())))}
+                /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
+                defaultSource={`URI(Image.(defaultURISource(~uri, ())))}>
                 <Text style=styles##iconWrapper> ...children </Text>
-              </ImageBackground>
+              </ImageBackground>;
+            }
           }
         />
       </View>

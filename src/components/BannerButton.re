@@ -20,6 +20,7 @@ let styles =
     },
   );
 
+let uri = "/images/banner-button.png";
 let make = (~href, children) => {
   ...component,
   render: _self =>
@@ -27,18 +28,9 @@ let make = (~href, children) => {
       <ImageBackground
         style=styles##image
         resizeMode=`contain
-        source={
-                 `URI(
-                   Image.(
-                     imageURISource(
-                       ~uri="/images/banner-button.png",
-                       /* ~width=748. /. 2.,
-                          ~height=115. /. 2., */
-                       (),
-                     )
-                   ),
-                 )
-               }>
+        source={`URI(Image.(imageURISource(~uri, ())))}
+        /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
+        defaultSource={`URI(Image.(defaultURISource(~uri, ())))}>
         <Text style=styles##children> ...children </Text>
       </ImageBackground>
     </TextLink>,

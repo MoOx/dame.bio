@@ -14,6 +14,10 @@ let styles =
 
 let component = ReasonReact.statelessComponent("Footer");
 
+let uri = "/images/pink/footer-flowers.png";
+let width: Style.pt_only = Style.Pt(1800. *. 0.75);
+let height: Style.pt_only = Style.Pt(324. *. 0.75);
+
 let make = _children => {
   ...component,
   render: _self =>
@@ -24,18 +28,12 @@ let make = _children => {
       <Spacer size=XL />
       <Image
         style=styles##image
-        source={
-                 `URI(
-                   Image.(
-                     imageURISource(
-                       ~uri="/images/pink/footer-flowers.png",
-                       ~width=Pt(1800. *. 0.75),
-                       ~height=Pt(324. *. 0.75),
-                       (),
-                     )
-                   ),
-                 )
-               }
+        source={`URI(Image.(imageURISource(~uri, ~width, ~height, ())))}
+        defaultSource={
+                        `URI(
+                          Image.(defaultURISource(~uri, ~width, ~height, ())),
+                        )
+                      }
       />
     </View>,
 };
