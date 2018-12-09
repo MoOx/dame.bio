@@ -2,10 +2,12 @@
 
 import * as React from "react";
 import Head from "react-helmet";
+import { AppRegistry } from "react-native-web";
 
-export default ({ App, render } /*: PhenomicHtmlPropsType*/) => {
-  const isDev = process.env.PHENOMIC_ENV === "development";
-  const { Main, State, Script, Style } = render(<App />);
+const Html = ({ App, render } /*: PhenomicHtmlPropsType*/) => {
+  AppRegistry.registerComponent("App", () => App);
+  const app = AppRegistry.getApplication("App");
+  const { Main, State, Script, Style } = render(app.element);
   const helmet = Head.renderStatic();
   return (
     <html {...helmet.htmlAttributes.toComponent()}>
@@ -13,6 +15,7 @@ export default ({ App, render } /*: PhenomicHtmlPropsType*/) => {
         {helmet.meta.toComponent()}
         {helmet.title.toComponent()}
         {helmet.base.toComponent()}
+        {app.getStyleElement()}
         <Style />
         {helmet.link.toComponent()}
         {helmet.style.toComponent()}
@@ -27,3 +30,5 @@ export default ({ App, render } /*: PhenomicHtmlPropsType*/) => {
     </html>
   );
 };
+
+export default Html;
