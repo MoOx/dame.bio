@@ -6,6 +6,7 @@ let styles =
       "container":
         style([
           justifyContent(Center),
+          backgroundColor(String("#fefefe")),
         ]),
       "image": style([alignSelf(Center)]),
     },

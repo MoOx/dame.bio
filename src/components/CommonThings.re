@@ -12,7 +12,7 @@ let make = _ => {
           {j|
 html {
   height: 100%;
-  background: #fefefe;
+  background: #006579;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
 }
 body {

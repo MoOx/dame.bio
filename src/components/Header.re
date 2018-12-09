@@ -9,7 +9,8 @@ let styles =
         style([
           justifyContent(Center),
           alignItems(Center),
-          marginBottom(Pt(60.)),
+          paddingBottom(Pt(60.)),
+          backgroundColor(String("#fefefe")),
         ]),
     },
   );

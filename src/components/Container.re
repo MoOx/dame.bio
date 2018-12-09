@@ -5,7 +5,13 @@ let component = ReasonReact.statelessComponent("Container");
 let styles =
   StyleSheet.create(
     Style.{
-      "wrapper": style([flex(1.), width(Pct(100.)), alignItems(Center)]),
+      "wrapper":
+        style([
+          flex(1.),
+          width(Pct(100.)),
+          alignItems(Center),
+          backgroundColor(String("#fefefe")),
+        ]),
       "container":
         style([
           flexDirection(Row),
