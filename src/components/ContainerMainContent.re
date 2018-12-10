@@ -6,7 +6,7 @@ let styles =
   StyleSheet.create(
     Style.{
       "container":
-        style([flex(1.), alignSelf(Center), flexBasis(Pt(800.))]),
+        style([flexShrink(1.), alignSelf(Center), flexBasis(Pt(800.))]),
     },
   );
 
