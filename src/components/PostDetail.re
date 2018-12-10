@@ -10,6 +10,7 @@ let styles =
       "block":
         style([
           flex(1.),
+          padding(Pt(20.)),
           borderColor(String("#F0F0EF")),
           backgroundColor(String("#fff")),
         ]),
