@@ -41,7 +41,8 @@ let animateFormMeta =
 let styles =
   StyleSheet.create(
     Style.{
-      "row": style([flexDirection(Row)]),
+      "container": style([flex(1.)]),
+      "row": style([flex(1.), flexDirection(Row), flexWrap(Wrap)]),
       "avatar":
         style([
           /* compensate TextInput borderWidth */
@@ -394,7 +395,7 @@ let make = (~postId, ~parentCommentId, _children) => {
       }
       <View style=styles##row>
         {parentCommentId > 0 ? <Spacer size=XL /> : nothing}
-        <View>
+        <View style=styles##container>
           {
             let errors =
               switch (state.comment) {
