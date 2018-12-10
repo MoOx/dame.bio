@@ -1,5 +1,4 @@
 open BsReactNative;
-open Helpers;
 
 let component = ReasonReact.statelessComponent("Sidebar");
 
@@ -14,8 +13,8 @@ let styles =
           marginVertical(Pt(20.)),
           width(Pt(4.)),
         ]),
-      "blocks": style([flex(1.)]),
-      "block": style([]),
+      "blocks": style([flex(1.), alignItems(Center)]),
+      "block": style([paddingRight(Pt(20.))]),
       "blockTitle":
         style([
           fontSize(Float(24.)),
@@ -37,7 +36,9 @@ let make = children => {
       <View style=styles##bar />
       <Spacer size=L />
       <View style=styles##blocks>
+        <Spacer size=M />
         <AuthorAvatar />
+        <Spacer size=M />
         <View style=styles##block>
           <Text style=styles##blockTitle>
             {ReasonReact.string({j|Bienvenue|j})}
