@@ -7,6 +7,8 @@ let styles =
         style([
           justifyContent(Center),
           backgroundColor(String("#fefefe")),
+          /* For the image on small screen */
+          overflow(Hidden),
         ]),
       "image": style([alignSelf(Center)]),
     },
