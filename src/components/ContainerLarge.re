@@ -1,6 +1,6 @@
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("Container");
+let component = ReasonReact.statelessComponent("ContainerLarge");
 
 let styles =
   StyleSheet.create(
@@ -16,7 +16,7 @@ let styles =
         style([
           flexDirection(Row),
           flexWrap(Wrap),
-          justifyContent(Center),
+          justifyContent(SpaceBetween),
           flex(1.),
           width(Pct(100.)),
           maxWidth(Pt(1200.)),

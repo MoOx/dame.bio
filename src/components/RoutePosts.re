@@ -71,76 +71,79 @@ let make = (~status, ~after, _) => {
   render: _ => {
     let itemsQuery = GetItems.make(~cursor=after, ());
     <WebsiteWrapper>
-      {
-        switch (status) {
-        | Loading => <LoadingIndicator />
-        | Error(error) => <Error label=error />
-        | Ready =>
-          <GetItemsQuery variables=itemsQuery##variables>
-            ...(
-                 ({result}) =>
-                   switch (result) {
-                   | Loading => <LoadingIndicator />
-                   | Error(error) => <Error label={Some(error##message)} />
-                   | Data(response) =>
-                     response##posts
-                     ->Belt.Option.flatMap(p => p##edges)
-                     ->Belt.Option.map(items => {
-                         let pageInfo =
-                           response##posts
-                           ->Belt.Option.flatMap(p => p##pageInfo);
-                         <>
-                           <PostListFromGraphQLQuery items />
-                           <View
-                             style=Style.(
-                               style([
-                                 flexDirection(Row),
-                                 justifyContent(SpaceAround),
-                               ])
-                             )>
-                             {
-                               /* not working yet
-                                  https://github.com/wp-graphql/wp-graphql/issues/594 */
-                               pageInfo
-                               ->Belt.Option.map(p => p##hasPreviousPage)
-                               ->Belt.Option.getWithDefault(false) ?
+      <ContainerMainContentLarge>
+        {
+          switch (status) {
+          | Loading => <LoadingIndicator />
+          | Error(error) => <Error label=error />
+          | Ready =>
+            <GetItemsQuery variables=itemsQuery##variables>
+              ...(
+                   ({result}) =>
+                     switch (result) {
+                     | Loading => <LoadingIndicator />
+                     | Error(error) => <Error label={Some(error##message)} />
+                     | Data(response) =>
+                       response##posts
+                       ->Belt.Option.flatMap(p => p##edges)
+                       ->Belt.Option.map(items => {
+                           let pageInfo =
+                             response##posts
+                             ->Belt.Option.flatMap(p => p##pageInfo);
+                           <>
+                             <PostListFromGraphQLQuery items />
+                             <View
+                               style=Style.(
+                                 style([
+                                   flexDirection(Row),
+                                   justifyContent(SpaceAround),
+                                 ])
+                               )>
+                               {
+                                 /* not working yet
+                                    https://github.com/wp-graphql/wp-graphql/issues/594 */
                                  pageInfo
-                                 ->Belt.Option.flatMap(p => p##startCursor)
-                                 ->Belt.Option.map(cursor =>
-                                     <BannerButton
-                                       href={"/after/" ++ cursor ++ "/"}>
-                                       {{j|Articles plus récents|j} |> text}
-                                     </BannerButton>
-                                   )
-                                 ->Belt.Option.getWithDefault(nothing) :
-                                 nothing
-                             }
-                             {
-                               pageInfo
-                               ->Belt.Option.map(p => p##hasNextPage)
-                               ->Belt.Option.getWithDefault(false) ?
+                                 ->Belt.Option.map(p => p##hasPreviousPage)
+                                 ->Belt.Option.getWithDefault(false) ?
+                                   pageInfo
+                                   ->Belt.Option.flatMap(p => p##startCursor)
+                                   ->Belt.Option.map(cursor =>
+                                       <BannerButton
+                                         href={"/after/" ++ cursor ++ "/"}>
+                                         {{j|Articles plus récents|j} |> text}
+                                       </BannerButton>
+                                     )
+                                   ->Belt.Option.getWithDefault(nothing) :
+                                   nothing
+                               }
+                               {
                                  pageInfo
-                                 ->Belt.Option.flatMap(p => p##endCursor)
-                                 ->Belt.Option.map(cursor =>
-                                     <BannerButton
-                                       href={"/after/" ++ cursor ++ "/"}>
-                                       {{j|Encore plus d'articles|j} |> text}
-                                     </BannerButton>
-                                   )
-                                 ->Belt.Option.getWithDefault(nothing) :
-                                 nothing
-                             }
-                           </View>
-                         </>;
-                       })
-                     ->Belt.Option.getWithDefault(
-                         <Error label={Some({j|Aucun résultat|j})} />,
-                       )
-                   }
-               )
-          </GetItemsQuery>
+                                 ->Belt.Option.map(p => p##hasNextPage)
+                                 ->Belt.Option.getWithDefault(false) ?
+                                   pageInfo
+                                   ->Belt.Option.flatMap(p => p##endCursor)
+                                   ->Belt.Option.map(cursor =>
+                                       <BannerButton
+                                         href={"/after/" ++ cursor ++ "/"}>
+                                         {{j|Encore plus d'articles|j} |> text}
+                                       </BannerButton>
+                                     )
+                                   ->Belt.Option.getWithDefault(nothing) :
+                                   nothing
+                               }
+                             </View>
+                           </>;
+                         })
+                       ->Belt.Option.getWithDefault(
+                           <Error label={Some({j|Aucun résultat|j})} />,
+                         )
+                     }
+                 )
+            </GetItemsQuery>
+          }
         }
-      }
+      </ContainerMainContentLarge>
+      <Sidebar />
     </WebsiteWrapper>;
   },
 };

@@ -6,39 +6,44 @@ let component = ReasonReact.statelessComponent("Sidebar");
 let styles =
   StyleSheet.create(
     Style.{
-      "container": style([flexDirection(Row), alignItems(Center)]),
-      "block": style([flex(1.)]),
+      "sidebar":
+        style([flex(1.), flexDirection(Row), flexBasis(Pt(350.))]),
+      "bar":
+        style([
+          backgroundColor(String("#F2DBDD")),
+          marginVertical(Pt(20.)),
+          width(Pt(4.)),
+        ]),
+      "blocks": style([flex(1.)]),
+      "block": style([]),
       "blockTitle":
         style([
           fontSize(Float(24.)),
           marginBottom(Pt(12.)),
           color(String("#DE6D88")),
         ]),
-      "blockText":
-        style([
-          fontSize(Float(16.)),
-          lineHeight(29.),
-          marginBottom(Pt(12.)),
-        ]),
-      "icons": style([flexDirection(Row), justifyContent(FlexEnd)]),
+      "icons": style([flexDirection(Row), justifyContent(Center)]),
       "icon": style([padding(Pt(4.))]),
       "iconWrapper": style([zIndex(1), lineHeight(24.), padding(Pt(6.))]),
       "iconBackground": style([paddingTop(Pt(4.)), paddingRight(Pt(4.))]),
     },
   );
 
-let uriBg = "/images/avatar-background.png";
-let uri = "/images/avatar.jpg";
-
-let make = _ => {
+let make = children => {
   ...component,
   render: _self =>
-    <View style=styles##container>
-      <AuthorAvatar />
-      <Spacer />
-      <View style=styles##block>
-        <Text style=styles##blockTitle> {{j|Liloue|j} |> text} </Text>
-        <Text style=styles##blockText> <Bio /> </Text>
+    <View style=styles##sidebar>
+      <Spacer size=M />
+      <View style=styles##bar />
+      <Spacer size=L />
+      <View style=styles##blocks>
+        <AuthorAvatar />
+        <View style=styles##block>
+          <Text style=styles##blockTitle>
+            {ReasonReact.string({j|Bienvenue|j})}
+          </Text>
+          <Bio />
+        </View>
         <Spacer />
         <SocialIcons
           wrapperStyle=styles##icons
@@ -58,6 +63,7 @@ let make = _ => {
             }
           }
         />
+        <View> ...children </View>
       </View>
     </View>,
 };

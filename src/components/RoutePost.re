@@ -77,19 +77,21 @@ let make = (~splat, _children) => {
     },
   render: ({state}) =>
     <WebsiteWrapper>
-      {state.fetching ? <LoadingIndicator /> : nothing}
-      {
-        switch (state.error) {
-        | None => nothing
-        | Some(error) => <Text> {error |> text} </Text>
+      <ContainerMainContent>
+        {state.fetching ? <LoadingIndicator /> : nothing}
+        {
+          switch (state.error) {
+          | None => nothing
+          | Some(error) => <Text> {error |> text} </Text>
+          }
         }
-      }
-      {
-        switch (state.post) {
-        | None => nothing
-        | Some(item) => <PostDetail key={item.slug} item />
+        {
+          switch (state.post) {
+          | None => nothing
+          | Some(item) => <PostDetail key={item.slug} item />
+          }
         }
-      }
+      </ContainerMainContent>
     </WebsiteWrapper>,
 };
 
