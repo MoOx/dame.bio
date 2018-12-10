@@ -4,7 +4,10 @@ let component = ReasonReact.statelessComponent("ContainerMainContent");
 
 let styles =
   StyleSheet.create(
-    Style.{"container": style([alignSelf(Center), maxWidth(Pt(800.))])},
+    Style.{
+      "container":
+        style([flex(1.), alignSelf(Center), flexBasis(Pt(800.))]),
+    },
   );
 
 let make = children => {
