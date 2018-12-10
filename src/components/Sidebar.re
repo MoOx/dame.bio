@@ -64,6 +64,9 @@ let make = children => {
             }
           }
         />
+        <Spacer size=L />
+        <DonationInvite />
+        <Spacer size=L />
         <View> ...children </View>
       </View>
     </View>,
