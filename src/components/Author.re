@@ -6,8 +6,9 @@ let component = ReasonReact.statelessComponent("Sidebar");
 let styles =
   StyleSheet.create(
     Style.{
-      "container": style([flexDirection(Row), alignItems(Center)]),
-      "block": style([flex(1.)]),
+      "container":
+        style([flexDirection(Row), flexWrap(Wrap), alignItems(Center)]),
+      "block": style([flex(1.), flexBasis(Pt(300.))]),
       "blockTitle":
         style([
           fontSize(Float(24.)),
