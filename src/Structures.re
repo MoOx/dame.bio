@@ -81,8 +81,11 @@ let decodeTerms = json: terms => {
   switch (termsArray) {
   | Some(termsArray) => {
       categories:
-        Json.Decode.(termsArray[0] |> array(decodeTerm)) |> Belt.List.fromArray,
-      tags: Json.Decode.(termsArray[1] |> array(decodeTerm)) |> Belt.List.fromArray,
+        Json.Decode.(termsArray[0] |> array(decodeTerm))
+        |> Belt.List.fromArray,
+      tags:
+        Json.Decode.(termsArray[1] |> array(decodeTerm))
+        |> Belt.List.fromArray,
     }
   | None => {categories: [], tags: []}
   };
@@ -117,7 +120,9 @@ let decodeComments = json: list(comment) =>
   Json.Decode.(json |> array(decodeComment)) |> Belt.List.fromArray;
 
 let decodePartialComments = json: list(comment) =>
-  Json.Decode.(Belt.Array.getUnsafe(Obj.magic(json), 0) |> array(decodeComment))
+  Json.Decode.(
+    Belt.Array.getUnsafe(Obj.magic(json), 0) |> array(decodeComment)
+  )
   |> Belt.List.fromArray;
 
 type comments = list(comment);
@@ -148,7 +153,7 @@ let decodePost = json: post =>
       |> at(["_embedded", "wp:featuredmedia"], json =>
            json |> array(decodeMedia) |> Belt.List.fromArray
          ),
-    likes: json |> at(["meta", "db_like"], int),
+    likes: 0,
     terms: json |> at(["_embedded", "wp:term"], decodeTerms),
   };
 
@@ -162,9 +167,7 @@ let decodeRelatedPosts = json: list(post) =>
 
 let findRootCategory = (item: post): term =>
   switch (
-    Belt.List.getBy(item.terms.categories, (term: term) =>
-      !term.hasParent
-    )
+    Belt.List.getBy(item.terms.categories, (term: term) => !term.hasParent)
   ) {
   | Some(term) => term
   | None =>
