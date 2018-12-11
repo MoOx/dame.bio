@@ -6,7 +6,12 @@ let component = ReasonReact.statelessComponent("Sidebar");
 let styles =
   StyleSheet.create(
     Style.{
-      "bioText": style([fontWeight(`_300), color(String("#49443A"))]),
+      "bioText":
+        style([
+          fontWeight(`_300),
+          color(String("#49443A")),
+          maxWidth(Pt(500.)),
+        ]),
     },
   );
 
