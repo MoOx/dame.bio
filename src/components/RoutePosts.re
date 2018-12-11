@@ -28,6 +28,7 @@ module GetItems = [%graphql
           slug
           dateGmt
           commentCount
+          likeCount
           featuredImage {
             mediaDetails {
               sizes {
@@ -143,6 +144,7 @@ let make = (~status, ~after, _) => {
           }
         }
       </ContainerMainContentLarge>
+      /* <SidebarSeparator /> */
       <Sidebar />
     </WebsiteWrapper>;
   },

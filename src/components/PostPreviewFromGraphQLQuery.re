@@ -97,13 +97,13 @@ let make = (~item, _) => {
             }
           </TextLink>
           <Text style=styles##actions>
-            <TextLink style=styles##action href="#like">
-              <SVGFavorite fill="#ddd" width=12. height=12. />
-            </TextLink>
-            /* {
-                 (item##likes != 0 ? " " ++ (item##likes |> string_of_int) : "")
-                 |> text
-               } */
+            <ButtonLike id=item##id />
+            {
+              switch (item##likeCount->Belt.Option.getWithDefault(0)) {
+              | 0 => nothing
+              | v => (" " ++ v->string_of_int)->text
+              }
+            }
             <Text style=styles##action> {" | " |> text} </Text>
             <TextLink style=styles##action href={href ++ "#comments"}>
               <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
