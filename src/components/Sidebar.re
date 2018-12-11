@@ -6,15 +6,13 @@ let styles =
   StyleSheet.create(
     Style.{
       "sidebar":
-        style([flex(1.), flexDirection(Row), flexBasis(Pt(350.))]),
-      "bar":
         style([
-          backgroundColor(String("#F2DBDD")),
-          marginVertical(Pt(20.)),
-          width(Pt(4.)),
+          flex(1.),
+          flexBasis(Pt(350.)),
+          alignItems(Center),
+          paddingHorizontal(Pt(20.)),
         ]),
-      "blocks": style([flex(1.), alignItems(Center)]),
-      "block": style([paddingRight(Pt(20.))]),
+      "block": style([padding(Pt(20.))]),
       "blockTitle":
         style([
           fontSize(Float(24.)),
@@ -33,41 +31,36 @@ let make = children => {
   render: _self =>
     <View style=styles##sidebar>
       <Spacer size=M />
-      <View style=styles##bar />
-      <Spacer size=L />
-      <View style=styles##blocks>
-        <Spacer size=M />
-        <AuthorAvatar />
-        <Spacer size=M />
-        <View style=styles##block>
-          <Text style=styles##blockTitle>
-            {ReasonReact.string({j|Bienvenue|j})}
-          </Text>
-          <Bio />
-        </View>
-        <Spacer />
-        <SocialIcons
-          wrapperStyle=styles##icons
-          iconStyle=styles##icon
-          iconSize=24.
-          iconWrapperFunc={
-            (~children) => {
-              let uri = "/images/pink/circle-bg-lg.png";
-              <ImageBackground
-                resizeMode=`contain
-                style=styles##iconBackground
-                source={`URI(Image.(imageURISource(~uri, ())))}
-                /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
-                defaultSource={`URI(Image.(defaultURISource(~uri, ())))}>
-                <Text style=styles##iconWrapper> ...children </Text>
-              </ImageBackground>;
-            }
-          }
-        />
-        <Spacer size=L />
-        <DonationInvite />
-        <Spacer size=L />
-        <View> ...children </View>
+      <AuthorAvatar />
+      <Spacer size=M />
+      <View style=styles##block>
+        <Text style=styles##blockTitle>
+          {ReasonReact.string({j|Bienvenue|j})}
+        </Text>
+        <Bio />
       </View>
+      <Spacer />
+      <SocialIcons
+        wrapperStyle=styles##icons
+        iconStyle=styles##icon
+        iconSize=24.
+        iconWrapperFunc={
+          (~children) => {
+            let uri = "/images/pink/circle-bg-lg.png";
+            <ImageBackground
+              resizeMode=`contain
+              style=styles##iconBackground
+              source={`URI(Image.(imageURISource(~uri, ())))}
+              /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
+              defaultSource={`URI(Image.(defaultURISource(~uri, ())))}>
+              <Text style=styles##iconWrapper> ...children </Text>
+            </ImageBackground>;
+          }
+        }
+      />
+      <Spacer size=L />
+      <DonationInvite />
+      <Spacer size=L />
+      <View> ...children </View>
     </View>,
 };
