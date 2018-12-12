@@ -1,7 +1,7 @@
 // @flow
 
 import defaultWebpackConfig from "@phenomic/plugin-bundler-webpack/lib/webpack.config.js";
-// import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 module.exports = (config /*: PhenomicConfig*/) => {
   const webpackConfig = defaultWebpackConfig(config);
@@ -56,12 +56,12 @@ module.exports = (config /*: PhenomicConfig*/) => {
         // https://github.com/graphql/graphql-js/issues/1272#issuecomment-393903706
         { test: /\.mjs$/, include: /node_modules/, type: "javascript/auto" }
       ]
-    }
+    },
+    plugins: [
+      ...webpackConfig.plugins,
+      new BundleAnalyzerPlugin({
+        analyzerMode: "static"
+      })
+    ]
   };
-  // plugins: [
-  //   ...webpackConfig.plugins,
-  //   new BundleAnalyzerPlugin({
-  //     analyzerMode: "static"
-  //   })
-  // ]
 };
