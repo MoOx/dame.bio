@@ -1,7 +1,10 @@
 let save = (identifier, value) =>
-  Dom.Storage.(localStorage |> setItem(identifier, value));
+  Browser.isBrowser() ?
+    Dom.Storage.(localStorage |> setItem(identifier, value)) : ();
 
-let get = identifier => Dom.Storage.(localStorage |> getItem(identifier));
+let get = identifier =>
+  Browser.isBrowser() ?
+    Dom.Storage.(localStorage |> getItem(identifier)) : None;
 
 [@bs.deriving abstract]
 type store = {
