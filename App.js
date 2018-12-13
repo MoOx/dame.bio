@@ -17,7 +17,8 @@ RoutePosts.getAllPossibleUrls = async ({ path }) => {
   if (path == "/") {
     return ["/"];
   }
-  if (path.includes("/after/:after")) {
+  // generate all possible urls from this one only
+  if (path === "/:categorySlug/after/:cursorAfter") {
     return apolloClient
       .query({
         query: gql`
