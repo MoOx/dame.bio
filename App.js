@@ -11,18 +11,27 @@ import RoutePost from "./lib/es6/src/components/RoutePost.bs.js";
 
 let apolloClient = initApollo();
 
+let first = 1000;
+
 RoutePosts.getAllPossibleUrls = async ({ path }) => {
   if (path == "/") {
     return ["/"];
   }
-  if (path == "/after/:after") {
+  if (path.includes("/after/:after")) {
     return apolloClient
       .query({
         query: gql`
           {
-            posts(first: 1000, where: { status: PUBLISH }) {
+            posts(first: ${first}, where: { status: PUBLISH }) {
               edges {
                 cursor
+                node {
+                  categories {
+                    nodes {
+                      slug
+                    }
+                  }
+                }
               }
             }
           }
@@ -30,16 +39,25 @@ RoutePosts.getAllPossibleUrls = async ({ path }) => {
       })
       .then(({ data }) => {
         // console.log(`received data ${JSON.stringify(data, null, 2)}`);
-        return data.posts.edges
-          .map(item => {
-            try {
-              return "/after/" + item.cursor + "/";
-            } catch (e) {
-              console.log(`received error ${e}`);
-              console.log(JSON.stringify(item, null, 2));
+        return data.posts.edges.reduce((acc, item) => {
+          try {
+            acc.push("/after/" + item.cursor + "/");
+            if (
+              item.node &&
+              item.node.categories &&
+              item.node.categories.nodes
+            ) {
+              item.node.categories.nodes.forEach(c => {
+                acc.push("/" + c.slug + "/");
+                acc.push("/" + c.slug + "/after/" + item.cursor + "/");
+              });
             }
-          })
-          .filter(i => i);
+          } catch (e) {
+            console.log(`received error ${e}`);
+            console.log(JSON.stringify(item, null, 2));
+          }
+          return acc;
+        }, []);
       })
       .catch(error => {
         console.log(`received error ${error}`);
@@ -56,8 +74,10 @@ RoutePost.getAllPossibleUrls = () => {
 const routes = () => (
   <Router history={browserHistory}>
     <Route path="/" component={RoutePosts} />
-    <Route path="/after/:after" component={RoutePosts} />
-    <Route path="/:cat/*" component={RoutePost} />
+    <Route path="/after/:cursorAfter" component={RoutePosts} />
+    <Route path="/:categorySlug/" component={RoutePosts} />
+    <Route path="/:categorySlug/after/:cursorAfter" component={RoutePosts} />
+    <Route path="/:categorySlug/*" component={RoutePost} />
   </Router>
 );
 
