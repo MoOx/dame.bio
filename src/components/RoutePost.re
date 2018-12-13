@@ -1,101 +1,115 @@
-open BsReactNative;
-
 open Helpers;
 
-type action =
-  | Fetch
-  | PostFetched(Structures.post)
-  | FetchError(string);
+[@bs.module "@phenomic/preset-react-app/lib/client"]
+external withInitialProps: 'a => 'a = "";
 
-type state = {
-  splat: string,
-  fetching: bool,
-  post: option(Structures.post),
-  error: option(string),
-};
+type status =
+  | Loading
+  | Ready
+  | Error(option(string));
 
-let fetchPost = (id, postFetched, failure) =>
-  Js.Promise.(
-    Fetch.fetch(apiBaseUrl ++ "wp-json/wp/v2/posts?_embed&slug=" ++ id)
-    |> then_(response => Fetch.Response.json(response))
-    |> then_(json =>
-         json
-         |> Structures.decodePosts
-         |> Belt.List.head
-         |> postFetched
-         |> resolve
-       )
-    |> catch(err => {
-         Js.log(err);
-         failure("Une erreur est survenue") |> resolve;
-       })
-  );
-
-let component = ReasonReact.reducerComponent("RoutePost");
-
-let make = (~splat, _children) => {
-  ...component,
-  initialState: () => {splat, fetching: false, post: None, error: None},
-  reducer: (action, state) =>
-    switch (action) {
-    | Fetch =>
-      ReasonReact.UpdateWithSideEffects(
-        {splat, fetching: true, post: None, error: None},
-        (
-          ({send}) =>
-            fetchPost(
-              splat,
-              post =>
-                switch (post) {
-                | Some(post) => send(PostFetched(post))
-                | None => send(FetchError("Aucun article trouvé"))
-                },
-              error => send(FetchError(error)),
-            )
-            |> ignore
-        ),
-      )
-    | PostFetched(post) =>
-      ReasonReact.Update({
-        ...state,
-        fetching: false,
-        post: Some(post),
-        error: None,
-      })
-    | FetchError(err) =>
-      ReasonReact.Update({
-        ...state,
-        fetching: false,
-        post: None,
-        error: Some(err),
-      })
-    },
-  didMount: ({send}) => send(Fetch),
-  didUpdate: ({newSelf}) =>
-    if (newSelf.state.splat != splat) {
-      newSelf.send(Fetch);
-    },
-  render: ({state}) =>
-    <WebsiteWrapper>
-      <ContainerMainContent>
-        {state.fetching ? <LoadingIndicator /> : nothing}
-        {
-          switch (state.error) {
-          | None => nothing
-          | Some(error) => <Text> {error |> text} </Text>
+module GetItem = [%graphql
+  {|
+  query getItem($slug: String!){
+    posts(first: 1, where: {name: $slug}) {
+      edges {
+        node {
+          id
+          title
+          slug
+          commentCount
+          likeCount
+          postId
+          content
+          categories {
+            nodes {
+              name
+              slug
+              parent {
+                id
+              }
+            }
+          }
+          tags {
+            nodes {
+              name
+              slug
+            }
           }
         }
+      }
+    }
+  }
+|}
+];
+
+module GetItemQuery = ReasonApollo.CreateQuery(GetItem);
+
+let component = ReasonReact.statelessComponent("RoutePost");
+
+let make = (~status, ~slug, _) => {
+  ...component,
+  render: _ => {
+    let itemQuery = GetItem.make(~slug, ());
+    <WebsiteWrapper>
+      <ContainerMainContent>
         {
-          switch (state.post) {
-          | None => nothing
-          | Some(item) => <PostDetail key={item.slug} item />
+          switch (status) {
+          | Loading => <LoadingIndicator />
+          | Error(error) => <Error label=error />
+          | Ready =>
+            <GetItemQuery variables=itemQuery##variables>
+              ...(
+                   ({result}) =>
+                     switch (result) {
+                     | Loading => <LoadingIndicator />
+                     | Error(error) => <Error label={Some(error##message)} />
+                     | Data(response) =>
+                       response##posts
+                       ->Belt.Option.flatMap(p => p##edges)
+                       ->Belt.Option.map(edges =>
+                           edges
+                           ->Belt.Array.map(edge =>
+                               edge
+                               ->Belt.Option.flatMap(edge => edge##node)
+                               ->Belt.Option.map(item =>
+                                   <PostDetail key=item##id item />
+                                 )
+                               ->Belt.Option.getWithDefault(nothing)
+                             )
+                           ->ReasonReact.array
+                         )
+                       ->Belt.Option.getWithDefault(
+                           <Error label={Some({j|Aucun résultat|j})} />,
+                         )
+                     }
+                 )
+            </GetItemQuery>
           }
         }
       </ContainerMainContent>
-    </WebsiteWrapper>,
+    </WebsiteWrapper>;
+  },
 };
 
-let default =
+let composedComponent =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~splat=jsProps##params##splat, [||])
+    make(
+      ~status=
+        switch (jsProps##status) {
+        | "loading" => Loading
+        | "ready" => Ready
+        | "error"
+        | _ => Error(Js.Nullable.toOption(jsProps##error))
+        },
+      ~slug=jsProps##params##splat,
+      [||],
+    )
   );
+
+/* let getInitialProps = (...args) => args; */
+/* let inject = [%bs.raw {| (cls, fn) => cls.getInitialProps = fn |}];
+   inject(composedComponent, getInitialProps); */
+
+/* let default = withInitialProps(WithApolloClient.make(composedComponent), getAllPossibleUrls); */
+let default = withInitialProps(WithApolloClient.make(composedComponent));

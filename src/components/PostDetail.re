@@ -56,51 +56,66 @@ let styles =
 
 let component = ReasonReact.statelessComponent("PostDetail");
 
-let make = (~item: Structures.post, _) => {
+let make = (~item, _) => {
   ...component,
   render: _self => {
-    let rootCategory = Structures.findRootCategory(item);
+    let rootCategory =
+      T.getMainCategory(
+        item##categories
+        ->Belt.Option.flatMap(cs => cs##nodes)
+        ->Belt.Option.getWithDefault([||]),
+      );
     let href =
       "/"
-      ++ String.lowercase(rootCategory.slug)
+      ++ rootCategory##slug->Belt.Option.getWithDefault("_")
       ++ "/"
-      ++ String.lowercase(item.slug)
+      ++ item##slug->Belt.Option.getWithDefault(item##id)
       ++ "/";
     <View style=styles##block>
       <Text style=styles##title>
-        <span dangerouslySetInnerHTML={"__html": item.title} />
+        <span
+          dangerouslySetInnerHTML={
+            "__html": item##title->Belt.Option.getWithDefault(""),
+          }
+        />
       </Text>
       <View style=styles##metaRow>
         <TextLink
           style=styles##category
-          href={"/" ++ Utils.encodeURI(rootCategory.slug) ++ "/"}>
-          {String.uppercase(rootCategory.name) |> text}
+          href={
+            "/"
+            ++ Utils.encodeURI(
+                 rootCategory##slug->Belt.Option.getWithDefault("_"),
+               )
+            ++ "/"
+          }>
+          {
+            String.uppercase(
+              rootCategory##name->Belt.Option.getWithDefault(""),
+            )
+            |> text
+          }
         </TextLink>
         <Text style=styles##actions>
-          <TextLink style=styles##action href="#like">
-            <SVGFavorite fill="#ddd" width=16. height=16. />
+          <Text style=styles##actions>
+            <ButtonLike id=item##id />
             {
-              (
-                if (item.likes != 0) {
-                  " " ++ (item.likes |> string_of_int);
-                } else {
-                  "";
-                }
-              )
-              |> text
-            }
-          </TextLink>
-          <Text style=styles##action> {" | " |> text} </Text>
-          <TextLink style=styles##action href={href ++ "#comments"}>
-            <SVGSpeechBubbleOutline fill="#ddd" width=16. height=16. />
-            {
-              switch (item.comments) {
-              | None => "" |> text
-              | Some(comments) =>
-                " " ++ (Belt.List.length(comments) |> string_of_int) |> text
+              switch (item##likeCount->Belt.Option.getWithDefault(0)) {
+              | 0 => nothing
+              | v => ("  " ++ v->string_of_int)->text
               }
             }
-          </TextLink>
+            <Text style=styles##action> {" | " |> text} </Text>
+            <TextLink style=styles##action href={href ++ "#comments"}>
+              <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
+              {
+                switch (item##commentCount->Belt.Option.getWithDefault(0)) {
+                | 0 => nothing
+                | v => ("  " ++ v->string_of_int)->text
+                }
+              }
+            </TextLink>
+          </Text>
         </Text>
       </View>
       <SpacedView vertical=M>
@@ -120,7 +135,7 @@ let make = (~item: Structures.post, _) => {
                      ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-tile.png) repeat-x; height: 21px; width: 80%;\"></span>"
                      ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-right.png) no-repeat; height: 21px; width: 66px;\"></span>" */
                   ++ "</span>",
-                  item.contentHTML,
+                  item##content->Belt.Option.getWithDefault(""),
                 ),
               ),
           }
@@ -128,25 +143,47 @@ let make = (~item: Structures.post, _) => {
       </SpacedView>
       <SpacedView vertical=L style=styles##tags>
         {
-          Belt.List.map(item.terms.tags, tag =>
-            <Text key={tag.slug}>
-              <TextLink
-                style=styles##tag
-                href={"/tags/" ++ Utils.encodeURI(tag.slug) ++ "/"}>
-                {"#" ++ tagifyString(tag.name) |> text}
-              </TextLink>
-              {" " |> text}
-            </Text>
-          )
-          ->Belt.List.toArray
+          item##tags
+          ->Belt.Option.flatMap(ts => ts##nodes)
+          ->Belt.Option.getWithDefault([||])
+          ->Belt.Array.mapWithIndex((index, tag) =>
+              tag
+              ->Belt.Option.map(tag =>
+                  <Text
+                    key={
+                      tag##slug
+                      ->Belt.Option.getWithDefault(string_of_int(index))
+                    }>
+                    <TextLink
+                      style=styles##tag
+                      href={
+                        "/tags/"
+                        ++ Utils.encodeURI(
+                             tag##slug->Belt.Option.getWithDefault(""),
+                           )
+                        ++ "/"
+                      }>
+                      {
+                        "#"
+                        ++ tagifyString(
+                             tag##name->Belt.Option.getWithDefault(""),
+                           )
+                        |> text
+                      }
+                    </TextLink>
+                    {" " |> text}
+                  </Text>
+                )
+              ->Belt.Option.getWithDefault(nothing)
+            )
           ->ReasonReact.array
         }
       </SpacedView>
       <Author />
       <Spacer size=XL />
-      <PostRelatedPosts postId={item.id} />
+      <PostRelatedPosts postId=item##postId />
       <Spacer size=XL />
-      <PostComments postId={item.id} />
+      <PostComments postId=item##postId />
     </View>;
   },
 };
