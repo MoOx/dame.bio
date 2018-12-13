@@ -63,9 +63,13 @@ module.exports = (config /*: PhenomicConfig*/) => {
     },
     plugins: [
       ...webpackConfig.plugins,
-      new BundleAnalyzerPlugin({
-        analyzerMode: "static"
-      })
+      ...(process.env.PHENOMIC_ENV === "static"
+        ? [
+            new BundleAnalyzerPlugin({
+              analyzerMode: "static"
+            })
+          ]
+        : [])
     ]
   };
 };
