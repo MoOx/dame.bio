@@ -101,7 +101,7 @@ let make = (~item, _) => {
             {
               switch (item##likeCount->Belt.Option.getWithDefault(0)) {
               | 0 => nothing
-              | v => (" " ++ v->string_of_int)->text
+              | v => ("  " ++ v->string_of_int)->text
               }
             }
             <Text style=styles##action> {" | " |> text} </Text>
@@ -110,7 +110,7 @@ let make = (~item, _) => {
               {
                 switch (item##commentCount->Belt.Option.getWithDefault(0)) {
                 | 0 => nothing
-                | v => (" " ++ v->string_of_int)->text
+                | v => ("  " ++ v->string_of_int)->text
                 }
               }
             </TextLink>
