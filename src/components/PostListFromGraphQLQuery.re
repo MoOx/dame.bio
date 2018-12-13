@@ -13,24 +13,20 @@ let styles =
 
 let component = ReasonReact.statelessComponent("PostListFromGraphQLQuery");
 
-let make = (~items, _) => {
+let make = (~edges, _) => {
   ...component,
   render: _self =>
     <View style=styles##list>
       {
-        items
-        ->Belt.Array.map(item => {
-            /* item
-               ->Belt.Option.map(item => item##node)
-               ->Belt.Option.map(item => <PostPreview key=item##id item />)
-               ->Belt.Option.getWithDefault(nothing) */
-
-            let node = [%get_in item#??node];
-            switch (node) {
-            | Some(item) => <PostPreviewFromGraphQLQuery key=item##id item />
-            | None => nothing
-            };
-          })
+        edges
+        ->Belt.Array.map(edge =>
+            edge
+            ->Belt.Option.flatMap(edge => edge##node)
+            ->Belt.Option.map(item =>
+                <PostPreviewFromGraphQLQuery key=item##id item />
+              )
+            ->Belt.Option.getWithDefault(nothing)
+          )
         ->ReasonReact.array
       }
     </View>,

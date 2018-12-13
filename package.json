@@ -16,7 +16,6 @@
     "bs-fetch": "^0.3.0",
     "bs-platform": "4.0.6",
     "bs-react-native": "^0.10.0",
-    "get_in_ppx": "^1.0.2",
     "graphql": "^14.0.2",
     "graphql_ppx": "^0.2.8",
     "husky": "^1.1.4",

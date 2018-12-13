@@ -85,14 +85,14 @@ let make = (~status, ~categorySlug, ~cursorAfter, _) => {
                      | Loading => <LoadingIndicator />
                      | Error(error) => <Error label={Some(error##message)} />
                      | Data(response) =>
+                       let pageInfo =
+                         response##posts
+                         ->Belt.Option.flatMap(p => p##pageInfo);
                        response##posts
                        ->Belt.Option.flatMap(p => p##edges)
-                       ->Belt.Option.map(items => {
-                           let pageInfo =
-                             response##posts
-                             ->Belt.Option.flatMap(p => p##pageInfo);
+                       ->Belt.Option.map(edges =>
                            <>
-                             <PostListFromGraphQLQuery items />
+                             <PostListFromGraphQLQuery edges />
                              <View
                                style=Style.(
                                  style([
@@ -149,11 +149,11 @@ let make = (~status, ~categorySlug, ~cursorAfter, _) => {
                                    nothing
                                }
                              </View>
-                           </>;
-                         })
+                           </>
+                         )
                        ->Belt.Option.getWithDefault(
                            <Error label={Some({j|Aucun résultat|j})} />,
-                         )
+                         );
                      }
                  )
             </GetItemsQuery>
