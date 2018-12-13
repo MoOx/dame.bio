@@ -4,7 +4,7 @@ open Helpers;
 [@bs.module "@phenomic/preset-react-app/lib/client"]
 external withInitialProps: 'a => 'a = "";
 
-let per_page = 8;
+let perPage = 8;
 
 type status =
   | Loading
@@ -13,8 +13,8 @@ type status =
 
 module GetItems = [%graphql
   {|
-  query getItems($categorySlug: String, $cursorAfter: String){
-    posts(first: 8, after: $cursorAfter, where: {categoryName: $categorySlug}) {
+  query getItems($first: Int!, $categorySlug: String, $cursorAfter: String){
+    posts(first: $first, after: $cursorAfter, where: {categoryName: $categorySlug}) {
       pageInfo {
         startCursor
         endCursor
@@ -70,7 +70,8 @@ let component = ReasonReact.statelessComponent("RoutePosts");
 let make = (~status, ~categorySlug, ~cursorAfter, _) => {
   ...component,
   render: _ => {
-    let itemsQuery = GetItems.make(~categorySlug?, ~cursorAfter?, ());
+    let itemsQuery =
+      GetItems.make(~first=perPage, ~categorySlug?, ~cursorAfter?, ());
     <WebsiteWrapper>
       <ContainerMainContentLarge>
         {
