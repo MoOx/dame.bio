@@ -7,7 +7,6 @@ let imageRatio = 240. /. 350.;
 let styles =
   StyleSheet.create(
     Style.{
-      "unused": style([]),
       "block":
         style([
           flex(1.),
