@@ -72,6 +72,50 @@ RoutePost.getAllPossibleUrls = () => {
   return [];
 };
 
+RoutePost.getAllPossibleUrls = async () => {
+  return apolloClient
+    .query({
+      query: gql`
+        {
+          posts(first: ${first}, where: { status: PUBLISH }) {
+            edges {
+              node {
+                slug
+                categories(first: 1) {
+                  nodes {
+                    slug
+                  }
+                }
+              }
+            }
+          }
+        }
+      `
+    })
+    .then(({ data }) => {
+      return data.posts.edges
+        .map(item => {
+          try {
+            return (
+              "/" +
+              item.node.categories.nodes[0].slug +
+              "/" +
+              item.node.slug +
+              "/"
+            );
+          } catch (e) {
+            console.log(`received error ${e}`);
+            console.log(JSON.stringify(item, null, 2));
+          }
+        })
+        .filter(i => i);
+    })
+    .catch(error => {
+      console.log(`received error ${error}`);
+      return [];
+    });
+};
+
 const routes = () => (
   <Router history={browserHistory}>
     <Route path="/" component={RoutePosts} />
