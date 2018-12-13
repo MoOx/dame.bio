@@ -13,8 +13,8 @@ type status =
 
 module GetItems = [%graphql
   {|
-  query getItems($categoryName: String, $cursor: String){
-    posts(first: 8, after: $cursor, where: {categoryName: $categoryName}) {
+  query getItems($categorySlug: String, $cursorAfter: String){
+    posts(first: 8, after: $cursorAfter, where: {categoryName: $categorySlug}) {
       pageInfo {
         startCursor
         endCursor
@@ -67,10 +67,10 @@ module GetItemsQuery = ReasonApollo.CreateQuery(GetItems);
 
 let component = ReasonReact.statelessComponent("RoutePosts");
 
-let make = (~status, ~after, _) => {
+let make = (~status, ~categorySlug, ~cursorAfter, _) => {
   ...component,
   render: _ => {
-    let itemsQuery = GetItems.make(~cursor=after, ());
+    let itemsQuery = GetItems.make(~categorySlug?, ~cursorAfter?, ());
     <WebsiteWrapper>
       <ContainerMainContentLarge>
         {
@@ -110,7 +110,15 @@ let make = (~status, ~after, _) => {
                                    ->Belt.Option.flatMap(p => p##startCursor)
                                    ->Belt.Option.map(cursor =>
                                        <BannerButton
-                                         href={"/after/" ++ cursor ++ "/"}>
+                                         href={
+                                           categorySlug->Belt.Option.mapWithDefault(
+                                             "", c =>
+                                             "/" ++ c
+                                           )
+                                           ++ "/after/"
+                                           ++ cursor
+                                           ++ "/"
+                                         }>
                                          {{j|Articles plus récents|j} |> text}
                                        </BannerButton>
                                      )
@@ -125,7 +133,15 @@ let make = (~status, ~after, _) => {
                                    ->Belt.Option.flatMap(p => p##endCursor)
                                    ->Belt.Option.map(cursor =>
                                        <BannerButton
-                                         href={"/after/" ++ cursor ++ "/"}>
+                                         href={
+                                           categorySlug->Belt.Option.mapWithDefault(
+                                             "", c =>
+                                             "/" ++ c
+                                           )
+                                           ++ "/after/"
+                                           ++ cursor
+                                           ++ "/"
+                                         }>
                                          {{j|Encore plus d'articles|j} |> text}
                                        </BannerButton>
                                      )
@@ -160,7 +176,8 @@ let composedComponent =
         | "error"
         | _ => Error(Js.Nullable.toOption(jsProps##error))
         },
-      ~after=jsProps##params##after,
+      ~categorySlug=Js.Nullable.toOption(jsProps##params##categorySlug),
+      ~cursorAfter=Js.Nullable.toOption(jsProps##params##cursorAfter),
       [||],
     )
   );
