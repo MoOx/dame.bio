@@ -182,3 +182,26 @@ let findRootCategory = (item: post): term =>
       }
     }
   };
+
+let placeholderPost = id: post => {
+  id,
+  date: "",
+  slug: "",
+  title: " ",
+  contentHTML: "",
+  featuredMedia: [{
+                    media_details: {
+                      sizes: {
+                        medium: {
+                          source_url: "",
+                        },
+                      },
+                    },
+                  }],
+  comments: None,
+  likes: 0,
+  terms: {
+    categories: [],
+    tags: [],
+  },
+};

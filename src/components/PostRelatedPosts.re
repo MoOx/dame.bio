@@ -4,14 +4,14 @@ open Helpers;
 
 type action =
   | Fetching
-  | Fetched(list(Structures.post))
-  | Errored(string);
+  | Errored(string)
+  | Fetched(list(Structures.post));
 
-type state = {
-  fetching: bool,
-  items: option(list(Structures.post)),
-  error: option(string),
-};
+type state =
+  | Empty
+  | Loading
+  | Error(string)
+  | Data(list(Structures.post));
 
 let fetchData = (id, success, failure) =>
   Js.Promise.(
@@ -33,14 +33,14 @@ let fetchData = (id, success, failure) =>
 
 let component = ReasonReact.reducerComponent("PostRelatedPosts");
 
-let make = (~postId, _children) => {
+let make = (~postId, ~hasBeenVisible, _children) => {
   ...component,
-  initialState: () => {fetching: false, items: None, error: None},
-  reducer: (action, state) =>
+  initialState: () => Empty,
+  reducer: (action, _) =>
     switch (action) {
     | Fetching =>
       ReasonReact.UpdateWithSideEffects(
-        {...state, fetching: true},
+        Loading,
         (
           ({send}) =>
             fetchData(
@@ -51,27 +51,27 @@ let make = (~postId, _children) => {
             |> ignore
         ),
       )
-    | Fetched(items) =>
-      ReasonReact.Update({fetching: false, items: Some(items), error: None})
-    | Errored(err) =>
-      ReasonReact.Update({fetching: false, items: None, error: Some(err)})
+    | Fetched(items) => ReasonReact.Update(Data(items))
+    | Errored(err) => ReasonReact.Update(Error(err))
     },
-  didMount: ({send}) => send(Fetching),
+  didUpdate: ({newSelf: {send, state}}) =>
+    switch (state) {
+    | Empty when hasBeenVisible => send(Fetching)
+    | _ => ()
+    },
   render: ({state}) =>
-    <>
-      {state.fetching ? <LoadingIndicator /> : nothing}
-      {
-        switch (state.error) {
-        | None => nothing
-        | Some(error) => <Text> {error |> text} </Text>
-        }
-      }
-      {
-        switch (state.items) {
-        | None => nothing
-        | Some(items) => <RelatedPosts items />
-        }
-      }
-    </>,
+    switch (state) {
+    | Empty
+    | Loading =>
+      <RelatedPosts
+        items=[
+          Structures.placeholderPost(-1),
+          Structures.placeholderPost(-2),
+          Structures.placeholderPost(-3),
+          Structures.placeholderPost(-4),
+        ]
+      />
+    | Error(e) => <Text> {e |> text} </Text>
+    | Data(items) => <RelatedPosts items />
+    },
 };
-
