@@ -428,6 +428,18 @@ let make = (~postId, ~parentCommentId, _children) => {
        | _ => false
        }; */
     <View>
+      <noscript>
+        <Text>
+          {{j|🚨 Veuillez |j} |> text}
+          <a
+            target="_blank"
+            href="https://www.qwant.com/?q=comment%20activer%20javascript">
+            {{j|activer JavaScript|j} |> text}
+          </a>
+          {{j| pour poster un commentaire.|j} |> text}
+        </Text>
+        <Spacer />
+      </noscript>
       {switch (state.comment) {
        | Sent((_, _)) => <> <ActivityIndicator size=`small /> <Spacer /> </>
        | Posted((_, _)) =>
