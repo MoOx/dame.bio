@@ -53,40 +53,37 @@ let make = (~status, ~slug, _) => {
     let itemQuery = GetItem.make(~slug, ());
     <WebsiteWrapper>
       <ContainerMainContent>
-        {
-          switch (status) {
-          | Loading => <LoadingIndicator />
-          | Error(error) => <Error label=error />
-          | Ready =>
-            <GetItemQuery variables=itemQuery##variables>
-              ...(
-                   ({result}) =>
-                     switch (result) {
-                     | Loading => <LoadingIndicator />
-                     | Error(error) => <Error label={Some(error##message)} />
-                     | Data(response) =>
-                       response##posts
-                       ->Belt.Option.flatMap(p => p##edges)
-                       ->Belt.Option.map(edges =>
-                           edges
-                           ->Belt.Array.map(edge =>
-                               edge
-                               ->Belt.Option.flatMap(edge => edge##node)
-                               ->Belt.Option.map(item =>
-                                   <PostDetail key=item##id item />
-                                 )
-                               ->Belt.Option.getWithDefault(nothing)
-                             )
-                           ->ReasonReact.array
-                         )
-                       ->Belt.Option.getWithDefault(
-                           <Error label={Some({j|Aucun résultat|j})} />,
-                         )
-                     }
-                 )
-            </GetItemQuery>
-          }
-        }
+        {switch (status) {
+         | Loading => <LoadingIndicator />
+         | Error(error) => <Error label=error />
+         | Ready =>
+           <GetItemQuery variables=itemQuery##variables>
+             ...{({result}) =>
+               switch (result) {
+               | Loading => <LoadingIndicator />
+               | Error(error) => <Error label={Some(error##message)} />
+               | Data(response) =>
+                 response##posts
+                 ->Belt.Option.flatMap(p => p##edges)
+                 ->Belt.Option.map(edges =>
+                     edges
+                     ->Belt.Array.map(edge =>
+                         edge
+                         ->Belt.Option.flatMap(edge => edge##node)
+                         ->Belt.Option.map(item =>
+                             <PostDetail key=item##id item />
+                           )
+                         ->Belt.Option.getWithDefault(nothing)
+                       )
+                     ->ReasonReact.array
+                   )
+                 ->Belt.Option.getWithDefault(
+                     <Error label={Some({j|Aucun résultat|j})} />,
+                   )
+               }
+             }
+           </GetItemQuery>
+         }}
       </ContainerMainContent>
     </WebsiteWrapper>;
   },

@@ -60,16 +60,19 @@ let make = (~item: Structures.post, _) => {
       ++ "/"
       ++ String.lowercase(item.slug)
       ++ "/";
-    <SpacedView key={string_of_int(item.id)} style=styles##block vertical=M horizontal=M>
+    <SpacedView
+      key={string_of_int(item.id)}
+      style=styles##block
+      vertical=M
+      horizontal=M>
       <TextLink href>
-        {
-          switch (
-            Belt.List.head(item.featuredMedia)
-          ) {
-          | Some(media) => <ImageWithAspectRatio uri=media.media_details.sizes.medium.source_url />
-          | None => nothing
-          }
-        }
+        {switch (Belt.List.head(item.featuredMedia)) {
+         | Some(media) =>
+           <ImageWithAspectRatio
+             uri={media.media_details.sizes.medium.source_url}
+           />
+         | None => nothing
+         }}
       </TextLink>
       <View style=styles##text>
         <View style=styles##row>
@@ -81,27 +84,23 @@ let make = (~item: Structures.post, _) => {
           <Text style=styles##actions>
             <TextLink style=styles##action href="#like">
               <SVGFavorite fill="#ddd" width=12. height=12. />
-              {
-                (
-                  if (item.likes != 0) {
-                    " " ++ (item.likes |> string_of_int);
-                  } else {
-                    "";
-                  }
-                )
-                |> text
-              }
+              {(
+                 if (item.likes != 0) {
+                   " " ++ (item.likes |> string_of_int);
+                 } else {
+                   "";
+                 }
+               )
+               |> text}
             </TextLink>
             <Text style=styles##action> {" | " |> text} </Text>
             <TextLink style=styles##action href={href ++ "#comments"}>
               <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
-              {
-                switch (item.comments) {
-                | None => "" |> text
-                | Some(comments) =>
-                  " " ++ (Belt.List.length(comments) |> string_of_int) |> text
-                }
-              }
+              {switch (item.comments) {
+               | None => "" |> text
+               | Some(comments) =>
+                 " " ++ (Belt.List.length(comments) |> string_of_int) |> text
+               }}
             </TextLink>
           </Text>
         </View>

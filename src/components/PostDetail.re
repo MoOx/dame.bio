@@ -89,31 +89,25 @@ let make = (~item, _) => {
                )
             ++ "/"
           }>
-          {
-            String.uppercase(
-              rootCategory##name->Belt.Option.getWithDefault(""),
-            )
-            |> text
-          }
+          {String.uppercase(
+             rootCategory##name->Belt.Option.getWithDefault(""),
+           )
+           |> text}
         </TextLink>
         <Text style=styles##actions>
           <Text style=styles##actions>
             <ButtonLike id=item##id />
-            {
-              switch (item##likeCount->Belt.Option.getWithDefault(0)) {
-              | 0 => nothing
-              | v => ("  " ++ v->string_of_int)->text
-              }
-            }
+            {switch (item##likeCount->Belt.Option.getWithDefault(0)) {
+             | 0 => nothing
+             | v => ("  " ++ v->string_of_int)->text
+             }}
             <Text style=styles##action> {" | " |> text} </Text>
             <TextLink style=styles##action href={href ++ "#comments"}>
               <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
-              {
-                switch (item##commentCount->Belt.Option.getWithDefault(0)) {
-                | 0 => nothing
-                | v => ("  " ++ v->string_of_int)->text
-                }
-              }
+              {switch (item##commentCount->Belt.Option.getWithDefault(0)) {
+               | 0 => nothing
+               | v => ("  " ++ v->string_of_int)->text
+               }}
             </TextLink>
           </Text>
         </Text>
@@ -142,53 +136,48 @@ let make = (~item, _) => {
         />
       </SpacedView>
       <SpacedView vertical=L style=styles##tags>
-        {
-          item##tags
-          ->Belt.Option.flatMap(ts => ts##nodes)
-          ->Belt.Option.getWithDefault([||])
-          ->Belt.Array.mapWithIndex((index, tag) =>
-              tag
-              ->Belt.Option.map(tag =>
-                  <Text
-                    key={
-                      tag##slug
-                      ->Belt.Option.getWithDefault(string_of_int(index))
-                    }>
-                    <TextLink
-                      style=styles##tag
-                      href={
-                        "/tags/"
-                        ++ Utils.encodeURI(
-                             tag##slug->Belt.Option.getWithDefault(""),
-                           )
-                        ++ "/"
-                      }>
-                      {
-                        "#"
-                        ++ tagifyString(
-                             tag##name->Belt.Option.getWithDefault(""),
-                           )
-                        |> text
-                      }
-                    </TextLink>
-                    {" " |> text}
-                  </Text>
-                )
-              ->Belt.Option.getWithDefault(nothing)
-            )
-          ->ReasonReact.array
-        }
+        {item##tags
+         ->Belt.Option.flatMap(ts => ts##nodes)
+         ->Belt.Option.getWithDefault([||])
+         ->Belt.Array.mapWithIndex((index, tag) =>
+             tag
+             ->Belt.Option.map(tag =>
+                 <Text
+                   key={
+                     tag##slug
+                     ->Belt.Option.getWithDefault(string_of_int(index))
+                   }>
+                   <TextLink
+                     style=styles##tag
+                     href={
+                       "/tags/"
+                       ++ Utils.encodeURI(
+                            tag##slug->Belt.Option.getWithDefault(""),
+                          )
+                       ++ "/"
+                     }>
+                     {"#"
+                      ++ tagifyString(
+                           tag##name->Belt.Option.getWithDefault(""),
+                         )
+                      |> text}
+                   </TextLink>
+                   {" " |> text}
+                 </Text>
+               )
+             ->Belt.Option.getWithDefault(nothing)
+           )
+         ->ReasonReact.array}
       </SpacedView>
       <Author />
       <Spacer size=XL />
       <ViewportObserver>
-        ...{
-             state =>
-               <PostRelatedPosts
-                 hasBeenVisible=state##hasBeenVisible
-                 postId=item##postId
-               />
-           }
+        ...{state =>
+          <PostRelatedPosts
+            hasBeenVisible=state##hasBeenVisible
+            postId=item##postId
+          />
+        }
       </ViewportObserver>
       <Spacer size=XL />
       <PostComments postId=item##postId />

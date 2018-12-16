@@ -16,57 +16,48 @@ let make =
   render: _self =>
     <View style=wrapperStyle>
       <TextLink style=iconStyle href="https://www.instagram.com/dame.bio/">
-        {
-          iconWrapperFunc(
-            ~children=[|
-              <SVGSocialInstagram
-                fill=iconColor
-                width=iconSize
-                height=iconSize
-              />,
-            |],
-          )
-        }
+        {iconWrapperFunc(
+           ~children=[|
+             <SVGSocialInstagram
+               fill=iconColor
+               width=iconSize
+               height=iconSize
+             />,
+           |],
+         )}
       </TextLink>
-      <TextLink
-        style=iconStyle href="https://www.pinterest.com/damebio/">
-        {
-          iconWrapperFunc(
-            ~children=[|
-              <SVGSocialPinterest
-                fill=iconColor
-                width=iconSize
-                height=iconSize
-              />,
-            |],
-          )
-        }
+      <TextLink style=iconStyle href="https://www.pinterest.com/damebio/">
+        {iconWrapperFunc(
+           ~children=[|
+             <SVGSocialPinterest
+               fill=iconColor
+               width=iconSize
+               height=iconSize
+             />,
+           |],
+         )}
       </TextLink>
       <TextLink style=iconStyle href="https://twitter.com/damebio/">
-        {
-          iconWrapperFunc(
-            ~children=[|
-              <SVGSocialTwitter
-                fill=iconColor
-                width=iconSize
-                height=iconSize
-              />,
-            |],
-          )
-        }
+        {iconWrapperFunc(
+           ~children=[|
+             <SVGSocialTwitter
+               fill=iconColor
+               width=iconSize
+               height=iconSize
+             />,
+           |],
+         )}
       </TextLink>
       <TextLink style=iconStyle href="https://www.facebook.com/Damebio/">
-        {
-          iconWrapperFunc(
-            ~children=[|
-              <SVGSocialFacebook
-                fill=iconColor
-                width=iconSize
-                height=iconSize
-              />,
-            |],
-          )
-        }
+        {iconWrapperFunc(
+           ~children=[|
+             <SVGSocialFacebook
+               fill=iconColor
+               width=iconSize
+               height=iconSize
+             />,
+           |],
+         )}
       </TextLink>
     </View>,
   /*

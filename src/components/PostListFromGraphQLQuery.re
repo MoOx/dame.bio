@@ -17,17 +17,15 @@ let make = (~edges, _) => {
   ...component,
   render: _self =>
     <View style=styles##list>
-      {
-        edges
-        ->Belt.Array.map(edge =>
-            edge
-            ->Belt.Option.flatMap(edge => edge##node)
-            ->Belt.Option.map(item =>
-                <PostPreviewFromGraphQLQuery key=item##id item />
-              )
-            ->Belt.Option.getWithDefault(nothing)
-          )
-        ->ReasonReact.array
-      }
+      {edges
+       ->Belt.Array.map(edge =>
+           edge
+           ->Belt.Option.flatMap(edge => edge##node)
+           ->Belt.Option.map(item =>
+               <PostPreviewFromGraphQLQuery key=item##id item />
+             )
+           ->Belt.Option.getWithDefault(nothing)
+         )
+       ->ReasonReact.array}
     </View>,
 };

@@ -89,45 +89,36 @@ let make =
         <Spacer size=XS />
         <View style=styles##commentTextContainer>
           <View style=styles##commentMeta>
-            {
-              String.length(comment.author_url) > 0 ?
-                <TextLink
-                  style=styles##commentAuthor href={comment.author_url}>
-                  {comment.author_name |> text}
-                </TextLink> :
-                <Text style=styles##commentAuthor>
-                  {comment.author_name |> text}
-                </Text>
-            }
-            {
-              isOwner ?
-                <>
-                  <Text> {" " |> text} </Text>
-                  <TextLink
-                    href={comment.author_url} style=styles##commentOwner>
-                    {"Auteur" |> text}
-                  </TextLink>
-                </> :
-                nothing
-            }
+            {String.length(comment.author_url) > 0 ?
+               <TextLink style=styles##commentAuthor href={comment.author_url}>
+                 {comment.author_name |> text}
+               </TextLink> :
+               <Text style=styles##commentAuthor>
+                 {comment.author_name |> text}
+               </Text>}
+            {isOwner ?
+               <>
+                 <Text> {" " |> text} </Text>
+                 <TextLink
+                   href={comment.author_url} style=styles##commentOwner>
+                   {"Auteur" |> text}
+                 </TextLink>
+               </> :
+               nothing}
           </View>
           <View style=styles##row>
             <Text style=styles##commentDate>
-              {
-                (comment.date |> Date.relativeDate |> String.capitalize)
-                ++ {j|  ·  |j}
-                |> text
-              }
+              {(comment.date |> Date.relativeDate |> String.capitalize)
+               ++ {j|  ·  |j}
+               |> text}
             </Text>
-            {
-              canReply ?
-                <TouchableOpacity onPress=onReply>
-                  <Text style=styles##commentDate>
-                    {{j|Répondre|j} |> text}
-                  </Text>
-                </TouchableOpacity> :
-                nothing
-            }
+            {canReply ?
+               <TouchableOpacity onPress=onReply>
+                 <Text style=styles##commentDate>
+                   {{j|Répondre|j} |> text}
+                 </Text>
+               </TouchableOpacity> :
+               nothing}
           </View>
           <Text style=styles##commentContent>
             <div

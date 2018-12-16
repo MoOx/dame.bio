@@ -40,15 +40,13 @@ let make = (~postId, _children) => {
     | Fetch =>
       ReasonReact.UpdateWithSideEffects(
         {...state, fetching: true},
-        (
-          ({send}) =>
-            fetchComments(
-              postId,
-              comments => send(CommentsFetched(comments)),
-              error => send(FetchError(error)),
-            )
-            |> ignore
-        ),
+        ({send}) =>
+          fetchComments(
+            postId,
+            comments => send(CommentsFetched(comments)),
+            error => send(FetchError(error)),
+          )
+          |> ignore,
       )
     | CommentsFetched(comments) =>
       ReasonReact.Update({
@@ -64,17 +62,13 @@ let make = (~postId, _children) => {
     <View>
       <a name="comments" />
       {state.fetching ? <LoadingIndicator /> : nothing}
-      {
-        switch (state.error) {
-        | None => nothing
-        | Some(error) => <Text> {error |> text} </Text>
-        }
-      }
-      {
-        switch (state.comments) {
-        | None => nothing
-        | Some(comments) => <Comments postId comments />
-        }
-      }
+      {switch (state.error) {
+       | None => nothing
+       | Some(error) => <Text> {error |> text} </Text>
+       }}
+      {switch (state.comments) {
+       | None => nothing
+       | Some(comments) => <Comments postId comments />
+       }}
     </View>,
 };

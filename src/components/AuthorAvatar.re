@@ -31,18 +31,11 @@ let make = _ => {
   ...component,
   render: _self =>
     <View style=styles##avatar>
-      <ImageBackground
+      <ImageBackgroundFromUri
         resizeMode=`contain
         style=styles##avatarDeco
-        source={`URI(Image.(imageURISource(~uri=uriBg, ())))}
-        /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
-        defaultSource={`URI(Image.(defaultURISource(~uri=uriBg, ())))}
+        uri=uriBg
       />
-      <Image
-        style=styles##avatarImage
-        source={`URI(Image.(imageURISource(~uri, ())))}
-        /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
-        defaultSource={`URI(Image.(defaultURISource(~uri, ())))}
-      />
+      <ImageFromUri style=styles##avatarImage uri />
     </View>,
 };

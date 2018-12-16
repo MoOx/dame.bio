@@ -31,31 +31,27 @@ let rec make =
         canReply=true
         onReply={() => send(Reply) |> ignore}
       />
-      {
-        switch (state) {
-        | None => nothing
-        | ReplyOpen => <CommentForm postId parentCommentId={comment.id} />
-        }
-      }
-      {
-        comments
-        ->Belt.List.reverse
-        ->Belt.List.map(comment =>
-            comment.parent == parentCommentId ?
-              ReasonReact.element(
-                ~key=string_of_int(comment.id),
-                make(
-                  ~comment,
-                  ~postId,
-                  ~comments,
-                  ~parentCommentId=comment.id,
-                  [||],
-                ),
-              ) :
-              nothing
-          )
-        ->Belt.List.toArray
-        ->ReasonReact.array
-      }
+      {switch (state) {
+       | None => nothing
+       | ReplyOpen => <CommentForm postId parentCommentId={comment.id} />
+       }}
+      {comments
+       ->Belt.List.reverse
+       ->Belt.List.map(comment =>
+           comment.parent == parentCommentId ?
+             ReasonReact.element(
+               ~key=string_of_int(comment.id),
+               make(
+                 ~comment,
+                 ~postId,
+                 ~comments,
+                 ~parentCommentId=comment.id,
+                 [||],
+               ),
+             ) :
+             nothing
+         )
+       ->Belt.List.toArray
+       ->ReasonReact.array}
     </>,
 };

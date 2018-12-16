@@ -28,10 +28,10 @@ let stringMapPartial = (f, s) => {
   Buffer.contents(b);
 };
 
-let tagifyChar = (c) =>
+let tagifyChar = c =>
   switch (c) {
   | ' ' => None
   | _ => Some(c)
   };
 
-let tagifyString = (string) => stringMapPartial(tagifyChar, string);
+let tagifyString = string => stringMapPartial(tagifyChar, string);

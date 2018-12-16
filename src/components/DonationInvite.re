@@ -83,64 +83,38 @@ let make = _ => {
   ...component,
   render: _self =>
     <View style=styles##container>
-      <Image
-        style=styles##topLeft
-        resizeMode=`contain
-        source={`URI(Image.(imageURISource(~uri=topLeft, ())))}
-        /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
-        defaultSource={`URI(Image.(defaultURISource(~uri=topLeft, ())))}
-      />
-      <Image
-        style=styles##topRight
-        resizeMode=`contain
-        source={`URI(Image.(imageURISource(~uri=topRight, ())))}
-        /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
-        defaultSource={`URI(Image.(defaultURISource(~uri=topRight, ())))}
-      />
-      <Image
+      <ImageFromUri style=styles##topLeft resizeMode=`contain uri=topLeft />
+      <ImageFromUri style=styles##topRight resizeMode=`contain uri=topRight />
+      <ImageFromUri
         style=styles##bottomLeft
         resizeMode=`contain
-        source={`URI(Image.(imageURISource(~uri=bottomLeft, ())))}
-        /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
-        defaultSource={`URI(Image.(defaultURISource(~uri=bottomLeft, ())))}
+        uri=bottomLeft
       />
-      <Image
+      <ImageFromUri
         style=styles##bottomRight
         resizeMode=`contain
-        source={`URI(Image.(imageURISource(~uri=bottomRight, ())))}
-        /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
-        defaultSource={`URI(Image.(defaultURISource(~uri=bottomRight, ())))}
+        uri=bottomRight
       />
-      <Image
-        style=styles##bottom
-        resizeMode=`contain
-        source={`URI(Image.(imageURISource(~uri=bottom, ())))}
-        /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
-        defaultSource={`URI(Image.(defaultURISource(~uri=bottom, ())))}
-      />
+      <ImageFromUri style=styles##bottom resizeMode=`contain uri=bottom />
       <View style=styles##content>
         <Text style=styles##title> {{j|Soutenir le blog|j} |> text} </Text>
         <br />
         <a
-          style={
-            ReactDOMRe.Style.make(
-              ~margin="auto",
-              ~textDecoration="none",
-              ~padding="8px 14px",
-              ~fontWeight="bold",
-              ~color="#fff",
-              ~background="pink",
-              (),
-            )
-          }
+          style={ReactDOMRe.Style.make(
+            ~margin="auto",
+            ~textDecoration="none",
+            ~padding="8px 14px",
+            ~fontWeight="bold",
+            ~color="#fff",
+            ~background="pink",
+            (),
+          )}
           href="https://www.paypal.me/damebio/3">
           {{j|M'offrir un thé|j} |> text}
         </a>
         <br />
         <Text style=styles##text>
-          {
-            {j|Vous pouvez soutenir mon travail en effectuant un don.|j} |> text
-          }
+          {{j|Vous pouvez soutenir mon travail en effectuant un don.|j} |> text}
         </Text>
         <br />
         <Text style=styles##text2>
@@ -148,14 +122,12 @@ let make = _ => {
         </Text>
         <br />
         <a
-          style={
-            ReactDOMRe.Style.make(
-              ~color="#67635b",
-              ~fontSize="12px",
-              ~textDecoration="underline",
-              (),
-            )
-          }
+          style={ReactDOMRe.Style.make(
+            ~color="#67635b",
+            ~fontSize="12px",
+            ~textDecoration="underline",
+            (),
+          )}
           href="https://www.paypal.me/damebio/">
           {{j|Don libre via Paypal|j} |> text}
         </a>

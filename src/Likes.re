@@ -6,7 +6,7 @@ let set = lks => {
   store->saveStore;
 };
 
-let isLiked = id: bool => get()->Belt.Array.some(i => i == id);
+let isLiked = (id): bool => get()->Belt.Array.some(i => i == id);
 
 let like = id =>
   !isLiked(id) ?

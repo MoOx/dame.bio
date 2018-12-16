@@ -62,24 +62,21 @@ let make = (~item, _children) => {
         style=styles##block
         source={`URI(Image.(imageURISource(~uri, ())))}
       />
-      {
-        state.focus ?
-          <View style=styles##overlay>
-            <SVGFavorite fill="#fff" width=19. height=19. />
-            <Text style=styles##overlayText>
-              {" " |> text}
-              {string_of_int(item##likes##count) |> text}
-              {"      " |> text}
-            </Text>
-            <SVGSpeechBubbleRight fill="#fff" width=19. height=19. />
-            <Text style=styles##overlayText>
-              {" " |> text}
-              {string_of_int(item##comments##count) |> text}
-            </Text>
-          </View> :
-          nothing
-      }
+      {state.focus ?
+         <View style=styles##overlay>
+           <SVGFavorite fill="#fff" width=19. height=19. />
+           <Text style=styles##overlayText>
+             {" " |> text}
+             {string_of_int(item##likes##count) |> text}
+             {"      " |> text}
+           </Text>
+           <SVGSpeechBubbleRight fill="#fff" width=19. height=19. />
+           <Text style=styles##overlayText>
+             {" " |> text}
+             {string_of_int(item##comments##count) |> text}
+           </Text>
+         </View> :
+         nothing}
     </TextLink>;
   },
 };
-

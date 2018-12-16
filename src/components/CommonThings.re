@@ -9,14 +9,11 @@ let make = _ => {
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <style>
-        {
-          {j|@-ms-viewport { width: device-width } @viewport { width: device-width }|j}
-          |> text
-        }
+        {{j|@-ms-viewport { width: device-width } @viewport { width: device-width }|j}
+         |> text}
       </style>
       <style>
-        {
-          {j|
+        {{j|
 html {
   height: 100%;
   background: #006579;
@@ -109,8 +106,7 @@ body {
 .dbComment p { margin: 0; }
 .dbComment a { color: #49443A; }
 |j}
-          |> text
-        }
+         |> text}
       </style>
     </Head>,
 };

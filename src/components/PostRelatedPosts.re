@@ -41,15 +41,13 @@ let make = (~postId, ~hasBeenVisible, _children) => {
     | Fetching =>
       ReasonReact.UpdateWithSideEffects(
         Loading,
-        (
-          ({send}) =>
-            fetchData(
-              postId,
-              items => send(Fetched(items)),
-              error => send(Errored(error)),
-            )
-            |> ignore
-        ),
+        ({send}) =>
+          fetchData(
+            postId,
+            items => send(Fetched(items)),
+            error => send(Errored(error)),
+          )
+          |> ignore,
       )
     | Fetched(items) => ReasonReact.Update(Data(items))
     | Errored(err) => ReasonReact.Update(Error(err))

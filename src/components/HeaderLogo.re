@@ -39,16 +39,11 @@ let make = _children => {
   render: _self =>
     <View style=styles##background>
       <View style=styles##backgroundImageWrapper>
-        {
-          let uri = "/images/header-background.png";
-          <Image
-            resizeMode=`contain
-            style=styles##backgroundImage
-            source={`URI(Image.(imageURISource(~uri, ())))}
-            /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
-            defaultSource={`URI(Image.(defaultURISource(~uri, ())))}
-          />;
-        }
+        <ImageFromUri
+          resizeMode=`contain
+          style=styles##backgroundImage
+          uri="/images/header-background.png"
+        />
       </View>
       <Spacer />
       <TextLink style=styles##logo href="/">
@@ -56,17 +51,11 @@ let make = _children => {
           <SVGDameBioLogo width=350. height=140. fill="#67B44B" />
         </View>
         <View style=styles##logoEffectWrapper>
-          {
-            let uri = "/images/logo-effect.png";
-
-            <Image
-              resizeMode=`cover
-              style=styles##logoEffect
-              source={`URI(Image.(imageURISource(~uri, ())))}
-              /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
-              defaultSource={`URI(Image.(defaultURISource(~uri, ())))}
-            />;
-          }
+          <ImageFromUri
+            resizeMode=`cover
+            style=styles##logoEffect
+            uri="/images/logo-effect.png"
+          />
         </View>
       </TextLink>
     </View>,

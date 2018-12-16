@@ -104,14 +104,12 @@ let make = _children => {
     | Fetching =>
       ReasonReact.UpdateWithSideEffects(
         {...state, fetching: true},
-        (
-          ({send}) =>
-            fetchData(
-              items => send(Fetched(items)),
-              error => send(Errored(error)),
-            )
-            |> ignore
-        ),
+        ({send}) =>
+          fetchData(
+            items => send(Fetched(items)),
+            error => send(Errored(error)),
+          )
+          |> ignore,
       )
     | Fetched(items) =>
       ReasonReact.Update({fetching: false, items: Some(items), error: None})
@@ -122,28 +120,22 @@ let make = _children => {
   render: ({state}) =>
     <View>
       {state.fetching ? <LoadingIndicator /> : nothing}
-      {
-        switch (state.error) {
-        | None => nothing
-        | Some(error) => <Text> {error |> text} </Text>
-        }
-      }
-      {
-        switch (state.items) {
-        | None => nothing
-        | Some(items) =>
-          switch (items) {
-          | [||] => nothing
-          | _ =>
-            <ScrollView horizontal=true style=styles##items>
-              {
-                items
-                ->Belt.Array.map(item => <InstagramPost key=item##id item />)
-                ->ReasonReact.array
-              }
-            </ScrollView>
-          }
-        }
-      }
+      {switch (state.error) {
+       | None => nothing
+       | Some(error) => <Text> {error |> text} </Text>
+       }}
+      {switch (state.items) {
+       | None => nothing
+       | Some(items) =>
+         switch (items) {
+         | [||] => nothing
+         | _ =>
+           <ScrollView horizontal=true style=styles##items>
+             {items
+              ->Belt.Array.map(item => <InstagramPost key=item##id item />)
+              ->ReasonReact.array}
+           </ScrollView>
+         }
+       }}
     </View>,
 };

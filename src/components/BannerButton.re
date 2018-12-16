@@ -25,13 +25,8 @@ let make = (~href, children) => {
   ...component,
   render: _self =>
     <TextLink href style=styles##container>
-      <ImageBackground
-        style=styles##image
-        resizeMode=`contain
-        source={`URI(Image.(imageURISource(~uri, ())))}
-        /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
-        defaultSource={`URI(Image.(defaultURISource(~uri, ())))}>
+      <ImageBackgroundFromUri style=styles##image resizeMode=`contain uri>
         <Text style=styles##children> ...children </Text>
-      </ImageBackground>
+      </ImageBackgroundFromUri>
     </TextLink>,
 };

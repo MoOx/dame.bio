@@ -44,18 +44,13 @@ let make = children => {
         wrapperStyle=styles##icons
         iconStyle=styles##icon
         iconSize=24.
-        iconWrapperFunc={
-          (~children) => {
-            let uri = "/images/pink/circle-bg-lg.png";
-            <ImageBackground
-              resizeMode=`contain
-              style=styles##iconBackground
-              source={`URI(Image.(imageURISource(~uri, ())))}
-              /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
-              defaultSource={`URI(Image.(defaultURISource(~uri, ())))}>
-              <Text style=styles##iconWrapper> ...children </Text>
-            </ImageBackground>;
-          }
+        iconWrapperFunc={(~children) =>
+          <ImageBackgroundFromUri
+            resizeMode=`contain
+            style=styles##iconBackground
+            uri="/images/pink/circle-bg-lg.png">
+            <Text style=styles##iconWrapper> ...children </Text>
+          </ImageBackgroundFromUri>
         }
       />
       <Spacer size=L />

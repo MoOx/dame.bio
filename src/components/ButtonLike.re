@@ -52,48 +52,38 @@ let make = (~id, _) => {
 
   reducer: (action, _) =>
     switch (action) {
-    | Like => ReasonReact.UpdateWithSideEffects(Liked, (_ => Likes.like(id)))
+    | Like => ReasonReact.UpdateWithSideEffects(Liked, _ => Likes.like(id))
     | Unlike =>
-      ReasonReact.UpdateWithSideEffects(NotLiked, (_ => Likes.unlike(id)))
+      ReasonReact.UpdateWithSideEffects(NotLiked, _ => Likes.unlike(id))
     },
 
   render: ({state, send}) =>
     <LikePostMutation>
-      ...{
-           (like, _) => {
-             let likeMutation = LikePost.make(~id, ());
-             <UnlikePostMutation>
-               ...{
-                    (unlike, _) => {
-                      let unlikeMutation = UnlikePost.make(~id, ());
-                      switch (state) {
-                      | Liked =>
-                        <TouchableOpacity
-                          onPress=(
-                            _ => {
-                              unlike(~variables=unlikeMutation##variables, ())
-                              |> ignore;
-                              send(Unlike);
-                            }
-                          )>
-                          liked
-                        </TouchableOpacity>
-                      | NotLiked =>
-                        <TouchableOpacity
-                          onPress=(
-                            _ => {
-                              like(~variables=likeMutation##variables, ())
-                              |> ignore;
-                              send(Like);
-                            }
-                          )>
-                          unliked
-                        </TouchableOpacity>
-                      };
-                    }
-                  }
-             </UnlikePostMutation>;
-           }
-         }
+      ...{(like, _) => {
+        let likeMutation = LikePost.make(~id, ());
+        <UnlikePostMutation>
+          ...{(unlike, _) => {
+            let unlikeMutation = UnlikePost.make(~id, ());
+            switch (state) {
+            | Liked =>
+              <TouchableOpacity
+                onPress={_ => {
+                  unlike(~variables=unlikeMutation##variables, ()) |> ignore;
+                  send(Unlike);
+                }}>
+                liked
+              </TouchableOpacity>
+            | NotLiked =>
+              <TouchableOpacity
+                onPress={_ => {
+                  like(~variables=likeMutation##variables, ()) |> ignore;
+                  send(Like);
+                }}>
+                unliked
+              </TouchableOpacity>
+            };
+          }}
+        </UnlikePostMutation>;
+      }}
     </LikePostMutation>,
 };

@@ -56,19 +56,11 @@ let make = (~name, ~url, _) => {
           style([backgroundColor(String(notSoRandomColor(name)))]),
         |])
       )>
-      {
-        String.length(name) > 1 ?
-          <Text style=styles##avatarDefault>
-            {String.sub(name, 0, 1) |> String.capitalize |> text}
-          </Text> :
-          <Text style=styles##avatarEmpty> {{j|¨̮|j} |> text} </Text>
-      }
-      <Image
-        style=styles##avatarImage
-        resizeMode=`contain
-        source={`URI(Image.(imageURISource(~uri=url, ())))}
-        /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
-        defaultSource={`URI(Image.(defaultURISource(~uri=url, ())))}
-      />
+      {String.length(name) > 1 ?
+         <Text style=styles##avatarDefault>
+           {String.sub(name, 0, 1) |> String.capitalize |> text}
+         </Text> :
+         <Text style=styles##avatarEmpty> {{j|¨̮|j} |> text} </Text>}
+      <ImageFromUri style=styles##avatarImage resizeMode=`contain uri=url />
     </View>,
 };

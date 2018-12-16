@@ -67,17 +67,15 @@ let make = (~item, _) => {
       ++ "/";
     <SpacedView key=item##id style=styles##block vertical=M horizontal=M>
       <TextLink href>
-        {
-          item##featuredImage
-          ->Belt.Option.flatMap(f => f##mediaDetails)
-          ->Belt.Option.flatMap(m => m##sizes)
-          ->Belt.Option.getWithDefault([||])
-          ->Belt.Array.keepMap(x => x)
-          ->Belt.Array.get(1)
-          ->Belt.Option.flatMap(s => s##sourceUrl)
-          ->Belt.Option.map(uri => <ImageWithAspectRatio uri />)
-          ->Belt.Option.getWithDefault(nothing)
-        }
+        {item##featuredImage
+         ->Belt.Option.flatMap(f => f##mediaDetails)
+         ->Belt.Option.flatMap(m => m##sizes)
+         ->Belt.Option.getWithDefault([||])
+         ->Belt.Array.keepMap(x => x)
+         ->Belt.Array.get(1)
+         ->Belt.Option.flatMap(s => s##sourceUrl)
+         ->Belt.Option.map(uri => <ImageWithAspectRatio uri />)
+         ->Belt.Option.getWithDefault(nothing)}
       </TextLink>
       <View style=styles##text>
         <View style=styles##row>
@@ -88,30 +86,24 @@ let make = (~item, _) => {
               ++ rootCategory##slug->Belt.Option.getWithDefault("_")
               ++ "/"
             }>
-            {
-              rootCategory##name
-              ->Belt.Option.getWithDefault("")
-              ->String.uppercase
-              ->text
-            }
+            {rootCategory##name
+             ->Belt.Option.getWithDefault("")
+             ->String.uppercase
+             ->text}
           </TextLink>
           <Text style=styles##actions>
             <ButtonLike id=item##id />
-            {
-              switch (item##likeCount->Belt.Option.getWithDefault(0)) {
-              | 0 => nothing
-              | v => ("  " ++ v->string_of_int)->text
-              }
-            }
+            {switch (item##likeCount->Belt.Option.getWithDefault(0)) {
+             | 0 => nothing
+             | v => ("  " ++ v->string_of_int)->text
+             }}
             <Text style=styles##action> {" | " |> text} </Text>
             <TextLink style=styles##action href={href ++ "#comments"}>
               <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
-              {
-                switch (item##commentCount->Belt.Option.getWithDefault(0)) {
-                | 0 => nothing
-                | v => ("  " ++ v->string_of_int)->text
-                }
-              }
+              {switch (item##commentCount->Belt.Option.getWithDefault(0)) {
+               | 0 => nothing
+               | v => ("  " ++ v->string_of_int)->text
+               }}
             </TextLink>
           </Text>
         </View>

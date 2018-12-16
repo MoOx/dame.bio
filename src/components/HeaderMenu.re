@@ -42,43 +42,37 @@ let make = _children => {
   render: _self =>
     <View style=styles##menu>
       <div
-        style={
-          ReactDOMRe.Style.make(
-            ~position="absolute",
-            ~top="0",
-            ~left="0",
-            ~right="0",
-            ~height="73px",
-            ~background="url(/images/green/ribbon-tile.png) repeat-x",
-            (),
-          )
-        }
+        style={ReactDOMRe.Style.make(
+          ~position="absolute",
+          ~top="0",
+          ~left="0",
+          ~right="0",
+          ~height="73px",
+          ~background="url(/images/green/ribbon-tile.png) repeat-x",
+          (),
+        )}
       />
       <div
-        style={
-          ReactDOMRe.Style.make(
-            ~position="absolute",
-            ~top="0",
-            ~left="-110px",
-            ~width="806px",
-            ~height="73px",
-            ~background="url(/images/green/menu-ribbon-left.png) repeat-x",
-            (),
-          )
-        }
+        style={ReactDOMRe.Style.make(
+          ~position="absolute",
+          ~top="0",
+          ~left="-110px",
+          ~width="806px",
+          ~height="73px",
+          ~background="url(/images/green/menu-ribbon-left.png) repeat-x",
+          (),
+        )}
       />
       <div
-        style={
-          ReactDOMRe.Style.make(
-            ~position="absolute",
-            ~top="0",
-            ~right="-110px",
-            ~width="806px",
-            ~height="73px",
-            ~background="url(/images/green/menu-ribbon-right.png) repeat-x",
-            (),
-          )
-        }
+        style={ReactDOMRe.Style.make(
+          ~position="absolute",
+          ~top="0",
+          ~right="-110px",
+          ~width="806px",
+          ~height="73px",
+          ~background="url(/images/green/menu-ribbon-right.png) repeat-x",
+          (),
+        )}
       />
       <View style=styles##menuLinks>
         <Spacer size=L />

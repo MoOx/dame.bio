@@ -1,6 +1,6 @@
 type mediaSize = {source_url: string};
 
-let decodeMediaSize = json: mediaSize =>
+let decodeMediaSize = (json): mediaSize =>
   Json.Decode.{source_url: json |> field("source_url", string)};
 
 type mediaSizes = {
@@ -17,11 +17,11 @@ type mediaDetails = {
 
 type media = {media_details: mediaDetails};
 
-let decodeMedia = json: media =>
+let decodeMedia = (json): media =>
   Json.Decode.{
     media_details:
       json
-      |> field("media_details", json =>
+      |> field("media_details", (json) =>
            (
              {
                /* width: json |> field("width", int),
@@ -48,7 +48,7 @@ type term = {
   hasParent: bool,
 };
 
-let decodeTerm = json: term =>
+let decodeTerm = (json): term =>
   Json.Decode.{
     id: json |> field("id", int),
     slug: json |> field("slug", string),
@@ -56,7 +56,7 @@ let decodeTerm = json: term =>
     taxonomy: json |> field("taxonomy", string),
     hasParent:
       json
-      |> field("_links", json =>
+      |> field("_links", (json) =>
            (
              {
                let links = Js.Json.decodeObject(json);
@@ -76,7 +76,7 @@ type terms = {
   tags: list(term),
 };
 
-let decodeTerms = json: terms => {
+let decodeTerms = (json): terms => {
   let termsArray = Js.Json.decodeArray(json);
   switch (termsArray) {
   | Some(termsArray) => {
@@ -103,7 +103,7 @@ type comment = {
   content: string,
 };
 
-let decodeComment = json: comment =>
+let decodeComment = (json): comment =>
   Json.Decode.{
     type_: json |> field("type", string),
     id: json |> field("id", int),
@@ -116,10 +116,10 @@ let decodeComment = json: comment =>
     content: json |> at(["content", "rendered"], string),
   };
 
-let decodeComments = json: list(comment) =>
+let decodeComments = (json): list(comment) =>
   Json.Decode.(json |> array(decodeComment)) |> Belt.List.fromArray;
 
-let decodePartialComments = json: list(comment) =>
+let decodePartialComments = (json): list(comment) =>
   Json.Decode.(
     Belt.Array.getUnsafe(Obj.magic(json), 0) |> array(decodeComment)
   )
@@ -139,7 +139,7 @@ type post = {
   terms,
 };
 
-let decodePost = json: post =>
+let decodePost = (json): post =>
   Json.Decode.{
     id: json |> field("id", int),
     date: json |> field("date_gmt", string),
@@ -157,10 +157,10 @@ let decodePost = json: post =>
     terms: json |> at(["_embedded", "wp:term"], decodeTerms),
   };
 
-let decodePosts = json: list(post) =>
+let decodePosts = (json): list(post) =>
   Json.Decode.(json |> array(decodePost)) |> Belt.List.fromArray;
 
-let decodeRelatedPosts = json: list(post) =>
+let decodeRelatedPosts = (json): list(post) =>
   Json.Decode.(
     json |> field("rendered", string) |> Json.parseOrRaise |> decodePosts
   );
@@ -183,7 +183,7 @@ let findRootCategory = (item: post): term =>
     }
   };
 
-let placeholderPost = id: post => {
+let placeholderPost = (id): post => {
   id,
   date: "",
   slug: "",

@@ -31,12 +31,7 @@ let make = (~uri, _) => {
             paddingBottom(Pct(100. *. imageRatio)),
           ])
         )>
-        <Image
-          style=styles##image
-          source={`URI(Image.(imageURISource(~uri, ())))}
-          /* SSR workaround https://github.com/necolas/react-native-web/issues/543 */
-          defaultSource={`URI(Image.(defaultURISource(~uri, ())))}
-        />
+        <ImageFromUri style=styles##image uri />
       </View>
     </View>,
 };
