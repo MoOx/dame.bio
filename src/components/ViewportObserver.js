@@ -35,6 +35,8 @@ export default class ViewportObserver extends Component {
     }
     // react-native
     if (this._view.measure) {
+      // simpler with that??
+      // this._view.measure((x, y, width, height) => {
       this._view.measure((x, y, width, height, pageX, pageY) => {
         const window = Dimensions.get("window");
         const isVisible =
