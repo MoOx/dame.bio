@@ -1,9 +1,8 @@
-let get = () => Storage.(getStore()->likesGet);
+open Storage;
+let get = () => store->likesGet;
 let set = lks => {
-  open Storage;
-  let store = getStore();
   store->likesSet(lks);
-  store->saveStore;
+  saveStore();
 };
 
 let isLiked = (id): bool => get()->Belt.Array.some(i => i == id);

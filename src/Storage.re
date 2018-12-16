@@ -1,10 +1,12 @@
-let save = (identifier, value) =>
+let saveIt = (identifier, value) =>
   switch (Env.getPlatform()) {
-  | Browser => Dom.Storage.(localStorage |> setItem(identifier, value))
+  | Browser =>
+    Dom.Storage.(localStorage |> setItem(identifier, value));
+    ();
   | _ => ()
   };
 
-let get = identifier =>
+let getIt = identifier =>
   switch (Env.getPlatform()) {
   | Browser => Dom.Storage.(localStorage |> getItem(identifier))
   | _ => None
@@ -20,8 +22,8 @@ type store = {
 
 let freshStore = () => store(~name="", ~email="", ~url="", ~likes=[||]);
 
-let getStore = () =>
-  switch (get("dame.bio")) {
+let store =
+  switch (getIt("dame.bio")) {
   | Some(serializedStore) =>
     try (Js.Json.parseExn(serializedStore)->Obj.magic) {
     | exn =>
@@ -31,7 +33,6 @@ let getStore = () =>
   | None => freshStore()
   };
 
-let saveStore = (store: store): unit => {
-  save("dame.bio", Js.Json.stringify(store->Obj.magic));
-  ();
+let saveStore = (): unit => {
+  saveIt("dame.bio", Js.Json.stringify(store->Obj.magic));
 };

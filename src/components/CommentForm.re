@@ -126,27 +126,12 @@ type comment = {
 };
 
 let newComment = (): comment => {
-  let name =
-    switch (localGet("name")) {
-    | None => ""
-    | Some(v) => v
-    };
-  let email =
-    switch (localGet("email")) {
-    | None => ""
-    | Some(v) => v
-    };
-  let url =
-    switch (localGet("url")) {
-    | None => ""
-    | Some(v) => v
-    };
   {
     /* todo read user id from local _*/
     author: 0,
-    name,
-    email,
-    url,
+    name: User.getName(),
+    email: User.getEmail(),
+    url: User.getUrl(),
     content: "",
     editMeta: false /*String.length(name) == 0 || String.length(email) == 0,*/
   };
@@ -452,220 +437,212 @@ let make = (~postId, ~parentCommentId, _children) => {
       <View style=styles##row>
         {parentCommentId > 0 ? <Spacer size=XL /> : nothing}
         <View style=styles##container>
-          {<View style=styles##row>
-             <View style=styles##avatar>
-               <Spacer />
-               <Spacer size=XXS />
-               <Avatar
-                 name={comment.name}
-                 url={
-                   "https://secure.gravatar.com/avatar/"
-                   ++ Md5.make(comment.email)
-                   ++ "?s=96&d=mm&r=g&d=blank"
-                 }
-               />
-             </View>
-             <Spacer size=XS />
-             <View style=styles##commentBox>
-               <Animated.View
-                 style=Style.(
-                   concat([
-                     styles##metaPreview,
-                     style([
-                       opacity(Animated(state.animated.metaPreviewOpacity)),
-                       Transform.makeAnimated(
-                         ~translateY=state.animated.metaPreviewY,
-                         (),
-                       ),
-                     ]),
-                   ])
-                 )>
-                 <View style=styles##row>
-                   <Spacer size=S />
-                   {String.length(comment.url) > 0 ?
-                      <TextLink
-                        style=styles##metaPreviewName href={comment.url}>
-                        {comment.name |> text}
-                      </TextLink> :
-                      <Text style=styles##metaPreviewName>
-                        {comment.name |> text}
-                      </Text>}
-                   <TouchableOpacity
-                     onPress={() =>
-                       send(CommentEdit({...comment, editMeta: true}))
-                       |> ignore
-                     }>
-                     <Text style=styles##metaPreviewEdit>
-                       {{j|  ·  |j} |> text}
-                       {{j|Modifier|j} |> text}
-                     </Text>
-                   </TouchableOpacity>
-                 </View>
-                 <Spacer size=XXS />
-               </Animated.View>
-               <View
-                 style={Style.concat([
-                   styles##textInputCommentRow,
-                   styles##textInputWrapper,
-                 ])}>
-                 <TextInputAutoMultilines
-                   style=Style.(
-                     concat([
-                       styles##textInput,
-                       switch (errors.content) {
-                       | Some(_) => styles##textInputError
-                       | None => style([])
-                       },
-                       styles##textInputComment,
-                     ])
-                   )
-                   value={comment.content}
-                   placeholder={
-                     "Ajouter un commentaire "
-                     ++ (
-                       !comment.editMeta && String.length(comment.name) > 0 ?
-                         "en tant que " ++ comment.name : ""
-                     )
-                     ++ "..."
-                   }
-                   onChangeText={text =>
-                     send(
-                       CommentEdit({
-                         ...comment,
-                         content: text,
-                         editMeta:
-                           String.length(comment.name) == 0
-                           || String.length(comment.email) == 0,
-                       }),
-                     )
-                   }
-                   onFocus={() => {
-                     let shouldEditComment =
-                       switch (state.comment) {
-                       | New => true
-                       | InProgress(_) => false
-                       | Sent((_, _)) => false
-                       | Posted((_, _)) => false
-                       | Errored((_, _)) => false
-                       };
-                     (
-                       if (shouldEditComment) {
-                         send(
-                           CommentEdit({
-                             ...comment,
-                             editMeta:
-                               String.length(comment.name) == 0
-                               || String.length(comment.email) == 0,
-                           }),
-                         );
-                       }
-                     )
-                     |> ignore;
-                   }}
-                 />
-                 {switch (errors.content) {
-                  | Some(message) =>
-                    <Text style=styles##errorText> {message |> text} </Text>
-                  | None => nothing
+          <View style=styles##row>
+            <View style=styles##avatar>
+              <Spacer />
+              <Spacer size=XXS />
+              <Avatar
+                name={comment.name}
+                url={
+                  "https://secure.gravatar.com/avatar/"
+                  ++ Md5.make(comment.email)
+                  ++ "?s=96&d=mm&r=g&d=blank"
+                }
+              />
+            </View>
+            <Spacer size=XS />
+            <View style=styles##commentBox>
+              <Animated.View
+                style=Style.(
+                  concat([
+                    styles##metaPreview,
+                    style([
+                      opacity(Animated(state.animated.metaPreviewOpacity)),
+                      Transform.makeAnimated(
+                        ~translateY=state.animated.metaPreviewY,
+                        (),
+                      ),
+                    ]),
+                  ])
+                )>
+                <View style=styles##row>
+                  <Spacer size=S />
+                  {String.length(comment.url) > 0 ?
+                     <TextLink
+                       style=styles##metaPreviewName href={comment.url}>
+                       {comment.name |> text}
+                     </TextLink> :
+                     <Text style=styles##metaPreviewName>
+                       {comment.name |> text}
+                     </Text>}
+                  <TouchableOpacity
+                    onPress={() =>
+                      send(CommentEdit({...comment, editMeta: true}))
+                      |> ignore
+                    }>
+                    <Text style=styles##metaPreviewEdit>
+                      {{j|  ·  |j} |> text}
+                      {{j|Modifier|j} |> text}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <Spacer size=XXS />
+              </Animated.View>
+              <View
+                style={Style.concat([
+                  styles##textInputCommentRow,
+                  styles##textInputWrapper,
+                ])}>
+                <TextInputAutoMultilines
+                  style=Style.(
+                    concat([
+                      styles##textInput,
+                      switch (errors.content) {
+                      | Some(_) => styles##textInputError
+                      | None => style([])
+                      },
+                      styles##textInputComment,
+                    ])
+                  )
+                  value={comment.content}
+                  placeholder={
+                    "Ajouter un commentaire "
+                    ++ (
+                      !comment.editMeta && String.length(comment.name) > 0 ?
+                        "en tant que " ++ comment.name : ""
+                    )
+                    ++ "..."
+                  }
+                  onChangeText={text =>
+                    send(
+                      CommentEdit({
+                        ...comment,
+                        content: text,
+                        editMeta:
+                          String.length(comment.name) == 0
+                          || String.length(comment.email) == 0,
+                      }),
+                    )
+                  }
+                  onFocus={() => {
+                    let shouldEditComment =
+                      switch (state.comment) {
+                      | New => true
+                      | InProgress(_) => false
+                      | Sent((_, _)) => false
+                      | Posted((_, _)) => false
+                      | Errored((_, _)) => false
+                      };
+                    (
+                      if (shouldEditComment) {
+                        send(
+                          CommentEdit({
+                            ...comment,
+                            editMeta:
+                              String.length(comment.name) == 0
+                              || String.length(comment.email) == 0,
+                          }),
+                        );
+                      }
+                    )
+                    |> ignore;
                   }}
-               </View>
-               <Spacer size=XXS />
-               <Animated.View
-                 style=Style.(
-                   concat([
-                     styles##textInputs,
-                     style([
-                       opacity(
-                         Animated(state.animated.metaTextInputOpacity),
-                       ),
-                       Transform.makeAnimated(
-                         ~translateY=state.animated.metaTextInputY,
-                         (),
-                       ),
-                     ]),
-                   ])
-                 )>
-                 <View style=styles##row>
-                   <View style=styles##textInputWrapper>
-                     <TextInput
-                       style=Style.(
-                         concat([
-                           styles##textInput,
-                           switch (errors.name) {
-                           | Some(_) => styles##textInputError
-                           | None => style([])
-                           },
-                           styles##textInputName,
-                         ])
-                       )
-                       value={comment.name}
-                       placeholder="Nom *"
-                       onChangeText={text => {
-                         localSave("name", text);
-                         send(CommentEdit({...comment, name: text}));
-                       }}
-                     />
-                     {switch (errors.name) {
-                      | Some(message) =>
-                        <Text style=styles##errorText>
-                          {message |> text}
-                        </Text>
-                      | None => nothing
+                />
+                {switch (errors.content) {
+                 | Some(message) =>
+                   <Text style=styles##errorText> {message |> text} </Text>
+                 | None => nothing
+                 }}
+              </View>
+              <Spacer size=XXS />
+              <Animated.View
+                style=Style.(
+                  concat([
+                    styles##textInputs,
+                    style([
+                      opacity(Animated(state.animated.metaTextInputOpacity)),
+                      Transform.makeAnimated(
+                        ~translateY=state.animated.metaTextInputY,
+                        (),
+                      ),
+                    ]),
+                  ])
+                )>
+                <View style=styles##row>
+                  <View style=styles##textInputWrapper>
+                    <TextInput
+                      style=Style.(
+                        concat([
+                          styles##textInput,
+                          switch (errors.name) {
+                          | Some(_) => styles##textInputError
+                          | None => style([])
+                          },
+                          styles##textInputName,
+                        ])
+                      )
+                      value={comment.name}
+                      placeholder="Nom *"
+                      onChangeText={text => {
+                        User.setName(text);
+                        send(CommentEdit({...comment, name: text}));
                       }}
-                   </View>
-                   <Spacer size=XXS />
-                   <View style=styles##textInputWrapper>
-                     <TextInput
-                       style=Style.(
-                         concat([
-                           styles##textInput,
-                           switch (errors.email) {
-                           | Some(_) => styles##textInputError
-                           | None => style([])
-                           },
-                           styles##textInputEmail,
-                         ])
-                       )
-                       value={comment.email}
-                       placeholder="Email *"
-                       onChangeText={text => {
-                         localSave("email", text);
-                         send(CommentEdit({...comment, email: text}));
-                       }}
-                     />
-                     {switch (errors.email) {
-                      | Some(message) =>
-                        <Text style=styles##errorText>
-                          {message |> text}
-                        </Text>
-                      | None => nothing
+                    />
+                    {switch (errors.name) {
+                     | Some(message) =>
+                       <Text style=styles##errorText> {message |> text} </Text>
+                     | None => nothing
+                     }}
+                  </View>
+                  <Spacer size=XXS />
+                  <View style=styles##textInputWrapper>
+                    <TextInput
+                      style=Style.(
+                        concat([
+                          styles##textInput,
+                          switch (errors.email) {
+                          | Some(_) => styles##textInputError
+                          | None => style([])
+                          },
+                          styles##textInputEmail,
+                        ])
+                      )
+                      value={comment.email}
+                      placeholder="Email *"
+                      onChangeText={text => {
+                        User.setEmail(text);
+                        send(CommentEdit({...comment, email: text}));
                       }}
-                   </View>
-                   <Spacer size=XXS />
-                   <View style=styles##textInputWrapper>
-                     <TextInput
-                       style=Style.(
-                         concat([styles##textInput, styles##textInputUrl])
-                       )
-                       value={comment.url}
-                       placeholder="https://site.web"
-                       onChangeText={text => {
-                         localSave("url", text);
-                         send(CommentEdit({...comment, url: text}));
-                       }}
-                     />
-                   </View>
-                 </View>
-               </Animated.View>
-               <TouchableOpacity
-                 onPress={() => send(CommentSend(comment))}
-                 style=styles##buttonSend>
-                 <Text style=styles##buttonSendText>
-                   {"Envoyer" |> text}
-                 </Text>
-               </TouchableOpacity>
-             </View>
-           </View>}
+                    />
+                    {switch (errors.email) {
+                     | Some(message) =>
+                       <Text style=styles##errorText> {message |> text} </Text>
+                     | None => nothing
+                     }}
+                  </View>
+                  <Spacer size=XXS />
+                  <View style=styles##textInputWrapper>
+                    <TextInput
+                      style=Style.(
+                        concat([styles##textInput, styles##textInputUrl])
+                      )
+                      value={comment.url}
+                      placeholder="https://site.web"
+                      onChangeText={text => {
+                        User.setUrl(text);
+                        send(CommentEdit({...comment, url: text}));
+                      }}
+                    />
+                  </View>
+                </View>
+              </Animated.View>
+              <TouchableOpacity
+                onPress={() => send(CommentSend(comment))}
+                style=styles##buttonSend>
+                <Text style=styles##buttonSendText> {"Envoyer" |> text} </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </View>
     </View>;
