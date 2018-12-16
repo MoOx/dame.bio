@@ -61,7 +61,6 @@ let make = (~postId, ~commentCounts, ~comments, _) => {
            </>
          | coms =>
            coms
-           ->Belt.Array.reverse
            ->Belt.Array.mapWithIndex((index, comment) =>
                comment->Belt.Option.mapWithDefault(nothing, comment =>
                  comment##parent->Belt.Option.isNone ?

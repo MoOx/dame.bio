@@ -35,7 +35,6 @@ let rec make = (~comment, ~postId, ~parentCommentId: int, ~comments, _) => {
       {comments
        ->Belt.Option.flatMap(ts => ts##nodes)
        ->Belt.Option.getWithDefault([||])
-       /* ->Belt.Array.reverse */
        ->Belt.Array.mapWithIndex((index, c) =>
            c->Belt.Option.mapWithDefault(nothing, comment =>
              comment##parent

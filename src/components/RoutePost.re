@@ -48,7 +48,14 @@ module GetItem = [%graphql
           postId
           dateGmt
           content
-          comments(first: 1000, where: {parent: 99999}) {
+          comments(
+            first: 1000,
+            where: {
+              parent: 99999,
+              orderby: COMMENT_DATE_GMT,
+              order: ASC
+            }
+          ) {
           # 99999 is a trick defined in `graphql_comment_connection_query_args` filter to have all comments
             nodes {
               ...Fragments.CommentFragment
