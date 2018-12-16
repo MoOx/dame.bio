@@ -18,11 +18,12 @@ let styles =
         ]),
       "avatarDefault":
         style([
-          lineHeight(40.),
           color(String("#fff")),
           textAlign(Center),
           fontWeight(`_600),
-          fontSize(Float(18.)),
+          fontSize(Float(24.)),
+          lineHeight(40.),
+          fontFamily("IndieFlower"),
         ]),
       "avatarImage":
         style([
@@ -46,21 +47,29 @@ let notSoRandomColor = s => {
   "hsl(" ++ string_of_int(hue) ++ ", 90%, 95%)";
 };
 
-let make = (~name, ~url, _) => {
+let make = (~name=?, ~url=?, _) => {
   ...component,
   render: _self =>
     <View
       style=Style.(
         flatten([|
           styles##avatar,
-          style([backgroundColor(String(notSoRandomColor(name)))]),
+          name->Belt.Option.mapWithDefault(style([]), name =>
+            style([backgroundColor(String(notSoRandomColor(name)))])
+          ),
         |])
       )>
-      {String.length(name) > 1 ?
+      {switch (name) {
+       | Some(name) when String.length(name) > 1 =>
          <Text style=styles##avatarDefault>
            {String.sub(name, 0, 1) |> String.capitalize |> text}
-         </Text> :
-         <Text style=styles##avatarEmpty> {{j|¨̮|j} |> text} </Text>}
-      <ImageFromUri style=styles##avatarImage resizeMode=`contain uri=url />
+         </Text>
+       | _ => <Text style=styles##avatarEmpty> {{j|¨̮|j} |> text} </Text>
+       }}
+      {switch (url) {
+       | Some(url) =>
+         <ImageFromUri style=styles##avatarImage resizeMode=`contain uri=url />
+       | None => nothing
+       }}
     </View>,
 };

@@ -429,10 +429,12 @@ let make = (~postId, ~parentCommentId, _children) => {
        }; */
     <View>
       {switch (state.comment) {
-       | Sent((_, _)) =>
-         <> <Text> {{j|Envoi...|j} |> text} </Text> <Spacer /> </>
-       | Posted((_, comment)) =>
-         <Comment comment canReply=false separator=false />
+       | Sent((_, _)) => <> <ActivityIndicator size=`small /> <Spacer /> </>
+       | Posted((_, _)) =>
+         <>
+           <Text> {{j|👍 Commentaire envoyé!|j} |> text} </Text>
+           <Spacer />
+         </>
        | _ => nothing
        }}
       <View style=styles##row>

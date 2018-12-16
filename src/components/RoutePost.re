@@ -8,6 +8,32 @@ type status =
   | Ready
   | Error(option(string));
 
+module Fragments = [%graphql
+  {|
+  fragment CommentFragment on Comment {
+    commentId
+    parent {
+      commentId
+    }
+    dateGmt
+    content
+    author {
+      ... on User {
+        userId
+        name
+        url
+        email
+      }
+      ... on CommentAuthor {
+        name
+        url
+        email
+      }
+    }
+  }
+|}
+];
+
 module GetItem = [%graphql
   {|
   query getItem($slug: String!){
@@ -20,7 +46,14 @@ module GetItem = [%graphql
           commentCount
           likeCount
           postId
+          dateGmt
           content
+          comments(first: 1000, where: {parent: 99999}) {
+          # 99999 is a trick defined in `graphql_comment_connection_query_args` filter to have all comments
+            nodes {
+              ...Fragments.CommentFragment
+            }
+          }
           categories {
             nodes {
               name

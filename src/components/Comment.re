@@ -64,51 +64,78 @@ let styles =
 
 let component = ReasonReact.statelessComponent("Comment");
 
-let make =
-    (
-      ~comment: Structures.comment,
-      ~separator,
-      ~canReply,
-      ~onReply=() => (),
-      _,
-    ) => {
+let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
   ...component,
   render: _self => {
-    let isOwner = comment.author == 2;
+    let name =
+      (
+        switch (comment##author) {
+        | Some(`CommentAuthor(a)) => a##name
+        | Some(`User(a)) => a##name
+        | None => Some("")
+        }
+      )
+      ->Belt.Option.getWithDefault("");
+    let url =
+      (
+        switch (comment##author) {
+        | Some(`CommentAuthor(a)) => a##url
+        | Some(`User(a)) => a##url
+        | None => None
+        }
+      )
+      ->Belt.Option.getWithDefault("");
     <>
       {separator ? <> <CommentSeparator /> <Spacer /> </> : nothing}
       <View style=styles##comment>
-        {comment.parent > 0 ? <Spacer size=XL /> : nothing}
+        {comment##parent->Belt.Option.isSome ? <Spacer size=XL /> : nothing}
         <View>
           <Spacer size=XXS />
           <Avatar
-            name={comment.author_name}
-            url={comment.author_avatar_url ++ "&d=blank"}
+            name
+            url={
+              "https://secure.gravatar.com/avatar/"
+              ++ (
+                   switch (comment##author) {
+                   | Some(`CommentAuthor(a)) => a##email
+                   | Some(`User(a)) => a##email
+                   | None => Some("")
+                   }
+                 )
+                 ->Belt.Option.getWithDefault("")
+                 ->Md5.make
+              ++ "?s=96&d=mm&r=g&d=blank"
+            }
           />
         </View>
         <Spacer size=XS />
         <View style=styles##commentTextContainer>
           <View style=styles##commentMeta>
-            {String.length(comment.author_url) > 0 ?
-               <TextLink style=styles##commentAuthor href={comment.author_url}>
-                 {comment.author_name |> text}
+            {String.length(url) > 0 ?
+               <TextLink style=styles##commentAuthor href=url>
+                 {name |> text}
                </TextLink> :
-               <Text style=styles##commentAuthor>
-                 {comment.author_name |> text}
-               </Text>}
-            {isOwner ?
+               <Text style=styles##commentAuthor> {name |> text} </Text>}
+            {switch (comment##author) {
+             | Some(`User(a))
+                 when a##userId->Belt.Option.getWithDefault(0) == 2 =>
                <>
                  <Text> {" " |> text} </Text>
-                 <TextLink
-                   href={comment.author_url} style=styles##commentOwner>
+                 <TextLink href=url style=styles##commentOwner>
                    {"Auteur" |> text}
                  </TextLink>
-               </> :
-               nothing}
+               </>
+             | _ => nothing
+             }}
           </View>
           <View style=styles##row>
             <Text style=styles##commentDate>
-              {(comment.date |> Date.relativeDate |> String.capitalize)
+              {comment##dateGmt
+               ->Belt.Option.mapWithDefault(Js.Date.make(), d =>
+                   Js.Date.fromString(d |> Js.String.replace(" ", "T"))
+                 )
+               ->Date.relativeDate
+               ->String.capitalize
                ++ {j|  ·  |j}
                |> text}
             </Text>
@@ -125,7 +152,7 @@ let make =
               className="dbComment"
               dangerouslySetInnerHTML={
                 "__html":
-                  comment.content
+                  comment##content->Belt.Option.getWithDefault("")
                   |> Js.String.replace("<p>", "")
                   |> Js.String.replace("</p>", ""),
               }

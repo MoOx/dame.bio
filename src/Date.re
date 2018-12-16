@@ -13,6 +13,10 @@ external createRelativeFormat: string => relativeFormat =
 
 let relativeFormat = createRelativeFormat("fr");
 
-let relativeDate: string => string = [%raw
+let relativeDateFromString: string => string = [%raw
+  "function(s) {return relativeFormat.format(new Date(s))}"
+];
+
+let relativeDate: Js.Date.t => string = [%raw
   "function(s) {return relativeFormat.format(new Date(s))}"
 ];

@@ -180,7 +180,11 @@ let make = (~item, _) => {
         }
       </ViewportObserver>
       <Spacer size=XL />
-      <PostComments postId=item##postId />
+      <Comments
+        postId=item##postId
+        commentCounts=item##commentCount
+        comments=item##comments
+      />
     </View>;
   },
 };

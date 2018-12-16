@@ -26,17 +26,32 @@ let styles =
 
 let component = ReasonReact.statelessComponent("Comments");
 
-let make = (~postId, ~comments: Structures.comments, _) => {
+let make = (~postId, ~commentCounts, ~comments, _) => {
   ...component,
   render: _self =>
     <>
+      /* @todo native fix */
+      <a name="comments" />
       <View>
-        <Text style=styles##subtitle> {"Commentaires" |> text} </Text>
+        <Text style=styles##subtitle>
+          {(
+             switch (commentCounts->Belt.Option.getWithDefault(0)) {
+             | 0 => "Commentaires"
+             | 1 => "1 Commentaire"
+             | count => count->string_of_int ++ " Commentaires"
+             }
+           )
+           |> text}
+        </Text>
       </View>
       <Spacer size=S />
       <View style=styles##comments>
-        {switch (comments) {
-         | [] =>
+        {switch (
+           comments
+           ->Belt.Option.flatMap(ts => ts##nodes)
+           ->Belt.Option.getWithDefault([||])
+         ) {
+         | [||] =>
            <>
              <Spacer size=L />
              <Text style=styles##noComment>
@@ -44,21 +59,26 @@ let make = (~postId, ~comments: Structures.comments, _) => {
              </Text>
              <Spacer size=L />
            </>
-         | _ =>
-           comments
-           ->Belt.List.reverse
-           ->Belt.List.map(comment =>
-               comment.parent == 0 ?
-                 <PostComment
-                   key={string_of_int(comment.id)}
-                   comment
-                   parentCommentId={comment.id}
-                   postId
-                   comments
-                 /> :
-                 nothing
+         | coms =>
+           coms
+           ->Belt.Array.reverse
+           ->Belt.Array.mapWithIndex((index, comment) =>
+               comment->Belt.Option.mapWithDefault(nothing, comment =>
+                 comment##parent->Belt.Option.isNone ?
+                   <CommentWithReplyAndChildren
+                     key={string_of_int(
+                       comment##commentId->Belt.Option.getWithDefault(index),
+                     )}
+                     comment
+                     parentCommentId={
+                       comment##commentId->Belt.Option.getWithDefault(0)
+                     }
+                     postId
+                     comments
+                   /> :
+                   nothing
+               )
              )
-           ->Belt.List.toArray
            ->ReasonReact.array
          }}
         <CommentSeparator />

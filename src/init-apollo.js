@@ -1,4 +1,5 @@
 import { ApolloClient, InMemoryCache, HttpLink } from "apollo-boost";
+import { IntrospectionFragmentMatcher } from "apollo-cache-inmemory";
 
 let apolloClient = null;
 let isBrowser = typeof window !== "undefined";
@@ -11,7 +12,12 @@ function create(initialState) {
       uri: "https://dame.bio/graphql",
       credentials: "same-origin"
     }),
-    cache: new InMemoryCache().restore(
+    cache: new InMemoryCache({
+      fragmentMatcher: new IntrospectionFragmentMatcher({
+        introspectionQueryResultData: require("./introspectionQueryResult.json")
+          .data
+      })
+    }).restore(
       initialState || (isBrowser ? window.__APOLLO_STATE__ : undefined) || {}
     )
   });
