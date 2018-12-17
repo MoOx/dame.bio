@@ -20,9 +20,10 @@ let styles =
           color(String("#DE6D88")),
         ]),
       "icons": style([flexDirection(Row), justifyContent(Center)]),
-      "icon": style([padding(Pt(4.))]),
-      "iconWrapper": style([zIndex(1), lineHeight(24.), padding(Pt(6.))]),
-      "iconBackground": style([paddingTop(Pt(4.)), paddingRight(Pt(4.))]),
+      "icon": style([]),
+      "iconWrapper":
+        style([zIndex(1), lineHeight(24.), padding(Pt(14.))]),
+      "iconBackground": style([paddingTop(Pt(3.)), paddingRight(Pt(2.))]),
     },
   );
 
@@ -46,9 +47,9 @@ let make = children => {
         iconSize=24.
         iconWrapperFunc={(~children) =>
           <ImageBackgroundFromUri
-            resizeMode=`contain
+            resizeMode=`cover
             style=styles##iconBackground
-            uri="/images/pink/circle-bg-lg.png">
+            uri="/images/circle-splash-pink.png">
             <Text style=styles##iconWrapper> ...children </Text>
           </ImageBackgroundFromUri>
         }
