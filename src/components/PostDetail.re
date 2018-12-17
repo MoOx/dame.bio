@@ -254,6 +254,7 @@ let make = (~item, _) => {
            )
          ->ReasonReact.array}
       </SpacedView>
+      <Spacer />
       <Author />
       <Spacer size=XL />
       <Comments
