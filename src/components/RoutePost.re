@@ -1,3 +1,5 @@
+open BsReactNative;
+
 [@bs.module "@phenomic/preset-react-app/lib/client"]
 external withInitialProps: 'a => 'a = "";
 
@@ -34,8 +36,8 @@ module Fragments = [%graphql
 
 module GetItem = [%graphql
   {|
-  query getItem($slug: String!){
-    posts(first: 1, where: {name: $slug}) {
+  query getItem($postSlug: String!){
+    posts(first: 1, where: {name: $postSlug}) {
       edges {
         node {
           id
@@ -85,10 +87,10 @@ module GetItemQuery = ReasonApollo.CreateQuery(GetItem);
 
 let component = ReasonReact.statelessComponent("RoutePost");
 
-let make = (~status, ~slug, _) => {
+let make = (~status, ~postSlug, _) => {
   ...component,
   render: _ => {
-    let itemQuery = GetItem.make(~slug, ());
+    let itemQuery = GetItem.make(~postSlug, ());
     <WebsiteWrapper>
       <ContainerMainContent>
         {switch (status) {
@@ -109,7 +111,19 @@ let make = (~status, ~slug, _) => {
                          edge
                          ->Belt.Option.flatMap(edge => edge##node)
                          ->Belt.Option.map(item =>
-                             <PostDetail key=item##id item />
+                             <View key=item##id>
+                               {item##title
+                                ->Belt.Option.mapWithDefault(
+                                    ReasonReact.null, title =>
+                                    <BsReactHelmet>
+                                      <title key=title>
+                                        {(title ++ {j| - D'Âme Bio|j})
+                                         ->ReasonReact.string}
+                                      </title>
+                                    </BsReactHelmet>
+                                  )}
+                               <PostDetail item />
+                             </View>
                            )
                          ->Belt.Option.getWithDefault(ReasonReact.null)
                        )
@@ -137,7 +151,7 @@ let composedComponent =
         | "error"
         | _ => Error(Js.Nullable.toOption(jsProps##error))
         },
-      ~slug=jsProps##params##splat,
+      ~postSlug=jsProps##params##splat,
       [||],
     )
   );
