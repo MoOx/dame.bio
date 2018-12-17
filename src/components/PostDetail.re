@@ -115,21 +115,21 @@ let make = (~item, _) => {
           className="dbPost"
           dangerouslySetInnerHTML={
             "__html":
-              Js.String.replaceByRe(
-                [%re "/=\"\\/wp-content/g"],
-                "=\"https://dame.bio/wp-content",
-                Js.String.replaceByRe(
-                  [%re "/\\u2b50\\ufe0e(<br \\/>?)/g"],
-                  ""
-                  ++ "<span style=\"display: block; text-align: center; margin: 40px;\">"
-                  ++ "<span style=\"display: inline-block;background: url(/images/line_flower.png) no-repeat; height: 14px; width: 68px;\"></span>"
-                  /* ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-left.png) no-repeat; height: 21px; width: 17px;\"></span>"
-                     ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-tile.png) repeat-x; height: 21px; width: 80%;\"></span>"
-                     ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-right.png) no-repeat; height: 21px; width: 66px;\"></span>" */
-                  ++ "</span>",
-                  item##content->Belt.Option.getWithDefault(""),
-                ),
-              ),
+              item##content->Belt.Option.getWithDefault("")
+              |> Js.String.replaceByRe(
+                   [%re "/=\"\\/wp-content/g"],
+                   "=\"https://dame.bio/wp-content",
+                 )
+              |> Js.String.replaceByRe(
+                   [%re "/\\u2b50\\ufe0e(<br \\/>?)/g"],
+                   ""
+                   ++ "<span style=\"display: block; text-align: center; margin: 40px;\">"
+                   ++ "<span style=\"display: inline-block;background: url(/images/line_flower.png) no-repeat; height: 14px; width: 68px;\"></span>"
+                   /* ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-left.png) no-repeat; height: 21px; width: 17px;\"></span>"
+                      ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-tile.png) repeat-x; height: 21px; width: 80%;\"></span>"
+                      ++ "<span style=\"display: inline-block;background: url(/images/line-arrow-right.png) no-repeat; height: 21px; width: 66px;\"></span>" */
+                   ++ "</span>",
+                 ),
           }
         />
       </SpacedView>
