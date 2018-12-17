@@ -169,6 +169,12 @@ let make = (~item, _) => {
       </SpacedView>
       <Author />
       <Spacer size=XL />
+      <Comments
+        postId=item##postId
+        commentCounts=item##commentCount
+        comments=item##comments
+      />
+      <Spacer size=XL />
       <ViewportObserver>
         ...{state =>
           <PostRelatedPosts
@@ -177,12 +183,6 @@ let make = (~item, _) => {
           />
         }
       </ViewportObserver>
-      <Spacer size=XL />
-      <Comments
-        postId=item##postId
-        commentCounts=item##commentCount
-        comments=item##comments
-      />
     </View>;
   },
 };
