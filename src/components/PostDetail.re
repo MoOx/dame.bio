@@ -70,6 +70,66 @@ let make = (~item, _) => {
       ++ item##slug->Belt.Option.getWithDefault(item##id)
       ++ "/";
     <View style=styles##block>
+      <BsReactHelmet>
+        <style>
+          {j|
+.dbPost {
+  font-size: 16px;
+  line-height: 29px;
+  color: #49443A;
+}
+.dbPost a {
+  color: #3ba013;
+}
+.dbPost strong {
+  font-weight: 800;
+}
+.dbPost img {
+  max-width: 100%;
+}
+
+.dbPost .ingredients dt,
+.dbPost .tips-title {
+  font-weight: 800;
+  font-size: 18px;
+}
+.dbPost dd {
+  margin: 0 0 0 20px;
+}
+.dbPost dd::before {
+  content: "· "
+}
+
+.wp-block-image {
+  margin: 8% auto;
+  max-width: 90%;
+}
+
+.wp-block-image figcaption {
+  color: #555d66;
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.dbtmp-element-protector-wrapper {
+  margin: 0;
+  display: block;
+  position: relative;
+  background: #eee;
+}
+.dbtmp-element-protector-wrapper img {display: block;}
+.dbtmp-element-protector-overlay {position:absolute;top:0;left:0;right:0;bottom:0;}
+
+/* keep wordpress html default rendering */
+.dbComment { white-space: normal }
+.dbComment p { margin: 0; }
+.dbComment a { color: #49443A; }
+|j}
+          ->ReasonReact.string
+        </style>
+      </BsReactHelmet>
       <Text style=styles##title>
         <span
           dangerouslySetInnerHTML={
@@ -133,7 +193,7 @@ let make = (~item, _) => {
               |> Js.String.replaceByRe(
                    [%re "/<hr ?(class=\"wp-block-separator\")? ?\/?>/g"],
                    ""
-                   ++ "<span style=\"display: flex; flex-direction: row; justify-content: center; align-items: center; margin: 40px auto; width: 80%;\">"
+                   ++ "<span style=\"display: flex; flex-direction: row; justify-content: center; align-items: center; margin: 60px auto; width: 80%;\">"
                    ++ "<span style=\"flex: 1; height: 1px; background: #A6A6A7;\"></span>"
                    ++ (
                      switch (
