@@ -13,6 +13,12 @@ type status =
 module GetItems = [%graphql
   {|
   query getItems($first: Int!, $categorySlug: String, $cursorAfter: String){
+    categories(first: 1, where: {slug: [$categorySlug]}) {
+      nodes {
+        id
+        name
+      }
+    }
     posts(first: $first, after: $cursorAfter, where: {categoryName: $categorySlug}) {
       pageInfo {
         startCursor
@@ -85,70 +91,95 @@ let make = (~status, ~categorySlug, ~cursorAfter, _) => {
                | Data(response) =>
                  let pageInfo =
                    response##posts->Belt.Option.flatMap(p => p##pageInfo);
-                 response##posts
-                 ->Belt.Option.flatMap(p => p##edges)
-                 ->Belt.Option.map(edges =>
-                     <>
-                       <PostListFromGraphQLQuery edges />
-                       <View
-                         style=Style.(
-                           style([
-                             flexDirection(Row),
-                             justifyContent(SpaceAround),
-                           ])
-                         )>
-                         {/* not working yet
-                             https://github.com/wp-graphql/wp-graphql/issues/594 */
-                          pageInfo
-                          ->Belt.Option.map(p => p##hasPreviousPage)
-                          ->Belt.Option.getWithDefault(false) ?
-                            pageInfo
-                            ->Belt.Option.flatMap(p => p##startCursor)
-                            ->Belt.Option.map(cursor =>
-                                <BannerButton
-                                  href={
-                                    categorySlug->Belt.Option.mapWithDefault(
-                                      "", c =>
-                                      "/" ++ c
-                                    )
-                                    ++ "/after/"
-                                    ++ cursor
-                                    ++ "/"
-                                  }>
-                                  {j|Articles plus récents|j}
-                                  ->ReasonReact.string
-                                </BannerButton>
+                 <>
+                   {response##categories
+                    ->Belt.Option.flatMap(p => p##nodes)
+                    ->Belt.Option.mapWithDefault(ReasonReact.null, nodes =>
+                        nodes
+                        ->Belt.Array.map(node =>
+                            node
+                            ->Belt.Option.flatMap(node => node##name)
+                            ->Belt.Option.mapWithDefault(
+                                ReasonReact.null, name =>
+                                <BsReactHelmet key=name>
+                                  <title key=name>
+                                    {(name ++ {j| - D'Âme Bio|j})
+                                     ->ReasonReact.string}
+                                  </title>
+                                </BsReactHelmet>
                               )
-                            ->Belt.Option.getWithDefault(ReasonReact.null) :
-                            ReasonReact.null}
-                         {pageInfo
-                          ->Belt.Option.map(p => p##hasNextPage)
-                          ->Belt.Option.getWithDefault(false) ?
-                            pageInfo
-                            ->Belt.Option.flatMap(p => p##endCursor)
-                            ->Belt.Option.map(cursor =>
-                                <BannerButton
-                                  href={
-                                    categorySlug->Belt.Option.mapWithDefault(
-                                      "", c =>
-                                      "/" ++ c
-                                    )
-                                    ++ "/after/"
-                                    ++ cursor
-                                    ++ "/"
-                                  }>
-                                  {j|Encore plus d'articles|j}
-                                  ->ReasonReact.string
-                                </BannerButton>
-                              )
-                            ->Belt.Option.getWithDefault(ReasonReact.null) :
-                            ReasonReact.null}
-                       </View>
-                     </>
-                   )
-                 ->Belt.Option.getWithDefault(
-                     <Error label={Some({j|Aucun résultat|j})} />,
-                   );
+                          )
+                        ->ReasonReact.array
+                      )}
+                   {response##posts
+                    ->Belt.Option.flatMap(p => p##edges)
+                    ->Belt.Option.map(edges =>
+                        <>
+                          <PostListFromGraphQLQuery edges />
+                          <View
+                            style=Style.(
+                              style([
+                                flexDirection(Row),
+                                justifyContent(SpaceAround),
+                              ])
+                            )>
+                            {/* not working yet
+                                https://github.com/wp-graphql/wp-graphql/issues/594 */
+                             pageInfo
+                             ->Belt.Option.map(p => p##hasPreviousPage)
+                             ->Belt.Option.getWithDefault(false) ?
+                               pageInfo
+                               ->Belt.Option.flatMap(p => p##startCursor)
+                               ->Belt.Option.map(cursor =>
+                                   <BannerButton
+                                     href={
+                                       categorySlug->Belt.Option.mapWithDefault(
+                                         "", c =>
+                                         "/" ++ c
+                                       )
+                                       ++ "/after/"
+                                       ++ cursor
+                                       ++ "/"
+                                     }>
+                                     {j|Articles plus récents|j}
+                                     ->ReasonReact.string
+                                   </BannerButton>
+                                 )
+                               ->Belt.Option.getWithDefault(
+                                   ReasonReact.null,
+                                 ) :
+                               ReasonReact.null}
+                            {pageInfo
+                             ->Belt.Option.map(p => p##hasNextPage)
+                             ->Belt.Option.getWithDefault(false) ?
+                               pageInfo
+                               ->Belt.Option.flatMap(p => p##endCursor)
+                               ->Belt.Option.map(cursor =>
+                                   <BannerButton
+                                     href={
+                                       categorySlug->Belt.Option.mapWithDefault(
+                                         "", c =>
+                                         "/" ++ c
+                                       )
+                                       ++ "/after/"
+                                       ++ cursor
+                                       ++ "/"
+                                     }>
+                                     {j|Encore plus d'articles|j}
+                                     ->ReasonReact.string
+                                   </BannerButton>
+                                 )
+                               ->Belt.Option.getWithDefault(
+                                   ReasonReact.null,
+                                 ) :
+                               ReasonReact.null}
+                          </View>
+                        </>
+                      )
+                    ->Belt.Option.getWithDefault(
+                        <Error label={Some({j|Aucun résultat|j})} />,
+                      )}
+                 </>;
                }
              }
            </GetItemsQuery>

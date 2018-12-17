@@ -3,7 +3,7 @@ let component = ReasonReact.statelessComponent("CommonThings");
 let make = _ => {
   ...component,
   render: _self =>
-    <BsReactHelmet>
+    <BsReactHelmet defaultTitle={j|D'Âme Bio|j}>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <style>

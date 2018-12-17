@@ -739,10 +739,10 @@
     log-update "^2.3.0"
     strip-ansi "^3.0.1"
 
-"@moox/bs-react-helmet@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@moox/bs-react-helmet/-/bs-react-helmet-1.0.0.tgz#554b1ccc03e3ef62f09910ac7294d80b41efa1f3"
-  integrity sha512-lYvu5lI5Pt2LDbYKnLOYH0YHuTGqeLPkeF0rykQdNtd4aEDLQlaE98QCraR7mvdNPxZSGFQJ8UPLNiGKqDgLsw==
+"@moox/bs-react-helmet@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@moox/bs-react-helmet/-/bs-react-helmet-1.1.1.tgz#c5ca371ec7218be7efe1cf4308a9e919a5b15c7f"
+  integrity sha512-km38XwLPGSduQZCfa3hTUbRcwOku7awRHziSuY37EgjUmlAoy4F9+Vl6FAJe1H0yU1LF5crO/hb6kPTrTKDoUg==
 
 "@phenomic/api-client@^1.0.0-beta.7":
   version "1.0.0-beta.7"
