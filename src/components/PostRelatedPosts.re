@@ -1,7 +1,5 @@
 open BsReactNative;
 
-open Helpers;
-
 type action =
   | Fetching
   | Errored(string)
@@ -16,8 +14,7 @@ type state =
 let fetchData = (id, success, failure) =>
   Js.Promise.(
     Fetch.fetch(
-      apiBaseUrl
-      ++ "wp-json/related-posts-by-taxonomy/v1/posts/"
+      "https://dame.bio/wp-json/related-posts-by-taxonomy/v1/posts/"
       ++ string_of_int(id)
       ++ "?posts_per_page=4&format=json&title=&before_shortcode=&after_shortcode=",
     )
@@ -69,7 +66,7 @@ let make = (~postId, ~hasBeenVisible, _children) => {
           Structures.placeholderPost(-4),
         ]
       />
-    | Error(e) => <Text> {e |> text} </Text>
+    | Error(e) => <Text> e->ReasonReact.string </Text>
     | Data(items) => <RelatedPosts items />
     },
 };

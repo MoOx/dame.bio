@@ -1,5 +1,3 @@
-open Helpers;
-
 open BsReactNative;
 
 let component = ReasonReact.statelessComponent("HeaderMenu");
@@ -77,16 +75,16 @@ let make = _children => {
       <View style=styles##menuLinks>
         <Spacer size=L />
         <TextLink style=styles##menuLink href="/alimentation/">
-          {{j|Alimentation|j} |> text}
+          {j|Alimentation|j}->ReasonReact.string
         </TextLink>
         <TextLink style=styles##menuLink href="/permaculture/">
-          {{j|Permaculture|j} |> text}
+          {j|Permaculture|j}->ReasonReact.string
         </TextLink>
         <TextLink style=styles##menuLink href="/bien-etre/">
-          {{j|Bien-être|j} |> text}
+          {j|Bien-être|j}->ReasonReact.string
         </TextLink>
         <TextLink style=styles##menuLink href="/lifestyle/">
-          {{j|Lifestyle|j} |> text}
+          {j|Lifestyle|j}->ReasonReact.string
         </TextLink>
         <Spacer size=L />
       </View>

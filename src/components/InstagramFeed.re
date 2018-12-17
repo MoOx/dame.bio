@@ -1,12 +1,5 @@
 open BsReactNative;
 
-open Helpers;
-
-let styles =
-  StyleSheet.create(
-    Style.{"items": style([height(Pt(293.)), flexDirection(Row)])},
-  );
-
 type item = {
   .
   "id": string,
@@ -81,6 +74,13 @@ type state = {
   error: option(string),
 };
 
+let component = ReasonReact.reducerComponent("InstagramFeed");
+
+let styles =
+  StyleSheet.create(
+    Style.{"items": style([height(Pt(293.)), flexDirection(Row)])},
+  );
+
 let fetchData = (success, failure) =>
   Js.Promise.(
     Fetch.fetch(
@@ -93,8 +93,6 @@ let fetchData = (success, failure) =>
          failure("Une erreur est survenue") |> resolve;
        })
   );
-
-let component = ReasonReact.reducerComponent("InstagramFeed");
 
 let make = _children => {
   ...component,
@@ -119,16 +117,16 @@ let make = _children => {
   didMount: ({send}) => send(Fetching),
   render: ({state}) =>
     <View>
-      {state.fetching ? <LoadingIndicator /> : nothing}
+      {state.fetching ? <LoadingIndicator /> : ReasonReact.null}
       {switch (state.error) {
-       | None => nothing
-       | Some(error) => <Text> {error |> text} </Text>
+       | None => ReasonReact.null
+       | Some(error) => <Text> error->ReasonReact.string </Text>
        }}
       {switch (state.items) {
-       | None => nothing
+       | None => ReasonReact.null
        | Some(items) =>
          switch (items) {
-         | [||] => nothing
+         | [||] => ReasonReact.null
          | _ =>
            <ScrollView horizontal=true style=styles##items>
              {items

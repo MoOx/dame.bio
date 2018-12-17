@@ -1,5 +1,3 @@
-open Helpers;
-
 open BsReactNative;
 
 let imageRatio = 240. /. 350.;
@@ -92,21 +90,21 @@ let make = (~item, _) => {
           {String.uppercase(
              rootCategory##name->Belt.Option.getWithDefault(""),
            )
-           |> text}
+           ->ReasonReact.string}
         </TextLink>
         <Text style=styles##actions>
           <Text style=styles##actions>
             <ButtonLike id=item##id />
             {switch (item##likeCount->Belt.Option.getWithDefault(0)) {
-             | 0 => nothing
-             | v => ("  " ++ v->string_of_int)->text
+             | 0 => ReasonReact.null
+             | v => ("  " ++ v->string_of_int)->ReasonReact.string
              }}
-            <Text style=styles##action> {" | " |> text} </Text>
+            <Text style=styles##action> " | "->ReasonReact.string </Text>
             <TextLink style=styles##action href={href ++ "#comments"}>
               <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
               {switch (item##commentCount->Belt.Option.getWithDefault(0)) {
-               | 0 => nothing
-               | v => ("  " ++ v->string_of_int)->text
+               | 0 => ReasonReact.null
+               | v => ("  " ++ v->string_of_int)->ReasonReact.string
                }}
             </TextLink>
           </Text>
@@ -157,15 +155,15 @@ let make = (~item, _) => {
                        ++ "/"
                      }>
                      {"#"
-                      ++ tagifyString(
+                      ++ Utils.tagifyString(
                            tag##name->Belt.Option.getWithDefault(""),
                          )
-                      |> text}
+                      |> ReasonReact.string}
                    </TextLink>
-                   {" " |> text}
+                   " "->ReasonReact.string
                  </Text>
                )
-             ->Belt.Option.getWithDefault(nothing)
+             ->Belt.Option.getWithDefault(ReasonReact.null)
            )
          ->ReasonReact.array}
       </SpacedView>

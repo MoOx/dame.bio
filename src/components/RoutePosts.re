@@ -1,5 +1,4 @@
 open BsReactNative;
-open Helpers;
 
 [@bs.module "@phenomic/preset-react-app/lib/client"]
 external withInitialProps: 'a => 'a = "";
@@ -116,11 +115,12 @@ let make = (~status, ~categorySlug, ~cursorAfter, _) => {
                                     ++ cursor
                                     ++ "/"
                                   }>
-                                  {{j|Articles plus récents|j} |> text}
+                                  {j|Articles plus récents|j}
+                                  ->ReasonReact.string
                                 </BannerButton>
                               )
-                            ->Belt.Option.getWithDefault(nothing) :
-                            nothing}
+                            ->Belt.Option.getWithDefault(ReasonReact.null) :
+                            ReasonReact.null}
                          {pageInfo
                           ->Belt.Option.map(p => p##hasNextPage)
                           ->Belt.Option.getWithDefault(false) ?
@@ -137,11 +137,12 @@ let make = (~status, ~categorySlug, ~cursorAfter, _) => {
                                     ++ cursor
                                     ++ "/"
                                   }>
-                                  {{j|Encore plus d'articles|j} |> text}
+                                  {j|Encore plus d'articles|j}
+                                  ->ReasonReact.string
                                 </BannerButton>
                               )
-                            ->Belt.Option.getWithDefault(nothing) :
-                            nothing}
+                            ->Belt.Option.getWithDefault(ReasonReact.null) :
+                            ReasonReact.null}
                        </View>
                      </>
                    )

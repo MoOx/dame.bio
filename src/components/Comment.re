@@ -1,6 +1,6 @@
-open Helpers;
-
 open BsReactNative;
+
+let component = ReasonReact.statelessComponent("Comment");
 
 let styles =
   StyleSheet.create(
@@ -62,8 +62,6 @@ let styles =
     },
   );
 
-let component = ReasonReact.statelessComponent("Comment");
-
 let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
   ...component,
   render: _self => {
@@ -86,9 +84,10 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
       )
       ->Belt.Option.getWithDefault("");
     <>
-      {separator ? <> <CommentSeparator /> <Spacer /> </> : nothing}
+      {separator ? <> <CommentSeparator /> <Spacer /> </> : ReasonReact.null}
       <View style=styles##comment>
-        {comment##parent->Belt.Option.isSome ? <Spacer size=XL /> : nothing}
+        {comment##parent->Belt.Option.isSome ?
+           <Spacer size=XL /> : ReasonReact.null}
         <View>
           <Spacer size=XXS />
           <Avatar
@@ -113,19 +112,21 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
           <View style=styles##commentMeta>
             {String.length(url) > 0 ?
                <TextLink style=styles##commentAuthor href=url>
-                 {name |> text}
+                 name->ReasonReact.string
                </TextLink> :
-               <Text style=styles##commentAuthor> {name |> text} </Text>}
+               <Text style=styles##commentAuthor>
+                 name->ReasonReact.string
+               </Text>}
             {switch (comment##author) {
              | Some(`User(a))
                  when a##userId->Belt.Option.getWithDefault(0) == 2 =>
                <>
-                 <Text> {" " |> text} </Text>
+                 <Text> " "->ReasonReact.string </Text>
                  <TextLink href=url style=styles##commentOwner>
-                   {"Auteur" |> text}
+                   "Auteur"->ReasonReact.string
                  </TextLink>
                </>
-             | _ => nothing
+             | _ => ReasonReact.null
              }}
           </View>
           <View style=styles##row>
@@ -137,15 +138,15 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
                ->Date.relativeDate
                ->String.capitalize
                ++ {j|  ·  |j}
-               |> text}
+               |> ReasonReact.string}
             </Text>
             {canReply ?
                <TouchableOpacity onPress=onReply>
                  <Text style=styles##commentDate>
-                   {{j|Répondre|j} |> text}
+                   {j|Répondre|j}->ReasonReact.string
                  </Text>
                </TouchableOpacity> :
-               nothing}
+               ReasonReact.null}
           </View>
           <Text style=styles##commentContent>
             <div

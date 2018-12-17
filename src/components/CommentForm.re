@@ -1,7 +1,5 @@
 open BsReactNative;
 
-open Helpers;
-
 let opaque = 1.;
 let transparent = 0.;
 let yVisible = 0.;
@@ -178,7 +176,7 @@ type state = {
 let sendComment = (commentToSend, success, failure) =>
   Js.Promise.(
     Fetch.fetchWithInit(
-      apiBaseUrl ++ "wp-json/wp/v2/comments",
+      "https://dame.bio/wp-json/wp/v2/comments",
       Fetch.RequestInit.make(
         ~method_=Post,
         ~body=Fetch.BodyInit.make(Js.Json.stringify(commentToSend)),
@@ -415,13 +413,13 @@ let make = (~postId, ~parentCommentId, _children) => {
     <View>
       <noscript>
         <Text>
-          {{j|🚨 Veuillez |j} |> text}
+          {j|🚨 Veuillez |j}->ReasonReact.string
           <a
             target="_blank"
             href="https://www.qwant.com/?q=comment%20activer%20javascript">
-            {{j|activer JavaScript|j} |> text}
+            {j|activer JavaScript|j}->ReasonReact.string
           </a>
-          {{j| pour poster un commentaire.|j} |> text}
+          {j| pour poster un commentaire.|j}->ReasonReact.string
         </Text>
         <Spacer />
       </noscript>
@@ -429,13 +427,13 @@ let make = (~postId, ~parentCommentId, _children) => {
        | Sent((_, _)) => <> <ActivityIndicator size=`small /> <Spacer /> </>
        | Posted((_, _)) =>
          <>
-           <Text> {{j|👍 Commentaire envoyé!|j} |> text} </Text>
+           <Text> {j|👍 Commentaire envoyé!|j}->ReasonReact.string </Text>
            <Spacer />
          </>
-       | _ => nothing
+       | _ => ReasonReact.null
        }}
       <View style=styles##row>
-        {parentCommentId > 0 ? <Spacer size=XL /> : nothing}
+        {parentCommentId > 0 ? <Spacer size=XL /> : ReasonReact.null}
         <View style=styles##container>
           <View style=styles##row>
             <View style=styles##avatar>
@@ -470,10 +468,10 @@ let make = (~postId, ~parentCommentId, _children) => {
                   {String.length(comment.url) > 0 ?
                      <TextLink
                        style=styles##metaPreviewName href={comment.url}>
-                       {comment.name |> text}
+                       comment.name->ReasonReact.string
                      </TextLink> :
                      <Text style=styles##metaPreviewName>
-                       {comment.name |> text}
+                       comment.name->ReasonReact.string
                      </Text>}
                   <TouchableOpacity
                     onPress={() =>
@@ -481,8 +479,8 @@ let make = (~postId, ~parentCommentId, _children) => {
                       |> ignore
                     }>
                     <Text style=styles##metaPreviewEdit>
-                      {{j|  ·  |j} |> text}
-                      {{j|Modifier|j} |> text}
+                      {j|  ·  |j}->ReasonReact.string
+                      {j|Modifier|j}->ReasonReact.string
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -550,8 +548,10 @@ let make = (~postId, ~parentCommentId, _children) => {
                 />
                 {switch (errors.content) {
                  | Some(message) =>
-                   <Text style=styles##errorText> {message |> text} </Text>
-                 | None => nothing
+                   <Text style=styles##errorText>
+                     message->ReasonReact.string
+                   </Text>
+                 | None => ReasonReact.null
                  }}
               </View>
               <Spacer size=XXS />
@@ -590,8 +590,10 @@ let make = (~postId, ~parentCommentId, _children) => {
                     />
                     {switch (errors.name) {
                      | Some(message) =>
-                       <Text style=styles##errorText> {message |> text} </Text>
-                     | None => nothing
+                       <Text style=styles##errorText>
+                         message->ReasonReact.string
+                       </Text>
+                     | None => ReasonReact.null
                      }}
                   </View>
                   <Spacer size=XXS />
@@ -616,8 +618,10 @@ let make = (~postId, ~parentCommentId, _children) => {
                     />
                     {switch (errors.email) {
                      | Some(message) =>
-                       <Text style=styles##errorText> {message |> text} </Text>
-                     | None => nothing
+                       <Text style=styles##errorText>
+                         message->ReasonReact.string
+                       </Text>
+                     | None => ReasonReact.null
                      }}
                   </View>
                   <Spacer size=XXS />
@@ -639,7 +643,9 @@ let make = (~postId, ~parentCommentId, _children) => {
               <TouchableOpacity
                 onPress={() => send(CommentSend(comment))}
                 style=styles##buttonSend>
-                <Text style=styles##buttonSendText> {"Envoyer" |> text} </Text>
+                <Text style=styles##buttonSendText>
+                  "Envoyer"->ReasonReact.string
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

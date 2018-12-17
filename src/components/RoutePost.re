@@ -1,5 +1,3 @@
-open Helpers;
-
 [@bs.module "@phenomic/preset-react-app/lib/client"]
 external withInitialProps: 'a => 'a = "";
 
@@ -113,7 +111,7 @@ let make = (~status, ~slug, _) => {
                          ->Belt.Option.map(item =>
                              <PostDetail key=item##id item />
                            )
-                         ->Belt.Option.getWithDefault(nothing)
+                         ->Belt.Option.getWithDefault(ReasonReact.null)
                        )
                      ->ReasonReact.array
                    )

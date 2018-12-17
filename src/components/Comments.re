@@ -1,6 +1,6 @@
-open Helpers;
-
 open BsReactNative;
+
+let component = ReasonReact.statelessComponent("Comments");
 
 let styles =
   StyleSheet.create(
@@ -24,8 +24,6 @@ let styles =
     },
   );
 
-let component = ReasonReact.statelessComponent("Comments");
-
 let make = (~postId, ~commentCounts, ~comments, _) => {
   ...component,
   render: _self =>
@@ -34,14 +32,14 @@ let make = (~postId, ~commentCounts, ~comments, _) => {
       <a name="comments" />
       <View>
         <Text style=styles##subtitle>
-          {(
-             switch (commentCounts->Belt.Option.getWithDefault(0)) {
-             | 0 => "Commentaires"
-             | 1 => "1 Commentaire"
-             | count => count->string_of_int ++ " Commentaires"
-             }
-           )
-           |> text}
+          (
+            switch (commentCounts->Belt.Option.getWithDefault(0)) {
+            | 0 => "Commentaires"
+            | 1 => "1 Commentaire"
+            | count => count->string_of_int ++ " Commentaires"
+            }
+          )
+          ->ReasonReact.string
         </Text>
       </View>
       <Spacer size=S />
@@ -55,14 +53,15 @@ let make = (~postId, ~commentCounts, ~comments, _) => {
            <>
              <Spacer size=L />
              <Text style=styles##noComment>
-               {"Aucun commentaire pour l'instant. Laissez le votre !" |> text}
+               "Aucun commentaire pour l'instant. Laissez le votre !"
+               ->ReasonReact.string
              </Text>
              <Spacer size=L />
            </>
          | coms =>
            coms
            ->Belt.Array.mapWithIndex((index, comment) =>
-               comment->Belt.Option.mapWithDefault(nothing, comment =>
+               comment->Belt.Option.mapWithDefault(ReasonReact.null, comment =>
                  comment##parent->Belt.Option.isNone ?
                    <CommentWithReplyAndChildren
                      key={string_of_int(
@@ -75,7 +74,7 @@ let make = (~postId, ~commentCounts, ~comments, _) => {
                      postId
                      comments
                    /> :
-                   nothing
+                   ReasonReact.null
                )
              )
            ->ReasonReact.array

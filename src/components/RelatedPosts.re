@@ -1,5 +1,3 @@
-open Helpers;
-
 open BsReactNative;
 
 let styles =
@@ -22,12 +20,12 @@ let make = (~items: list(Structures.post), _) => {
   ...component,
   render: _self =>
     switch (items) {
-    | [] => nothing
+    | [] => ReasonReact.null
     | _ =>
       <View style=styles##container>
         <View>
           <Text style=styles##title>
-            {{j|Dans le même style|j} |> text}
+            {j|Dans le même style|j}->ReasonReact.string
           </Text>
         </View>
         <Spacer size=S />

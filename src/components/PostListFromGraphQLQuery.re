@@ -1,5 +1,4 @@
 open BsReactNative;
-open Helpers;
 
 let imageRatio = 240. /. 350.;
 
@@ -24,7 +23,7 @@ let make = (~edges, _) => {
            ->Belt.Option.map(item =>
                <PostPreviewFromGraphQLQuery key=item##id item />
              )
-           ->Belt.Option.getWithDefault(nothing)
+           ->Belt.Option.getWithDefault(ReasonReact.null)
          )
        ->ReasonReact.array}
     </View>,

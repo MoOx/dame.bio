@@ -1,7 +1,6 @@
 open BsReactNative;
-open Helpers;
 
-let component = ReasonReact.statelessComponent("Sidebar");
+let component = ReasonReact.statelessComponent("DonationInvite");
 
 let styles =
   StyleSheet.create(
@@ -97,7 +96,9 @@ let make = _ => {
       />
       <ImageFromUri style=styles##bottom resizeMode=`contain uri=bottom />
       <View style=styles##content>
-        <Text style=styles##title> {{j|Soutenir le blog|j} |> text} </Text>
+        <Text style=styles##title>
+          {j|Soutenir le blog|j}->ReasonReact.string
+        </Text>
         <br />
         <a
           style={ReactDOMRe.Style.make(
@@ -110,15 +111,16 @@ let make = _ => {
             (),
           )}
           href="https://www.paypal.me/damebio/3">
-          {{j|M'offrir un thé|j} |> text}
+          {j|M'offrir un thé|j}->ReasonReact.string
         </a>
         <br />
         <Text style=styles##text>
-          {{j|Vous pouvez soutenir mon travail en effectuant un don.|j} |> text}
+          {j|Vous pouvez soutenir mon travail en effectuant un don.|j}
+          ->ReasonReact.string
         </Text>
         <br />
         <Text style=styles##text2>
-          {{j|Un grand merci à vous ♥|j} |> text}
+          {j|Un grand merci à vous ♥|j}->ReasonReact.string
         </Text>
         <br />
         <a
@@ -129,7 +131,7 @@ let make = _ => {
             (),
           )}
           href="https://www.paypal.me/damebio/">
-          {{j|Don libre via Paypal|j} |> text}
+          {j|Don libre via Paypal|j}->ReasonReact.string
         </a>
       </View>
     </View>,

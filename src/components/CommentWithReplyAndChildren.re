@@ -1,5 +1,3 @@
-open Helpers;
-
 type action =
   | Reply;
 
@@ -25,7 +23,7 @@ let rec make = (~comment, ~postId, ~parentCommentId: int, ~comments, _) => {
         onReply={() => send(Reply) |> ignore}
       />
       {switch (state) {
-       | None => nothing
+       | None => ReasonReact.null
        | ReplyOpen =>
          <CommentForm
            postId
@@ -36,7 +34,7 @@ let rec make = (~comment, ~postId, ~parentCommentId: int, ~comments, _) => {
        ->Belt.Option.flatMap(ts => ts##nodes)
        ->Belt.Option.getWithDefault([||])
        ->Belt.Array.mapWithIndex((index, c) =>
-           c->Belt.Option.mapWithDefault(nothing, comment =>
+           c->Belt.Option.mapWithDefault(ReasonReact.null, comment =>
              comment##parent
              ->Belt.Option.flatMap(p => p##commentId)
              ->Belt.Option.getWithDefault(0)
@@ -55,7 +53,7 @@ let rec make = (~comment, ~postId, ~parentCommentId: int, ~comments, _) => {
                    [||],
                  ),
                ) :
-               nothing
+               ReasonReact.null
            )
          )
        ->ReasonReact.array}

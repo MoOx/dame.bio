@@ -1,7 +1,5 @@
 open BsReactNative;
 
-open Helpers;
-
 let styles =
   StyleSheet.create(
     Style.{
@@ -66,17 +64,17 @@ let make = (~item, _children) => {
          <View style=styles##overlay>
            <SVGFavorite fill="#fff" width=19. height=19. />
            <Text style=styles##overlayText>
-             {" " |> text}
-             {string_of_int(item##likes##count) |> text}
-             {"      " |> text}
+             " "->ReasonReact.string
+             {string_of_int(item##likes##count)->ReasonReact.string}
+             "      "->ReasonReact.string
            </Text>
            <SVGSpeechBubbleRight fill="#fff" width=19. height=19. />
            <Text style=styles##overlayText>
-             {" " |> text}
-             {string_of_int(item##comments##count) |> text}
+             " "->ReasonReact.string
+             {string_of_int(item##comments##count)->ReasonReact.string}
            </Text>
          </View> :
-         nothing}
+         ReasonReact.null}
     </TextLink>;
   },
 };

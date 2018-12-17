@@ -1,7 +1,6 @@
 open BsReactNative;
-open Helpers;
 
-let component = ReasonReact.statelessComponent("Sidebar");
+let component = ReasonReact.statelessComponent("Author");
 
 let styles =
   StyleSheet.create(
@@ -38,7 +37,9 @@ let make = _ => {
       <AuthorAvatar />
       <Spacer />
       <View style=styles##block>
-        <Text style=styles##blockTitle> {{j|Liloue|j} |> text} </Text>
+        <Text style=styles##blockTitle>
+          {j|Liloue|j}->ReasonReact.string
+        </Text>
         <Text style=styles##blockText> <Bio /> </Text>
         <Spacer />
         <SocialIcons

@@ -1,5 +1,4 @@
 open BsReactNative;
-open Helpers;
 
 let styles =
   StyleSheet.create(
@@ -32,11 +31,11 @@ let make = (~label, _) => {
       | Some(label) => label
       };
     <SpacedView vertical=XXL>
-      <Text style=styles##oops> {"Ouuuups!" |> text} </Text>
+      <Text style=styles##oops> "Ouuuups!"->ReasonReact.string </Text>
       <View>
         <Text style=styles##title>
           /* <strong>{status |>text}</strong> */
-           {errorText |> text} </Text>
+           errorText->ReasonReact.string </Text>
       </View>
     </SpacedView>;
     /*

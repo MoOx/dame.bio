@@ -1,5 +1,3 @@
-open Helpers;
-
 open BsReactNative;
 
 let styles =
@@ -62,14 +60,17 @@ let make = (~name=?, ~url=?, _) => {
       {switch (name) {
        | Some(name) when String.length(name) > 1 =>
          <Text style=styles##avatarDefault>
-           {String.sub(name, 0, 1) |> String.capitalize |> text}
+           {String.sub(name, 0, 1)->String.capitalize->ReasonReact.string}
          </Text>
-       | _ => <Text style=styles##avatarEmpty> {{j|¨̮|j} |> text} </Text>
+       | _ =>
+         <Text style=styles##avatarEmpty>
+           {j|¨̮|j}->ReasonReact.string
+         </Text>
        }}
       {switch (url) {
        | Some(url) =>
          <ImageFromUri style=styles##avatarImage resizeMode=`contain uri=url />
-       | None => nothing
+       | None => ReasonReact.null
        }}
     </View>,
 };

@@ -1,19 +1,17 @@
-open Helpers;
-
 let component = ReasonReact.statelessComponent("CommonThings");
 
 let make = _ => {
   ...component,
   render: _self =>
-    <Head>
+    <BsReactHelmet>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <style>
-        {{j|@-ms-viewport { width: device-width } @viewport { width: device-width }|j}
-         |> text}
+        {j|@-ms-viewport { width: device-width } @viewport { width: device-width }|j}
+        ->ReasonReact.string
       </style>
       <style>
-        {{j|
+        {j|
 html {
   height: 100%;
   background: #006579;
@@ -106,7 +104,7 @@ body {
 .dbComment p { margin: 0; }
 .dbComment a { color: #49443A; }
 |j}
-         |> text}
+        ->ReasonReact.string
       </style>
-    </Head>,
+    </BsReactHelmet>,
 };
