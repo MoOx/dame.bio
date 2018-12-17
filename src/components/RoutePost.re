@@ -115,10 +115,10 @@ let make = (~status, ~postSlug, _) => {
                                {item##title
                                 ->Belt.Option.mapWithDefault(
                                     ReasonReact.null, title =>
-                                    <BsReactHelmet>
+                                    <BsReactHelmet
+                                      titleTemplate=Consts.titleTemplate>
                                       <title key=title>
-                                        {(title ++ {j| - D'Âme Bio|j})
-                                         ->ReasonReact.string}
+                                        title->ReasonReact.string
                                       </title>
                                     </BsReactHelmet>
                                   )}

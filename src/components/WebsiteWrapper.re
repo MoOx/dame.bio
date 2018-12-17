@@ -4,7 +4,7 @@ let make = children => {
   ...component,
   render: _ =>
     <>
-      <CommonThings />
+      <GlobalMeta />
       <Header />
       <Container> ...children </Container>
       <Footer />

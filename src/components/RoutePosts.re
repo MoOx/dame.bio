@@ -101,10 +101,10 @@ let make = (~status, ~categorySlug, ~cursorAfter, _) => {
                             ->Belt.Option.flatMap(node => node##name)
                             ->Belt.Option.mapWithDefault(
                                 ReasonReact.null, name =>
-                                <BsReactHelmet key=name>
+                                <BsReactHelmet
+                                  key=name titleTemplate=Consts.titleTemplate>
                                   <title key=name>
-                                    {(name ++ {j| - D'Âme Bio|j})
-                                     ->ReasonReact.string}
+                                    name->ReasonReact.string
                                   </title>
                                 </BsReactHelmet>
                               )

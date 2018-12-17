@@ -1,9 +1,9 @@
-let component = ReasonReact.statelessComponent("CommonThings");
+let component = ReasonReact.statelessComponent("GlobalMeta");
 
 let make = _ => {
   ...component,
-  render: _self =>
-    <BsReactHelmet defaultTitle={j|D'Âme Bio|j}>
+  render: _self => {
+    <BsReactHelmet defaultTitle=Consts.defaultTitle>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <style>
@@ -106,5 +106,6 @@ body {
 |j}
         ->ReasonReact.string
       </style>
-    </BsReactHelmet>,
+    </BsReactHelmet>;
+  },
 };
