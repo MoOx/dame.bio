@@ -23,19 +23,22 @@ let make = _children => {
   render: _self =>
     <ContainerWithSpace wrapperStyle=styles##topbarWrapper>
       <SocialIcons wrapperStyle=styles##icons iconStyle=styles##topbarLink />
-      <View style=styles##topbarLinks>
-        <TextLink style=styles##topbarLink href="/a-propos">
-          {ReasonReact.string({j|À Propos|j})}
-        </TextLink>
-        <TextLink style=styles##topbarLink href="/univers">
-          {ReasonReact.string({j|Univers du site|j})}
-        </TextLink>
-        <TextLink style=styles##topbarLink href="/colibri">
-          {ReasonReact.string({j|Un colibri en action|j})}
-        </TextLink>
-        <TextLink style=styles##topbarLink href="/contact">
-          {ReasonReact.string({j|Contact|j})}
-        </TextLink>
-      </View>
+      <View
+        style=styles##topbarLinks
+        /*
+         <TextLink style=styles##topbarLink href="/a-propos">
+           {ReasonReact.string({j|À Propos|j})}
+         </TextLink>
+         <TextLink style=styles##topbarLink href="/univers">
+           {ReasonReact.string({j|Univers du site|j})}
+         </TextLink>
+         <TextLink style=styles##topbarLink href="/colibri">
+           {ReasonReact.string({j|Un colibri en action|j})}
+         </TextLink>
+         <TextLink style=styles##topbarLink href="/contact">
+           {ReasonReact.string({j|Contact|j})}
+         </TextLink>
+         */
+      />
     </ContainerWithSpace>,
 };
