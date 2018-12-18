@@ -191,7 +191,7 @@ let make = (~item, _) => {
                  )
               /* custom behavior decided for us hr => a png */
               |> Js.String.replaceByRe(
-                   [%re "/<hr ?(class=\"wp-block-separator\")? ?\/?>/g"],
+                   [%re "/<hr ?(class=\"wp-block-separator\")? ?\\/?>/g"],
                    ""
                    ++ "<span style=\"display: flex; flex-direction: row; justify-content: center; align-items: center; margin: 60px auto; width: 80%;\">"
                    ++ "<span style=\"flex: 1; height: 1px; background: #A6A6A7;\"></span>"
