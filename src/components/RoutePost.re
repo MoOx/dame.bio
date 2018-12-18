@@ -70,7 +70,7 @@ module GetItem = [%graphql
               }
             }
           }
-          tags {
+          tags(first: 100) {
             nodes {
               name
               slug
