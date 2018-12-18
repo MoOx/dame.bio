@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Router, Route, browserHistory } from "react-router";
-import { AppRegistry } from "react-native-web";
+import { AppRegistry, Dimensions } from "react-native-web";
 import { createApp } from "@phenomic/preset-react-app/lib/client";
 import { createContainer } from "@phenomic/preset-react-app/lib/es6/src/phenomicPresetReactApp.bs.js";
 
@@ -12,6 +12,21 @@ import RoutePost from "./lib/es6/src/components/RoutePost.bs.js";
 let apolloClient = initApollo();
 
 let first = 1000;
+
+// SSR pre-defined window/screen dimensions
+// choice for values has been made according to site stats
+if (typeof window === "undefined") {
+  Dimensions.set({
+    window: {
+      width: 360,
+      height: 640
+    },
+    screen: {
+      width: 360,
+      height: 640
+    }
+  });
+}
 
 RoutePosts.getAllPossibleUrls = async ({ path }) => {
   if (path == "/") {
