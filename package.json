@@ -71,12 +71,16 @@
       "pre-commit": "lint-staged"
     }
   },
+  "prettier": {
+    "trailingComma": "all",
+    "proseWrap": "always"
+  },
   "lint-staged": {
     "*.re": [
       "bsrefmt --in-place",
       "git add"
     ],
-    "*.js": [
+    "*.{js,json,css,md}": [
       "prettier --write",
       "git add"
     ]
