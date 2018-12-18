@@ -41,7 +41,7 @@ module GetItem = [%graphql
       edges {
         node {
           id
-          title
+          title(format: RAW)
           slug
           commentCount
           likeCount
