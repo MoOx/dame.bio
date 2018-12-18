@@ -116,8 +116,9 @@ let make = (~status, ~postSlug, _) => {
                                 ->Belt.Option.mapWithDefault(
                                     ReasonReact.null, title =>
                                     <BsReactHelmet
+                                      key=title
                                       titleTemplate=Consts.titleTemplate>
-                                      <title key=title>
+                                      <title>
                                         title->ReasonReact.string
                                       </title>
                                     </BsReactHelmet>
