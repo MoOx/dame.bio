@@ -89,15 +89,12 @@ let make = (~item, _) => {
 }
 
 .dbPost .ingredients dt,
-.dbPost .tips-title {
+.dbPost .tips {
   font-weight: 800;
   font-size: 18px;
 }
 .dbPost dd {
   margin: 0 0 0 20px;
-}
-.dbPost dd::before {
-  content: "· "
 }
 
 .wp-block-image {
