@@ -183,7 +183,7 @@ let make = (~item, _) => {
                  )
               /* custom behavior decided for us "white star unicode" => a png */
               |> Js.String.replaceByRe(
-                   [%re "/<p style=\"text-align: center;\">⭐︎<\\/p>/g"],
+                   [%re "/<p style=\"text-align:center\">☆<\\/p>/g"],
                    ""
                    ++ "<span style=\"display: block; text-align: center; margin: 40px;\">"
                    ++ "<img src=\"/images/separator-flower.png\" style=\"margin: 0 10px; width: 62.5px; height: 13px;\" alt=\"\" />"
