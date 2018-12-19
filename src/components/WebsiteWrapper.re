@@ -12,15 +12,19 @@ let make = children => {
       <div
         className="device-small"
         style={ReactDOMRe.Style.unsafeAddProp(
-          ReactDOMRe.Style.make(
-            ~position="fixed",
-            ~bottom="0",
-            ~left="0",
-            ~right="0",
-            ~backgroundColor="#FDFFFFe6",
-            (),
+          ReactDOMRe.Style.unsafeAddProp(
+            ReactDOMRe.Style.make(
+              ~position="fixed",
+              ~bottom="0",
+              ~left="0",
+              ~right="0",
+              ~backgroundColor="#FDFFFFe6",
+              (),
+            ),
+            "WebkitBackdropFilter",
+            "saturate(210%) blur(20px)",
           ),
-          "-webkit-backdrop-filter",
+          "backdropFilter",
           "saturate(210%) blur(20px)",
         )}>
         <AppMenu />
