@@ -41,6 +41,17 @@ body {
   font-weight: normal;
   font-style: normal;
 }
+
+@media (min-width: 500px) {
+  .device-small {
+    display: none;
+  }
+}
+@media (max-width: 501px) {
+  .device-large {
+    display: none;
+  }
+}
 |j}
         ->ReasonReact.string
       </style>

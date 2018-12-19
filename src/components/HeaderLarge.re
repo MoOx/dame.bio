@@ -1,6 +1,6 @@
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("Header");
+let component = ReasonReact.statelessComponent("HeaderLarge");
 
 let styles =
   StyleSheet.create(
@@ -19,8 +19,8 @@ let make = _children => {
   ...component,
   render: _self =>
     <View style=styles##header>
-      <HeaderTopbar />
-      <HeaderLogo />
-      <HeaderMenu />
+      <HeaderLargeTopbar />
+      <HeaderLargeLogo />
+      <HeaderLargeMenu />
     </View>,
 };

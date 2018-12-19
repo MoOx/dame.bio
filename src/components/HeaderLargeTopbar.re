@@ -1,6 +1,6 @@
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("HeaderTopbar");
+let component = ReasonReact.statelessComponent("HeaderLargeTopbar");
 
 let styles =
   StyleSheet.create(

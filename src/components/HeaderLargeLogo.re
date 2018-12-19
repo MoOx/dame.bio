@@ -1,6 +1,6 @@
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("HeaderLogo");
+let component = ReasonReact.statelessComponent("HeaderLargeLogo");
 
 let styles =
   StyleSheet.create(

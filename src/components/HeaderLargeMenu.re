@@ -1,6 +1,6 @@
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("HeaderMenu");
+let component = ReasonReact.statelessComponent("HeaderLargeMenu");
 
 let styles =
   StyleSheet.create(

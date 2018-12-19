@@ -7,7 +7,7 @@ let styles =
 
 let make = _children => {
   ...component,
-  render: _self => <View style=styles##container> <Header /> </View>,
+  render: _self => <View style=styles##container> <HeaderSmall /> </View>,
 };
 
 let default = ReasonReact.wrapReasonForJs(~component, _ => make([||]));
