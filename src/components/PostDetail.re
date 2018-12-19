@@ -105,16 +105,14 @@ let make = (~item, _) => {
 .wp-block-image figcaption {
   color: #555d66;
   font-size: 14px;
-  margin-bottom: 10px;
   margin-top: 10px;
   text-align: center;
 }
 
 .dbtmp-element-protector-wrapper {
-  margin: 0;
-  display: block;
   position: relative;
-  background: #eee;
+  display: block;
+  margin: 0;
 }
 .dbtmp-element-protector-wrapper img {display: block;}
 .dbtmp-element-protector-overlay {position:absolute;top:0;left:0;right:0;bottom:0;}
