@@ -23,27 +23,27 @@ let make =
       style={Style.concat([
         Style.style(
           switch (vertical) {
-          | XXL => [Style.marginVertical(Pt(space *. 4.))]
-          | XL => [Style.marginVertical(Pt(space *. 3.))]
-          | L => [Style.marginVertical(Pt(space *. 2.))]
-          | M => [Style.marginVertical(Pt(space *. 1.))]
-          | S => [Style.marginVertical(Pt(space *. 3. /. 4.))]
-          | XS => [Style.marginVertical(Pt(space *. 2. /. 4.))]
-          | XXS => [Style.marginVertical(Pt(space *. 1. /. 4.))]
-          | Custom(value) => [Style.marginVertical(Pt(value))]
+          | XXL => [Style.paddingVertical(Pt(space *. 4.))]
+          | XL => [Style.paddingVertical(Pt(space *. 3.))]
+          | L => [Style.paddingVertical(Pt(space *. 2.))]
+          | M => [Style.paddingVertical(Pt(space *. 1.))]
+          | S => [Style.paddingVertical(Pt(space *. 3. /. 4.))]
+          | XS => [Style.paddingVertical(Pt(space *. 2. /. 4.))]
+          | XXS => [Style.paddingVertical(Pt(space *. 1. /. 4.))]
+          | Custom(value) => [Style.paddingVertical(Pt(value))]
           | None => []
           },
         ),
         Style.style(
           switch (horizontal) {
-          | XXL => [Style.marginHorizontal(Pt(space *. 4.))]
-          | XL => [Style.marginHorizontal(Pt(space *. 3.))]
-          | L => [Style.marginHorizontal(Pt(space *. 2.))]
-          | M => [Style.marginHorizontal(Pt(space *. 1.))]
-          | S => [Style.marginHorizontal(Pt(space *. 3. /. 4.))]
-          | XS => [Style.marginHorizontal(Pt(space *. 2. /. 4.))]
-          | XXS => [Style.marginHorizontal(Pt(space *. 1. /. 4.))]
-          | Custom(value) => [Style.marginHorizontal(Pt(value))]
+          | XXL => [Style.paddingHorizontal(Pt(space *. 4.))]
+          | XL => [Style.paddingHorizontal(Pt(space *. 3.))]
+          | L => [Style.paddingHorizontal(Pt(space *. 2.))]
+          | M => [Style.paddingHorizontal(Pt(space *. 1.))]
+          | S => [Style.paddingHorizontal(Pt(space *. 3. /. 4.))]
+          | XS => [Style.paddingHorizontal(Pt(space *. 2. /. 4.))]
+          | XXS => [Style.paddingHorizontal(Pt(space *. 1. /. 4.))]
+          | Custom(value) => [Style.paddingHorizontal(Pt(value))]
           | None => []
           },
         ),
