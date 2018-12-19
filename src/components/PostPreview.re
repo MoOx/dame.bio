@@ -1,52 +1,8 @@
 open BsReactNative;
 
+include PostPreviewFromGraphQLQuery;
+
 let component = ReasonReact.statelessComponent("PostPreview");
-
-let imageRatio = 240. /. 350.;
-
-let styles =
-  StyleSheet.create(
-    Style.{
-      "block":
-        style([
-          flex(1.),
-          flexBasis(Pt(340.)),
-          borderWidth(0.75),
-          borderColor(String("#EBEBEB")),
-          backgroundColor(String("#FFF")),
-        ]),
-      "row": style([flexDirection(Row), justifyContent(SpaceBetween)]),
-      "text": style([padding(Pt(20.))]),
-      "category":
-        style([
-          marginBottom(Pt(10.)),
-          fontSize(Float(10.)),
-          color(String("#DE6D88")),
-        ]),
-      "actions":
-        style([
-          display(Flex),
-          flexDirection(Row),
-          marginBottom(Pt(10.)),
-          fontSize(Float(10.)),
-          color(String("#bbb")),
-        ]),
-      "action":
-        style([
-          display(Flex),
-          flexDirection(Row),
-          marginHorizontal(Pt(4.)),
-        ]),
-      "title":
-        style([
-          fontSize(Float(22.)),
-          fontWeight(`_300),
-          lineHeight(28.),
-          color(String("#1C1C1C")),
-        ]),
-      "link": style([padding(Pt(10.))]),
-    },
-  );
 
 let make = (~item: Structures.post, _) => {
   ...component,
@@ -64,13 +20,14 @@ let make = (~item: Structures.post, _) => {
       vertical=M
       horizontal=M>
       <TextLink href>
-        {switch (Belt.List.head(item.featuredMedia)) {
-         | Some(media) =>
-           <ImageWithAspectRatio
-             uri={media.media_details.sizes.medium.source_url}
-           />
-         | None => ReasonReact.null
-         }}
+        {item.featuredMedia
+         ->Belt.List.head
+         ->Belt.Option.mapWithDefault(ReasonReact.null, media =>
+             <ImageWithAspectRatio
+               style=styles##image
+               uri={media.media_details.sizes.medium.source_url}
+             />
+           )}
       </TextLink>
       <View style=styles##text>
         <View style=styles##row>

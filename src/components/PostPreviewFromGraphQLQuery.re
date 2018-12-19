@@ -1,20 +1,26 @@
 open BsReactNative;
 
 let imageRatio = 240. /. 350.;
+let radius = 3.;
 
 let styles =
   StyleSheet.create(
     Style.{
-      "block":
+      "block": style([flex(1.), flexBasis(Pt(340.))]),
+      "row": style([flexDirection(Row), justifyContent(SpaceBetween)]),
+      "image":
+        style([borderTopLeftRadius(radius), borderTopRightRadius(radius)]),
+      "text":
         style([
-          flex(1.),
-          flexBasis(Pt(340.)),
-          borderWidth(0.75),
+          borderBottomLeftRadius(radius),
+          borderBottomRightRadius(radius),
+          borderLeftWidth(StyleSheet.hairlineWidth),
+          borderRightWidth(StyleSheet.hairlineWidth),
+          borderBottomWidth(StyleSheet.hairlineWidth),
           borderColor(String("#EBEBEB")),
           backgroundColor(String("#FFF")),
+          padding(Pt(20.)),
         ]),
-      "row": style([flexDirection(Row), justifyContent(SpaceBetween)]),
-      "text": style([padding(Pt(20.))]),
       "category":
         style([
           marginBottom(Pt(10.)),
@@ -72,7 +78,9 @@ let make = (~item, _) => {
          ->Belt.Array.keepMap(x => x)
          ->Belt.Array.get(1)
          ->Belt.Option.flatMap(s => s##sourceUrl)
-         ->Belt.Option.map(uri => <ImageWithAspectRatio uri />)
+         ->Belt.Option.map(uri =>
+             <ImageWithAspectRatio uri style=styles##image />
+           )
          ->Belt.Option.getWithDefault(ReasonReact.null)}
       </TextLink>
       <View style=styles##text>

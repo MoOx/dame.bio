@@ -20,18 +20,22 @@ let styles =
 
 let component = ReasonReact.statelessComponent("ImageWithAspectRatio");
 
-let make = (~uri, _) => {
+let make = (~uri, ~style=?, _) => {
   ...component,
   render: _self =>
     <View style=styles##imageContainer>
       <View
-        style=Style.(
-          style([
-            width(Pct(100.)),
-            paddingBottom(Pct(100. *. imageRatio)),
-          ])
-        )>
-        <ImageFromUri style=styles##image uri />
+        style={Style.style([
+          Style.width(Pct(100.)),
+          Style.paddingBottom(Pct(100. *. imageRatio)),
+        ])}>
+        <ImageFromUri
+          style={Style.concat([
+            styles##image,
+            style->Belt.Option.getWithDefault(Style.style([])),
+          ])}
+          uri
+        />
       </View>
     </View>,
 };
