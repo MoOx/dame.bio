@@ -209,7 +209,7 @@ let make = (~item, _) => {
                  )
               /* custom behavior decided for us --- => a png */
               |> Js.String.replaceByRe(
-                   [%re "/\\n\\n---\\n\\n/g"],
+                   [%re "/<p style=\"text-align:center\">---<\\/p>/g"],
                    ""
                    ++ "<span style=\"display: flex; flex-direction: row; justify-content: center; align-items: center; margin: 40px auto; width: 80%;\">"
                    ++ "<img src=\"/images/separator-long-head.png\" style=\"width: 14.5px; height: 7.5px; margin: 1px 0 0 0;\" alt=\"\" />"
