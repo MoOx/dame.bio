@@ -1,5 +1,12 @@
 open BsReactNative;
 
+let defaultSize = 14.;
+
+let defaultColor = "#999";
+
+let styles =
+  StyleSheet.create(Style.{"touchable": style([justifyContent(Center)])});
+
 module LikePost = [%graphql
   {|
   mutation like($id: ID!) {
@@ -33,16 +40,12 @@ module UnlikePost = [%graphql
 module UnlikePostMutation = ReasonApollo.CreateMutation(UnlikePost);
 
 type state =
-  | Liked
-  | NotLiked;
+  | NotLiked
+  | Liked;
 
 type action =
   | Like
   | Unlike;
-
-let defaultSize = 12.;
-
-let defaultColor = "#999";
 
 let component = ReasonReact.reducerComponent("LikeButton");
 
@@ -66,22 +69,30 @@ let make = (~id, ~size=defaultSize, _) => {
           ...{(unlike, _) => {
             let unlikeMutation = UnlikePost.make(~id, ());
             switch (state) {
-            | Liked =>
-              <TouchableOpacity
-                onPress={_ => {
-                  unlike(~variables=unlikeMutation##variables, ()) |> ignore;
-                  send(Unlike);
-                }}>
-                <SVGFavorite fill="#E2254D" width=size height=size />
-              </TouchableOpacity>
             | NotLiked =>
-              <TouchableOpacity
+              <TouchableScale
+                style=styles##touchable
+                activeScale=1.5
+                hoverScale=1.1
+                focusScale=1.1
                 onPress={_ => {
                   like(~variables=likeMutation##variables, ()) |> ignore;
                   send(Like);
                 }}>
                 <SVGFavoriteOutline fill=defaultColor width=size height=size />
-              </TouchableOpacity>
+              </TouchableScale>
+            | Liked =>
+              <TouchableScale
+                style=styles##touchable
+                activeScale=0.75
+                hoverScale=1.1
+                focusScale=1.1
+                onPress={_ => {
+                  unlike(~variables=unlikeMutation##variables, ()) |> ignore;
+                  send(Unlike);
+                }}>
+                <SVGFavorite fill="#E2254D" width=size height=size />
+              </TouchableScale>
             };
           }}
         </UnlikePostMutation>;
