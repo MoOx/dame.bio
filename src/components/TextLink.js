@@ -23,7 +23,7 @@ type PropsType = {|
   href?: string,
   children?: React.Node,
   onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void,
-  onPress?: (event: SyntheticEvent<HTMLAnchorElement>) => void
+  onPress?: (event: SyntheticEvent<HTMLAnchorElement>) => void,
 |};
 
 const isSameOrigin = (url: HTMLAnchorElement) =>
@@ -48,7 +48,7 @@ const goToUrl = (event: SyntheticEvent<HTMLAnchorElement>, router: Object) => {
       // ( to avoid rr weird bug where page is ok, but url is drunk)
       pathname: pathname.replace(BASENAME.slice(0, -1), ""),
       search,
-      hash
+      hash,
     };
     // react-router v3
     if (router.push) router.push(route);
@@ -67,11 +67,11 @@ const goToUrl = (event: SyntheticEvent<HTMLAnchorElement>, router: Object) => {
 export const handleEvent = (
   props: Object,
   router: Object,
-  test?: (event: SyntheticEvent<HTMLAnchorElement>, props?: Object) => boolean
+  test?: (event: SyntheticEvent<HTMLAnchorElement>, props?: Object) => boolean,
 ) => (
   event:
     | SyntheticMouseEvent<HTMLAnchorElement>
-    | SyntheticKeyboardEvent<HTMLAnchorElement>
+    | SyntheticKeyboardEvent<HTMLAnchorElement>,
 ) => {
   if (props && props.onPress) props.onPress(event);
   if (props && props.onClick) props.onClick(event);
@@ -84,7 +84,7 @@ export const handleClick = (props: Object, router: Object) =>
     props,
     router,
     // $FlowFixMe left click
-    (event: SyntheticMouseEvent<HTMLAnchorElement>) => event.button === 0
+    (event: SyntheticMouseEvent<HTMLAnchorElement>) => event.button === 0,
   );
 
 export const handleKeyDown = (props: Object, router: Object) =>
@@ -92,7 +92,7 @@ export const handleKeyDown = (props: Object, router: Object) =>
     props,
     router,
     // $FlowFixMe  enter key
-    (event: SyntheticKeyboardEvent<HTMLAnchorElement>) => event.keyCode === 13
+    (event: SyntheticKeyboardEvent<HTMLAnchorElement>) => event.keyCode === 13,
   );
 
 export const isActive = (url: string, { router }: Object) => {
@@ -123,11 +123,11 @@ function Link(props: PropsType, context: Object) {
   const href = to || props.href || "";
 
   const isUrlActive = isActive(href, context);
-  const computedClassName = cx(className, isUrlActive && activeClassName);
-  const computedStyle = {
-    ...style,
-    ...(isUrlActive ? activeStyle : {})
-  };
+  // const computedClassName = cx(className, isUrlActive && activeClassName);
+  // const computedStyle = {
+  //   ...style,
+  //   ...(isUrlActive ? activeStyle : {}),
+  // };
 
   return (
     <Text
@@ -154,7 +154,7 @@ function Link(props: PropsType, context: Object) {
 }
 
 Link.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
 Link.displayName = "Link";

@@ -1,5 +1,5 @@
-[@bs.module "../../../../src/components/TextLinkNative"]
-external link: ReasonReact.reactClass = "default";
+[@bs.module "../../../../src/components/TextLink"]
+external reactClass: ReasonReact.reactClass = "default";
 
 let make =
     (
@@ -13,7 +13,7 @@ let make =
       children,
     ) =>
   ReasonReact.wrapJsForReason(
-    ~reactClass=link,
+    ~reactClass,
     ~props={
       "href": Js.Nullable.fromOption(href),
       "style": Js.Nullable.fromOption(style),
