@@ -46,7 +46,8 @@ let styles =
           paddingTop(Pt(Spacer.space)),
           paddingHorizontal(Pt(Spacer.space)),
         ]),
-      "action": style([display(Flex), flexDirection(Row)]),
+      "action":
+        style([display(Flex), flexDirection(Row), alignItems(Center)]),
       "title":
         style([
           paddingTop(Pt(Spacer.space /. 2.)),
@@ -107,7 +108,7 @@ let make = (~item, _) => {
                | v => (v->string_of_int ++ "  ")->ReasonReact.string
                }}
               <ButtonLike id=item##id />
-              <Text style=styles##action> "  |  "->ReasonReact.string </Text>
+              <Text> "    "->ReasonReact.string </Text>
               <TextLink style=styles##action href={href ++ "#comments"}>
                 <SVGSpeechBubbleOutline
                   fill=ButtonLike.defaultColor

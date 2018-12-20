@@ -41,7 +41,7 @@ let make = (~item: Structures.post, _) => {
               <ButtonLike
                 id={Base64.encode("post:" ++ string_of_int(item.id))}
               />
-              <Text style=styles##action> "  |  "->ReasonReact.string </Text>
+              <Text> "    "->ReasonReact.string </Text>
               <TextLink style=styles##action href={href ++ "#comments"}>
                 <SVGSpeechBubbleOutline
                   fill=ButtonLike.defaultColor
