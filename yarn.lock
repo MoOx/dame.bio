@@ -744,19 +744,19 @@
   resolved "https://registry.yarnpkg.com/@moox/bs-react-helmet/-/bs-react-helmet-1.1.3.tgz#6202d1b5ae028809a80e03a1fddb75be679614ea"
   integrity sha512-wMT6eS7XpA19lC4wmwCJg7rfERQ+ZZPIYgewA8ddjE/PuNyBiRte1Rksdfbn5xkZWqipIv1WJcwhO33F0bJRNw==
 
-"@phenomic/api-client@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@phenomic/api-client/-/api-client-1.0.0-beta.7.tgz#930e3c8f8ff6160bb71f7f80646687eb2ec4806d"
-  integrity sha512-gHM6C6R2zvjQERjYvuSZn9nwiJTJ16aM8jiarhUeixJ++8ex2yPp5hn1MRQXPXiazCYg/eMy986IdhoBp32+cw==
+"@phenomic/api-client@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@phenomic/api-client/-/api-client-1.0.0-beta.8.tgz#560fdda00e13a2144c286b5ca1de59c80e92d1df"
+  integrity sha512-Hv3LU3xgyl0mIVxzwidaPsI6x9KJASL8tLKk/RKFD3+Neu9qOq+OTb6GsdAYllC+M5mgWCooGbF6YQqnQAtgoA==
   dependencies:
     cross-fetch "^2.2.3"
     debug "^2.6.0"
     simple-json-fetch "^1.0.1"
 
-"@phenomic/babel-preset@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@phenomic/babel-preset/-/babel-preset-1.0.0-beta.7.tgz#c53a2760ab9232b80cd5bdc2e5cd5996c7a65a0e"
-  integrity sha512-r/8WIh6wIAdEy0iXLrNMIYyQsMCEnCMiSpd6mS1nQVZzLcEO/7CRiLUwueefX84kfFPzHrIzSJzzFXi4VzjuvQ==
+"@phenomic/babel-preset@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@phenomic/babel-preset/-/babel-preset-1.0.0-beta.8.tgz#1f9d902673cef4e4ecf8d71956b0133496536390"
+  integrity sha512-RrmYT2XO2yKdI+eRnQoClFk+uBHVT/M2q5kk0qvg8YJoKgTB0nPnYYE8Fyho9819zW3bYgsno+9sXIBkVlhSfA==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.0.0"
     "@babel/plugin-proposal-object-rest-spread" "^7.0.0"
@@ -769,15 +769,15 @@
     babel-plugin-dynamic-import-node "^2.2.0"
     babel-plugin-transform-react-remove-prop-types "^0.4.21"
 
-"@phenomic/bs-platform@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@phenomic/bs-platform/-/bs-platform-1.0.0-beta.7.tgz#bdca9195a0dee6f8900ad7e734f464d943db3496"
-  integrity sha512-ki5/sT43I8RbFiIvHdhHrT47d0tRN/Lu/Ykd+GiU/SZ7Aq9cru+l8O95zEiZnw8EOKPiULmt9Ey1sEfVqGHkPQ==
+"@phenomic/bs-platform@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@phenomic/bs-platform/-/bs-platform-1.0.0-beta.8.tgz#0a8f96b018466aac5944e310d0186f6ff86082dc"
+  integrity sha512-zBY8CoQFJYtgajVFDMd7Y2ETo5EwvPL+Km2mznk7h2A8xUGpYpZ50sFCVZLqbfsebWLzAgBu6hnSqAC2uh0r+g==
 
-"@phenomic/cli@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@phenomic/cli/-/cli-1.0.0-beta.7.tgz#b38b95ffc750b4280a4036dbad779c497d433d62"
-  integrity sha512-d0ut1/Fgka630HWikiSq+3I39p9PGvnQzlzO4WDZI1lTleUQKdsu4ZJFFAGSfJKmcdcQWHduXnD0KPT5IeYvHQ==
+"@phenomic/cli@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@phenomic/cli/-/cli-1.0.0-beta.8.tgz#790c864169523631fc7cae6fef6c461e4a70a5f9"
+  integrity sha512-YTlfWxDOGvAnFWIxvWC+9fq1rQO5Mv4fK9J0WXZBbqsdO4q/fNRk+EZcplehec79I3uGZZybjXHi0+WAP1qYsg==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.0.0"
     "@babel/plugin-proposal-object-rest-spread" "^7.0.0"
@@ -785,21 +785,20 @@
     "@babel/preset-flow" "^7.0.0"
     "@babel/preset-react" "^7.0.0"
     "@babel/register" "^7.0.0"
-    "@phenomic/core" "^1.0.0-beta.7"
+    "@phenomic/core" "^1.0.0-beta.8"
     chalk "^1.1.3"
     debug "^2.6.0"
     semver "^5.3.0"
     yargs "^7.0.2"
 
-"@phenomic/core@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@phenomic/core/-/core-1.0.0-beta.7.tgz#0b2f5811a2ec3e9d6e78f849918c396958abf182"
-  integrity sha512-4m69d/O/GrQdh/Jo9vzDf+fF0LcQ3eFp00FfutIS7m2pw9Hl4g//SPdpgZIoM0I01tC4TTOKh7zoaOZWHXuHjA==
+"@phenomic/core@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@phenomic/core/-/core-1.0.0-beta.8.tgz#2dbf4685a7c3c637a4d2599327f8a3bbf786d901"
+  integrity sha512-RHhi82pTltLiWxIe1p8MUlxSRMOXZi5fEZTMP4sdCxZrh6tBRp22KTU5qcFczo6nZ6iK1GCfDmqmSfLp8r6i8g==
   dependencies:
     "@babel/runtime" "^7.0.0"
-    "@phenomic/api-client" "^1.0.0-beta.7"
-    "@phenomic/bs-platform" "^1.0.0-beta.7"
-    bs-platform "^4.0.0"
+    "@phenomic/api-client" "^1.0.0-beta.8"
+    "@phenomic/bs-platform" "^1.0.0-beta.8"
     chalk "^1.1.3"
     cosmiconfig "^2.1.1"
     debug "^2.6.0"
@@ -817,31 +816,31 @@
     serve "^6.5.6"
     url "^0.11.0"
 
-"@phenomic/helpers-transform@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@phenomic/helpers-transform/-/helpers-transform-1.0.0-beta.7.tgz#ef1dc83af726de804d7ae4e44946049824706374"
-  integrity sha512-afg1L9aLBMbiaqfysXJG/plB5GeewyGa9IwX13gZEMG4OCLHI+uCRi+yi7OkNBXe0Mc/hWRA1SyQe6FOU6aCtw==
+"@phenomic/helpers-transform@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@phenomic/helpers-transform/-/helpers-transform-1.0.0-beta.8.tgz#08cfda53186ca3d90af602d1cfc4f35b97463409"
+  integrity sha512-a0ROXTetnqWjxisX0MywR1rY0YI8toxDNHvAvMamadXEOmHg0vQnJimJrwo9lZroEHf8Q69RaEZNe7ZLGIi/TQ==
   dependencies:
     debug "^2.6.0"
     rehype-react "^3.0.0"
     rehype-stringify "^3.0.0"
     unified "^6.0.0"
 
-"@phenomic/plugin-api-related-content@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@phenomic/plugin-api-related-content/-/plugin-api-related-content-1.0.0-beta.7.tgz#b8283c462e2663e93dfd743edca6ba2cef972984"
-  integrity sha512-Tzb9BLss6XKEQZZn1QGl47RTuP9OySTJX/odMhOpWgfxn342ZdjO0QRnxC/1qQ0qVUYa4GdQ3MoHwUksyNETaQ==
+"@phenomic/plugin-api-related-content@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@phenomic/plugin-api-related-content/-/plugin-api-related-content-1.0.0-beta.8.tgz#8dd6685859108660ff52325eac21a416f3e15265"
+  integrity sha512-qinvqNN78SjB/Z2l1CJ/nWml+l3JFPbvDHJKsneFSk63gFBVOGEWT/FnFZZfLwWDx4hZS9fXo9WAtFcI2scBUQ==
   dependencies:
     debug "^2.6.0"
     lodash.flatten "^4.4.0"
 
-"@phenomic/plugin-bundler-webpack@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@phenomic/plugin-bundler-webpack/-/plugin-bundler-webpack-1.0.0-beta.7.tgz#d96e2e0c0788aeca22f463a0c183891cf76ef3ca"
-  integrity sha512-i1srnmxmxzo3VZyDUG6aZedva1SSQMPtdtAY3aayEDVfMNB4rZn/GMHPTGKrCdDrVBKFBbIFmyTRIKDMM+9eAg==
+"@phenomic/plugin-bundler-webpack@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@phenomic/plugin-bundler-webpack/-/plugin-bundler-webpack-1.0.0-beta.8.tgz#2ee73592a28280e96715cd45d0bfcd5ed22a80e7"
+  integrity sha512-jfBHlfQbSCWM8xXZYSe7IY7G81W4qvvEEWVa8uetAipAQukSRAvfgxFUyBYcaW6L0izKxb49xDXLxKjuTLTDaA==
   dependencies:
     "@babel/core" "^7.0.0"
-    "@phenomic/babel-preset" "^1.0.0-beta.7"
+    "@phenomic/babel-preset" "^1.0.0-beta.8"
     babel-loader "^8.0.0"
     chalk "^1.1.3"
     css-loader "^1.0.0"
@@ -854,30 +853,30 @@
     webpack-dev-middleware "^3.0.0"
     webpack-hot-middleware "^2.0.0"
 
-"@phenomic/plugin-collector-files@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@phenomic/plugin-collector-files/-/plugin-collector-files-1.0.0-beta.7.tgz#c8c819c6dd0ecf95b0263c8a8d956458995c074c"
-  integrity sha512-6bCRHb86wu4M7vk8AqXL9e8SjkhuUZRs+/mk4jE1MgejLtQ1S/aKoaF8zslxzlqV2HNEQeerRdEoiaPzkS0sEQ==
+"@phenomic/plugin-collector-files@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@phenomic/plugin-collector-files/-/plugin-collector-files-1.0.0-beta.8.tgz#bd656579425f847dfd706fbedbb5d6e5a2e7fe5b"
+  integrity sha512-VHB6Cr2rv56B9FMFX2eNhKlf+ZIkmI6lTqVZ7YIB6EZ8dIJWkCqKvb6EzH1eu0RK1Ixq3djpKtcSGJTKcXujmQ==
   dependencies:
     debug "^2.6.0"
     globby "^6.1.0"
     sane "^1.7.0"
     socket.io "^1.7.2"
 
-"@phenomic/plugin-public-assets@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@phenomic/plugin-public-assets/-/plugin-public-assets-1.0.0-beta.7.tgz#cf12184bb80b01bf4e0acbdb8cf36f2058b76490"
-  integrity sha512-Cq+kQDoJjFnFyXkFfKhpkH0KFCmNSSlx4Aml/uOH5T1MarE8yGikNW4qL9J+sJjPSUuravAl3YbfFjY0PpyWDQ==
+"@phenomic/plugin-public-assets@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@phenomic/plugin-public-assets/-/plugin-public-assets-1.0.0-beta.8.tgz#91bf7a855f35bd7cab89bdfd7a2ec257833ce047"
+  integrity sha512-HpSPE4ecurPbDQ36yGJAyv+mg5li3wdiQvue5OXMcrIPkIcJta9RIdMi91Xrw2NBxWdHz+FuEBhnvCk66kT3mA==
   dependencies:
     express "^4.14.0"
     fs-extra "^3.0.1"
 
-"@phenomic/plugin-renderer-react@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@phenomic/plugin-renderer-react/-/plugin-renderer-react-1.0.0-beta.7.tgz#25a8f10c418e428d33c9e17fa29d45e2f1df35b6"
-  integrity sha512-jYyZ99vqo9wJpd6omg7TeWsx67xSiGtR9AoBf8e0Rd4AvlFIEG9bQlMcZNRuuwrq/9gU2V2opxuf5jZOuIPNoQ==
+"@phenomic/plugin-renderer-react@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@phenomic/plugin-renderer-react/-/plugin-renderer-react-1.0.0-beta.8.tgz#ebe4b7ce581a4ca073a0ea849f843c459a5a62c2"
+  integrity sha512-Oh3+YTVzGEpvNLb1q9fdtpciYoKdVQo4vbN2do525bKwm3ZYFdON0IDOKHl1GihKt6F7QdHym+Z183XuqVY0xA==
   dependencies:
-    "@phenomic/api-client" "^1.0.0-beta.7"
+    "@phenomic/api-client" "^1.0.0-beta.8"
     chalk "^1.1.3"
     classnames "^2.2.5"
     debug "^2.6.0"
@@ -887,19 +886,19 @@
     striptags "^2.0.0"
     url-join "^2.0.2"
 
-"@phenomic/plugin-transform-json@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@phenomic/plugin-transform-json/-/plugin-transform-json-1.0.0-beta.7.tgz#ebeefdaa614addf9d562b4dc8834d17b27a92f10"
-  integrity sha512-X+qewmNrX2B4/xq4BMypoNA2yfaRuztQxrnGEgEYAfWBkTuW2tUGy1DiMvOAOZwH4n2O3tXaNE3nP7UUfbPFTw==
+"@phenomic/plugin-transform-json@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@phenomic/plugin-transform-json/-/plugin-transform-json-1.0.0-beta.8.tgz#5c9be2bfdcaec1b09e35186c090e78f0b6292a38"
+  integrity sha512-u82+suskItaH+AP+AUbdR1NyW5WCuLQuoAb5fH5zA+S3dCCX4cMI23vmAxsFG6jOjeSXzALZ1B0V3H8CZneOQA==
   dependencies:
     debug "^2.6.0"
 
-"@phenomic/plugin-transform-markdown@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@phenomic/plugin-transform-markdown/-/plugin-transform-markdown-1.0.0-beta.7.tgz#f3b121e85f431038c36089fa2c38e9b8a8c06346"
-  integrity sha512-pIYOQaTKMRafpPLnYQOpzrsmWMI+9uWdSfUZR3+z7ngMc7m7Kd1b4be3toDBg0JF42i/f/LaG19hxcj0K9qPHQ==
+"@phenomic/plugin-transform-markdown@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@phenomic/plugin-transform-markdown/-/plugin-transform-markdown-1.0.0-beta.8.tgz#1ce9f5435f69a06ad307545b0bf07b046066dcfe"
+  integrity sha512-Sf2xQ1aPcpSYO5hPH7IbN8+amfbG/yLIhZuI2vEc4N4iTZEfdefjBSDvWuauXK5clMuDwTu1xeGN0vM+D4QfhQ==
   dependencies:
-    "@phenomic/helpers-transform" "^1.0.0-beta.7"
+    "@phenomic/helpers-transform" "^1.0.0-beta.8"
     debug "^2.6.0"
     gray-matter "^3.0.0"
     lodash.deburr "^4.1.0"
@@ -913,18 +912,18 @@
     remark-rehype "^2.0.0"
     remark-toc "^4.0.0"
 
-"@phenomic/preset-react-app@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@phenomic/preset-react-app/-/preset-react-app-1.0.0-beta.7.tgz#1e36a368e119fab3765a87ca73caafb4cdf1b7a0"
-  integrity sha512-T3tKpHtwAVWE+Vt3Wmw8sUyQXdxvyUJeuGzu5ZPzQzM/aw5PvI/dl7ICwb397i4oSVSh3+tU/uDNrkTmAfPK3w==
+"@phenomic/preset-react-app@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@phenomic/preset-react-app/-/preset-react-app-1.0.0-beta.8.tgz#6f834aa4b86a677df6bb1fec9297d32f69651a4c"
+  integrity sha512-tRhL0bIbv5sFRVxoyFZu2d9+WqjomPu8ld5PdVoRxaxzTTMxjGK4Rk6vp2Nl5TvaiyqcfuXJspAoYYQnnMVnGQ==
   dependencies:
-    "@phenomic/plugin-api-related-content" "^1.0.0-beta.7"
-    "@phenomic/plugin-bundler-webpack" "^1.0.0-beta.7"
-    "@phenomic/plugin-collector-files" "^1.0.0-beta.7"
-    "@phenomic/plugin-public-assets" "^1.0.0-beta.7"
-    "@phenomic/plugin-renderer-react" "^1.0.0-beta.7"
-    "@phenomic/plugin-transform-json" "^1.0.0-beta.7"
-    "@phenomic/plugin-transform-markdown" "^1.0.0-beta.7"
+    "@phenomic/plugin-api-related-content" "^1.0.0-beta.8"
+    "@phenomic/plugin-bundler-webpack" "^1.0.0-beta.8"
+    "@phenomic/plugin-collector-files" "^1.0.0-beta.8"
+    "@phenomic/plugin-public-assets" "^1.0.0-beta.8"
+    "@phenomic/plugin-renderer-react" "^1.0.0-beta.8"
+    "@phenomic/plugin-transform-json" "^1.0.0-beta.8"
+    "@phenomic/plugin-transform-markdown" "^1.0.0-beta.8"
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
@@ -2234,11 +2233,6 @@ bs-fetch@^0.3.0:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/bs-fetch/-/bs-fetch-0.3.1.tgz#9c7d074b27e6bb2b9f2ec985964f32bcac49f79e"
   integrity sha512-MxwnuuXPldXnoCtlpeN5JNbbmb1tVgsqpLfVunvuMLAIQNyP0TqoImHiQRTz38PBSN8/iX+2yVlm+PFJfnHHiA==
-
-bs-platform@^4.0.0:
-  version "4.0.8"
-  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-4.0.8.tgz#d7b1ee9b21efdb549669dff797f578e229bcbe20"
-  integrity sha512-pTsVLNQ/CNuYUYmhlxhQyuJSACFi7v1avhX5qx6TxzAR3jXjMvImz8WdT+zzzJyisY2TTjMvCrJwhefT3Dliqw==
 
 bs-platform@^4.0.8:
   version "4.0.14"
