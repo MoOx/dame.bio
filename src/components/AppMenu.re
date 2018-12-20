@@ -11,11 +11,14 @@ let styles =
       "wrapper":
         style([
           borderTopWidth(StyleSheet.hairlineWidth),
-          borderColor(String("#C4C7CD")),
-          /* backgroundColor(String("#FDFFFF")), */
+          borderColor(String("#E3E4E5")),
         ]),
       "container":
-        style([flexDirection(Row), height(Pt(50.)), alignItems(Center)]),
+        style([
+          flexDirection(Row),
+          minHeight(Pt(50.)),
+          alignItems(Center),
+        ]),
       "item":
         style([
           display(Flex),

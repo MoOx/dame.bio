@@ -10,22 +10,13 @@ let make = children => {
       <Container> ...children </Container>
       <Footer />
       <div
-        className="device-small"
-        style={ReactDOMRe.Style.unsafeAddProp(
-          ReactDOMRe.Style.unsafeAddProp(
-            ReactDOMRe.Style.make(
-              ~position="fixed",
-              ~bottom="0",
-              ~left="0",
-              ~right="0",
-              ~backgroundColor="#FDFFFFe6",
-              (),
-            ),
-            "WebkitBackdropFilter",
-            "saturate(210%) blur(20px)",
-          ),
-          "backdropFilter",
-          "saturate(210%) blur(20px)",
+        className="device-small menu-backdrop"
+        style={ReactDOMRe.Style.make(
+          ~position="fixed",
+          ~bottom="0",
+          ~left="0",
+          ~right="0",
+          (),
         )}>
         <AppMenu />
       </div>
