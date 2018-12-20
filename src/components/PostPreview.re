@@ -34,20 +34,20 @@ let make = (~item: Structures.post, _) => {
               {String.uppercase(rootCategory.name)->ReasonReact.string}
             </TextLink>
             <Text style=styles##actions>
-              <TextLink style=styles##action href="#like">
-                <SVGFavorite fill="#ddd" width=12. height=12. />
-                (
-                  if (item.likes != 0) {
-                    " " ++ (item.likes |> string_of_int);
-                  } else {
-                    "";
-                  }
-                )
-                ->ReasonReact.string
-              </TextLink>
-              <Text style=styles##action> " | "->ReasonReact.string </Text>
+              {switch (item.likes) {
+               | 0 => ReasonReact.null
+               | v => (v->string_of_int ++ "  ")->ReasonReact.string
+               }}
+              <ButtonLike
+                id={Base64.encode("post:" ++ string_of_int(item.id))}
+              />
+              <Text style=styles##action> "  |  "->ReasonReact.string </Text>
               <TextLink style=styles##action href={href ++ "#comments"}>
-                <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
+                <SVGSpeechBubbleOutline
+                  fill=ButtonLike.defaultColor
+                  width=ButtonLike.defaultSize
+                  height=ButtonLike.defaultSize
+                />
                 {(
                    switch (item.comments) {
                    | None => ""

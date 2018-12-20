@@ -28,11 +28,12 @@ let styles =
           borderBottomWidth(StyleSheet.hairlineWidth),
           borderColor(String("#EBEBEB")),
           backgroundColor(String("#FFF")),
-          padding(Pt(20.)),
         ]),
       "category":
         style([
-          marginBottom(Pt(10.)),
+          paddingTop(Pt(Spacer.space)),
+          paddingHorizontal(Pt(Spacer.space)),
+          flex(1.),
           fontSize(Float(10.)),
           color(String("#DE6D88")),
         ]),
@@ -40,24 +41,22 @@ let styles =
         style([
           display(Flex),
           flexDirection(Row),
-          marginBottom(Pt(10.)),
           fontSize(Float(10.)),
-          color(String("#bbb")),
+          color(String(ButtonLike.defaultColor)),
+          paddingTop(Pt(Spacer.space)),
+          paddingHorizontal(Pt(Spacer.space)),
         ]),
-      "action":
-        style([
-          display(Flex),
-          flexDirection(Row),
-          marginHorizontal(Pt(4.)),
-        ]),
+      "action": style([display(Flex), flexDirection(Row)]),
       "title":
         style([
+          paddingTop(Pt(Spacer.space /. 2.)),
+          paddingBottom(Pt(Spacer.space)),
+          paddingHorizontal(Pt(Spacer.space)),
           fontSize(Float(22.)),
           fontWeight(`_300),
           lineHeight(28.),
           color(String("#1C1C1C")),
         ]),
-      "link": style([padding(Pt(10.))]),
     },
   );
 
@@ -79,7 +78,8 @@ let make = (~item, _) => {
       ++ item##slug->Belt.Option.getWithDefault(item##id)
       ++ "/";
     <SpacedView key=item##id style=styles##wrapper vertical=M horizontal=M>
-      <View style=styles##container>
+      <TouchableScale
+        style=styles##container activeScale=0.98 friction=5. tension=50.>
         <TextLink href>
           {item##featuredImage
            ->Belt.Option.flatMap(f => f##mediaDetails)
@@ -95,27 +95,25 @@ let make = (~item, _) => {
         </TextLink>
         <View style=styles##text>
           <View style=styles##row>
-            <TextLink
-              style=styles##category
-              href={
-                "/"
-                ++ rootCategory##slug->Belt.Option.getWithDefault("_")
-                ++ "/"
-              }>
+            <TextLink style=styles##category href>
               {rootCategory##name
                ->Belt.Option.getWithDefault("")
                ->String.uppercase
                ->ReasonReact.string}
             </TextLink>
             <Text style=styles##actions>
-              <ButtonLike id=item##id />
               {switch (item##likeCount->Belt.Option.getWithDefault(0)) {
                | 0 => ReasonReact.null
-               | v => ("  " ++ v->string_of_int)->ReasonReact.string
+               | v => (v->string_of_int ++ "  ")->ReasonReact.string
                }}
-              <Text style=styles##action> " | "->ReasonReact.string </Text>
+              <ButtonLike id=item##id />
+              <Text style=styles##action> "  |  "->ReasonReact.string </Text>
               <TextLink style=styles##action href={href ++ "#comments"}>
-                <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
+                <SVGSpeechBubbleOutline
+                  fill=ButtonLike.defaultColor
+                  width=ButtonLike.defaultSize
+                  height=ButtonLike.defaultSize
+                />
                 {switch (item##commentCount->Belt.Option.getWithDefault(0)) {
                  | 0 => ReasonReact.null
                  | v => ("  " ++ v->string_of_int)->ReasonReact.string
@@ -131,7 +129,7 @@ let make = (~item, _) => {
             />
           </TextLink>
         </View>
-      </View>
+      </TouchableScale>
     </SpacedView>;
   },
 };

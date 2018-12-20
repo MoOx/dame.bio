@@ -40,12 +40,13 @@ type action =
   | Like
   | Unlike;
 
-let liked = <SVGFavorite fill="#E2254D" width=12. height=12. />;
-let unliked = <SVGFavorite fill="#ddd" width=12. height=12. />;
+let defaultSize = 12.;
+
+let defaultColor = "#999";
 
 let component = ReasonReact.reducerComponent("LikeButton");
 
-let make = (~id, _) => {
+let make = (~id, ~size=defaultSize, _) => {
   ...component,
 
   initialState: () => Likes.isLiked(id) ? Liked : NotLiked,
@@ -71,7 +72,7 @@ let make = (~id, _) => {
                   unlike(~variables=unlikeMutation##variables, ()) |> ignore;
                   send(Unlike);
                 }}>
-                liked
+                <SVGFavorite fill="#E2254D" width=size height=size />
               </TouchableOpacity>
             | NotLiked =>
               <TouchableOpacity
@@ -79,7 +80,7 @@ let make = (~id, _) => {
                   like(~variables=likeMutation##variables, ()) |> ignore;
                   send(Like);
                 }}>
-                unliked
+                <SVGFavoriteOutline fill=defaultColor width=size height=size />
               </TouchableOpacity>
             };
           }}
