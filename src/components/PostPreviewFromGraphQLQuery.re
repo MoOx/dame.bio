@@ -6,7 +6,16 @@ let radius = 3.;
 let styles =
   StyleSheet.create(
     Style.{
-      "block": style([flex(1.), flexBasis(Pt(340.))]),
+      "wrapper": style([flex(1.), flexBasis(Pt(340.))]),
+      "container":
+        Dimensions.get(`window)##width <= 500 ?
+          style([
+            shadowColor(String("#333333")),
+            shadowOffset(~height=4., ~width=0.),
+            shadowOpacity(0.1),
+            shadowRadius(20.),
+          ]) :
+          style([]),
       "row": style([flexDirection(Row), justifyContent(SpaceBetween)]),
       "image":
         style([borderTopLeftRadius(radius), borderTopRightRadius(radius)]),
@@ -69,57 +78,59 @@ let make = (~item, _) => {
       ++ "/"
       ++ item##slug->Belt.Option.getWithDefault(item##id)
       ++ "/";
-    <SpacedView key=item##id style=styles##block vertical=M horizontal=M>
-      <TextLink href>
-        {item##featuredImage
-         ->Belt.Option.flatMap(f => f##mediaDetails)
-         ->Belt.Option.flatMap(m => m##sizes)
-         ->Belt.Option.getWithDefault([||])
-         ->Belt.Array.keepMap(x => x)
-         ->Belt.Array.get(1)
-         ->Belt.Option.flatMap(s => s##sourceUrl)
-         ->Belt.Option.map(uri =>
-             <ImageWithAspectRatio uri style=styles##image />
-           )
-         ->Belt.Option.getWithDefault(ReasonReact.null)}
-      </TextLink>
-      <View style=styles##text>
-        <View style=styles##row>
-          <TextLink
-            style=styles##category
-            href={
-              "/"
-              ++ rootCategory##slug->Belt.Option.getWithDefault("_")
-              ++ "/"
-            }>
-            {rootCategory##name
-             ->Belt.Option.getWithDefault("")
-             ->String.uppercase
-             ->ReasonReact.string}
-          </TextLink>
-          <Text style=styles##actions>
-            <ButtonLike id=item##id />
-            {switch (item##likeCount->Belt.Option.getWithDefault(0)) {
-             | 0 => ReasonReact.null
-             | v => ("  " ++ v->string_of_int)->ReasonReact.string
-             }}
-            <Text style=styles##action> " | "->ReasonReact.string </Text>
-            <TextLink style=styles##action href={href ++ "#comments"}>
-              <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
-              {switch (item##commentCount->Belt.Option.getWithDefault(0)) {
+    <SpacedView key=item##id style=styles##wrapper vertical=M horizontal=M>
+      <View style=styles##container>
+        <TextLink href>
+          {item##featuredImage
+           ->Belt.Option.flatMap(f => f##mediaDetails)
+           ->Belt.Option.flatMap(m => m##sizes)
+           ->Belt.Option.getWithDefault([||])
+           ->Belt.Array.keepMap(x => x)
+           ->Belt.Array.get(1)
+           ->Belt.Option.flatMap(s => s##sourceUrl)
+           ->Belt.Option.map(uri =>
+               <ImageWithAspectRatio uri style=styles##image />
+             )
+           ->Belt.Option.getWithDefault(ReasonReact.null)}
+        </TextLink>
+        <View style=styles##text>
+          <View style=styles##row>
+            <TextLink
+              style=styles##category
+              href={
+                "/"
+                ++ rootCategory##slug->Belt.Option.getWithDefault("_")
+                ++ "/"
+              }>
+              {rootCategory##name
+               ->Belt.Option.getWithDefault("")
+               ->String.uppercase
+               ->ReasonReact.string}
+            </TextLink>
+            <Text style=styles##actions>
+              <ButtonLike id=item##id />
+              {switch (item##likeCount->Belt.Option.getWithDefault(0)) {
                | 0 => ReasonReact.null
                | v => ("  " ++ v->string_of_int)->ReasonReact.string
                }}
-            </TextLink>
-          </Text>
+              <Text style=styles##action> " | "->ReasonReact.string </Text>
+              <TextLink style=styles##action href={href ++ "#comments"}>
+                <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
+                {switch (item##commentCount->Belt.Option.getWithDefault(0)) {
+                 | 0 => ReasonReact.null
+                 | v => ("  " ++ v->string_of_int)->ReasonReact.string
+                 }}
+              </TextLink>
+            </Text>
+          </View>
+          <TextLink style=styles##title href>
+            <span
+              dangerouslySetInnerHTML={
+                "__html": item##title->Belt.Option.getWithDefault(""),
+              }
+            />
+          </TextLink>
         </View>
-        <TextLink style=styles##title href>
-          <span
-            dangerouslySetInnerHTML={
-              "__html": item##title->Belt.Option.getWithDefault(""),
-            }
-          />
-        </TextLink>
       </View>
     </SpacedView>;
   },
