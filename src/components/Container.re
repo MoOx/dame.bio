@@ -9,6 +9,7 @@ let styles =
         style([
           flex(1.),
           width(Pct(100.)),
+          overflow(Hidden),
           alignItems(Center),
           backgroundColor(String("#fefefe")),
         ]),
