@@ -47,12 +47,11 @@ body {
 }
 @supports ((-webkit-backdrop-filter: blur(14px)) or (backdrop-filter: blur(14px))) {
   .menu-backdrop {
-    background-color: rgba(253, 255, 255, .90);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
+    background-color: rgba(245, 245, 245, .75);
+    -webkit-backdrop-filter: saturate(200%) brightness(150%) grayscale(20%) blur(20px);
+    backdrop-filter: saturate(200%) brightness(150%) grayscale(20%) blur(20px);
   }
 }
-
 
 @media (min-width: 500px) {
   .device-small {
