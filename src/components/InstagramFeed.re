@@ -117,7 +117,6 @@ let make = _children => {
   didMount: ({send}) => send(Fetching),
   render: ({state}) =>
     <View>
-      {state.fetching ? <LoadingIndicator /> : ReasonReact.null}
       {switch (state.error) {
        | None => ReasonReact.null
        | Some(error) => <Text> error->ReasonReact.string </Text>
