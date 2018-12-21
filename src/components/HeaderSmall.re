@@ -18,15 +18,23 @@ let styles =
           position(Relative),
           zIndex(1),
           paddingHorizontal(Pt(10.)),
+          flex(1.),
         ]),
       "logoImage": style([]),
-      "icons": style([flexDirection(Row)]),
+      "icons":
+        style([
+          flex(1.),
+          flexDirection(Row),
+          flexWrap(Wrap),
+          justifyContent(Center),
+        ]),
       "icon":
         style([
+          flexGrow(1.),
+          flexShrink(0.),
           display(Flex),
           alignItems(Center),
-          paddingVertical(Pt(6.)),
-          paddingHorizontal(Pt(12.)),
+          padding(Pt(6.)),
           fontSize(Float(12.)),
         ]),
     },
@@ -35,14 +43,15 @@ let styles =
 let make = _children => {
   ...component,
   render: _self =>
-    <SpacedView vertical=M horizontal=S style=styles##wrapper>
-      <TextLink style=styles##logo href="/">
+    <SpacedView vertical=M horizontal=XS style=styles##wrapper>
+      <TouchableOpacityLink style=styles##logo href="/">
         <SVGDameBioLogo
           width=150.
           height={140. /. 350. *. 150.}
           fill="#67B44B"
         />
-      </TextLink>
+      </TouchableOpacityLink>
+      <Spacer />
       <SocialIcons
         wrapperStyle=styles##icons
         iconStyle=styles##icon

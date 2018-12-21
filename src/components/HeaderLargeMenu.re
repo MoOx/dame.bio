@@ -5,14 +5,14 @@ let component = ReasonReact.statelessComponent("HeaderLargeMenu");
 let styles =
   StyleSheet.create(
     Style.{
-      "menu":
+      "wrapper":
         style([
           flexDirection(Row),
           maxWidth(Pt(1000.)),
           width(Pct(100.)),
           justifyContent(Center),
         ]),
-      "menuLinks":
+      "container":
         style([
           zIndex(1),
           flex(1.),
@@ -21,13 +21,12 @@ let styles =
           flexWrap(Wrap),
           justifyContent(SpaceBetween),
         ]),
-      "menuLink":
+      "item": style([flexGrow(1.), paddingHorizontal(Pt(20.))]),
+      "itemText":
         style([
-          flexGrow(1.),
           fontFamily("IndieFlower"),
           fontWeight(`Bold),
           fontSize(Float(24.)),
-          paddingHorizontal(Pt(20.)),
           lineHeight(65.), /* 73 - transparent part */
           textAlign(Center),
           color(String("#4E7E3B")),
@@ -38,7 +37,7 @@ let styles =
 let make = _children => {
   ...component,
   render: _self =>
-    <View style=styles##menu>
+    <View style=styles##wrapper>
       <div
         style={ReactDOMRe.Style.make(
           ~position="absolute",
@@ -72,20 +71,28 @@ let make = _children => {
           (),
         )}
       />
-      <View style=styles##menuLinks>
+      <View style=styles##container>
         <Spacer size=L />
-        <TextLink style=styles##menuLink href="/alimentation/">
-          {j|Alimentation|j}->ReasonReact.string
-        </TextLink>
-        <TextLink style=styles##menuLink href="/permaculture/">
-          {j|Permaculture|j}->ReasonReact.string
-        </TextLink>
-        <TextLink style=styles##menuLink href="/bien-etre/">
-          {j|Bien-être|j}->ReasonReact.string
-        </TextLink>
-        <TextLink style=styles##menuLink href="/lifestyle/">
-          {j|Lifestyle|j}->ReasonReact.string
-        </TextLink>
+        <TouchableOpacityLink style=styles##item href="/alimentation/">
+          <Text style=styles##itemText>
+            {j|Alimentation|j}->ReasonReact.string
+          </Text>
+        </TouchableOpacityLink>
+        <TouchableOpacityLink style=styles##item href="/permaculture/">
+          <Text style=styles##itemText>
+            {j|Permaculture|j}->ReasonReact.string
+          </Text>
+        </TouchableOpacityLink>
+        <TouchableOpacityLink style=styles##item href="/bien-etre/">
+          <Text style=styles##itemText>
+            {j|Bien-être|j}->ReasonReact.string
+          </Text>
+        </TouchableOpacityLink>
+        <TouchableOpacityLink style=styles##item href="/lifestyle/">
+          <Text style=styles##itemText>
+            {j|Lifestyle|j}->ReasonReact.string
+          </Text>
+        </TouchableOpacityLink>
         <Spacer size=L />
       </View>
     </View>,

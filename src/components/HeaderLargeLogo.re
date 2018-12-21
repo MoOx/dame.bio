@@ -46,7 +46,7 @@ let make = _children => {
         />
       </View>
       <Spacer />
-      <TextLink style=styles##logo href="/">
+      <TouchableOpacityLink style=styles##logo href="/">
         <View style=styles##logoImage>
           <SVGDameBioLogo width=350. height=140. fill="#67B44B" />
         </View>
@@ -57,6 +57,6 @@ let make = _children => {
             uri="/images/logo-effect.png"
           />
         </View>
-      </TextLink>
+      </TouchableOpacityLink>
     </View>,
 };

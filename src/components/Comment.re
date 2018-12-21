@@ -28,7 +28,8 @@ let styles =
         ]),
       "commentTextContainer": style([flex(1.)]),
       "commentMeta": style([flexDirection(Row)]),
-      "commentAuthor":
+      "commentAuthor": style([]),
+      "commentAuthorText":
         style([
           color(String("#49443A")),
           fontWeight(`_600),
@@ -37,14 +38,17 @@ let styles =
         ]),
       "commentOwner":
         style([
-          color(String("#fff")),
           backgroundColor(String("#DE6D88")),
           paddingHorizontal(Pt(6.)),
           borderRadius(8.),
+          alignSelf(Center),
+        ]),
+      "commentOwnerText":
+        style([
+          color(String("#fff")),
           fontSize(Float(10.)),
           fontWeight(`_300),
           lineHeight(20.),
-          alignSelf(Center),
         ]),
       "commentDate":
         style([
@@ -111,9 +115,11 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
         <View style=styles##commentTextContainer>
           <View style=styles##commentMeta>
             {String.length(url) > 0 ?
-               <TextLink style=styles##commentAuthor href=url>
-                 name->ReasonReact.string
-               </TextLink> :
+               <TouchableOpacityLink style=styles##commentAuthor href=url>
+                 <Text style=styles##commentAuthorText>
+                   name->ReasonReact.string
+                 </Text>
+               </TouchableOpacityLink> :
                <Text style=styles##commentAuthor>
                  name->ReasonReact.string
                </Text>}
@@ -122,9 +128,11 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
                  when a##userId->Belt.Option.getWithDefault(0) == 2 =>
                <>
                  <Text> " "->ReasonReact.string </Text>
-                 <TextLink href=url style=styles##commentOwner>
-                   "Auteur"->ReasonReact.string
-                 </TextLink>
+                 <TouchableOpacityLink href=url style=styles##commentOwner>
+                   <Text style=styles##commentOwnerText>
+                     "Auteur"->ReasonReact.string
+                   </Text>
+                 </TouchableOpacityLink>
                </>
              | _ => ReasonReact.null
              }}

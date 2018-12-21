@@ -24,9 +24,9 @@ let uri = "/images/banner-button.png";
 let make = (~href, children) => {
   ...component,
   render: _self =>
-    <TextLink href style=styles##container>
+    <TouchableOpacityLink href style=styles##container>
       <ImageBackgroundFromUri style=styles##image resizeMode=`contain uri>
         <Text style=styles##children> ...children </Text>
       </ImageBackgroundFromUri>
-    </TextLink>,
+    </TouchableOpacityLink>,
 };

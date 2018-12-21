@@ -19,13 +19,14 @@ let styles =
           flexWrap(Wrap),
           justifyContent(Center),
         ]),
-      "tag":
+      "tagText":
         style([
           fontSize(Float(16.)),
           lineHeight(29.),
           color(String("#006579")),
         ]),
-      "category": style([fontSize(Float(14.)), color(String("#DE6D88"))]),
+      "categoryText":
+        style([fontSize(Float(14.)), color(String("#DE6D88"))]),
       "actions":
         style([
           display(Flex),
@@ -133,8 +134,7 @@ let make = (~item, _) => {
         />
       </Text>
       <View style=styles##metaRow>
-        <TextLink
-          style=styles##category
+        <TouchableOpacityLink
           href={
             "/"
             ++ Utils.encodeURI(
@@ -142,11 +142,13 @@ let make = (~item, _) => {
                )
             ++ "/"
           }>
-          {String.uppercase(
-             rootCategory##name->Belt.Option.getWithDefault(""),
-           )
-           ->ReasonReact.string}
-        </TextLink>
+          <Text style=styles##categoryText>
+            {String.uppercase(
+               rootCategory##name->Belt.Option.getWithDefault(""),
+             )
+             ->ReasonReact.string}
+          </Text>
+        </TouchableOpacityLink>
         <Text style=styles##actions>
           <Text style=styles##actions>
             <ButtonLike id=item##id />
@@ -155,13 +157,16 @@ let make = (~item, _) => {
              | v => ("  " ++ v->string_of_int)->ReasonReact.string
              }}
             <Text style=styles##action> " | "->ReasonReact.string </Text>
-            <TextLink style=styles##action href={href ++ "#comments"}>
-              <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
-              {switch (item##commentCount->Belt.Option.getWithDefault(0)) {
-               | 0 => ReasonReact.null
-               | v => ("  " ++ v->string_of_int)->ReasonReact.string
-               }}
-            </TextLink>
+            <TouchableOpacityLink
+              style=styles##action href={href ++ "#comments"}>
+              <Text>
+                <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
+                {switch (item##commentCount->Belt.Option.getWithDefault(0)) {
+                 | 0 => ReasonReact.null
+                 | v => ("  " ++ v->string_of_int)->ReasonReact.string
+                 }}
+              </Text>
+            </TouchableOpacityLink>
           </Text>
         </Text>
       </View>
@@ -227,8 +232,7 @@ let make = (~item, _) => {
                      tag##slug
                      ->Belt.Option.getWithDefault(string_of_int(index))
                    }>
-                   <TextLink
-                     style=styles##tag
+                   <TouchableOpacityLink
                      href={
                        "/tags/"
                        ++ Utils.encodeURI(
@@ -236,12 +240,14 @@ let make = (~item, _) => {
                           )
                        ++ "/"
                      }>
-                     {"#"
-                      ++ Utils.tagifyString(
-                           tag##name->Belt.Option.getWithDefault(""),
-                         )
-                      |> ReasonReact.string}
-                   </TextLink>
+                     <Text style=styles##tagText>
+                       {"#"
+                        ++ Utils.tagifyString(
+                             tag##name->Belt.Option.getWithDefault(""),
+                           )
+                        |> ReasonReact.string}
+                     </Text>
+                   </TouchableOpacityLink>
                    " "->ReasonReact.string
                  </Text>
                )

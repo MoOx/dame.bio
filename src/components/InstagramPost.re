@@ -51,7 +51,7 @@ let make = (~item, _children) => {
     },
   render: ({state, send}) => {
     let uri = item##images##standard_resolution##url;
-    <TextLink
+    <TouchableOpacityLink
       href=item##link
       style=styles##block
       onMouseEnter={() => send(Focus)}
@@ -75,6 +75,6 @@ let make = (~item, _children) => {
            </Text>
          </View> :
          ReasonReact.null}
-    </TextLink>;
+    </TouchableOpacityLink>;
   },
 };

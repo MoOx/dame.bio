@@ -466,10 +466,11 @@ let make = (~postId, ~parentCommentId, _children) => {
                 <View style=styles##row>
                   <Spacer size=S />
                   {String.length(comment.url) > 0 ?
-                     <TextLink
-                       style=styles##metaPreviewName href={comment.url}>
-                       comment.name->ReasonReact.string
-                     </TextLink> :
+                     <TouchableOpacityLink href={comment.url}>
+                       <Text style=styles##metaPreviewName>
+                         comment.name->ReasonReact.string
+                       </Text>
+                     </TouchableOpacityLink> :
                      <Text style=styles##metaPreviewName>
                        comment.name->ReasonReact.string
                      </Text>}
