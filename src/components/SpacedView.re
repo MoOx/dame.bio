@@ -16,7 +16,13 @@ type size =
   | None;
 
 let make =
-    (~vertical=None, ~horizontal=None, ~style=Style.style([]), children) => {
+    (
+      ~vertical=None,
+      ~horizontal=None,
+      ~style=Style.style([]),
+      ~pointerEvents=`auto,
+      children,
+    ) => {
   ...component,
   render: _self =>
     <View
@@ -48,7 +54,8 @@ let make =
           },
         ),
         style,
-      ])}>
+      ])}
+      pointerEvents>
       ...children
     </View>,
 };

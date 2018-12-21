@@ -1,7 +1,5 @@
 open BsReactNative;
 
-let imageRatio = 240. /. 350.;
-
 let styles =
   StyleSheet.create(
     Style.{
@@ -20,15 +18,11 @@ let styles =
 
 let component = ReasonReact.statelessComponent("ImageWithAspectRatio");
 
-let make = (~uri, ~style=?, _) => {
+let make = (~uri, ~ratio, ~style=?, _) => {
   ...component,
   render: _self =>
     <View style=styles##imageContainer>
-      <View
-        style={Style.style([
-          Style.width(Pct(100.)),
-          Style.paddingBottom(Pct(100. *. imageRatio)),
-        ])}>
+      <PlaceholderWithAspectRatio ratio>
         <ImageFromUri
           style={Style.concat([
             styles##image,
@@ -36,6 +30,6 @@ let make = (~uri, ~style=?, _) => {
           ])}
           uri
         />
-      </View>
+      </PlaceholderWithAspectRatio>
     </View>,
 };

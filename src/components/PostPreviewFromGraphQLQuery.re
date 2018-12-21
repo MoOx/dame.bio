@@ -16,7 +16,6 @@ let styles =
             shadowRadius(20.),
           ]) :
           style([]),
-      "row": style([flexDirection(Row), justifyContent(SpaceBetween)]),
       "image":
         style([borderTopLeftRadius(radius), borderTopRightRadius(radius)]),
       "text":
@@ -29,34 +28,37 @@ let styles =
           borderColor(String("#EBEBEB")),
           backgroundColor(String("#FFF")),
         ]),
-      "category":
+      "categoryText":
+        style([fontSize(Float(10.)), color(String("#DE6D88"))]),
+      "titleText":
         style([
-          paddingTop(Pt(Spacer.space)),
-          paddingHorizontal(Pt(Spacer.space)),
-          flex(1.),
-          fontSize(Float(10.)),
-          color(String("#DE6D88")),
-        ]),
-      "actions":
-        style([
-          display(Flex),
-          flexDirection(Row),
-          fontSize(Float(10.)),
-          color(String(ButtonLike.defaultColor)),
-          paddingTop(Pt(Spacer.space)),
-          paddingHorizontal(Pt(Spacer.space)),
-        ]),
-      "action":
-        style([display(Flex), flexDirection(Row), alignItems(Center)]),
-      "title":
-        style([
-          paddingTop(Pt(Spacer.space /. 2.)),
-          paddingBottom(Pt(Spacer.space)),
-          paddingHorizontal(Pt(Spacer.space)),
           fontSize(Float(22.)),
           fontWeight(`_300),
           lineHeight(28.),
           color(String("#1C1C1C")),
+        ]),
+      "actionsWrapper":
+        style([
+          position(Absolute),
+          top(Pt(0.)),
+          left(Pt(0.)),
+          right(Pt(0.)),
+        ]),
+      "actions":
+        style([
+          flexDirection(Row),
+          right(Pt(0.)),
+          alignSelf(FlexEnd),
+          alignItems(Center),
+          paddingTop(Pt(Spacer.space *. 3. /. 4.)),
+          paddingRight(Pt(Spacer.space)),
+        ]),
+      "actionWrapper": style([flexDirection(Row)]),
+      "action": style([display(Flex), flexDirection(Row)]),
+      "actionText":
+        style([
+          fontSize(Float(10.)),
+          color(String(ButtonLike.defaultColor)),
         ]),
     },
   );
@@ -66,6 +68,7 @@ let component = ReasonReact.statelessComponent("PostPreviewFromGraphQLQuery");
 let make = (~item, _) => {
   ...component,
   render: _self => {
+    let id = item##id;
     let rootCategory =
       T.getMainCategory(
         item##categories
@@ -78,59 +81,75 @@ let make = (~item, _) => {
       ++ "/"
       ++ item##slug->Belt.Option.getWithDefault(item##id)
       ++ "/";
-    <SpacedView key=item##id style=styles##wrapper vertical=M horizontal=M>
-      <TouchableScale
-        style=styles##container activeScale=0.98 friction=5. tension=50.>
-        <TextLink href>
-          {item##featuredImage
-           ->Belt.Option.flatMap(f => f##mediaDetails)
-           ->Belt.Option.flatMap(m => m##sizes)
-           ->Belt.Option.getWithDefault([||])
-           ->Belt.Array.keepMap(x => x)
-           ->Belt.Array.get(1)
-           ->Belt.Option.flatMap(s => s##sourceUrl)
-           ->Belt.Option.map(uri =>
-               <ImageWithAspectRatio uri style=styles##image />
-             )
-           ->Belt.Option.getWithDefault(ReasonReact.null)}
-        </TextLink>
-        <View style=styles##text>
-          <View style=styles##row>
-            <TextLink style=styles##category href>
-              {rootCategory##name
-               ->Belt.Option.getWithDefault("")
-               ->String.uppercase
-               ->ReasonReact.string}
-            </TextLink>
-            <Text style=styles##actions>
-              {switch (item##likeCount->Belt.Option.getWithDefault(0)) {
-               | 0 => ReasonReact.null
-               | v => (v->string_of_int ++ "  ")->ReasonReact.string
-               }}
-              <ButtonLike id=item##id />
-              <Text> "    "->ReasonReact.string </Text>
-              <TextLink style=styles##action href={href ++ "#comments"}>
-                <SVGSpeechBubbleOutline
-                  fill=ButtonLike.defaultColor
-                  width=ButtonLike.defaultSize
-                  height=ButtonLike.defaultSize
-                />
-                {switch (item##commentCount->Belt.Option.getWithDefault(0)) {
-                 | 0 => ReasonReact.null
-                 | v => ("  " ++ v->string_of_int)->ReasonReact.string
-                 }}
-              </TextLink>
-            </Text>
+    let image =
+      item##featuredImage
+      ->Belt.Option.flatMap(f => f##mediaDetails)
+      ->Belt.Option.flatMap(m => m##sizes)
+      ->Belt.Option.getWithDefault([||])
+      ->Belt.Array.keepMap(x => x)
+      ->Belt.Array.get(1)
+      ->Belt.Option.flatMap(s => s##sourceUrl)
+      ->Belt.Option.map(uri =>
+          <ImageWithAspectRatio uri style=styles##image ratio=imageRatio />
+        )
+      ->Belt.Option.getWithDefault(ReasonReact.null);
+    let category =
+      rootCategory##name
+      ->Belt.Option.getWithDefault("")
+      ->String.uppercase
+      ->ReasonReact.string;
+    let title = item##title->Belt.Option.getWithDefault("");
+    let likes = {
+      switch (item##likeCount->Belt.Option.getWithDefault(0)) {
+      | 0 => ReasonReact.null
+      | v => (v->string_of_int ++ "  ")->ReasonReact.string
+      };
+    };
+    let comments = {
+      switch (item##commentCount->Belt.Option.getWithDefault(0)) {
+      | 0 => ReasonReact.null
+      | v => ("  " ++ v->string_of_int)->ReasonReact.string
+      };
+    };
+    <SpacedView key=id style=styles##wrapper vertical=M horizontal=M>
+      <TouchableScaleLink
+        href style=styles##container activeScale=0.99 friction=5. tension=50.>
+        <View> image </View>
+        <SpacedView vertical=M horizontal=M style=styles##text>
+          <Text style=styles##categoryText> category </Text>
+          <Spacer size=XS />
+          <Text style=styles##titleText>
+            <span dangerouslySetInnerHTML={"__html": title} />
+          </Text>
+        </SpacedView>
+      </TouchableScaleLink>
+      <SpacedView
+        vertical=M
+        horizontal=M
+        style=styles##actionsWrapper
+        pointerEvents=`boxNone>
+        <PlaceholderWithAspectRatio ratio=imageRatio />
+        <View style=styles##actions pointerEvents=`boxNone>
+          <View style=styles##action>
+            <View style=styles##actionWrapper>
+              <Text style=styles##actionText> likes </Text>
+              <ButtonLike id />
+            </View>
           </View>
-          <TextLink style=styles##title href>
-            <span
-              dangerouslySetInnerHTML={
-                "__html": item##title->Belt.Option.getWithDefault(""),
-              }
-            />
-          </TextLink>
+          <Text> "    "->ReasonReact.string </Text>
+          <TouchableOpacityLink
+            style=styles##action href={href ++ "#comments"}>
+            <View style=styles##actionWrapper>
+              <SVGSpeechBubbleOutline
+                fill=ButtonLike.defaultColor
+                width=ButtonLike.defaultSize
+                height=ButtonLike.defaultSize
+              />
+              <Text style=styles##actionText> comments </Text>
+            </View>
+          </TouchableOpacityLink>
         </View>
-      </TouchableScale>
+      </SpacedView>
     </SpacedView>;
   },
 };
