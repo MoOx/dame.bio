@@ -1,5 +1,8 @@
 open BsReactNative;
 
+let styles =
+  StyleSheet.create(Style.{"iconWrapper": style([flexGrow(1.)])});
+
 let component = ReasonReact.statelessComponent("SocialIcons");
 
 let make =
@@ -15,75 +18,95 @@ let make =
   ...component,
   render: _self =>
     <View style=wrapperStyle>
-      <TextLink style=iconStyle href="https://www.instagram.com/dame.bio/">
-        {iconWrapperFunc(
-           ~children=[|
-             <SVGSocialInstagram
-               fill=iconColor
-               width=iconSize
-               height=iconSize
-             />,
-           |],
-         )}
-      </TextLink>
-      <TextLink style=iconStyle href="https://www.pinterest.com/damebio/">
-        {iconWrapperFunc(
-           ~children=[|
-             <SVGSocialPinterest
-               fill=iconColor
-               width=iconSize
-               height=iconSize
-             />,
-           |],
-         )}
-      </TextLink>
-      <TextLink style=iconStyle href="https://twitter.com/damebio/">
-        {iconWrapperFunc(
-           ~children=[|
-             <SVGSocialTwitter
-               fill=iconColor
-               width=iconSize
-               height=iconSize
-             />,
-           |],
-         )}
-      </TextLink>
-      <TextLink style=iconStyle href="https://www.facebook.com/Damebio/">
-        {iconWrapperFunc(
-           ~children=[|
-             <SVGSocialFacebook
-               fill=iconColor
-               width=iconSize
-               height=iconSize
-             />,
-           |],
-         )}
-      </TextLink>
+      <TouchableOpacityLink
+        style=styles##iconWrapper href="https://www.instagram.com/dame.bio/">
+        <Text style=iconStyle>
+          {iconWrapperFunc(
+             ~children=[|
+               <Text>
+                 <SVGSocialInstagram
+                   fill=iconColor
+                   width=iconSize
+                   height=iconSize
+                 />
+               </Text>,
+             |],
+           )}
+        </Text>
+      </TouchableOpacityLink>
+      <TouchableOpacityLink
+        style=styles##iconWrapper href="https://www.pinterest.com/damebio/">
+        <Text style=iconStyle>
+          {iconWrapperFunc(
+             ~children=[|
+               <Text>
+                 <SVGSocialPinterest
+                   fill=iconColor
+                   width=iconSize
+                   height=iconSize
+                 />
+               </Text>,
+             |],
+           )}
+        </Text>
+      </TouchableOpacityLink>
+      <TouchableOpacityLink
+        style=styles##iconWrapper href="https://twitter.com/damebio/">
+        <Text style=iconStyle>
+          {iconWrapperFunc(
+             ~children=[|
+               <Text>
+                 <SVGSocialTwitter
+                   fill=iconColor
+                   width=iconSize
+                   height=iconSize
+                 />
+               </Text>,
+             |],
+           )}
+        </Text>
+      </TouchableOpacityLink>
+      <TouchableOpacityLink
+        style=styles##iconWrapper href="https://www.facebook.com/Damebio/">
+        <Text style=iconStyle>
+          {iconWrapperFunc(
+             ~children=[|
+               <Text>
+                 <SVGSocialFacebook
+                   fill=iconColor
+                   width=iconSize
+                   height=iconSize
+                 />
+               </Text>,
+             |],
+           )}
+        </Text>
+      </TouchableOpacityLink>
     </View>,
-  /*
-   <TextLink style=iconStyle href="#">
-     {
-       iconWrapperFunc(
-         ~children=[|
-           <SVGSocialYoutube
-             fill=iconColor
-             width=iconSize
-             height=iconSize
-           />,
-         |],
-       )
-     }
-   </TextLink>
-   */
-  /*
-   <TextLink style=iconStyle href="#">
-     {
-       iconWrapperFunc(
-         ~children=[|
-           <SVGRssFeed fill=iconColor width=iconSize height=iconSize />,
-         |],
-       )
-     }
-   </TextLink>
-   */
+  /* <TouchableOpacityLink style=styles##iconWrapper href="#">
+       <Text style=iconStyle>
+         {iconWrapperFunc(
+            ~children=[|
+              <Text>
+                <SVGSocialYoutube
+                  fill=iconColor
+                  width=iconSize
+                  height=iconSize
+                />
+              </Text>,
+            |],
+          )}
+       </Text>
+     </TouchableOpacityLink>
+     <TouchableOpacityLink style=styles##iconWrapper href="#">
+       <Text style=iconStyle>
+         {iconWrapperFunc(
+            ~children=[|
+              <Text>
+                <SVGRssFeed fill=iconColor width=iconSize height=iconSize />
+              </Text>,
+            |],
+          )}
+       </Text>
+     </TouchableOpacityLink> */
 };

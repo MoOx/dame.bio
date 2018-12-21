@@ -19,14 +19,8 @@ let styles =
           minHeight(Pt(50.)),
           alignItems(Center),
         ]),
-      "item":
-        style([
-          display(Flex),
-          flex(1.),
-          flexDirection(Column),
-          justifyContent(Center),
-          alignItems(Center),
-        ]),
+      "itemWrapper": style([flex(1.)]),
+      "item": style([justifyContent(Center), alignItems(Center)]),
       "itemText":
         style([
           flex(1.),
@@ -43,42 +37,56 @@ let make = _children => {
   render: _self =>
     <SafeAreaView style=styles##wrapper>
       <View style=styles##container>
-        <TextLink style=styles##item href="/">
-          <SVGMenuHome width=24. height=24. fill=colorActive />
-          <Text
-            style=Style.(
-              concat([
-                styles##itemText,
-                false ? style([]) : styles##itemTextActive,
-              ])
-            )>
-            {j|Accueil|j}->ReasonReact.string
-          </Text>
-        </TextLink>
-        <TextLink style=styles##item href="/alimentation/">
-          <SVGMenuAlimentation width=24. height=24. fill=colorInActive />
-          <Text style=styles##itemText>
-            {j|Alimentation|j}->ReasonReact.string
-          </Text>
-        </TextLink>
-        <TextLink style=styles##item href="/permaculture/">
-          <SVGMenuPermaculture width=24. height=24. fill=colorInActive />
-          <Text style=styles##itemText>
-            {j|Permaculture|j}->ReasonReact.string
-          </Text>
-        </TextLink>
-        <TextLink style=styles##item href="/bien-etre/">
-          <SVGMenuBienEtre width=24. height=24. fill=colorInActive />
-          <Text style=styles##itemText>
-            {j|Bien-être|j}->ReasonReact.string
-          </Text>
-        </TextLink>
-        <TextLink style=styles##item href="/lifestyle/">
-          <SVGMenuLifestyle width=24. height=24. fill=colorInActive />
-          <Text style=styles##itemText>
-            {j|Lifestyle|j}->ReasonReact.string
-          </Text>
-        </TextLink>
+        <TouchableOpacityLink style=styles##itemWrapper href="/">
+          <View style=styles##item>
+            <SVGMenuHome
+              width=24.
+              height=24.
+              fill={false ? colorInActive : colorActive}
+            />
+            <Text
+              style=Style.(
+                concat([
+                  styles##itemText,
+                  false ? style([]) : styles##itemTextActive,
+                ])
+              )>
+              {j|Accueil|j}->ReasonReact.string
+            </Text>
+          </View>
+        </TouchableOpacityLink>
+        <TouchableOpacityLink style=styles##itemWrapper href="/alimentation/">
+          <View style=styles##item>
+            <SVGMenuAlimentation width=24. height=24. fill=colorInActive />
+            <Text style=styles##itemText>
+              {j|Alimentation|j}->ReasonReact.string
+            </Text>
+          </View>
+        </TouchableOpacityLink>
+        <TouchableOpacityLink style=styles##itemWrapper href="/permaculture/">
+          <View style=styles##item>
+            <SVGMenuPermaculture width=24. height=24. fill=colorInActive />
+            <Text style=styles##itemText>
+              {j|Permaculture|j}->ReasonReact.string
+            </Text>
+          </View>
+        </TouchableOpacityLink>
+        <TouchableOpacityLink style=styles##itemWrapper href="/bien-etre/">
+          <View style=styles##item>
+            <SVGMenuBienEtre width=24. height=24. fill=colorInActive />
+            <Text style=styles##itemText>
+              {j|Bien-être|j}->ReasonReact.string
+            </Text>
+          </View>
+        </TouchableOpacityLink>
+        <TouchableOpacityLink style=styles##itemWrapper href="/lifestyle/">
+          <View style=styles##item>
+            <SVGMenuLifestyle width=24. height=24. fill=colorInActive />
+            <Text style=styles##itemText>
+              {j|Lifestyle|j}->ReasonReact.string
+            </Text>
+          </View>
+        </TouchableOpacityLink>
       </View>
     </SafeAreaView>,
 };
