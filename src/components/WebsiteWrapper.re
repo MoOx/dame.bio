@@ -22,7 +22,7 @@ let make = children => {
           ~right="0",
           (),
         )}>
-        <AppMenu />
+        <AppMenuWithRouter />
       </div>
     </>,
 };

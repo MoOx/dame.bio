@@ -9,7 +9,7 @@ import {
   isActive,
 } from "@phenomic/plugin-renderer-react/lib/components/Link.js";
 
-import { origin, handlePress } from "./TouchableOpacityLink.js";
+import { handlePress } from "./TouchableOpacityLink.js";
 import TouchableScale from "./TouchableScale.js";
 
 const BASENAME = process.env.PHENOMIC_APP_BASENAME || "/";

@@ -32,9 +32,9 @@ let styles =
     },
   );
 
-let make = _children => {
+let make = (~currentLocation, _children) => {
   ...component,
-  render: _self =>
+  render: _self => {
     <SafeAreaView style=styles##wrapper>
       <View style=styles##container>
         <TouchableOpacityLink style=styles##itemWrapper href="/">
@@ -42,13 +42,16 @@ let make = _children => {
             <SVGMenuHome
               width=24.
               height=24.
-              fill={false ? colorInActive : colorActive}
+              fill={
+                currentLocation##pathname == "/" ? colorActive : colorInActive
+              }
             />
             <Text
               style=Style.(
                 concat([
                   styles##itemText,
-                  false ? style([]) : styles##itemTextActive,
+                  currentLocation##pathname == "/" ?
+                    styles##itemTextActive : style([]),
                 ])
               )>
               {j|Accueil|j}->ReasonReact.string
@@ -57,36 +60,109 @@ let make = _children => {
         </TouchableOpacityLink>
         <TouchableOpacityLink style=styles##itemWrapper href="/alimentation/">
           <View style=styles##item>
-            <SVGMenuAlimentation width=24. height=24. fill=colorInActive />
-            <Text style=styles##itemText>
+            <SVGMenuAlimentation
+              width=24.
+              height=24.
+              fill={
+                currentLocation##pathname
+                |> Js.String.startsWith("/alimentation/") ?
+                  colorActive : colorInActive
+              }
+            />
+            <Text
+              style=Style.(
+                concat([
+                  styles##itemText,
+                  currentLocation##pathname
+                  |> Js.String.startsWith("/alimentation/") ?
+                    styles##itemTextActive : style([]),
+                ])
+              )>
               {j|Alimentation|j}->ReasonReact.string
             </Text>
           </View>
         </TouchableOpacityLink>
         <TouchableOpacityLink style=styles##itemWrapper href="/permaculture/">
           <View style=styles##item>
-            <SVGMenuPermaculture width=24. height=24. fill=colorInActive />
-            <Text style=styles##itemText>
+            <SVGMenuPermaculture
+              width=24.
+              height=24.
+              fill={
+                currentLocation##pathname
+                |> Js.String.startsWith("/permaculture/") ?
+                  colorActive : colorInActive
+              }
+            />
+            <Text
+              style=Style.(
+                concat([
+                  styles##itemText,
+                  currentLocation##pathname
+                  |> Js.String.startsWith("/permaculture/") ?
+                    styles##itemTextActive : style([]),
+                ])
+              )>
               {j|Permaculture|j}->ReasonReact.string
             </Text>
           </View>
         </TouchableOpacityLink>
         <TouchableOpacityLink style=styles##itemWrapper href="/bien-etre/">
           <View style=styles##item>
-            <SVGMenuBienEtre width=24. height=24. fill=colorInActive />
-            <Text style=styles##itemText>
+            <SVGMenuBienEtre
+              width=24.
+              height=24.
+              fill={
+                currentLocation##pathname
+                |> Js.String.startsWith("/bien-etre/") ?
+                  colorActive : colorInActive
+              }
+            />
+            <Text
+              style=Style.(
+                concat([
+                  styles##itemText,
+                  currentLocation##pathname
+                  |> Js.String.startsWith("/bien-etre/") ?
+                    styles##itemTextActive : style([]),
+                ])
+              )>
               {j|Bien-être|j}->ReasonReact.string
             </Text>
           </View>
         </TouchableOpacityLink>
         <TouchableOpacityLink style=styles##itemWrapper href="/lifestyle/">
           <View style=styles##item>
-            <SVGMenuLifestyle width=24. height=24. fill=colorInActive />
-            <Text style=styles##itemText>
+            <SVGMenuLifestyle
+              width=24.
+              height=24.
+              fill={
+                currentLocation##pathname
+                |> Js.String.startsWith("/lifestyle/") ?
+                  colorActive : colorInActive
+              }
+            />
+            <Text
+              style=Style.(
+                concat([
+                  styles##itemText,
+                  currentLocation##pathname
+                  |> Js.String.startsWith("/lifestyle/") ?
+                    styles##itemTextActive : style([]),
+                ])
+              )>
               {j|Lifestyle|j}->ReasonReact.string
             </Text>
           </View>
         </TouchableOpacityLink>
       </View>
-    </SafeAreaView>,
+    </SafeAreaView>;
+  },
 };
+
+[@bs.deriving abstract]
+type jsProps = {currentLocation: {. "pathname": string}};
+
+let default =
+  ReasonReact.wrapReasonForJs(~component, jsProps =>
+    make(~currentLocation=jsProps->currentLocationGet, [||])
+  );
