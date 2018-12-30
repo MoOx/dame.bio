@@ -5,6 +5,8 @@ import createReactClass from "create-react-class";
 import dismissKeyboard from "react-native-web/dist/cjs/modules/dismissKeyboard";
 import ScrollResponder from "react-native-web/dist/cjs/modules/ScrollResponder";
 
+let isDocumentAvailable = typeof document !== "undefined";
+
 /* eslint-disable react/prefer-es6-class, react/prop-types */
 const BodyAsScrollView = createReactClass({
   // propTypes: {
@@ -17,26 +19,30 @@ const BodyAsScrollView = createReactClass({
   mixins: [ScrollResponder.Mixin],
 
   componentWillMount() {
-    // onTouchStart: this.scrollResponderHandleTouchStart,
-    // onTouchMove: this.scrollResponderHandleTouchMove,
-    // onTouchEnd: this.scrollResponderHandleTouchEnd,
-    // onScrollBeginDrag: this.scrollResponderHandleScrollBeginDrag,
-    // onScrollEndDrag: this.scrollResponderHandleScrollEndDrag,
-    // onMomentumScrollBegin: this.scrollResponderHandleMomentumScrollBegin,
-    // onMomentumScrollEnd: this.scrollResponderHandleMomentumScrollEnd,
-    // onStartShouldSetResponder: this.scrollResponderHandleStartShouldSetResponder,
-    // onStartShouldSetResponderCapture: this.scrollResponderHandleStartShouldSetResponderCapture,
-    // onScrollShouldSetResponder: this.scrollResponderHandleScrollShouldSetResponder,
-    document.addEventListener("scroll", this._handleScroll);
-    // onResponderGrant: this.scrollResponderHandleResponderGrant,
-    // onResponderTerminationRequest: this.scrollResponderHandleTerminationRequest,
-    // onResponderTerminate: this.scrollResponderHandleTerminate,
-    // onResponderRelease: this.scrollResponderHandleResponderRelease,
-    // onResponderReject: this.scrollResponderHandleResponderReject,
+    if (isDocumentAvailable) {
+      // onTouchStart: this.scrollResponderHandleTouchStart,
+      // onTouchMove: this.scrollResponderHandleTouchMove,
+      // onTouchEnd: this.scrollResponderHandleTouchEnd,
+      // onScrollBeginDrag: this.scrollResponderHandleScrollBeginDrag,
+      // onScrollEndDrag: this.scrollResponderHandleScrollEndDrag,
+      // onMomentumScrollBegin: this.scrollResponderHandleMomentumScrollBegin,
+      // onMomentumScrollEnd: this.scrollResponderHandleMomentumScrollEnd,
+      // onStartShouldSetResponder: this.scrollResponderHandleStartShouldSetResponder,
+      // onStartShouldSetResponderCapture: this.scrollResponderHandleStartShouldSetResponderCapture,
+      // onScrollShouldSetResponder: this.scrollResponderHandleScrollShouldSetResponder,
+      document.addEventListener("scroll", this._handleScroll);
+      // onResponderGrant: this.scrollResponderHandleResponderGrant,
+      // onResponderTerminationRequest: this.scrollResponderHandleTerminationRequest,
+      // onResponderTerminate: this.scrollResponderHandleTerminate,
+      // onResponderRelease: this.scrollResponderHandleResponderRelease,
+      // onResponderReject: this.scrollResponderHandleResponderReject,
+    }
   },
 
   componentWillUnmount() {
-    document.removeEventListener("scroll", this._handleScroll);
+    if (isDocumentAvailable) {
+      document.removeEventListener("scroll", this._handleScroll);
+    }
   },
 
   getInitialState() {
