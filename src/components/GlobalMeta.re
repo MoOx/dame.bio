@@ -63,26 +63,6 @@ body {
     display: none;
   }
 }
-
-/*
-(sort of RNW requirements) Workaround so all touchables onPress do not get triggered when scrolling on the app container
-if we don't do 100% on the app container and rely on body scroll (eg: you want to benefit of viewport-cover=fit of safari iOS)
-you will need to make body to handle responder lock so touchables loose highlight when scrolling on body...
-https://github.com/necolas/react-native-web/pull/997
-*/
-html,
-body {
-  height: 100%;
-}
-/* These styles disable body scrolling if you are using <ScrollView> */
-body {
-  overflow: hidden;
-}
-/* These styles make the root element full-height */
-#PhenomicRoot {
-  display: flex;
-  height: 100%;
-}
 |j}
         ->ReasonReact.string
       </style>
