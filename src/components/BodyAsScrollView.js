@@ -2,8 +2,8 @@
 
 // import React from "react";
 import createReactClass from "create-react-class";
-import dismissKeyboard from "react-native-web/dist/modules/dismissKeyboard";
-import ScrollResponder from "react-native-web/dist/modules/ScrollResponder";
+import dismissKeyboard from "react-native-web/dist/cjs/modules/dismissKeyboard";
+import ScrollResponder from "react-native-web/dist/cjs/modules/ScrollResponder";
 
 /* eslint-disable react/prefer-es6-class, react/prop-types */
 const BodyAsScrollView = createReactClass({
