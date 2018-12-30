@@ -67,7 +67,8 @@ let styles =
         style([
           color(String("#49443A")),
           backgroundColor(String("#fff")),
-          fontSize(Float(14.)),
+          /* Don't go lower than 16 to avoid Safari iOS to zoom on the page */
+          fontSize(Float(16.)),
           lineHeight(16.),
           margin(Pt(0.)),
           paddingVertical(Pt(10.)),
