@@ -49,7 +49,7 @@ let make = (~item: Structures.post, _) => {
 
     <SpacedView key=id style=styles##wrapper vertical=M horizontal=M>
       <TouchableScaleLink
-        href style=styles##container activeScale=0.99 friction=5. tension=50.>
+        href style=styles##container activeScale=0.98 friction=5. tension=20.>
         <View> image </View>
         <SpacedView vertical=M horizontal=M style=styles##text>
           <Text style=styles##categoryText> category </Text>
