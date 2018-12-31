@@ -134,7 +134,7 @@ let make = (~item, _) => {
         />
       </Text>
       <View style=styles##metaRow>
-        <TouchableOpacityLink
+        <ViewLink
           href={
             "/"
             ++ Utils.encodeURI(
@@ -148,7 +148,7 @@ let make = (~item, _) => {
              )
              ->ReasonReact.string}
           </Text>
-        </TouchableOpacityLink>
+        </ViewLink>
         <Text style=styles##actions>
           <Text style=styles##actions>
             <ButtonLike id=item##id />
@@ -157,8 +157,7 @@ let make = (~item, _) => {
              | v => ("  " ++ v->string_of_int)->ReasonReact.string
              }}
             <Text style=styles##action> " | "->ReasonReact.string </Text>
-            <TouchableOpacityLink
-              style=styles##action href={href ++ "#comments"}>
+            <ViewLink style=styles##action href={href ++ "#comments"}>
               <Text>
                 <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
                 {switch (item##commentCount->Belt.Option.getWithDefault(0)) {
@@ -166,7 +165,7 @@ let make = (~item, _) => {
                  | v => ("  " ++ v->string_of_int)->ReasonReact.string
                  }}
               </Text>
-            </TouchableOpacityLink>
+            </ViewLink>
           </Text>
         </Text>
       </View>
@@ -232,7 +231,7 @@ let make = (~item, _) => {
                      tag##slug
                      ->Belt.Option.getWithDefault(string_of_int(index))
                    }>
-                   <TouchableOpacityLink
+                   <ViewLink
                      href={
                        "/tags/"
                        ++ Utils.encodeURI(
@@ -247,7 +246,7 @@ let make = (~item, _) => {
                            )
                         |> ReasonReact.string}
                      </Text>
-                   </TouchableOpacityLink>
+                   </ViewLink>
                    " "->ReasonReact.string
                  </Text>
                )

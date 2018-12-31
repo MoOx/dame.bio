@@ -73,26 +73,26 @@ let make = _children => {
       />
       <View style=styles##container>
         <Spacer size=L />
-        <TouchableOpacityLink style=styles##item href="/alimentation/">
+        <ViewLink style=styles##item href="/alimentation/">
           <Text style=styles##itemText>
             {j|Alimentation|j}->ReasonReact.string
           </Text>
-        </TouchableOpacityLink>
-        <TouchableOpacityLink style=styles##item href="/permaculture/">
+        </ViewLink>
+        <ViewLink style=styles##item href="/permaculture/">
           <Text style=styles##itemText>
             {j|Permaculture|j}->ReasonReact.string
           </Text>
-        </TouchableOpacityLink>
-        <TouchableOpacityLink style=styles##item href="/bien-etre/">
+        </ViewLink>
+        <ViewLink style=styles##item href="/bien-etre/">
           <Text style=styles##itemText>
             {j|Bien-être|j}->ReasonReact.string
           </Text>
-        </TouchableOpacityLink>
-        <TouchableOpacityLink style=styles##item href="/lifestyle/">
+        </ViewLink>
+        <ViewLink style=styles##item href="/lifestyle/">
           <Text style=styles##itemText>
             {j|Lifestyle|j}->ReasonReact.string
           </Text>
-        </TouchableOpacityLink>
+        </ViewLink>
         <Spacer size=L />
       </View>
     </View>,

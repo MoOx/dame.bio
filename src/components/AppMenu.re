@@ -15,11 +15,13 @@ let styles =
         ]),
       "container":
         style([
+          flex(1.),
           flexDirection(Row),
           minHeight(Pt(50.)),
           alignItems(Center),
         ]),
-      "itemWrapper": style([flex(1.)]),
+      "itemWrapper":
+        style([display(Flex), flex(1.), justifyContent(Center)]),
       "item": style([justifyContent(Center), alignItems(Center)]),
       "itemText":
         style([
@@ -37,7 +39,7 @@ let make = (~currentLocation, _children) => {
   render: _self => {
     <SafeAreaView style=styles##wrapper>
       <View style=styles##container>
-        <TouchableOpacityLink style=styles##itemWrapper href="/">
+        <ViewLink style=styles##itemWrapper href="/">
           <View style=styles##item>
             <SVGMenuHome
               width=24.
@@ -57,8 +59,8 @@ let make = (~currentLocation, _children) => {
               {j|Accueil|j}->ReasonReact.string
             </Text>
           </View>
-        </TouchableOpacityLink>
-        <TouchableOpacityLink style=styles##itemWrapper href="/alimentation/">
+        </ViewLink>
+        <ViewLink style=styles##itemWrapper href="/alimentation/">
           <View style=styles##item>
             <SVGMenuAlimentation
               width=24.
@@ -81,8 +83,8 @@ let make = (~currentLocation, _children) => {
               {j|Alimentation|j}->ReasonReact.string
             </Text>
           </View>
-        </TouchableOpacityLink>
-        <TouchableOpacityLink style=styles##itemWrapper href="/permaculture/">
+        </ViewLink>
+        <ViewLink style=styles##itemWrapper href="/permaculture/">
           <View style=styles##item>
             <SVGMenuPermaculture
               width=24.
@@ -105,8 +107,8 @@ let make = (~currentLocation, _children) => {
               {j|Permaculture|j}->ReasonReact.string
             </Text>
           </View>
-        </TouchableOpacityLink>
-        <TouchableOpacityLink style=styles##itemWrapper href="/bien-etre/">
+        </ViewLink>
+        <ViewLink style=styles##itemWrapper href="/bien-etre/">
           <View style=styles##item>
             <SVGMenuBienEtre
               width=24.
@@ -129,8 +131,8 @@ let make = (~currentLocation, _children) => {
               {j|Bien-être|j}->ReasonReact.string
             </Text>
           </View>
-        </TouchableOpacityLink>
-        <TouchableOpacityLink style=styles##itemWrapper href="/lifestyle/">
+        </ViewLink>
+        <ViewLink style=styles##itemWrapper href="/lifestyle/">
           <View style=styles##item>
             <SVGMenuLifestyle
               width=24.
@@ -153,7 +155,7 @@ let make = (~currentLocation, _children) => {
               {j|Lifestyle|j}->ReasonReact.string
             </Text>
           </View>
-        </TouchableOpacityLink>
+        </ViewLink>
       </View>
     </SafeAreaView>;
   },

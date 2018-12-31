@@ -4,7 +4,6 @@ let make = children => {
   ...component,
   render: _ =>
     <>
-      <BodyAsScrollView keyboardDismissMode=OnDrag />
       <GlobalMeta />
       <div className="device-small"> <HeaderSmall /> </div>
       <div className="device-large"> <HeaderLarge /> </div>

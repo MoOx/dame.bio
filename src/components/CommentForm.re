@@ -467,18 +467,17 @@ let make = (~postId, ~parentCommentId, _children) => {
                 <View style=styles##row>
                   <Spacer size=S />
                   {String.length(comment.url) > 0 ?
-                     <TouchableOpacityLink href={comment.url}>
+                     <ViewLink href={comment.url}>
                        <Text style=styles##metaPreviewName>
                          comment.name->ReasonReact.string
                        </Text>
-                     </TouchableOpacityLink> :
+                     </ViewLink> :
                      <Text style=styles##metaPreviewName>
                        comment.name->ReasonReact.string
                      </Text>}
                   <TouchableOpacity
                     onPress={() =>
                       send(CommentEdit({...comment, editMeta: true}))
-                      |> ignore
                     }>
                     <Text style=styles##metaPreviewEdit>
                       {j|  ·  |j}->ReasonReact.string

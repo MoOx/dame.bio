@@ -44,13 +44,13 @@ let make = _children => {
   ...component,
   render: _self =>
     <SpacedView vertical=M horizontal=XS style=styles##wrapper>
-      <TouchableOpacityLink style=styles##logo href="/">
+      <ViewLink style=styles##logo href="/">
         <SVGDameBioLogo
           width=150.
           height={140. /. 350. *. 150.}
           fill="#67B44B"
         />
-      </TouchableOpacityLink>
+      </ViewLink>
       <Spacer />
       <SocialIcons
         wrapperStyle=styles##icons

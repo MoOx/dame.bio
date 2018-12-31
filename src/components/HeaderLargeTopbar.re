@@ -26,18 +26,18 @@ let make = _children => {
       <View
         style=styles##topbarLinks
         /*
-         <TouchableOpacityLink style=styles##topbarLink href="/a-propos">
+         <ViewLink style=styles##topbarLink href="/a-propos">
            {ReasonReact.string({j|À Propos|j})}
-         </TouchableOpacityLink>
-         <TouchableOpacityLink style=styles##topbarLink href="/univers">
+         </ViewLink>
+         <ViewLink style=styles##topbarLink href="/univers">
            {ReasonReact.string({j|Univers du site|j})}
-         </TouchableOpacityLink>
-         <TouchableOpacityLink style=styles##topbarLink href="/colibri">
+         </ViewLink>
+         <ViewLink style=styles##topbarLink href="/colibri">
            {ReasonReact.string({j|Un colibri en action|j})}
-         </TouchableOpacityLink>
-         <TouchableOpacityLink style=styles##topbarLink href="/contact">
+         </ViewLink>
+         <ViewLink style=styles##topbarLink href="/contact">
            {ReasonReact.string({j|Contact|j})}
-         </TouchableOpacityLink>
+         </ViewLink>
          */
       />
     </ContainerWithSpace>,

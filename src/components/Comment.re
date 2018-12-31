@@ -115,11 +115,11 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
         <View style=styles##commentTextContainer>
           <View style=styles##commentMeta>
             {String.length(url) > 0 ?
-               <TouchableOpacityLink style=styles##commentAuthor href=url>
+               <ViewLink style=styles##commentAuthor href=url>
                  <Text style=styles##commentAuthorText>
                    name->ReasonReact.string
                  </Text>
-               </TouchableOpacityLink> :
+               </ViewLink> :
                <Text style=styles##commentAuthor>
                  name->ReasonReact.string
                </Text>}
@@ -128,11 +128,11 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
                  when a##userId->Belt.Option.getWithDefault(0) == 2 =>
                <>
                  <Text> " "->ReasonReact.string </Text>
-                 <TouchableOpacityLink href=url style=styles##commentOwner>
+                 <ViewLink href=url style=styles##commentOwner>
                    <Text style=styles##commentOwnerText>
                      "Auteur"->ReasonReact.string
                    </Text>
-                 </TouchableOpacityLink>
+                 </ViewLink>
                </>
              | _ => ReasonReact.null
              }}

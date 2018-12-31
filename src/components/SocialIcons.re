@@ -18,7 +18,7 @@ let make =
   ...component,
   render: _self =>
     <View style=wrapperStyle>
-      <TouchableOpacityLink
+      <ViewLink
         style=styles##iconWrapper href="https://www.instagram.com/dame.bio/">
         <Text style=iconStyle>
           {iconWrapperFunc(
@@ -33,8 +33,8 @@ let make =
              |],
            )}
         </Text>
-      </TouchableOpacityLink>
-      <TouchableOpacityLink
+      </ViewLink>
+      <ViewLink
         style=styles##iconWrapper href="https://www.pinterest.com/damebio/">
         <Text style=iconStyle>
           {iconWrapperFunc(
@@ -49,9 +49,8 @@ let make =
              |],
            )}
         </Text>
-      </TouchableOpacityLink>
-      <TouchableOpacityLink
-        style=styles##iconWrapper href="https://twitter.com/damebio/">
+      </ViewLink>
+      <ViewLink style=styles##iconWrapper href="https://twitter.com/damebio/">
         <Text style=iconStyle>
           {iconWrapperFunc(
              ~children=[|
@@ -65,8 +64,8 @@ let make =
              |],
            )}
         </Text>
-      </TouchableOpacityLink>
-      <TouchableOpacityLink
+      </ViewLink>
+      <ViewLink
         style=styles##iconWrapper href="https://www.facebook.com/Damebio/">
         <Text style=iconStyle>
           {iconWrapperFunc(
@@ -81,9 +80,9 @@ let make =
              |],
            )}
         </Text>
-      </TouchableOpacityLink>
+      </ViewLink>
     </View>,
-  /* <TouchableOpacityLink style=styles##iconWrapper href="#">
+  /* <ViewLink style=styles##iconWrapper href="#">
        <Text style=iconStyle>
          {iconWrapperFunc(
             ~children=[|
@@ -97,8 +96,8 @@ let make =
             |],
           )}
        </Text>
-     </TouchableOpacityLink>
-     <TouchableOpacityLink style=styles##iconWrapper href="#">
+     </ViewLink>
+     <ViewLink style=styles##iconWrapper href="#">
        <Text style=iconStyle>
          {iconWrapperFunc(
             ~children=[|
@@ -108,5 +107,5 @@ let make =
             |],
           )}
        </Text>
-     </TouchableOpacityLink> */
+     </ViewLink> */
 };

@@ -48,9 +48,8 @@ let make = (~item: Structures.post, _) => {
     };
 
     <SpacedView key=id style=styles##wrapper vertical=M horizontal=M>
-      <TouchableScaleLink
-        href style=styles##container activeScale=0.98 friction=5. tension=20.>
-        <View> image </View>
+      <ViewLink href style=styles##container>
+        image
         <SpacedView vertical=M horizontal=M style=styles##text>
           <Text style=styles##categoryText> category </Text>
           <Spacer size=XS />
@@ -58,7 +57,7 @@ let make = (~item: Structures.post, _) => {
             <span dangerouslySetInnerHTML={"__html": title} />
           </Text>
         </SpacedView>
-      </TouchableScaleLink>
+      </ViewLink>
       <SpacedView
         vertical=M
         horizontal=M
@@ -73,8 +72,7 @@ let make = (~item: Structures.post, _) => {
             </View>
           </View>
           <Text> "    "->ReasonReact.string </Text>
-          <TouchableOpacityLink
-            style=styles##action href={href ++ "#comments"}>
+          <ViewLink style=styles##action href={href ++ "#comments"}>
             <View style=styles##actionWrapper>
               <SVGSpeechBubbleOutline
                 fill=ButtonLike.defaultColor
@@ -83,7 +81,7 @@ let make = (~item: Structures.post, _) => {
               />
               <Text style=styles##actionText> comments </Text>
             </View>
-          </TouchableOpacityLink>
+          </ViewLink>
         </View>
       </SpacedView>
     </SpacedView>;
