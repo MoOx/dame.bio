@@ -231,7 +231,7 @@ let make = (~item, _) => {
                      tag##slug
                      ->Belt.Option.getWithDefault(string_of_int(index))
                    }>
-                   <ViewLink
+                   <TextLink
                      href={
                        "/tag/"
                        ++ Utils.encodeURI(
@@ -246,7 +246,7 @@ let make = (~item, _) => {
                            )
                         |> ReasonReact.string}
                      </Text>
-                   </ViewLink>
+                   </TextLink>
                    " "->ReasonReact.string
                  </Text>
                )
