@@ -28,7 +28,9 @@ module type TextComponent = {
     );
 };
 
-module CreateComponent = (Impl: View.Impl) : TextComponent => {
+module type Impl = {let view: ReasonReact.reactClass;};
+
+module CreateComponent = (Impl: Impl) : TextComponent => {
   let make =
       (
         ~accessibilityRole=?,
