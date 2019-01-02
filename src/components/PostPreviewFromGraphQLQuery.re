@@ -130,21 +130,17 @@ let make = (~item, _) => {
         <PlaceholderWithAspectRatio ratio=imageRatio />
         <View style=styles##actions pointerEvents=`boxNone>
           <View style=styles##action>
-            <View style=styles##actionWrapper>
-              <Text style=styles##actionText> likes </Text>
-              <ButtonLike id />
-            </View>
+            <Text style=styles##actionText> likes </Text>
+            <ButtonLike id />
           </View>
           <Text> "    "->ReasonReact.string </Text>
           <ViewLink style=styles##action href={href ++ "#comments"}>
-            <View style=styles##actionWrapper>
-              <SVGSpeechBubbleOutline
-                fill=ButtonLike.defaultColor
-                width=ButtonLike.defaultSize
-                height=ButtonLike.defaultSize
-              />
-              <Text style=styles##actionText> comments </Text>
-            </View>
+            <SVGSpeechBubbleOutline
+              fill=ButtonLike.defaultColor
+              width=ButtonLike.defaultSize
+              height=ButtonLike.defaultSize
+            />
+            <Text style=styles##actionText> comments </Text>
           </ViewLink>
         </View>
       </SpacedView>

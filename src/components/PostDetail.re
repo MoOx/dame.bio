@@ -29,17 +29,15 @@ let styles =
         style([fontSize(Float(14.)), color(String("#DE6D88"))]),
       "actions":
         style([
-          display(Flex),
           flexDirection(Row),
-          marginBottom(Pt(10.)),
-          fontSize(Float(10.)),
-          color(String("#bbb")),
+          alignSelf(FlexEnd),
+          alignItems(Center),
         ]),
-      "action":
+      "action": style([flexDirection(Row)]),
+      "actionText":
         style([
-          display(Flex),
-          flexDirection(Row),
-          marginHorizontal(Pt(4.)),
+          fontSize(Float(10.)),
+          color(String(ButtonLike.defaultColor)),
         ]),
       "title":
         style([
@@ -58,6 +56,7 @@ let component = ReasonReact.statelessComponent("PostDetail");
 let make = (~item, _) => {
   ...component,
   render: _self => {
+    let id = item##id;
     let rootCategory =
       T.getMainCategory(
         item##categories
@@ -70,6 +69,18 @@ let make = (~item, _) => {
       ++ "/"
       ++ item##slug->Belt.Option.getWithDefault(item##id)
       ++ "/";
+    let likes = {
+      switch (item##likeCount->Belt.Option.getWithDefault(0)) {
+      | 0 => ReasonReact.null
+      | v => (v->string_of_int ++ "  ")->ReasonReact.string
+      };
+    };
+    let comments = {
+      switch (item##commentCount->Belt.Option.getWithDefault(0)) {
+      | 0 => ReasonReact.null
+      | v => ("  " ++ v->string_of_int)->ReasonReact.string
+      };
+    };
     <ViewWeb style=styles##block accessibilityRole="article">
       <BsReactHelmet>
         <style>
@@ -149,25 +160,21 @@ let make = (~item, _) => {
              ->ReasonReact.string}
           </Text>
         </ViewLink>
-        <Text style=styles##actions>
-          <Text style=styles##actions>
-            <ButtonLike id=item##id />
-            {switch (item##likeCount->Belt.Option.getWithDefault(0)) {
-             | 0 => ReasonReact.null
-             | v => ("  " ++ v->string_of_int)->ReasonReact.string
-             }}
-            <Text style=styles##action> " | "->ReasonReact.string </Text>
-            <ViewLink style=styles##action href={href ++ "#comments"}>
-              <Text>
-                <SVGSpeechBubbleOutline fill="#ddd" width=12. height=12. />
-                {switch (item##commentCount->Belt.Option.getWithDefault(0)) {
-                 | 0 => ReasonReact.null
-                 | v => ("  " ++ v->string_of_int)->ReasonReact.string
-                 }}
-              </Text>
-            </ViewLink>
-          </Text>
-        </Text>
+        <View style=styles##actions pointerEvents=`boxNone>
+          <View style=styles##action>
+            <Text style=styles##actionText> likes </Text>
+            <ButtonLike id />
+          </View>
+          <Text> "    "->ReasonReact.string </Text>
+          <ViewLink style=styles##action href={href ++ "#comments"}>
+            <SVGSpeechBubbleOutline
+              fill=ButtonLike.defaultColor
+              width=ButtonLike.defaultSize
+              height=ButtonLike.defaultSize
+            />
+            <Text style=styles##actionText> comments </Text>
+          </ViewLink>
+        </View>
       </View>
       <SpacedView>
         <div
