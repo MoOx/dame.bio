@@ -19,12 +19,12 @@ if (typeof window === "undefined") {
   Dimensions.set({
     window: {
       width: 360,
-      height: 640
+      height: 640,
     },
     screen: {
       width: 360,
-      height: 640
-    }
+      height: 640,
+    },
   });
 }
 
@@ -47,11 +47,16 @@ RoutePosts.getAllPossibleUrls = async ({ path }) => {
                       slug
                     }
                   }
+                  tags {
+                    nodes {
+                      slug
+                    }
+                  }
                 }
               }
             }
           }
-        `
+        `,
       })
       .then(({ data }) => {
         // console.log(`received data ${JSON.stringify(data, null, 2)}`);
@@ -66,6 +71,12 @@ RoutePosts.getAllPossibleUrls = async ({ path }) => {
               item.node.categories.nodes.forEach(c => {
                 acc.push("/" + c.slug + "/");
                 acc.push("/" + c.slug + "/after/" + item.cursor + "/");
+              });
+            }
+            if (item.node && item.node.tags && item.node.tags.nodes) {
+              item.node.tags.nodes.forEach(t => {
+                acc.push("/tag/" + t.slug + "/");
+                acc.push("/tag/" + t.slug + "/after/" + item.cursor + "/");
               });
             }
           } catch (e) {
@@ -105,7 +116,7 @@ RoutePost.getAllPossibleUrls = async () => {
             }
           }
         }
-      `
+      `,
     })
     .then(({ data }) => {
       return data.posts.edges
@@ -137,6 +148,8 @@ const routes = () => (
     <Route path="/after/:cursorAfter" component={RoutePosts} />
     <Route path="/:categorySlug/" component={RoutePosts} />
     <Route path="/:categorySlug/after/:cursorAfter" component={RoutePosts} />
+    <Route path="/tag/:tagSlug/" component={RoutePosts} />
+    <Route path="/tag/:tagSlug/after/:cursorAfter" component={RoutePosts} />
     <Route path="/:categorySlug/*" component={RoutePost} />
   </Router>
 );
@@ -156,6 +169,6 @@ if (module.hot) {
 // will have to double check in prod (static)
 if (typeof window !== "undefined") {
   require("@phenomic/plugin-renderer-react/lib/components/Link.hash.js").default(
-    window.location.hash
+    window.location.hash,
   );
 }

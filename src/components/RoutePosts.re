@@ -12,14 +12,14 @@ type status =
 
 module GetItems = [%graphql
   {|
-  query getItems($first: Int!, $categorySlug: String, $cursorAfter: String){
+  query getItems($first: Int!, $categorySlug: String, $tagSlug: String, $cursorAfter: String){
     categories(first: 1, where: {slug: [$categorySlug]}) {
       nodes {
         id
         name
       }
     }
-    posts(first: $first, after: $cursorAfter, where: {categoryName: $categorySlug}) {
+    posts(first: $first, after: $cursorAfter, where: {categoryName: $categorySlug, tag: $tagSlug}) {
       pageInfo {
         startCursor
         endCursor
@@ -72,11 +72,17 @@ module GetItemsQuery = ReasonApollo.CreateQuery(GetItems);
 
 let component = ReasonReact.statelessComponent("RoutePosts");
 
-let make = (~status, ~categorySlug, ~cursorAfter, _) => {
+let make = (~status, ~categorySlug, ~tagSlug, ~cursorAfter, _) => {
   ...component,
   render: _ => {
     let itemsQuery =
-      GetItems.make(~first=perPage, ~categorySlug?, ~cursorAfter?, ());
+      GetItems.make(
+        ~first=perPage,
+        ~categorySlug?,
+        ~tagSlug?,
+        ~cursorAfter?,
+        (),
+      );
     <WebsiteWrapper>
       <ContainerMainContentLarge>
         {switch (status) {
@@ -135,6 +141,10 @@ let make = (~status, ~categorySlug, ~cursorAfter, _) => {
                                          "", c =>
                                          "/" ++ c
                                        )
+                                       ++ tagSlug->Belt.Option.mapWithDefault(
+                                            "", t =>
+                                            "/tag/" ++ t
+                                          )
                                        ++ "/after/"
                                        ++ cursor
                                        ++ "/"
@@ -159,6 +169,10 @@ let make = (~status, ~categorySlug, ~cursorAfter, _) => {
                                          "", c =>
                                          "/" ++ c
                                        )
+                                       ++ tagSlug->Belt.Option.mapWithDefault(
+                                            "", t =>
+                                            "/tag/" ++ t
+                                          )
                                        ++ "/after/"
                                        ++ cursor
                                        ++ "/"
@@ -200,6 +214,7 @@ let composedComponent =
         | _ => Error(Js.Nullable.toOption(jsProps##error))
         },
       ~categorySlug=Js.Nullable.toOption(jsProps##params##categorySlug),
+      ~tagSlug=Js.Nullable.toOption(jsProps##params##tagSlug),
       ~cursorAfter=Js.Nullable.toOption(jsProps##params##cursorAfter),
       [||],
     )

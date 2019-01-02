@@ -233,7 +233,7 @@ let make = (~item, _) => {
                    }>
                    <ViewLink
                      href={
-                       "/tags/"
+                       "/tag/"
                        ++ Utils.encodeURI(
                             tag##slug->Belt.Option.getWithDefault(""),
                           )
