@@ -70,7 +70,7 @@ let make = (~item, _) => {
       ++ "/"
       ++ item##slug->Belt.Option.getWithDefault(item##id)
       ++ "/";
-    <View style=styles##block>
+    <ViewWeb style=styles##block accessibilityRole="article">
       <BsReactHelmet>
         <style>
           {j|
@@ -126,13 +126,13 @@ let make = (~item, _) => {
           ->ReasonReact.string
         </style>
       </BsReactHelmet>
-      <Text style=styles##title>
+      <TextWeb style=styles##title accessibilityRole="heading">
         <span
           dangerouslySetInnerHTML={
             "__html": item##title->Belt.Option.getWithDefault(""),
           }
         />
-      </Text>
+      </TextWeb>
       <View style=styles##metaRow>
         <ViewLink
           href={
@@ -271,6 +271,6 @@ let make = (~item, _) => {
           />
         }
       </ViewportObserver>
-    </View>;
+    </ViewWeb>;
   },
 };

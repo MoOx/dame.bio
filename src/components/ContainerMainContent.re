@@ -12,5 +12,8 @@ let styles =
 
 let make = children => {
   ...component,
-  render: _self => <View style=styles##container> ...children </View>,
+  render: _self =>
+    <ViewWeb accessibilityRole="main" style=styles##container>
+      ...children
+    </ViewWeb>,
 };
