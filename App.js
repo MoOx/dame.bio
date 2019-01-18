@@ -168,7 +168,9 @@ if (module.hot) {
 // it's that easy to have for initial loading ?
 // will have to double check in prod (static)
 if (typeof window !== "undefined") {
-  require("@phenomic/plugin-renderer-react/lib/components/Link.hash.js").default(
-    window.location.hash,
-  );
+  window.addEventListener("load", () => {
+    require("@phenomic/plugin-renderer-react/lib/components/Link.hash.js").default(
+      window.location.hash,
+    );
+  });
 }
