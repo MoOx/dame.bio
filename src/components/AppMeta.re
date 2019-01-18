@@ -1,4 +1,4 @@
-let component = ReasonReact.statelessComponent("GlobalMeta");
+let component = ReasonReact.statelessComponent("AppMeta");
 
 let make = _ => {
   ...component,

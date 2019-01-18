@@ -1,10 +1,10 @@
-let component = ReasonReact.statelessComponent("WebsiteWrapper");
+let component = ReasonReact.statelessComponent("AppWrapper");
 
 let make = children => {
   ...component,
   render: _ =>
     <>
-      <GlobalMeta />
+      <AppMeta />
       <div className="device-small"> <HeaderSmall /> </div>
       <div className="device-large"> <HeaderLarge /> </div>
       <Container> ...children </Container>

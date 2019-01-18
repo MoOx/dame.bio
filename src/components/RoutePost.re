@@ -91,7 +91,7 @@ let make = (~status, ~postSlug, _) => {
   ...component,
   render: _ => {
     let itemQuery = GetItem.make(~postSlug, ());
-    <WebsiteWrapper>
+    <AppWrapper>
       <ContainerMainContent>
         {switch (status) {
          | Loading => <LoadingIndicator />
@@ -138,7 +138,7 @@ let make = (~status, ~postSlug, _) => {
            </GetItemQuery>
          }}
       </ContainerMainContent>
-    </WebsiteWrapper>;
+    </AppWrapper>;
   },
 };
 

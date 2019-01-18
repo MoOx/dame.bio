@@ -83,7 +83,7 @@ let make = (~status, ~categorySlug, ~tagSlug, ~cursorAfter, _) => {
         ~cursorAfter?,
         (),
       );
-    <WebsiteWrapper>
+    <AppWrapper>
       <ContainerMainContentLarge>
         {switch (status) {
          | Loading => <LoadingIndicator />
@@ -199,7 +199,7 @@ let make = (~status, ~categorySlug, ~tagSlug, ~cursorAfter, _) => {
       </ContainerMainContentLarge>
       /* <SidebarSeparator /> */
       <Sidebar />
-    </WebsiteWrapper>;
+    </AppWrapper>;
   },
 };
 

@@ -3,7 +3,7 @@ open BsReactNative;
 let colorInActive = "#909192";
 let colorActive = "#FD2E55";
 
-let component = ReasonReact.statelessComponent("HeaderMenu");
+let component = ReasonReact.statelessComponent("AppMenu");
 
 let styles =
   StyleSheet.create(

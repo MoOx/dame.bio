@@ -47,7 +47,7 @@
     "reason:cleanup": "bsb -clean-world",
     "reason:compile": "bsb -make-world",
     "svg:cleanup": "trash assets/SVGs/components",
-    "svg:convert:web": "svgr  --icon -d assets/SVGs/components assets/SVGs",
+    "svg:convert:web": "svgr --icon -d assets/SVGs/components assets/SVGs",
     "postsvg:convert:web": "cd assets/SVGs/components && find ./ -name \"*.js\" | xargs -I '{}' basename '{}' | sed 's/\\.js//' | xargs -I '{}' mv '{}.js'  '{}.web.js'",
     "svg:convert:native": "svgr --icon --native -d assets/SVGs/components assets/SVGs",
     "svg:convert:re": "node scripts/generate-svg-reason.js assets/SVGs/components",
