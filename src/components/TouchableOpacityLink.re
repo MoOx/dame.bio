@@ -1,4 +1,4 @@
-[@bs.module "../../../../src/components/TouchableOpacityLink"]
+[@bs.module "./TouchableOpacityLink"]
 external reactClass: ReasonReact.reactClass = "default";
 
 [@bs.deriving abstract]

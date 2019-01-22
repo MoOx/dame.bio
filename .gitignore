@@ -61,6 +61,7 @@ tmp
 # ocaml/reason
 .merlin
 .bsb.lock
+*.bs.js
 #graplql
 .graphql_ppx_cache
 graphql_schema.json

@@ -1,4 +1,4 @@
-[@bs.module "../../../../src/components/AppMenuWithRouter"]
+[@bs.module "./AppMenuWithRouter"]
 external reactClass: ReasonReact.reactClass = "default";
 
 let make = children =>

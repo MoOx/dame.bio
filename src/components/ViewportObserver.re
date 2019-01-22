@@ -1,4 +1,4 @@
-[@bs.module "../../../../src/components/ViewportObserver"]
+[@bs.module "./ViewportObserver"]
 external viewportObserver: ReasonReact.reactClass = "default";
 
 type cb = {

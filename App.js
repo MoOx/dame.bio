@@ -2,12 +2,12 @@ import * as React from "react";
 import { Router, Route, browserHistory } from "react-router";
 import { AppRegistry, Dimensions } from "react-native-web";
 import { createApp } from "@phenomic/preset-react-app/lib/client";
-import { createContainer } from "@phenomic/preset-react-app/lib/es6/src/phenomicPresetReactApp.bs.js";
+import { createContainer } from "@phenomic/preset-react-app/src/phenomicPresetReactApp.bs.js";
 
 import gql from "graphql-tag";
 import initApollo from "./src/init-apollo.js";
-import RoutePosts from "./lib/es6/src/components/RoutePosts.bs.js";
-import RoutePost from "./lib/es6/src/components/RoutePost.bs.js";
+import RoutePosts from "./src/components/RoutePosts.bs.js";
+import RoutePost from "./src/components/RoutePost.bs.js";
 
 let apolloClient = initApollo();
 

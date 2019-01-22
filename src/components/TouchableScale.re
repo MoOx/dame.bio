@@ -1,4 +1,4 @@
-[@bs.module "../../../../src/components/TouchableScale.js"]
+[@bs.module "./TouchableScale.js"]
 external reactClass: ReasonReact.reactClass = "default";
 
 open BsReactNative;

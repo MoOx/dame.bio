@@ -1,7 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 
-import AppMenu from "../../lib/es6/src/components/AppMenu.bs.js";
+import AppMenu from "./AppMenu.bs.js";
 
 function AppMenuWithRouter(props, context) {
   return (

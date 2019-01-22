@@ -1,6 +1,6 @@
 open BsReactNative;
 
-[@bs.module "../../../../src/components/TouchableScaleLink"]
+[@bs.module "./TouchableScaleLink"]
 external reactClass: ReasonReact.reactClass = "default";
 
 [@bs.deriving abstract]
