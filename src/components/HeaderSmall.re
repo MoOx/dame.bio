@@ -5,30 +5,15 @@ let component = ReasonReact.statelessComponent("HeaderSmall");
 let styles =
   StyleSheet.create(
     Style.{
-      "logo":
-        style([
-          position(Relative),
-          zIndex(1),
-          paddingHorizontal(Pt(10.)),
-          flex(1.),
-        ]),
-      "logoImage": style([]),
       "icons":
         style([
-          flex(1.),
+          flexShrink(1.),
+          /* flex(1.), */
           flexDirection(Row),
           flexWrap(Wrap),
           justifyContent(Center),
         ]),
-      "icon":
-        style([
-          flexGrow(1.),
-          flexShrink(0.),
-          display(Flex),
-          alignItems(Center),
-          padding(Pt(8.)),
-          fontSize(Float(12.)),
-        ]),
+      "icon": style([padding(Pt(8.)), fontSize(Float(12.))]),
     },
   );
 
@@ -57,14 +42,21 @@ let make = _children => {
               alignItems(Center),
             ])
           )>
-          <ViewLink style=styles##logo href="/">
+          <ViewLink
+            style=Style.(
+              style([
+                position(Relative),
+                zIndex(1),
+                paddingHorizontal(Pt(10.)),
+              ])
+            )
+            href="/">
             <SVGDameBioLogoText
-              width={365. *. 0.4}
-              height={104. *. 0.4}
+              width={365. *. 0.35}
+              height={104. *. 0.35}
               fill="#67B44B"
             />
           </ViewLink>
-          <Spacer />
           <SocialIcons
             wrapperStyle=styles##icons
             iconStyle=styles##icon
