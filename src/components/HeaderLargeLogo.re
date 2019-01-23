@@ -22,7 +22,7 @@ let styles =
           height(Pt(163. *. 0.5)),
         ]),
       "logo": style([position(Relative), zIndex(1)]),
-      "logoImage": style([]),
+      "logoImage": style([justifyContent(Center), alignItems(Center)]),
       "logoEffectWrapper":
         style([position(Absolute), top(Pt(-15.)), left(Pct(50.))]),
       "logoEffect":
@@ -48,7 +48,9 @@ let make = _children => {
       <Spacer />
       <ViewLink style=styles##logo href="/">
         <View style=styles##logoImage>
-          <SVGDameBioLogo width=350. height=140. fill="#67B44B" />
+          <SVGDameBioLogoText width=365. height=104. fill="#67B44B" />
+          <Spacer />
+          <SVGDameBioLogoSeparator width=145. height=27. fill="#67B44B" />
         </View>
         <View style=styles##logoEffectWrapper>
           <ImageFromUri

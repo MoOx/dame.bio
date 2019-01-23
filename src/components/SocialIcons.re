@@ -1,15 +1,12 @@
 open BsReactNative;
 
-let styles =
-  StyleSheet.create(Style.{"iconWrapper": style([flexGrow(1.)])});
-
 let component = ReasonReact.statelessComponent("SocialIcons");
 
 let make =
     (
       ~wrapperStyle,
       ~iconStyle,
-      ~iconColor="#fff",
+      ~iconColor=Consts.Colors.lightest,
       ~iconSize=16.,
       /* note the default value that just wrap with a simple node */
       ~iconWrapperFunc=(~children) => <Text> ...children </Text>,
@@ -18,94 +15,18 @@ let make =
   ...component,
   render: _self =>
     <View style=wrapperStyle>
-      <ViewLink
-        style=styles##iconWrapper href="https://www.instagram.com/dame.bio/">
-        <Text style=iconStyle>
-          {iconWrapperFunc(
-             ~children=[|
-               <Text>
-                 <SVGSocialInstagram
-                   fill=iconColor
-                   width=iconSize
-                   height=iconSize
-                 />
-               </Text>,
-             |],
-           )}
-        </Text>
-      </ViewLink>
-      <ViewLink
-        style=styles##iconWrapper href="https://www.pinterest.com/damebio/">
-        <Text style=iconStyle>
-          {iconWrapperFunc(
-             ~children=[|
-               <Text>
-                 <SVGSocialPinterest
-                   fill=iconColor
-                   width=iconSize
-                   height=iconSize
-                 />
-               </Text>,
-             |],
-           )}
-        </Text>
-      </ViewLink>
-      <ViewLink style=styles##iconWrapper href="https://twitter.com/damebio/">
-        <Text style=iconStyle>
-          {iconWrapperFunc(
-             ~children=[|
-               <Text>
-                 <SVGSocialTwitter
-                   fill=iconColor
-                   width=iconSize
-                   height=iconSize
-                 />
-               </Text>,
-             |],
-           )}
-        </Text>
-      </ViewLink>
-      <ViewLink
-        style=styles##iconWrapper href="https://www.facebook.com/Damebio/">
-        <Text style=iconStyle>
-          {iconWrapperFunc(
-             ~children=[|
-               <Text>
-                 <SVGSocialFacebook
-                   fill=iconColor
-                   width=iconSize
-                   height=iconSize
-                 />
-               </Text>,
-             |],
-           )}
-        </Text>
-      </ViewLink>
+      {Consts.socialLinks
+       ->Belt.Array.map(item =>
+           <ViewLink
+             key={item.link}
+             style=iconStyle
+             href={item.link}
+             accessibilityLabel={item.text}>
+             {iconWrapperFunc(
+                ~children=[|item.componentFunc(~iconColor, ~iconSize)|],
+              )}
+           </ViewLink>
+         )
+       ->ReasonReact.array}
     </View>,
-  /* <ViewLink style=styles##iconWrapper href="#">
-       <Text style=iconStyle>
-         {iconWrapperFunc(
-            ~children=[|
-              <Text>
-                <SVGSocialYoutube
-                  fill=iconColor
-                  width=iconSize
-                  height=iconSize
-                />
-              </Text>,
-            |],
-          )}
-       </Text>
-     </ViewLink>
-     <ViewLink style=styles##iconWrapper href="#">
-       <Text style=iconStyle>
-         {iconWrapperFunc(
-            ~children=[|
-              <Text>
-                <SVGRssFeed fill=iconColor width=iconSize height=iconSize />
-              </Text>,
-            |],
-          )}
-       </Text>
-     </ViewLink> */
 };

@@ -5,14 +5,6 @@ let component = ReasonReact.statelessComponent("HeaderSmall");
 let styles =
   StyleSheet.create(
     Style.{
-      "wrapper":
-        style([
-          flexDirection(Row),
-          justifyContent(SpaceBetween),
-          backgroundColor(String("#fff")),
-          borderTopWidth(10.),
-          borderColor(String("#006579")),
-        ]),
       "logo":
         style([
           position(Relative),
@@ -34,7 +26,7 @@ let styles =
           flexShrink(0.),
           display(Flex),
           alignItems(Center),
-          padding(Pt(6.)),
+          padding(Pt(8.)),
           fontSize(Float(12.)),
         ]),
     },
@@ -43,20 +35,49 @@ let styles =
 let make = _children => {
   ...component,
   render: _self =>
-    <SpacedView vertical=M horizontal=XS style=styles##wrapper>
-      <ViewLink style=styles##logo href="/">
-        <SVGDameBioLogo
-          width=150.
-          height={140. /. 350. *. 150.}
+    <View style=Style.(style([backgroundColor(String("#fff"))]))>
+      <View
+        style=Style.(
+          style([
+            width(Pct(100.)),
+            height(Pt(10.)),
+            backgroundColor(String("#006579")),
+          ])
+        )
+      />
+      <SpacedView
+        vertical=M style=Style.(style([flex(1.), alignItems(Center)]))>
+        <SpacedView
+          horizontal=XS
+          style=Style.(
+            style([
+              width(Pct(100.)),
+              flexDirection(Row),
+              justifyContent(SpaceBetween),
+              alignItems(Center),
+            ])
+          )>
+          <ViewLink style=styles##logo href="/">
+            <SVGDameBioLogoText
+              width={365. *. 0.4}
+              height={104. *. 0.4}
+              fill="#67B44B"
+            />
+          </ViewLink>
+          <Spacer />
+          <SocialIcons
+            wrapperStyle=styles##icons
+            iconStyle=styles##icon
+            iconColor="#006579"
+            iconSize=20.
+          />
+        </SpacedView>
+        <Spacer size=S />
+        <SVGDameBioLogoSeparator
+          width={145. *. 0.8}
+          height={27. *. 0.8}
           fill="#67B44B"
         />
-      </ViewLink>
-      <Spacer />
-      <SocialIcons
-        wrapperStyle=styles##icons
-        iconStyle=styles##icon
-        iconColor="#006579"
-        iconSize=20.
-      />
-    </SpacedView>,
+      </SpacedView>
+    </View>,
 };

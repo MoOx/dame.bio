@@ -1,6 +1,6 @@
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("Container");
+let component = ReasonReact.statelessComponent("ContainerWithSpace");
 
 let styles =
   StyleSheet.create(
@@ -13,7 +13,7 @@ let styles =
           justifyContent(SpaceBetween),
           flex(1.),
           width(Pct(100.)),
-          maxWidth(Pt(1000.)),
+          maxWidth(Pt(1200.)),
         ]),
     },
   );
@@ -28,7 +28,8 @@ let make = (~wrapperStyle=?, ~style=?, children) => {
         | Some(wrapperStyle) => Style.concat([styles##wrapper, wrapperStyle])
         }
       }>
-      <View
+      <SpacedView
+        horizontal=M
         style={
           switch (style) {
           | None => styles##container
@@ -36,6 +37,6 @@ let make = (~wrapperStyle=?, ~style=?, children) => {
           }
         }>
         ...children
-      </View>
+      </SpacedView>
     </View>,
 };

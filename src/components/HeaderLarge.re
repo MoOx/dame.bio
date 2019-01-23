@@ -9,18 +9,25 @@ let styles =
         style([
           justifyContent(Center),
           alignItems(Center),
-          paddingBottom(Pt(60.)),
           backgroundColor(String("#fefefe")),
         ]),
     },
   );
 
-let make = _children => {
+let make = (~currentLocation, _children) => {
   ...component,
   render: _self =>
     <View style=styles##header>
-      <HeaderLargeTopbar />
+      <HeaderLargeTopbar currentLocation />
       <HeaderLargeLogo />
-      <HeaderLargeMenu />
     </View>,
+  /* <HeaderLargeMenu /> */
 };
+
+[@bs.deriving abstract]
+type jsProps = {currentLocation: {. "pathname": string}};
+
+let default =
+  ReasonReact.wrapReasonForJs(~component, jsProps =>
+    make(~currentLocation=jsProps->currentLocationGet, [||])
+  );
