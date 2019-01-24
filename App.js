@@ -76,7 +76,9 @@ RoutePosts.getAllPossibleUrls = async ({ path }) => {
             if (item.node && item.node.tags && item.node.tags.nodes) {
               item.node.tags.nodes.forEach(t => {
                 acc.push("/tag/" + t.slug + "/");
-                acc.push("/tag/" + t.slug + "/after/" + item.cursor + "/");
+                // disable SSR for tag pagination because this adds lots of urls to pre-render
+                // and until we have better perfs (= local db/fetch) it's totally slow to do this...
+                // acc.push("/tag/" + t.slug + "/after/" + item.cursor + "/");
               });
             }
           } catch (e) {
