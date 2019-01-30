@@ -94,4 +94,5 @@ module Colors = {
   let lightest = "hsl(219.1, 100%, 99.5%)";
   let tabBarIconInactive = "#909192";
   let tabBarIconActive = "#FD2E55";
+  let main = "#006579";
 };
