@@ -10,23 +10,40 @@ let styles =
       "container":
         Dimensions.get(`window)##width <= 500 ?
           style([
+            flex(1.),
             shadowColor(String("#333333")),
             shadowOffset(~height=4., ~width=0.),
             shadowOpacity(0.1),
             shadowRadius(20.),
           ]) :
-          style([]),
+          style([
+            flex(1.),
+            shadowColor(String("#333333")),
+            shadowOffset(~height=4., ~width=0.),
+            shadowOpacity(0.05),
+            shadowRadius(20.),
+          ]),
+      "containerContent":
+        style([
+          flex(1.),
+          /* shadow to help differentiate the top left flowers */
+          shadowColor(String("#fff")),
+          shadowOffset(~height=-1., ~width=-1.),
+          shadowOpacity(0.5),
+          shadowRadius(0.),
+        ]),
       "image":
         style([borderTopLeftRadius(radius), borderTopRightRadius(radius)]),
       "text":
         style([
+          flex(1.),
           borderBottomLeftRadius(radius),
           borderBottomRightRadius(radius),
           borderLeftWidth(StyleSheet.hairlineWidth),
           borderRightWidth(StyleSheet.hairlineWidth),
           borderBottomWidth(StyleSheet.hairlineWidth),
-          borderColor(String("#EBEBEB")),
-          backgroundColor(String("#FFF")),
+          borderColor(String(Consts.Colors.lightGrey)),
+          backgroundColor(String(Consts.Colors.lightest)),
         ]),
       "categoryText":
         style([fontSize(Float(10.)), color(String("#DE6D88"))]),
@@ -65,7 +82,7 @@ let styles =
 
 let component = ReasonReact.statelessComponent("PostPreviewFromGraphQLQuery");
 
-let make = (~item, _) => {
+let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, _) => {
   ...component,
   render: _self => {
     let id = item##id;
@@ -112,15 +129,47 @@ let make = (~item, _) => {
       };
     };
     <SpacedView key=id style=styles##wrapper vertical=M horizontal=M>
+      {withFlowers ?
+         <ImageFromUri
+           resizeMode=`contain
+           uri="/images/preview-corner-top-left.png"
+           style=Style.(
+             style([
+               position(Absolute),
+               top(Pt(-6.)),
+               left(Pt(-10.)),
+               width(Pt(290. /. 2.)),
+               height(Pt(491. /. 2.)),
+             ])
+           )
+         /> :
+         ReasonReact.null}
+      {withWatercolorCorner ?
+         <ImageFromUri
+           resizeMode=`contain
+           uri="/images/watercolor-bottom-right.png"
+           style=Style.(
+             style([
+               position(Absolute),
+               bottom(Pt(-10.)),
+               right(Pt(-15.)),
+               width(Pt(723. /. 2.)),
+               height(Pt(495. /. 2.)),
+             ])
+           )
+         /> :
+         ReasonReact.null}
       <ViewLink href style=styles##container>
-        image
-        <SpacedView vertical=M horizontal=M style=styles##text>
-          <Text style=styles##categoryText> category </Text>
-          <Spacer size=XS />
-          <Text style=styles##titleText>
-            <span dangerouslySetInnerHTML={"__html": title} />
-          </Text>
-        </SpacedView>
+        <View style=styles##containerContent>
+          image
+          <SpacedView vertical=M horizontal=M style=styles##text>
+            <Text style=styles##categoryText> category </Text>
+            <Spacer size=XS />
+            <Text style=styles##titleText>
+              <span dangerouslySetInnerHTML={"__html": title} />
+            </Text>
+          </SpacedView>
+        </View>
       </ViewLink>
       <SpacedView
         vertical=M

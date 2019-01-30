@@ -6,7 +6,7 @@ let styles =
   StyleSheet.create(
     Style.{
       "list":
-        style([flexDirection(Row), flexWrap(Wrap), alignItems(FlexStart)]),
+        style([flexDirection(Row), flexWrap(Wrap), alignItems(Stretch)]),
     },
   );
 
@@ -15,16 +15,22 @@ let component = ReasonReact.statelessComponent("PostListFromGraphQLQuery");
 let make = (~edges, _) => {
   ...component,
   render: _self =>
-    <View style=styles##list>
+    /* SpacedView for PostPreview background effect that overflow out of its container */
+    <SpacedView vertical=S style=styles##list>
       {edges
-       ->Belt.Array.map(edge =>
+       ->Belt.Array.mapWithIndex((index, edge) =>
            edge
            ->Belt.Option.flatMap(edge => edge##node)
            ->Belt.Option.map(item =>
-               <PostPreviewFromGraphQLQuery key=item##id item />
+               <PostPreviewFromGraphQLQuery
+                 key=item##id
+                 item
+                 withFlowers={index == 0}
+                 withWatercolorCorner={index == Belt.Array.length(edges) - 1}
+               />
              )
            ->Belt.Option.getWithDefault(ReasonReact.null)
          )
        ->ReasonReact.array}
-    </View>,
+    </SpacedView>,
 };
