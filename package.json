@@ -31,7 +31,7 @@
     "react-art": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-helmet": "^5.2.0",
-    "react-native-web": "^0.9.8",
+    "react-native-web": "^0.10.0-alpha.3",
     "react-router": "^3.2.0",
     "reason-apollo": "^0.14.2",
     "reason-react": "^0.5.0",
