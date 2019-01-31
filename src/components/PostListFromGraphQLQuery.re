@@ -32,5 +32,9 @@ let make = (~edges, _) => {
            ->Belt.Option.getWithDefault(ReasonReact.null)
          )
        ->ReasonReact.array}
+      /* Avoid huge lonely items if we get an odd number of result */
+      {Belt.Array.length(edges) mod 2 == 1 ?
+         <View style=PostPreviewFromGraphQLQuery.styles##wrapper /> :
+         ReasonReact.null}
     </SpacedView>,
 };
