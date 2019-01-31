@@ -160,10 +160,20 @@ let decodePost = (json): post =>
 let decodePosts = (json): list(post) =>
   Json.Decode.(json |> array(decodePost)) |> Belt.List.fromArray;
 
-let decodeRelatedPosts = (json): list(post) =>
+let decodeRelatedPosts = (json): list(post) => {
   Json.Decode.(
-    json |> field("rendered", string) |> Json.parseOrRaise |> decodePosts
+    json
+    |> field("rendered", string)
+    /* remove shit injected by the "related posts plugin" */
+    |> Js.String.replaceByRe(
+         [%re "/^<div class=\\\"rpbt_wp_rest_api\\\">\\n/"],
+         "",
+       )
+    |> Js.String.replaceByRe([%re "/\\n<\\/div>$/"], "")
+    |> Json.parseOrRaise
+    |> decodePosts
   );
+};
 
 let findRootCategory = (item: post): term =>
   switch (
