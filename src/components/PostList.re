@@ -6,7 +6,7 @@ let styles =
   StyleSheet.create(
     Style.{
       "list":
-        style([flexDirection(Row), flexWrap(Wrap), alignItems(FlexStart)]),
+        style([flexDirection(Row), flexWrap(Wrap), alignItems(Stretch)]),
     },
   );
 

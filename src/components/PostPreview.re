@@ -49,14 +49,16 @@ let make = (~item: Structures.post, _) => {
 
     <SpacedView key=id style=styles##wrapper vertical=M horizontal=M>
       <ViewLink href style=styles##container>
-        image
-        <SpacedView vertical=M horizontal=M style=styles##text>
-          <Text style=styles##categoryText> category </Text>
-          <Spacer size=XS />
-          <Text style=styles##titleText>
-            <span dangerouslySetInnerHTML={"__html": title} />
-          </Text>
-        </SpacedView>
+        <View style=styles##containerContent>
+          image
+          <SpacedView vertical=M horizontal=M style=styles##text>
+            <Text style=styles##categoryText> category </Text>
+            <Spacer size=XS />
+            <Text style=styles##titleText>
+              <span dangerouslySetInnerHTML={"__html": title} />
+            </Text>
+          </SpacedView>
+        </View>
       </ViewLink>
       <SpacedView
         vertical=M
