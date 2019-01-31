@@ -16,7 +16,7 @@ let styles =
 
 let component = ReasonReact.statelessComponent("Footer");
 
-let uri = "/images/pink/footer-flowers.png";
+let uri = "/images/footer-flowers.png";
 let width: Style.pt_only = Style.Pt(1800. *. 0.75);
 let height: Style.pt_only = Style.Pt(324. *. 0.75);
 
