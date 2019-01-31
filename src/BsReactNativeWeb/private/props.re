@@ -34,6 +34,8 @@ let serialize =
 
 let extendView =
     (
+      ~onMouseEnter=?,
+      ~onMouseLeave=?,
       ~accessibilityRole=?,
       ~accessibilityLabel=?,
       ~accessible=?,
@@ -59,6 +61,8 @@ let extendView =
     ) =>
   UtilsRN.objAssign2(
     {
+      "onMouseEnter": onMouseEnter,
+      "onMouseLeave": onMouseLeave,
       "accessibilityRole": accessibilityRole,
       "accessibilityLabel": accessibilityLabel,
       "accessible": accessible,

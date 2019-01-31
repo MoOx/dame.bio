@@ -2251,6 +2251,11 @@ bs-react-native@^0.10.0:
   resolved "https://registry.yarnpkg.com/bs-react-native/-/bs-react-native-0.10.0.tgz#4a9167cbe4c858008a9e56a0f745ba723c74101c"
   integrity sha512-QpSbKwuYbDU1qBrxplmKvO8TZOtK2DpevoOUxDm0NfMNAdF6oacSbJfqMx89n2eGzMm8imZ3JsUeZPl6OT2N4A==
 
+bs-webapi@^0.13.2:
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/bs-webapi/-/bs-webapi-0.13.2.tgz#7e96127f633cff16491d1b9b2158e7fa33a76412"
+  integrity sha512-eWWOT8ntAy7t2FzT+sJMmI47Fi+cpTmDSFC0R9F2OEJ/eZ8yp1wsheFAZsSDyOZIzIZP4mlJbiyVu01FB0r2DQ==
+
 bser@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/bser/-/bser-2.0.0.tgz#9ac78d3ed5d915804fd87acb158bc797147a1719"

@@ -21,11 +21,13 @@ let make =
       ~horizontal=None,
       ~style=Style.style([]),
       ~pointerEvents=`auto,
+      ~onMouseEnter=?,
+      ~onMouseLeave=?,
       children,
     ) => {
   ...component,
   render: _self =>
-    <View
+    <ViewWeb
       style={Style.concat([
         Style.style(
           switch (vertical) {
@@ -55,7 +57,9 @@ let make =
         ),
         style,
       ])}
-      pointerEvents>
+      pointerEvents
+      ?onMouseEnter
+      ?onMouseLeave>
       ...children
-    </View>,
+    </ViewWeb>,
 };

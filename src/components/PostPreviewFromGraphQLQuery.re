@@ -80,11 +80,46 @@ let styles =
     },
   );
 
-let component = ReasonReact.statelessComponent("PostPreviewFromGraphQLQuery");
+type action =
+  | WillFocus(unit => unit)
+  | Focus
+  | WillBlur(unit => unit)
+  | Blur;
+
+type state = {
+  focus: bool,
+  focusTimeout: ref(option(Js.Global.timeoutId)),
+};
+
+let timing = 150;
+let clearOptionalTimeout = optionalTimeoutRef =>
+  (optionalTimeoutRef^)->Belt.Option.map(Js.Global.clearTimeout)->ignore;
+
+let component = ReasonReact.reducerComponent("PostPreviewFromGraphQLQuery");
 
 let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, _) => {
   ...component,
-  render: _self => {
+  initialState: () => {focusTimeout: ref(None), focus: false},
+  reducer: (action, state) =>
+    switch (action) {
+    | WillFocus(cb) =>
+      clearOptionalTimeout(state.focusTimeout);
+      ReasonReact.SideEffects(
+        _ => state.focusTimeout := Some(Js.Global.setTimeout(cb, timing)),
+      );
+    | Focus =>
+      clearOptionalTimeout(state.focusTimeout);
+      ReasonReact.Update({...state, focus: true});
+    | WillBlur(cb) =>
+      clearOptionalTimeout(state.focusTimeout);
+      ReasonReact.SideEffects(
+        _ => state.focusTimeout := Some(Js.Global.setTimeout(cb, timing)),
+      );
+    | Blur =>
+      clearOptionalTimeout(state.focusTimeout);
+      ReasonReact.Update({...state, focus: false});
+    },
+  render: ({state, send}) => {
     let id = item##id;
     let rootCategory =
       T.getMainCategory(
@@ -159,7 +194,26 @@ let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, _) => {
            )
          /> :
          ReasonReact.null}
-      <ViewLink href style=styles##container>
+      {state.focus ?
+         <ImageFromUri
+           resizeMode=`stretch
+           uri="/images/watercolor-outline.png"
+           style=Style.(
+             style([
+               position(Absolute),
+               top(Pt(0.)),
+               bottom(Pt(0.)),
+               left(Pt(0.)),
+               right(Pt(0.)),
+             ])
+           )
+         /> :
+         ReasonReact.null}
+      <ViewLink
+        href
+        style=styles##container
+        onMouseEnter={() => send(WillFocus(() => send(Focus)))}
+        onMouseLeave={() => send(WillBlur(() => send(Blur)))}>
         <View style=styles##containerContent>
           image
           <SpacedView vertical=M horizontal=M style=styles##text>
@@ -175,7 +229,17 @@ let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, _) => {
         vertical=M
         horizontal=M
         style=styles##actionsWrapper
-        pointerEvents=`boxNone>
+        pointerEvents=`boxNone
+        onMouseEnter={() =>
+          send(
+            WillFocus(() => Webapi.requestAnimationFrame(_ => send(Focus))),
+          )
+        }
+        onMouseLeave={() =>
+          send(
+            WillBlur(() => Webapi.requestAnimationFrame(_ => send(Blur))),
+          )
+        }>
         <PlaceholderWithAspectRatio ratio=imageRatio />
         <View style=styles##actions pointerEvents=`boxNone>
           <View style=styles##action>

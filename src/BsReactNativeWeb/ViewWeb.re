@@ -6,6 +6,8 @@
 module type ViewComponent = {
   let make:
     (
+      ~onMouseEnter: unit => unit=?,
+      ~onMouseLeave: unit => unit=?,
       ~accessibilityRole: string=?,
       ~accessibilityLabel: string=?,
       ~accessible: bool=?,
@@ -69,6 +71,8 @@ module type Impl = {let view: ReasonReact.reactClass;};
 module CreateComponent = (Impl: Impl) : ViewComponent => {
   let make =
       (
+        ~onMouseEnter=?,
+        ~onMouseLeave=?,
         ~accessibilityRole=?,
         ~accessibilityLabel=?,
         ~accessible=?,
@@ -95,6 +99,8 @@ module CreateComponent = (Impl: Impl) : ViewComponent => {
       ~reactClass=Impl.view,
       ~props=
         Props.extendView(
+          ~onMouseEnter?,
+          ~onMouseLeave?,
           ~accessibilityRole?,
           ~accessibilityLabel?,
           ~accessible?,
