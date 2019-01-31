@@ -99,7 +99,7 @@ let make = _ => {
         <Text style=styles##title>
           {j|Soutenir le blog|j}->ReasonReact.string
         </Text>
-        <br />
+        <Spacer size=S />
         <a
           style={ReactDOMRe.Style.make(
             ~margin="auto",
@@ -113,16 +113,16 @@ let make = _ => {
           href="https://www.paypal.me/damebio/3">
           {j|M'offrir un thé|j}->ReasonReact.string
         </a>
-        <br />
+        <Spacer size=S />
         <Text style=styles##text>
           {j|Vous pouvez soutenir mon travail en effectuant un don.|j}
           ->ReasonReact.string
         </Text>
-        <br />
+        <Spacer size=S />
         <Text style=styles##text2>
           {j|Un grand merci à vous ♥|j}->ReasonReact.string
         </Text>
-        <br />
+        <Spacer size=S />
         <a
           style={ReactDOMRe.Style.make(
             ~color="#67635b",
