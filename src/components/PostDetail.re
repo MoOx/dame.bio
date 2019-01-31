@@ -103,9 +103,15 @@ let make = (~item, _) => {
 .dbPost .ingredients dt,
 .dbPost h2 {
   font-weight: 800;
-  font-size: 24px;
+  font-size: 20px;
   margin: 40px 0 20px;
 }
+
+.dbPost .ingredients dt::before,
+.dbPost h2::before {
+  content: "☆ ";
+}
+
 .dbPost dd { margin: 0 }
 
 .wp-block-image {
