@@ -13,17 +13,16 @@ let styles =
           backgroundColor(String("#fff")),
         ]),
       "metaRow": style([flexDirection(Row), justifyContent(SpaceBetween)]),
-      "tags":
+      "metaRowLeft": style([flexDirection(Row), alignItems(Baseline)]),
+      "date":
+        style([fontSize(Float(12.)), color(String(Consts.Colors.grey))]),
+      "title":
         style([
-          flexDirection(Row),
-          flexWrap(Wrap),
-          justifyContent(Center),
-        ]),
-      "tagText":
-        style([
-          fontSize(Float(16.)),
-          lineHeight(29.),
+          marginBottom(Pt(10.)),
+          fontSize(Float(32.)),
+          lineHeight(32. *. 1.5),
           color(String("#006579")),
+          fontWeight(`_300),
         ]),
       "categoryText":
         style([fontSize(Float(14.)), color(String("#DE6D88"))]),
@@ -39,15 +38,19 @@ let styles =
           fontSize(Float(10.)),
           color(String(ButtonLike.defaultColor)),
         ]),
-      "title":
-        style([
-          marginBottom(Pt(10.)),
-          fontSize(Float(32.)),
-          lineHeight(32. *. 1.5),
-          color(String("#006579")),
-          fontWeight(`_300),
-        ]),
       "link": style([padding(Pt(10.))]),
+      "tags":
+        style([
+          flexDirection(Row),
+          flexWrap(Wrap),
+          justifyContent(Center),
+        ]),
+      "tagText":
+        style([
+          fontSize(Float(16.)),
+          lineHeight(29.),
+          color(String("#006579")),
+        ]),
     },
   );
 
@@ -150,21 +153,34 @@ let make = (~item, _) => {
         />
       </TextWeb>
       <View style=styles##metaRow>
-        <ViewLink
-          href={
-            "/"
-            ++ Utils.encodeURI(
-                 rootCategory##slug->Belt.Option.getWithDefault("_"),
+        <View style=styles##metaRowLeft>
+          <ViewLink
+            href={
+              "/"
+              ++ Utils.encodeURI(
+                   rootCategory##slug->Belt.Option.getWithDefault("_"),
+                 )
+              ++ "/"
+            }>
+            <Text style=styles##categoryText>
+              {String.uppercase(
+                 rootCategory##name->Belt.Option.getWithDefault(""),
                )
-            ++ "/"
-          }>
-          <Text style=styles##categoryText>
-            {String.uppercase(
-               rootCategory##name->Belt.Option.getWithDefault(""),
+               ->ReasonReact.string}
+            </Text>
+          </ViewLink>
+          <Text style=styles##date>
+            {(
+               {j|   ·   |j}
+               ++ item##dateGmt
+                  ->Belt.Option.mapWithDefault(Js.Date.make(), d =>
+                      Js.Date.fromString(d |> Js.String.replace(" ", "T"))
+                    )
+                  ->Js.Date.toLocaleDateString
              )
              ->ReasonReact.string}
           </Text>
-        </ViewLink>
+        </View>
         <View style=styles##actions pointerEvents=`boxNone>
           <View style=styles##action>
             <Text style=styles##actionText> likes </Text>
@@ -181,6 +197,7 @@ let make = (~item, _) => {
           </ViewLink>
         </View>
       </View>
+      <Spacer size=L />
       <SpacedView>
         <div
           className="dbPost"

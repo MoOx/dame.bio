@@ -2,7 +2,7 @@ open BsReactNative;
 
 let defaultSize = 14.;
 
-let defaultColor = "#999";
+let defaultColor = Consts.Colors.grey;
 
 let styles =
   StyleSheet.create(Style.{"touchable": style([justifyContent(Center)])});
