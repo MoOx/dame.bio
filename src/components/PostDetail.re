@@ -101,9 +101,10 @@ let make = (~item, _) => {
 }
 
 .dbPost .ingredients dt,
-.dbPost .tips {
+.dbPost h2 {
   font-weight: 800;
-  font-size: 18px;
+  font-size: 24px;
+  margin: 40px 0 20px;
 }
 .dbPost dd { margin: 0 }
 
