@@ -105,9 +105,7 @@ let make = (~item, _) => {
   font-weight: 800;
   font-size: 18px;
 }
-.dbPost dd {
-  margin: 0 0 0 20px;
-}
+.dbPost dd { margin: 0 }
 
 .wp-block-image {
   margin: 8% auto;
