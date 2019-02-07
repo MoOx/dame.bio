@@ -1,11 +1,12 @@
 let title = {j|D'Âme Bio|j};
 let defaultTitle =
-  title ++ {j|: Recettes de cuisine saine, Permaculture, Bien-être|j};
+  title ++ {j|: Blog Green, Recettes, Permaculture, Bien-être, Lifestyle|j};
 let titleTemplate = {j|%s - |j} ++ title;
 
 type menuLink = {
   link: string,
   text: string,
+  title: string,
   icon:
     (~width: float, ~height: float, ~fill: string, unit) =>
     ReasonReact.reactElement,
@@ -16,12 +17,14 @@ let menuLinks = [|
   {
     link: "/",
     text: {j|Accueil|j},
+    title: defaultTitle,
     icon: (~width, ~height, ~fill, _) => <SVGMenuHome width height fill />,
     isActive: (current, link) => current == link,
   },
   {
     link: "/alimentation/",
     text: {j|Alimentation|j},
+    title: {j|Recette de cuisine bio, sans gluten, sans lait|j},
     icon: (~width, ~height, ~fill, _) =>
       <SVGMenuAlimentation width height fill />,
     isActive: (current, _link) =>
@@ -30,6 +33,7 @@ let menuLinks = [|
   {
     link: "/permaculture/",
     text: {j|Permaculture|j},
+    title: {j|Permaculture et jardin écologique|j},
     icon: (~width, ~height, ~fill, _) =>
       <SVGMenuPermaculture width height fill />,
     isActive: (current, _link) =>
@@ -38,6 +42,7 @@ let menuLinks = [|
   {
     link: "/bien-etre/",
     text: {j|Bien-Être|j},
+    title: {j|Bien-Être, beauté au naturel, Yoga...|j},
     icon: (~width, ~height, ~fill, _) =>
       <SVGMenuBienEtre width height fill />,
     isActive: (current, _link) =>
@@ -46,6 +51,7 @@ let menuLinks = [|
   {
     link: "/lifestyle/",
     text: {j|Lifestyle|j},
+    title: {j|Green Lifestyle, style de vie naturel|j},
     icon: (~width, ~height, ~fill, _) =>
       <SVGMenuLifestyle width height fill />,
     isActive: (current, _link) =>
