@@ -23,6 +23,7 @@
     "bs-webapi",
     "bs-fetch",
     "@glennsl/bs-json",
+    "reason-future",
     "reason-react",
     "reason-apollo",
     "bs-react-native",

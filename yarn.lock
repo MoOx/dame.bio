@@ -8951,6 +8951,11 @@ reason-apollo@^0.14.2:
   resolved "https://registry.yarnpkg.com/reason-apollo/-/reason-apollo-0.14.2.tgz#74230863bc6472ff92388c6dedefe4572d2414dd"
   integrity sha512-/8ZYkq+TOJ63o5e7+n/Mmfno4GrDNhin6j19kqspRlniTl476pBeCvUKWZtXlfAOK8bn8mkxlq3JfPD5MpAfTw==
 
+reason-future@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/reason-future/-/reason-future-2.3.1.tgz#e86a5b835e542caa7c140ba2379be6d06ff0d2d0"
+  integrity sha512-+LkXZ/6fuV+LYBnB58V82nUdKRnYBeHQ49PcCODCR7hR4Qs3+IGPEHagOaZOrM5g+sEdaQCYBGvAuSKHFVr03w==
+
 reason-react@^0.5.0:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/reason-react/-/reason-react-0.5.3.tgz#10601809742fd991109ec9d69ad4baf2c3f17540"
