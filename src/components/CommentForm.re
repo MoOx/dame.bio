@@ -267,8 +267,8 @@ let make = (~postId, ~parentCommentId, _children) => {
         ReasonReact.NoUpdate
       | Errored((_, _)) => ReasonReact.NoUpdate
       | _ =>
-        /* https://developer.wordpress.org/rest-api/reference/comments/#arguments */
-        /* todo see how to validate this payload type, with commentToSend or similar */
+        // https://developer.wordpress.org/rest-api/reference/comments/#arguments
+        // todo see how to validate this payload type, with commentToSend or similar
         let pl = Js.Dict.empty();
         /* to avoid rest_comment_author_invalid */
         if (comment.author > 0) {
