@@ -14,10 +14,15 @@ type status =
 module GetItems = [%graphql
   {|
   query getItems($first: Int!, $categorySlug: String, $tagSlug: String, $cursorAfter: String){
+    generalSettings {
+      title
+      description
+    }
     categories(first: 1, where: {slug: [$categorySlug]}) {
       nodes {
         id
         name
+        description
       }
     }
     posts(first: $first, after: $cursorAfter, where: {categoryName: $categorySlug, tag: $tagSlug}) {
@@ -101,19 +106,28 @@ let make = (~status, ~categorySlug, ~tagSlug, ~cursorAfter, _) => {
                  <>
                    {response##categories
                     ->Option.flatMap(p => p##nodes)
-                    ->Option.mapWithDefault(ReasonReact.null, nodes =>
-                        nodes
-                        ->Array.map(node =>
-                            node
-                            ->Option.flatMap(node => node##name)
-                            ->Option.mapWithDefault(ReasonReact.null, title =>
-                                <BsReactHelmet
-                                  key=title titleTemplate=Consts.titleTemplate>
-                                  <title> title->ReasonReact.string </title>
-                                </BsReactHelmet>
-                              )
+                    ->Option.flatMap(nodes => nodes[0])
+                    ->Option.flatMap(node => node)
+                    ->Option.flatMap(node =>
+                        node##description->Option.isSome ?
+                          node##description :
+                          node##name->Option.isSome ? node##name : None
+                      )
+                    ->Option.map(title =>
+                        <BsReactHelmet titleTemplate=Consts.titleTemplate>
+                          <title> title->ReasonReact.string </title>
+                        </BsReactHelmet>
+                      )
+                    ->Option.getWithDefault(
+                        response##generalSettings
+                        ->Option.flatMap(node => node##description)
+                        ->Option.map(title =>
+                            <BsReactHelmet
+                              titleTemplate=Consts.titleTemplateHome>
+                              <title> title->ReasonReact.string </title>
+                            </BsReactHelmet>
                           )
-                        ->ReasonReact.array
+                        ->Option.getWithDefault(ReasonReact.null),
                       )}
                    {response##posts
                     ->Option.flatMap(p => p##edges)
@@ -127,8 +141,8 @@ let make = (~status, ~categorySlug, ~tagSlug, ~cursorAfter, _) => {
                                 justifyContent(SpaceAround),
                               ])
                             )>
-                            {/* not working yet
-                                https://github.com/wp-graphql/wp-graphql/issues/594 */
+                            {// not working yet
+                             // https://github.com/wp-graphql/wp-graphql/issues/594
                              pageInfo
                              ->Option.map(p => p##hasPreviousPage)
                              ->Option.getWithDefault(false) ?

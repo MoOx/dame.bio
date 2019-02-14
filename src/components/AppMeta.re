@@ -3,7 +3,7 @@ let component = ReasonReact.statelessComponent("AppMeta");
 let make = _ => {
   ...component,
   render: _self => {
-    <BsReactHelmet defaultTitle=Consts.defaultTitle>
+    <BsReactHelmet defaultTitle=Consts.title>
       <meta charSet="utf-8" />
       <meta
         name="viewport"
