@@ -1,3 +1,5 @@
+open Belt;
+
 let title = {j|D'Âme Bio|j};
 let titleTemplateHome = title ++ {j| - %s|j};
 let titleTemplate = {j|%s - |j} ++ title;
@@ -11,13 +13,7 @@ type menuLink = {
   isActive: (string, string) => bool,
 };
 
-let menuLinks = [|
-  {
-    link: "/",
-    text: {j|Accueil|j},
-    icon: (~width, ~height, ~fill, _) => <SVGMenuHome width height fill />,
-    isActive: (current, link) => current == link,
-  },
+let commonLinks = [|
   {
     link: "/alimentation/",
     text: {j|Alimentation|j},
@@ -51,6 +47,19 @@ let menuLinks = [|
       Js.String.startsWith("/lifestyle/", current),
   },
 |];
+
+let menuLinks = commonLinks;
+
+let tabBarLinks =
+  [|
+    {
+      link: "/",
+      text: {j|Accueil|j},
+      icon: (~width, ~height, ~fill, _) => <SVGMenuHome width height fill />,
+      isActive: (current, link) => current == link,
+    },
+  |]
+  ->Array.concat(commonLinks);
 
 type socialLink = {
   text: string,

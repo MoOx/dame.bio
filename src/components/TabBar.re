@@ -39,7 +39,7 @@ let make = (~currentLocation, _children) => {
   render: _self => {
     <SafeAreaView style=styles##wrapper>
       <View style=styles##container>
-        {Consts.menuLinks
+        {Consts.tabBarLinks
          ->Array.map(item => {
              let isActive =
                item.isActive(currentLocation##pathname, item.link);
