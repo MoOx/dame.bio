@@ -1,3 +1,5 @@
+open Belt;
+
 [@bs.module "./TextLink"]
 external reactClass: ReasonReact.reactClass = "default";
 
@@ -36,7 +38,7 @@ let make =
           BsReactNative.(
             Style.concat([
               Style.style(Style.[display(Flex), flexDirection(Column)]),
-              style->Belt.Option.getWithDefault(Style.style([])),
+              style->Option.getWithDefault(Style.style([])),
             ])
           ),
         ~activeStyle?,

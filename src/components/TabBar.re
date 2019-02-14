@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 let colorInActive = Consts.Colors.tabBarIconInactive;
@@ -39,7 +40,7 @@ let make = (~currentLocation, _children) => {
     <SafeAreaView style=styles##wrapper>
       <View style=styles##container>
         {Consts.menuLinks
-         ->Belt.Array.map(item => {
+         ->Array.map(item => {
              let isActive =
                item.isActive(currentLocation##pathname, item.link);
              <ViewLink

@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 [@bs.module "@phenomic/preset-react-app/lib/client"]
@@ -104,16 +105,16 @@ let make = (~status, ~postSlug, _) => {
                | Error(error) => <Error label={Some(error##message)} />
                | Data(response) =>
                  response##posts
-                 ->Belt.Option.flatMap(p => p##edges)
-                 ->Belt.Option.map(edges =>
+                 ->Option.flatMap(p => p##edges)
+                 ->Option.map(edges =>
                      edges
-                     ->Belt.Array.map(edge =>
+                     ->Array.map(edge =>
                          edge
-                         ->Belt.Option.flatMap(edge => edge##node)
-                         ->Belt.Option.map(item =>
+                         ->Option.flatMap(edge => edge##node)
+                         ->Option.map(item =>
                              <View key=item##id>
                                {item##title
-                                ->Belt.Option.mapWithDefault(
+                                ->Option.mapWithDefault(
                                     ReasonReact.null, title =>
                                     <BsReactHelmet
                                       key=title
@@ -126,11 +127,11 @@ let make = (~status, ~postSlug, _) => {
                                <PostDetail item />
                              </View>
                            )
-                         ->Belt.Option.getWithDefault(ReasonReact.null)
+                         ->Option.getWithDefault(ReasonReact.null)
                        )
                      ->ReasonReact.array
                    )
-                 ->Belt.Option.getWithDefault(
+                 ->Option.getWithDefault(
                      <Error label={Some({j|Aucun résultat|j})} />,
                    )
                }

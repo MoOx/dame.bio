@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 include PostPreviewFromGraphQLQuery;
@@ -19,8 +20,8 @@ let make = (~item: Structures.post, _) => {
       ++ "/";
     let image =
       item.featuredMedia
-      ->Belt.List.head
-      ->Belt.Option.mapWithDefault(ReasonReact.null, media =>
+      ->List.head
+      ->Option.mapWithDefault(ReasonReact.null, media =>
           <ImageWithAspectRatio
             style=styles##image
             uri={media.media_details.sizes.medium.source_url}
@@ -41,7 +42,7 @@ let make = (~item: Structures.post, _) => {
       (
         switch (item.comments) {
         | None => ""
-        | Some(comments) => " " ++ Belt.List.length(comments)->string_of_int
+        | Some(comments) => " " ++ List.length(comments)->string_of_int
         }
       )
       |> ReasonReact.string;

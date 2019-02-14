@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 let styles =
@@ -39,8 +40,8 @@ let component = ReasonReact.statelessComponent("Avatar");
 
 let notSoRandomColor = s => {
   let hue =
-    Belt.List.makeBy(String.length(s), i => s.[i])
-    ->Belt.List.reduce(0, (hue, char) => hue + Char.code(char))
+    List.makeBy(String.length(s), i => s.[i])
+    ->List.reduce(0, (hue, char) => hue + Char.code(char))
     mod 360;
   "hsl(" ++ string_of_int(hue) ++ ", 90%, 95%)";
 };
@@ -52,7 +53,7 @@ let make = (~name=?, ~url=?, _) => {
       style=Style.(
         flatten([|
           styles##avatar,
-          name->Belt.Option.mapWithDefault(style([]), name =>
+          name->Option.mapWithDefault(style([]), name =>
             style([backgroundColor(String(notSoRandomColor(name)))])
           ),
         |])

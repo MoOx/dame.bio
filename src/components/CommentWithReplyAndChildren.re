@@ -1,3 +1,5 @@
+open Belt;
+
 type action =
   | Reply;
 
@@ -18,7 +20,7 @@ let rec make = (~comment, ~postId, ~parentCommentId: int, ~comments, _) => {
     <>
       <Comment
         comment
-        separator={comment##parent->Belt.Option.isNone}
+        separator={comment##parent->Option.isNone}
         canReply=true
         onReply={() => send(Reply) |> ignore}
       />
@@ -27,29 +29,29 @@ let rec make = (~comment, ~postId, ~parentCommentId: int, ~comments, _) => {
        | ReplyOpen =>
          <CommentForm
            postId
-           parentCommentId={comment##commentId->Belt.Option.getWithDefault(0)}
+           parentCommentId={comment##commentId->Option.getWithDefault(0)}
          />
        }}
       {comments
-       ->Belt.Option.flatMap(ts => ts##nodes)
-       ->Belt.Option.getWithDefault([||])
-       ->Belt.Array.mapWithIndex((index, c) =>
-           c->Belt.Option.mapWithDefault(ReasonReact.null, comment =>
+       ->Option.flatMap(ts => ts##nodes)
+       ->Option.getWithDefault([||])
+       ->Array.mapWithIndex((index, c) =>
+           c->Option.mapWithDefault(ReasonReact.null, comment =>
              comment##parent
-             ->Belt.Option.flatMap(p => p##commentId)
-             ->Belt.Option.getWithDefault(0)
+             ->Option.flatMap(p => p##commentId)
+             ->Option.getWithDefault(0)
              == parentCommentId ?
                ReasonReact.element(
                  ~key=
                    string_of_int(
-                     comment##commentId->Belt.Option.getWithDefault(index),
+                     comment##commentId->Option.getWithDefault(index),
                    ),
                  make(
                    ~comment,
                    ~postId,
                    ~comments,
                    ~parentCommentId=
-                     comment##commentId->Belt.Option.getWithDefault(0),
+                     comment##commentId->Option.getWithDefault(0),
                    [||],
                  ),
                ) :

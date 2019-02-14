@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 let component = ReasonReact.statelessComponent("Comments");
@@ -33,7 +34,7 @@ let make = (~postId, ~commentCounts, ~comments, _) => {
       <View>
         <Text style=styles##subtitle>
           (
-            switch (commentCounts->Belt.Option.getWithDefault(0)) {
+            switch (commentCounts->Option.getWithDefault(0)) {
             | 0 => "Commentaires"
             | 1 => "1 Commentaire"
             | count => count->string_of_int ++ " Commentaires"
@@ -46,8 +47,8 @@ let make = (~postId, ~commentCounts, ~comments, _) => {
       <View style=styles##comments>
         {switch (
            comments
-           ->Belt.Option.flatMap(ts => ts##nodes)
-           ->Belt.Option.getWithDefault([||])
+           ->Option.flatMap(ts => ts##nodes)
+           ->Option.getWithDefault([||])
          ) {
          | [||] =>
            <>
@@ -60,16 +61,16 @@ let make = (~postId, ~commentCounts, ~comments, _) => {
            </>
          | coms =>
            coms
-           ->Belt.Array.mapWithIndex((index, comment) =>
-               comment->Belt.Option.mapWithDefault(ReasonReact.null, comment =>
-                 comment##parent->Belt.Option.isNone ?
+           ->Array.mapWithIndex((index, comment) =>
+               comment->Option.mapWithDefault(ReasonReact.null, comment =>
+                 comment##parent->Option.isNone ?
                    <CommentWithReplyAndChildren
                      key={string_of_int(
-                       comment##commentId->Belt.Option.getWithDefault(index),
+                       comment##commentId->Option.getWithDefault(index),
                      )}
                      comment
                      parentCommentId={
-                       comment##commentId->Belt.Option.getWithDefault(0)
+                       comment##commentId->Option.getWithDefault(0)
                      }
                      postId
                      comments

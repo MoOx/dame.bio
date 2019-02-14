@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 let component = ReasonReact.statelessComponent("HeaderMenuLinks");
@@ -24,8 +25,8 @@ let make = (~currentLocation, _children) => {
   render: _self =>
     <View style=Style.(style([flexDirection(Row)]))>
       {Consts.menuLinks
-       /* ->Belt.Array.sliceToEnd(1) */
-       ->Belt.Array.map(item => {
+       /* ->Array.sliceToEnd(1) */
+       ->Array.map(item => {
            let isActive = item.isActive(currentLocation##pathname, item.link);
            <TextLink
              key={item.link}

@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 [@bs.module "@phenomic/preset-react-app/lib/client"]
@@ -96,17 +97,16 @@ let make = (~status, ~categorySlug, ~tagSlug, ~cursorAfter, _) => {
                | Error(error) => <Error label={Some(error##message)} />
                | Data(response) =>
                  let pageInfo =
-                   response##posts->Belt.Option.flatMap(p => p##pageInfo);
+                   response##posts->Option.flatMap(p => p##pageInfo);
                  <>
                    {response##categories
-                    ->Belt.Option.flatMap(p => p##nodes)
-                    ->Belt.Option.mapWithDefault(ReasonReact.null, nodes =>
+                    ->Option.flatMap(p => p##nodes)
+                    ->Option.mapWithDefault(ReasonReact.null, nodes =>
                         nodes
-                        ->Belt.Array.map(node =>
+                        ->Array.map(node =>
                             node
-                            ->Belt.Option.flatMap(node => node##name)
-                            ->Belt.Option.mapWithDefault(
-                                ReasonReact.null, title =>
+                            ->Option.flatMap(node => node##name)
+                            ->Option.mapWithDefault(ReasonReact.null, title =>
                                 <BsReactHelmet
                                   key=title titleTemplate=Consts.titleTemplate>
                                   <title> title->ReasonReact.string </title>
@@ -116,8 +116,8 @@ let make = (~status, ~categorySlug, ~tagSlug, ~cursorAfter, _) => {
                         ->ReasonReact.array
                       )}
                    {response##posts
-                    ->Belt.Option.flatMap(p => p##edges)
-                    ->Belt.Option.map(edges =>
+                    ->Option.flatMap(p => p##edges)
+                    ->Option.map(edges =>
                         <>
                           <PostListFromGraphQLQuery edges />
                           <View
@@ -130,19 +130,18 @@ let make = (~status, ~categorySlug, ~tagSlug, ~cursorAfter, _) => {
                             {/* not working yet
                                 https://github.com/wp-graphql/wp-graphql/issues/594 */
                              pageInfo
-                             ->Belt.Option.map(p => p##hasPreviousPage)
-                             ->Belt.Option.getWithDefault(false) ?
+                             ->Option.map(p => p##hasPreviousPage)
+                             ->Option.getWithDefault(false) ?
                                pageInfo
-                               ->Belt.Option.flatMap(p => p##startCursor)
-                               ->Belt.Option.map(cursor =>
+                               ->Option.flatMap(p => p##startCursor)
+                               ->Option.map(cursor =>
                                    <BannerButton
                                      href={
-                                       categorySlug->Belt.Option.mapWithDefault(
+                                       categorySlug->Option.mapWithDefault(
                                          "", c =>
                                          "/" ++ c
                                        )
-                                       ++ tagSlug->Belt.Option.mapWithDefault(
-                                            "", t =>
+                                       ++ tagSlug->Option.mapWithDefault("", t =>
                                             "/tag/" ++ t
                                           )
                                        ++ "/after/"
@@ -153,24 +152,21 @@ let make = (~status, ~categorySlug, ~tagSlug, ~cursorAfter, _) => {
                                      ->ReasonReact.string
                                    </BannerButton>
                                  )
-                               ->Belt.Option.getWithDefault(
-                                   ReasonReact.null,
-                                 ) :
+                               ->Option.getWithDefault(ReasonReact.null) :
                                ReasonReact.null}
                             {pageInfo
-                             ->Belt.Option.map(p => p##hasNextPage)
-                             ->Belt.Option.getWithDefault(false) ?
+                             ->Option.map(p => p##hasNextPage)
+                             ->Option.getWithDefault(false) ?
                                pageInfo
-                               ->Belt.Option.flatMap(p => p##endCursor)
-                               ->Belt.Option.map(cursor =>
+                               ->Option.flatMap(p => p##endCursor)
+                               ->Option.map(cursor =>
                                    <BannerButton
                                      href={
-                                       categorySlug->Belt.Option.mapWithDefault(
+                                       categorySlug->Option.mapWithDefault(
                                          "", c =>
                                          "/" ++ c
                                        )
-                                       ++ tagSlug->Belt.Option.mapWithDefault(
-                                            "", t =>
+                                       ++ tagSlug->Option.mapWithDefault("", t =>
                                             "/tag/" ++ t
                                           )
                                        ++ "/after/"
@@ -181,14 +177,12 @@ let make = (~status, ~categorySlug, ~tagSlug, ~cursorAfter, _) => {
                                      ->ReasonReact.string
                                    </BannerButton>
                                  )
-                               ->Belt.Option.getWithDefault(
-                                   ReasonReact.null,
-                                 ) :
+                               ->Option.getWithDefault(ReasonReact.null) :
                                ReasonReact.null}
                           </View>
                         </>
                       )
-                    ->Belt.Option.getWithDefault(
+                    ->Option.getWithDefault(
                         <Error label={Some({j|Aucun résultat|j})} />,
                       )}
                  </>;

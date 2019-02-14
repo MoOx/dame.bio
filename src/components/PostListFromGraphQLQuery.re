@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 let imageRatio = 240. /. 350.;
@@ -18,22 +19,22 @@ let make = (~edges, _) => {
     /* SpacedView for PostPreview background effect that overflow out of its container */
     <SpacedView vertical=S style=styles##list>
       {edges
-       ->Belt.Array.mapWithIndex((index, edge) =>
+       ->Array.mapWithIndex((index, edge) =>
            edge
-           ->Belt.Option.flatMap(edge => edge##node)
-           ->Belt.Option.map(item =>
+           ->Option.flatMap(edge => edge##node)
+           ->Option.map(item =>
                <PostPreviewFromGraphQLQuery
                  key=item##id
                  item
                  withFlowers={index == 0}
-                 withWatercolorCorner={index == Belt.Array.length(edges) - 1}
+                 withWatercolorCorner={index == Array.length(edges) - 1}
                />
              )
-           ->Belt.Option.getWithDefault(ReasonReact.null)
+           ->Option.getWithDefault(ReasonReact.null)
          )
        ->ReasonReact.array}
       /* Avoid huge lonely items if we get an odd number of result */
-      {Belt.Array.length(edges) mod 2 == 1 ?
+      {Array.length(edges) mod 2 == 1 ?
          <View style=PostPreviewFromGraphQLQuery.styles##wrapper /> :
          ReasonReact.null}
     </SpacedView>,

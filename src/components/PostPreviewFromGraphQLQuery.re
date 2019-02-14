@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 let imageRatio = 240. /. 350.;
@@ -93,7 +94,7 @@ type state = {
 
 let timing = 150;
 let clearOptionalTimeout = optionalTimeoutRef =>
-  (optionalTimeoutRef^)->Belt.Option.map(Js.Global.clearTimeout)->ignore;
+  (optionalTimeoutRef^)->Option.map(Js.Global.clearTimeout)->ignore;
 
 let component = ReasonReact.reducerComponent("PostPreviewFromGraphQLQuery");
 
@@ -124,41 +125,41 @@ let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, _) => {
     let rootCategory =
       T.getMainCategory(
         item##categories
-        ->Belt.Option.flatMap(cs => cs##nodes)
-        ->Belt.Option.getWithDefault([||]),
+        ->Option.flatMap(cs => cs##nodes)
+        ->Option.getWithDefault([||]),
       );
     let href =
       "/"
-      ++ rootCategory##slug->Belt.Option.getWithDefault("_")
+      ++ rootCategory##slug->Option.getWithDefault("_")
       ++ "/"
-      ++ item##slug->Belt.Option.getWithDefault(item##id)
+      ++ item##slug->Option.getWithDefault(item##id)
       ++ "/";
     let image =
       item##featuredImage
-      ->Belt.Option.flatMap(f => f##mediaDetails)
-      ->Belt.Option.flatMap(m => m##sizes)
-      ->Belt.Option.getWithDefault([||])
-      ->Belt.Array.keepMap(x => x)
-      ->Belt.Array.get(1)
-      ->Belt.Option.flatMap(s => s##sourceUrl)
-      ->Belt.Option.map(uri =>
+      ->Option.flatMap(f => f##mediaDetails)
+      ->Option.flatMap(m => m##sizes)
+      ->Option.getWithDefault([||])
+      ->Array.keepMap(x => x)
+      ->Array.get(1)
+      ->Option.flatMap(s => s##sourceUrl)
+      ->Option.map(uri =>
           <ImageWithAspectRatio uri style=styles##image ratio=imageRatio />
         )
-      ->Belt.Option.getWithDefault(ReasonReact.null);
+      ->Option.getWithDefault(ReasonReact.null);
     let category =
       rootCategory##name
-      ->Belt.Option.getWithDefault("")
+      ->Option.getWithDefault("")
       ->String.uppercase
       ->ReasonReact.string;
-    let title = item##title->Belt.Option.getWithDefault("");
+    let title = item##title->Option.getWithDefault("");
     let likes = {
-      switch (item##likeCount->Belt.Option.getWithDefault(0)) {
+      switch (item##likeCount->Option.getWithDefault(0)) {
       | 0 => ReasonReact.null
       | v => (v->string_of_int ++ "  ")->ReasonReact.string
       };
     };
     let comments = {
-      switch (item##commentCount->Belt.Option.getWithDefault(0)) {
+      switch (item##commentCount->Option.getWithDefault(0)) {
       | 0 => ReasonReact.null
       | v => ("  " ++ v->string_of_int)->ReasonReact.string
       };

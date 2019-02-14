@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 let styles =
@@ -26,7 +27,7 @@ let make = (~uri, ~ratio, ~style=?, _) => {
         <ImageFromUri
           style={Style.concat([
             styles##image,
-            style->Belt.Option.getWithDefault(Style.style([])),
+            style->Option.getWithDefault(Style.style([])),
           ])}
           uri
         />

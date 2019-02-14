@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 let imageRatio = 240. /. 350.;
@@ -63,23 +64,23 @@ let make = (~item, _) => {
     let rootCategory =
       T.getMainCategory(
         item##categories
-        ->Belt.Option.flatMap(cs => cs##nodes)
-        ->Belt.Option.getWithDefault([||]),
+        ->Option.flatMap(cs => cs##nodes)
+        ->Option.getWithDefault([||]),
       );
     let href =
       "/"
-      ++ rootCategory##slug->Belt.Option.getWithDefault("_")
+      ++ rootCategory##slug->Option.getWithDefault("_")
       ++ "/"
-      ++ item##slug->Belt.Option.getWithDefault(item##id)
+      ++ item##slug->Option.getWithDefault(item##id)
       ++ "/";
     let likes = {
-      switch (item##likeCount->Belt.Option.getWithDefault(0)) {
+      switch (item##likeCount->Option.getWithDefault(0)) {
       | 0 => ReasonReact.null
       | v => (v->string_of_int ++ "  ")->ReasonReact.string
       };
     };
     let comments = {
-      switch (item##commentCount->Belt.Option.getWithDefault(0)) {
+      switch (item##commentCount->Option.getWithDefault(0)) {
       | 0 => ReasonReact.null
       | v => ("  " ++ v->string_of_int)->ReasonReact.string
       };
@@ -148,7 +149,7 @@ let make = (~item, _) => {
       <TextWeb style=styles##title accessibilityRole="heading">
         <span
           dangerouslySetInnerHTML={
-            "__html": item##title->Belt.Option.getWithDefault(""),
+            "__html": item##title->Option.getWithDefault(""),
           }
         />
       </TextWeb>
@@ -158,13 +159,13 @@ let make = (~item, _) => {
             href={
               "/"
               ++ Utils.encodeURI(
-                   rootCategory##slug->Belt.Option.getWithDefault("_"),
+                   rootCategory##slug->Option.getWithDefault("_"),
                  )
               ++ "/"
             }>
             <Text style=styles##categoryText>
               {String.uppercase(
-                 rootCategory##name->Belt.Option.getWithDefault(""),
+                 rootCategory##name->Option.getWithDefault(""),
                )
                ->ReasonReact.string}
             </Text>
@@ -173,7 +174,7 @@ let make = (~item, _) => {
             {(
                {j|   ·   |j}
                ++ item##dateGmt
-                  ->Belt.Option.mapWithDefault(Js.Date.make(), d =>
+                  ->Option.mapWithDefault(Js.Date.make(), d =>
                       Js.Date.fromString(d |> Js.String.replace(" ", "T"))
                     )
                   ->Js.Date.toLocaleDateString
@@ -203,7 +204,7 @@ let make = (~item, _) => {
           className="dbPost"
           dangerouslySetInnerHTML={
             "__html":
-              item##content->Belt.Option.getWithDefault("")
+              item##content->Option.getWithDefault("")
               /* make images url absolute */
               |> Js.String.replaceByRe(
                    [%re "/=\"\\/wp-content/g"],
@@ -224,9 +225,7 @@ let make = (~item, _) => {
                    ++ "<span style=\"display: flex; flex-direction: row; justify-content: center; align-items: center; margin: 60px auto; width: 80%;\">"
                    ++ "<span style=\"flex: 1; height: 1px; background: #A6A6A7;\"></span>"
                    ++ (
-                     switch (
-                       rootCategory##slug->Belt.Option.getWithDefault("")
-                     ) {
+                     switch (rootCategory##slug->Option.getWithDefault("")) {
                      | "alimentation" => "<img src=\"/images/separator-flower.png\" style=\"margin: 0 10px; width: 62.5px; height: 13px;\" alt=\"\" />"
                      | "permaculture" => "<img src=\"/images/separator-feather.png\" style=\"margin: 0 10px; width: 36.5px; height: 11.5px;\" alt=\"\" />"
                      | _ => "<img src=\"/images/separator-hearts.png\" style=\"margin: 0 10px; width: 48px; height: 15px;\" alt=\"\" />"
@@ -250,28 +249,27 @@ let make = (~item, _) => {
       </SpacedView>
       <SpacedView vertical=L style=styles##tags>
         {item##tags
-         ->Belt.Option.flatMap(ts => ts##nodes)
-         ->Belt.Option.getWithDefault([||])
-         ->Belt.Array.mapWithIndex((index, tag) =>
+         ->Option.flatMap(ts => ts##nodes)
+         ->Option.getWithDefault([||])
+         ->Array.mapWithIndex((index, tag) =>
              tag
-             ->Belt.Option.map(tag =>
+             ->Option.map(tag =>
                  <Text
                    key={
-                     tag##slug
-                     ->Belt.Option.getWithDefault(string_of_int(index))
+                     tag##slug->Option.getWithDefault(string_of_int(index))
                    }>
                    <TextLink
                      href={
                        "/tag/"
                        ++ Utils.encodeURI(
-                            tag##slug->Belt.Option.getWithDefault(""),
+                            tag##slug->Option.getWithDefault(""),
                           )
                        ++ "/"
                      }>
                      <Text style=styles##tagText>
                        {"#"
                         ++ Utils.tagifyString(
-                             tag##name->Belt.Option.getWithDefault(""),
+                             tag##name->Option.getWithDefault(""),
                            )
                         |> ReasonReact.string}
                      </Text>
@@ -279,7 +277,7 @@ let make = (~item, _) => {
                    " "->ReasonReact.string
                  </Text>
                )
-             ->Belt.Option.getWithDefault(ReasonReact.null)
+             ->Option.getWithDefault(ReasonReact.null)
            )
          ->ReasonReact.array}
       </SpacedView>

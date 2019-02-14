@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 type item = {
@@ -129,7 +130,7 @@ let make = _children => {
          | _ =>
            <ScrollView horizontal=true style=styles##items>
              {items
-              ->Belt.Array.map(item => <InstagramPost key=item##id item />)
+              ->Array.map(item => <InstagramPost key=item##id item />)
               ->ReasonReact.array}
            </ScrollView>
          }

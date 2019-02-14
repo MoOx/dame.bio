@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 let component = ReasonReact.statelessComponent("SocialIcons");
@@ -16,7 +17,7 @@ let make =
   render: _self =>
     <View style=wrapperStyle>
       {Consts.socialLinks
-       ->Belt.Array.map(item =>
+       ->Array.map(item =>
            <ViewLink
              key={item.link}
              style=iconStyle

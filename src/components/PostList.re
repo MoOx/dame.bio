@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 let imageRatio = 240. /. 350.;
@@ -17,10 +18,10 @@ let make = (~posts, _) => {
   render: _self =>
     <View style=styles##list>
       {posts
-       ->Belt.List.map((item: Structures.post) =>
+       ->List.map((item: Structures.post) =>
            <PostPreview item key={string_of_int(item.id)} />
          )
-       ->Belt.List.toArray
+       ->List.toArray
        ->ReasonReact.array}
     </View>,
 };

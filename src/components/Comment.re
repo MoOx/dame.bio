@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 let component = ReasonReact.statelessComponent("Comment");
@@ -77,7 +78,7 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
         | None => Some("")
         }
       )
-      ->Belt.Option.getWithDefault("");
+      ->Option.getWithDefault("");
     let url =
       (
         switch (comment##author) {
@@ -86,12 +87,11 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
         | None => None
         }
       )
-      ->Belt.Option.getWithDefault("");
+      ->Option.getWithDefault("");
     <>
       {separator ? <> <CommentSeparator /> <Spacer /> </> : ReasonReact.null}
       <View style=styles##comment>
-        {comment##parent->Belt.Option.isSome ?
-           <Spacer size=XL /> : ReasonReact.null}
+        {comment##parent->Option.isSome ? <Spacer size=XL /> : ReasonReact.null}
         <View>
           <Spacer size=XXS />
           <Avatar
@@ -105,7 +105,7 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
                    | None => Some("")
                    }
                  )
-                 ->Belt.Option.getWithDefault("")
+                 ->Option.getWithDefault("")
                  ->Md5.make
               ++ "?s=96&d=mm&r=g&d=blank"
             }
@@ -124,8 +124,7 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
                  name->ReasonReact.string
                </Text>}
             {switch (comment##author) {
-             | Some(`User(a))
-                 when a##userId->Belt.Option.getWithDefault(0) == 2 =>
+             | Some(`User(a)) when a##userId->Option.getWithDefault(0) == 2 =>
                <>
                  <Text> " "->ReasonReact.string </Text>
                  <ViewLink href=url style=styles##commentOwner>
@@ -140,7 +139,7 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
           <View style=styles##row>
             <Text style=styles##commentDate>
               {comment##dateGmt
-               ->Belt.Option.mapWithDefault(Js.Date.make(), d =>
+               ->Option.mapWithDefault(Js.Date.make(), d =>
                    Js.Date.fromString(d |> Js.String.replace(" ", "T"))
                  )
                ->Date.relativeDate
@@ -161,7 +160,7 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
               className="dbComment"
               dangerouslySetInnerHTML={
                 "__html":
-                  comment##content->Belt.Option.getWithDefault("")
+                  comment##content->Option.getWithDefault("")
                   |> Js.String.replace("<p>", "")
                   |> Js.String.replace("</p>", ""),
               }
