@@ -48,9 +48,13 @@ let make = _children => {
       <Spacer />
       <ViewLink style=styles##logo href="/">
         <View style=styles##logoImage>
-          <SVGDameBioLogoText width=365. height=104. fill="#67B44B" />
+          <SVGDameBioLogoText width=365. height=104. fill=Consts.Colors.alt />
           <Spacer />
-          <SVGDameBioLogoSeparator width=145. height=27. fill="#67B44B" />
+          <SVGDameBioLogoSeparator
+            width=145.
+            height=27.
+            fill=Consts.Colors.alt
+          />
         </View>
         <View style=styles##logoEffectWrapper>
           <ImageFromUri

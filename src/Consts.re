@@ -120,4 +120,5 @@ module Colors = {
   let tabBarIconInactive = "#909192";
   let tabBarIconActive = "#FD2E55";
   let main = "#006579";
+  let alt = "#67B44B";
 };

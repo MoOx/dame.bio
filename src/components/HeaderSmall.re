@@ -55,7 +55,7 @@ let make = _children => {
             <SVGDameBioLogoText
               width={365. *. 0.35}
               height={104. *. 0.35}
-              fill="#67B44B"
+              fill=Consts.Colors.alt
             />
           </ViewLink>
           <SocialIcons
@@ -69,7 +69,7 @@ let make = _children => {
         <SVGDameBioLogoSeparator
           width={145. *. 0.8}
           height={27. *. 0.8}
-          fill="#67B44B"
+          fill=Consts.Colors.alt
         />
       </SpacedView>
     </View>,
