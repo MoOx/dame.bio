@@ -6,8 +6,9 @@ import { createContainer } from "@phenomic/preset-react-app/src/phenomicPresetRe
 
 import gql from "graphql-tag";
 import initApollo from "./src/init-apollo.js";
-import RoutePosts from "./src/components/RoutePosts.bs.js";
+import RoutePostsOrPage from "./src/components/RoutePostsOrPage.bs.js";
 import RoutePost from "./src/components/RoutePost.bs.js";
+import RouteError from "./src/components/RouteError.bs.js";
 
 let apolloClient = initApollo();
 
@@ -28,12 +29,12 @@ if (typeof window === "undefined") {
   });
 }
 
-RoutePosts.getAllPossibleUrls = async ({ path }) => {
+RoutePostsOrPage.getAllPossibleUrls = async ({ path }) => {
   if (path == "/") {
     return ["/"];
   }
   // generate all possible urls from this one only
-  if (path === "/:categorySlug/after/:cursorAfter") {
+  if (path === "/:categoryOrPageSlug/after/:cursorAfter") {
     return apolloClient
       .query({
         query: gql`
@@ -146,13 +147,21 @@ RoutePost.getAllPossibleUrls = async () => {
 
 const routes = () => (
   <Router history={browserHistory}>
-    <Route path="/" component={RoutePosts} />
-    <Route path="/after/:cursorAfter" component={RoutePosts} />
-    <Route path="/:categorySlug/" component={RoutePosts} />
-    <Route path="/:categorySlug/after/:cursorAfter" component={RoutePosts} />
-    <Route path="/tag/:tagSlug/" component={RoutePosts} />
-    <Route path="/tag/:tagSlug/after/:cursorAfter" component={RoutePosts} />
-    <Route path="/:categorySlug/*" component={RoutePost} />
+    <Route path="/" component={RoutePostsOrPage} />
+    <Route path="/after/:cursorAfter/" component={RoutePostsOrPage} />
+    <Route path="/tag/:tagSlug/" component={RoutePostsOrPage} />
+    <Route
+      path="/tag/:tagSlug/after/:cursorAfter/"
+      component={RoutePostsOrPage}
+    />
+    <Route path="/:categoryOrPageSlug/" component={RoutePostsOrPage} />
+    <Route
+      path="/:categoryOrPageSlug/after/:cursorAfter/"
+      component={RoutePostsOrPage}
+    />
+    <Route path="/:categoryOrPageSlug/:postSlug/" component={RoutePost} />
+    <Route path="/404.html" component={RouteError} />
+    <Route path="/*" component={RouteError} />
   </Router>
 );
 

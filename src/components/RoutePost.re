@@ -153,7 +153,7 @@ let composedComponent =
         | "error"
         | _ => Error(Js.Nullable.toOption(jsProps##error))
         },
-      ~postSlug=jsProps##params##splat,
+      ~postSlug=jsProps##params##postSlug,
       [||],
     )
   );

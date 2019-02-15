@@ -1,3 +1,5 @@
+open Belt;
+
 [@bs.val] external encodeURIComponent: string => string = "";
 
 let encodeURI = uri => encodeURIComponent(uri);
@@ -21,3 +23,9 @@ let tagifyChar = c =>
   };
 
 let tagifyString = string => stringMapPartial(tagifyChar, string);
+
+let hasEdges = a =>
+  a
+  ->Option.flatMap(p => p##edges)
+  ->Option.map(edges => edges->Array.length > 0)
+  ->Option.getWithDefault(false);

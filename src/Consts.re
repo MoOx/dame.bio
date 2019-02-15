@@ -4,12 +4,18 @@ let title = {j|D'Âme Bio|j};
 let titleTemplateHome = title ++ {j| - %s|j};
 let titleTemplate = {j|%s - |j} ++ title;
 
-type menuLink = {
+type tabBarLink = {
   link: string,
   text: string,
   icon:
     (~width: float, ~height: float, ~fill: string, unit) =>
     ReasonReact.reactElement,
+  isActive: (string, string) => bool,
+};
+
+type menuLink = {
+  link: string,
+  text: string,
   isActive: (string, string) => bool,
 };
 
@@ -48,7 +54,16 @@ let commonLinks = [|
   },
 |];
 
-let menuLinks = commonLinks;
+let menuLinks =
+  commonLinks
+  ->Array.map(l => {link: l.link, text: l.text, isActive: l.isActive})
+  ->Array.concat([|
+      {
+        link: "/a-propos/",
+        text: {j|À propos|j},
+        isActive: (current, link) => current == link,
+      },
+    |]);
 
 let tabBarLinks =
   [|
