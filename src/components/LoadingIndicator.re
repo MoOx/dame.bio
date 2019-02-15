@@ -8,5 +8,7 @@ let component = ReasonReact.statelessComponent("LoadingIndicator");
 let make = _children => {
   ...component,
   render: _self =>
-    <SpacedView vertical=XXL> <ActivityIndicator size=`large /> </SpacedView>,
+    <SpacedView vertical=XXL horizontal=None>
+      <ActivityIndicator size=`large />
+    </SpacedView>,
 };

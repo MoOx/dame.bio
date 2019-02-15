@@ -31,9 +31,10 @@ let make = _children => {
         )
       />
       <SpacedView
-        vertical=M style=Style.(style([flex(1.), alignItems(Center)]))>
+        horizontal=None style=Style.(style([flex(1.), alignItems(Center)]))>
         <SpacedView
           horizontal=XS
+          vertical=None
           style=Style.(
             style([
               width(Pct(100.)),

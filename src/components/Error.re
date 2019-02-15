@@ -30,7 +30,7 @@ let make = (~label, _) => {
       | None => "Une erreur est survenue"
       | Some(label) => label
       };
-    <SpacedView vertical=XXL>
+    <SpacedView vertical=XXL horizontal=None>
       <Text style=styles##oops> "Ouuuups!"->ReasonReact.string </Text>
       <View>
         <Text style=styles##title>

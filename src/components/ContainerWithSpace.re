@@ -29,7 +29,7 @@ let make = (~wrapperStyle=?, ~style=?, children) => {
         }
       }>
       <SpacedView
-        horizontal=M
+        vertical=None
         style={
           switch (style) {
           | None => styles##container

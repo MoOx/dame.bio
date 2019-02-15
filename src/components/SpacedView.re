@@ -17,8 +17,8 @@ type size =
 
 let make =
     (
-      ~vertical=None,
-      ~horizontal=None,
+      ~vertical=M,
+      ~horizontal=M,
       ~style=Style.style([]),
       ~pointerEvents=`auto,
       ~onMouseEnter=?,

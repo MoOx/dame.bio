@@ -17,7 +17,7 @@ let make = (~edges, _) => {
   ...component,
   render: _self =>
     /* SpacedView for PostPreview background effect that overflow out of its container */
-    <SpacedView vertical=S style=styles##list>
+    <SpacedView vertical=S horizontal=None style=styles##list>
       {edges
        ->Array.mapWithIndex((index, edge) =>
            edge
