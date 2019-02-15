@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 let styles =
@@ -10,6 +11,15 @@ let styles =
           /* For the image on small screen */
           overflow(Hidden),
         ]),
+      "content": style([alignItems(Center)]),
+      "block": style([flexBasis(Pt(200.))]),
+      "link":
+        style([
+          color(String(Consts.Colors.darkGrey)),
+          paddingVertical(Pt(Spacer.space /. 2.)),
+        ]),
+      "copyright":
+        style([color(String(Consts.Colors.darkGrey)), fontWeight(`_300)]),
       "image": style([alignSelf(Center)]),
     },
   );
@@ -26,8 +36,47 @@ let make = _children => {
     <View style=styles##container>
       <Spacer size=XL />
       <InstagramFeed />
-      <Container />
-      <Spacer size=XL />
+      <Spacer size=L />
+      <View style=styles##content>
+        <Container>
+          <SpacedView>
+            <SVGDameBioLogo
+              fill=Consts.Colors.alt
+              width={20. *. 2.0}
+              height={28. *. 2.0}
+            />
+          </SpacedView>
+          <SpacedView style=styles##block>
+            <TextLink style=styles##link href="/contact/">
+              {j|Contact|j}->ReasonReact.string
+            </TextLink>
+            <TextLink style=styles##link href="/a-propos/">
+              {j|À propos|j}->ReasonReact.string
+            </TextLink>
+            <TextLink style=styles##link href="/mentions-legales/">
+              {j|Mentions légales|j}->ReasonReact.string
+            </TextLink>
+          </SpacedView>
+          <SpacedView style=styles##block>
+            {Consts.socialLinks
+             ->Array.map(item =>
+                 <TextLink
+                   style=styles##link
+                   key={item.link}
+                   href={item.link}
+                   accessibilityLabel={item.text}>
+                   item.title->ReasonReact.string
+                 </TextLink>
+               )
+             ->ReasonReact.array}
+          </SpacedView>
+        </Container>
+        <Spacer size=L />
+        <Text style=styles##copyright>
+          {j|Copyright © 2009 D'Âme Bio. Tous droits réservés.|j}
+          ->ReasonReact.string
+        </Text>
+      </View>
       <Image
         style=styles##image
         source={`URI(Image.(imageURISource(~uri, ~width, ~height, ())))}

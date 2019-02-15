@@ -77,6 +77,7 @@ let tabBarLinks =
   ->Array.concat(commonLinks);
 
 type socialLink = {
+  title: string,
   text: string,
   link: string,
   componentFunc:
@@ -85,24 +86,28 @@ type socialLink = {
 
 let socialLinks = [|
   {
+    title: "Instagram",
     text: "@Damebio sur Instagram",
     link: "https://www.instagram.com/dame.bio/",
     componentFunc: (~iconColor, ~iconSize) =>
       <SVGSocialInstagram fill=iconColor width=iconSize height=iconSize />,
   },
   {
+    title: "Pinterest",
     text: "@Damebio sur Pinterest",
     link: "https://www.pinterest.com/damebio/",
     componentFunc: (~iconColor, ~iconSize) =>
       <SVGSocialPinterest fill=iconColor width=iconSize height=iconSize />,
   },
   {
+    title: "Twitter",
     text: "@Damebio sur Twitter",
     link: "https://twitter.com/damebio/",
     componentFunc: (~iconColor, ~iconSize) =>
       <SVGSocialTwitter fill=iconColor width=iconSize height=iconSize />,
   },
   {
+    title: "Facebook",
     text: "@Damebio sur Facebook",
     link: "https://www.facebook.com/Damebio/",
     componentFunc: (~iconColor, ~iconSize) =>
@@ -116,6 +121,7 @@ module Colors = {
   let light = "hsl(219.1, 100%, 99%)";
   let lightest = "hsl(219.1, 100%, 99.5%)";
   let lightGrey = "#ebebeb";
+  let darkGrey = "#666";
   let grey = "#909192";
   let tabBarIconInactive = "#909192";
   let tabBarIconActive = "#FD2E55";
