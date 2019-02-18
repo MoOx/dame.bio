@@ -9,7 +9,7 @@ let make = (~currentLocation, _children) => {
       wrapperStyle=Style.(
         style([backgroundColor(String(Consts.Colors.main))])
       )
-      style=Style.(style([alignItems(Center)]))>
+      style=Style.(style([justifyContent(SpaceBetween), width(Pct(100.))]))>
       <View style=Style.(style([alignItems(Center), flexDirection(Row)]))>
         <TextLink href="/">
           <SVGDameBioLogo
@@ -21,7 +21,18 @@ let make = (~currentLocation, _children) => {
         <Spacer />
         <HeaderMenuLinks currentLocation />
       </View>
-      <View style=Style.(style([alignItems(Center), flexDirection(Row)]))>
+      <SpacedView
+        vertical=XS
+        horizontal=None
+        style=Style.(
+          style([
+            flexGrow(1.),
+            flexShrink(1.),
+            alignItems(Center),
+            justifyContent(FlexEnd),
+            flexDirection(Row),
+          ])
+        )>
         <SocialIcons
           wrapperStyle=Style.(
             style([alignItems(Center), flexDirection(Row)])
@@ -37,21 +48,6 @@ let make = (~currentLocation, _children) => {
         />
         <Spacer size=S />
         <SearchForm />
-      </View>
+      </SpacedView>
     </ContainerWithSpace>,
-  /* <View
-       style=styles##row>
-        <ViewLink style=styles##link href="/a-propos">
-          {ReasonReact.string({j|À Propos|j})}
-        </ViewLink>
-        <ViewLink style=styles##link href="/univers">
-          {ReasonReact.string({j|Univers du site|j})}
-        </ViewLink>
-        <ViewLink style=styles##link href="/colibri">
-          {ReasonReact.string({j|Un colibri en action|j})}
-        </ViewLink>
-        <ViewLink style=styles##link href="/contact">
-          {ReasonReact.string({j|Contact|j})}
-        </ViewLink>
-     </View> */
 };
