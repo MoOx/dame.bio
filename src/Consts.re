@@ -19,7 +19,7 @@ type menuLink = {
   isActive: (string, string) => bool,
 };
 
-let commonLinks = [|
+let categoriesLinks = [|
   {
     link: "/alimentation/",
     text: {j|Alimentation|j},
@@ -55,7 +55,7 @@ let commonLinks = [|
 |];
 
 let menuLinks =
-  commonLinks
+  categoriesLinks
   ->Array.map(l => {link: l.link, text: l.text, isActive: l.isActive})
   ->Array.concat([|
       {
@@ -74,7 +74,7 @@ let tabBarLinks =
       isActive: (current, link) => current == link,
     },
   |]
-  ->Array.concat(commonLinks);
+  ->Array.concat(categoriesLinks);
 
 type socialLink = {
   title: string,
