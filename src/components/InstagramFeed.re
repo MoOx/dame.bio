@@ -84,10 +84,10 @@ let styles =
 
 let fetchData = (success, failure) =>
   Js.Promise.(
-    Fetch.fetch(
+    Utils.fetchJsonp(
       "https://api.instagram.com/v1/users/2129304591/media/recent?access_token=2129304591.6e128d6.673b14118bd848028911564d7001ffe0&count=10",
     )
-    |> then_(response => Fetch.Response.json(response))
+    |> then_(Fetch.Response.json)
     |> then_(json => Obj.magic(json)##data |> success |> resolve)
     |> catch(err => {
          Js.log(err);
@@ -120,7 +120,9 @@ let make = _children => {
     <View>
       {switch (state.error) {
        | None => ReasonReact.null
-       | Some(error) => <Text> error->ReasonReact.string </Text>
+       | Some(error) =>
+         Js.log2("Instagram", error);
+         ReasonReact.null;
        }}
       {switch (state.items) {
        | None => ReasonReact.null
