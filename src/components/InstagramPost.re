@@ -3,13 +3,7 @@ open BsReactNative;
 let styles =
   StyleSheet.create(
     Style.{
-      "block":
-        style([
-          position(Relative),
-          flex(1.),
-          width(Pt(293.)),
-          height(Pt(293.)),
-        ]),
+      "block": style([position(Relative), flex(1.)]),
       "overlay":
         style([
           position(Absolute),
@@ -50,10 +44,19 @@ let make = (~item, _children) => {
     | Blur => ReasonReact.Update({focus: false})
     },
   render: ({state, send}) => {
+    let size =
+      (Dimensions.get(`window)##width->float_of_int /. 2.5)
+      ->min(293.)
+      ->max(150.);
     let uri = item##images##standard_resolution##url;
     <ViewLink
       href=item##link
-      style=styles##block
+      style=Style.(
+        concat([
+          styles##block,
+          style([width(Pt(size)), height(Pt(size))]),
+        ])
+      )
       onMouseEnter={() => send(Focus)}
       onMouseLeave={() => send(Blur)}>
       <Image

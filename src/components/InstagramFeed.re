@@ -78,9 +78,7 @@ type state = {
 let component = ReasonReact.reducerComponent("InstagramFeed");
 
 let styles =
-  StyleSheet.create(
-    Style.{"items": style([height(Pt(293.)), flexDirection(Row)])},
-  );
+  StyleSheet.create(Style.{"items": style([flexDirection(Row)])});
 
 let fetchData = (success, failure) =>
   Js.Promise.(
