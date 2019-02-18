@@ -12,7 +12,7 @@ let styles =
           overflow(Hidden),
         ]),
       "content": style([alignItems(Center)]),
-      "blocks": style([maxWidth(Pt(800.)), flexWrap(Wrap)]),
+      "blocks": style([flexGrow(1.), flexShrink(0.), maxWidth(Pt(800.))]),
       "block": style([flex(1.), flexBasis(Pt(150.))]),
       "blockTitle":
         style([

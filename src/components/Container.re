@@ -7,7 +7,8 @@ let styles =
     Style.{
       "wrapper":
         style([
-          flex(1.),
+          flexGrow(1.),
+          flexShrink(1.),
           width(Pct(100.)),
           overflow(Hidden),
           alignItems(Center),
@@ -18,7 +19,8 @@ let styles =
           flexDirection(Row),
           flexWrap(Wrap),
           justifyContent(Center),
-          flex(1.),
+          flexGrow(1.),
+          flexShrink(1.),
           width(Pct(100.)),
           maxWidth(Pt(1200.)),
         ]),
