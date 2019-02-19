@@ -68,7 +68,7 @@ let make = _children => {
       <Spacer size=XL />
       <InstagramFeed />
       <Spacer size=L />
-      <View style=styles##content>
+      <SpacedView style=styles##content>
         <Container style=styles##blocks>
           <SpacedView
             style=Style.(
@@ -128,8 +128,7 @@ let make = _children => {
           </SpacedView>
           <SpacedView style=styles##block />
         </Container>
-        <div className="device-large"> <Spacer /> </div>
-        <Spacer />
+        <div className="device-large"> <Spacer size=L /> </div>
         <ContainerLarge style=styles##footerCeption>
           <SpacedView vertical=S style=styles##footerMinitem>
             <Text style=styles##copyright>
@@ -159,16 +158,23 @@ let make = _children => {
             </Text>
           </SpacedView>
         </ContainerLarge>
-      </View>
-      <Image
-        style=styles##image
-        source={`URI(Image.(imageURISource(~uri, ~width, ~height, ())))}
-        defaultSource={
-                        `URI(
-                          Image.(defaultURISource(~uri, ~width, ~height, ())),
-                        )
-                      }
-      />
+      </SpacedView>
+      <div className="device-small"> <Spacer size=L /> </div>
+      <div
+        className="device-large"
+        style={ReactDOMRe.Style.make(~alignSelf="center", ~flex="1", ())}>
+        <Image
+          style=styles##image
+          source={`URI(Image.(imageURISource(~uri, ~width, ~height, ())))}
+          defaultSource={
+                          `URI(
+                            Image.(
+                              defaultURISource(~uri, ~width, ~height, ())
+                            ),
+                          )
+                        }
+        />
+      </div>
     </View>;
   },
 };
