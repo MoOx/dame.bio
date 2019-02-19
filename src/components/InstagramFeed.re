@@ -75,6 +75,8 @@ type state = {
   error: option(string),
 };
 
+let count = 14;
+
 let component = ReasonReact.reducerComponent("InstagramFeed");
 
 let styles =
@@ -83,7 +85,8 @@ let styles =
 let fetchData = (success, failure) =>
   Js.Promise.(
     Utils.fetchJsonp(
-      "https://api.instagram.com/v1/users/2129304591/media/recent?access_token=2129304591.6e128d6.673b14118bd848028911564d7001ffe0&count=10",
+      "https://api.instagram.com/v1/users/2129304591/media/recent?access_token=2129304591.6e128d6.673b14118bd848028911564d7001ffe0&count="
+      ++ count->string_of_int,
     )
     |> then_(Fetch.Response.json)
     |> then_(json => Obj.magic(json)##data |> success |> resolve)
