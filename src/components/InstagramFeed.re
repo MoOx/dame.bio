@@ -135,7 +135,12 @@ let make = _children => {
              (Dimensions.get(`window)##width->float_of_int /. 2.5)
              ->min(293.)
              ->max(150.);
-           <ScrollView horizontal=true pagingEnabled=true style=styles##items>
+           <ScrollView
+             horizontal=true
+             pagingEnabled=true
+             style=Style.(
+               concat([styles##items, style([height(Pt(size))])])
+             )>
              {items
               ->Array.map(item => <InstagramPost key=item##id item size />)
               ->ReasonReact.array}
