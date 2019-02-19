@@ -128,11 +128,15 @@ let make = _children => {
          switch (items) {
          | [||] => ReasonReact.null
          | _ =>
-           <ScrollView horizontal=true style=styles##items>
+           let size =
+             (Dimensions.get(`window)##width->float_of_int /. 2.5)
+             ->min(293.)
+             ->max(150.);
+           <ScrollView horizontal=true pagingEnabled=true style=styles##items>
              {items
-              ->Array.map(item => <InstagramPost key=item##id item />)
+              ->Array.map(item => <InstagramPost key=item##id item size />)
               ->ReasonReact.array}
-           </ScrollView>
+           </ScrollView>;
          }
        }}
     </View>,

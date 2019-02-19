@@ -35,7 +35,7 @@ type state = {focus: bool};
 
 let component = ReasonReact.reducerComponent("InstagramPost");
 
-let make = (~item, _children) => {
+let make = (~item, ~size, _children) => {
   ...component,
   initialState: () => {focus: false},
   reducer: (action, _) =>
@@ -44,10 +44,6 @@ let make = (~item, _children) => {
     | Blur => ReasonReact.Update({focus: false})
     },
   render: ({state, send}) => {
-    let size =
-      (Dimensions.get(`window)##width->float_of_int /. 2.5)
-      ->min(293.)
-      ->max(150.);
     let uri = item##images##standard_resolution##url;
     <ViewLink
       href=item##link
