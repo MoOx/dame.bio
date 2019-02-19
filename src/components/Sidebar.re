@@ -29,7 +29,7 @@ let styles =
 
 let make = children => {
   ...component,
-  render: _self =>
+  render: _self => {
     <View style=styles##sidebar>
       <Spacer size=M />
       <AuthorAvatar />
@@ -57,6 +57,9 @@ let make = children => {
       <Spacer size=L />
       <DonationInvite />
       <Spacer size=L />
+      <MoonPhase />
+      <Spacer size=L />
       <View> ...children </View>
-    </View>,
+    </View>;
+  },
 };
