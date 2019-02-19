@@ -120,7 +120,7 @@ let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, _) => {
       clearOptionalTimeout(state.focusTimeout);
       ReasonReact.Update({...state, focus: false});
     },
-  render: ({state, send}) => {
+  render: ({send}) => {
     let id = item##id;
     let rootCategory =
       T.getMainCategory(
@@ -191,21 +191,6 @@ let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, _) => {
                right(Pt(-15.)),
                width(Pt(723. /. 2.)),
                height(Pt(495. /. 2.)),
-             ])
-           )
-         /> :
-         ReasonReact.null}
-      {state.focus ?
-         <ImageFromUri
-           resizeMode=`stretch
-           uri="/images/watercolor-outline.png"
-           style=Style.(
-             style([
-               position(Absolute),
-               top(Pt(0.)),
-               bottom(Pt(0.)),
-               left(Pt(0.)),
-               right(Pt(0.)),
              ])
            )
          /> :
