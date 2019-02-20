@@ -69,7 +69,7 @@ module CreateComponent = (Impl: Impl) : ViewComponent => {
     ReasonReact.wrapJsForReason(
       ~reactClass=Impl.view,
       ~props=
-        Props.extendView(
+        PropsWeb.extendView(
           ~className?, // react-native-web
           ~onMouseEnter?, // react-native-web
           ~onMouseLeave?, // react-native-web
