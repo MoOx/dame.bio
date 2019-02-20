@@ -63,6 +63,8 @@ body {
     display: none;
   }
 }
+
+.ScrollViewWeb-snapToAlignment-center > div > div { scroll-snap-align: center !important }
 |j}
         ->ReasonReact.string
       </style>

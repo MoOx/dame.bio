@@ -80,7 +80,18 @@ let count = 14;
 let component = ReasonReact.reducerComponent("InstagramFeed");
 
 let styles =
-  StyleSheet.create(Style.{"items": style([flexDirection(Row)])});
+  StyleSheet.create(
+    Style.{
+      "blockTitle":
+        style([
+          fontSize(Float(12.)),
+          fontWeight(`_800),
+          color(String(Consts.Colors.grey)),
+          opacity(Float(0.75)),
+        ]),
+      "items": style([flexDirection(Row)]),
+    },
+  );
 
 let fetchData = (success, failure) =>
   Js.Promise.(
@@ -132,19 +143,28 @@ let make = _children => {
          | [||] => ReasonReact.null
          | _ =>
            let size =
-             (Dimensions.get(`window)##width->float_of_int /. 2.5)
-             ->min(293.)
-             ->max(150.);
-           <ScrollView
-             horizontal=true
-             pagingEnabled=true
-             style=Style.(
-               concat([styles##items, style([height(Pt(size))])])
-             )>
-             {items
-              ->Array.map(item => <InstagramPost key=item##id item size />)
-              ->ReasonReact.array}
-           </ScrollView>;
+             Dimensions.get(`window)##width->float_of_int->min(293.);
+
+           <View>
+             <SpacedView horizontal=XS vertical=XS>
+               <TextLink
+                 style=styles##blockTitle
+                 href="https://instagram.com/dame.bio">
+                 {j|INSTAGRAM / @damebio|j}->ReasonReact.string
+               </TextLink>
+             </SpacedView>
+             <ScrollViewWeb
+               className="ScrollViewWeb-snapToAlignment-center"
+               horizontal=true
+               pagingEnabled=true
+               style=Style.(
+                 concat([styles##items, style([height(Pt(size))])])
+               )>
+               {items
+                ->Array.map(item => <InstagramPost key=item##id item size />)
+                ->ReasonReact.array}
+             </ScrollViewWeb>
+           </View>;
          }
        }}
     </View>,
