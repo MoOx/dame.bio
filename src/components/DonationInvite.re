@@ -12,6 +12,15 @@ let styles =
           paddingBottom(Pt(20.)),
           maxWidth(Pt(400.)),
           width(Pct(100.)),
+          alignItems(Center),
+          borderRadius(6.),
+          // for radius/image inside
+          overflow(Hidden),
+          backgroundColor(String(Consts.Colors.lightest)),
+          shadowColor(String("#333333")),
+          shadowOffset(~height=4., ~width=0.),
+          shadowOpacity(0.05),
+          shadowRadius(20.),
         ]),
       "topLeft":
         style([
