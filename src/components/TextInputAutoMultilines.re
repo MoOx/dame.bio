@@ -19,12 +19,12 @@ let make =
     <TextInput
       multiline=true
       onContentSizeChange={event =>
-        /* native only https://github.com/necolas/react-native-web/issues/793 */
+        // native only https://github.com/necolas/react-native-web/issues/793
         send(UpdateHeight(event##nativeEvent##contentSize##height))}
-      onChange={() =>
+      onChange={_ =>
         switch (Platform.os()) {
         | exception (Platform.UnknownPlatform(os)) when os == "web" =>
-          /* https://github.com/necolas/react-native-web/issues/793#issuecomment-437549351 */
+          // https://github.com/necolas/react-native-web/issues/793#issuecomment-437549351
           let event = [%raw "arguments[0]"];
           send(UpdateHeight(event##nativeEvent##srcElement##scrollHeight));
         | _ => ()
