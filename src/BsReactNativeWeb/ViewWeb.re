@@ -3,9 +3,10 @@ open BsReactNative;
 module type ViewComponent = {
   let make:
     (
-      ~onMouseEnter: unit => unit=?,
-      ~onMouseLeave: unit => unit=?,
-      ~accessibilityRole: string=?,
+      ~className: string=?, // react-native-web
+      ~onMouseEnter: unit => unit=?, // react-native-web
+      ~onMouseLeave: unit => unit=?, // react-native-web
+      ~accessibilityRole: string=?, // react-native-web
       ~accessibilityLabel: string=?,
       ~accessible: bool=?,
       ~hitSlop: Types.insets=?,
@@ -40,9 +41,10 @@ module type Impl = {let view: ReasonReact.reactClass;};
 module CreateComponent = (Impl: Impl) : ViewComponent => {
   let make =
       (
-        ~onMouseEnter=?,
-        ~onMouseLeave=?,
-        ~accessibilityRole=?,
+        ~className=?, // react-native-web
+        ~onMouseEnter=?, // react-native-web
+        ~onMouseLeave=?, // react-native-web
+        ~accessibilityRole=?, // react-native-web
         ~accessibilityLabel=?,
         ~accessible=?,
         ~hitSlop=?,
@@ -68,9 +70,10 @@ module CreateComponent = (Impl: Impl) : ViewComponent => {
       ~reactClass=Impl.view,
       ~props=
         Props.extendView(
-          ~onMouseEnter?,
-          ~onMouseLeave?,
-          ~accessibilityRole?,
+          ~className?, // react-native-web
+          ~onMouseEnter?, // react-native-web
+          ~onMouseLeave?, // react-native-web
+          ~accessibilityRole?, // react-native-web
           ~accessibilityLabel?,
           ~accessible?,
           ~hitSlop?,

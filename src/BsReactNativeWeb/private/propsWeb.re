@@ -26,6 +26,7 @@ let serialize = (handlers: option(Types.touchResponderHandlers)) =>
 
 let extendView =
     (
+      ~className=?, // react-native-web
       ~onMouseEnter=?, // react-native-web
       ~onMouseLeave=?, // react-native-web
       ~accessibilityRole=?, // react-native-web
@@ -52,6 +53,7 @@ let extendView =
       moreProps,
     ) =>
   {
+    "className": className, // react-native-web
     "onMouseEnter": onMouseEnter, // react-native-web
     "onMouseLeave": onMouseLeave, // react-native-web
     "accessibilityRole": accessibilityRole, // react-native-web

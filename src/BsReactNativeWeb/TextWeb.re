@@ -3,7 +3,8 @@ open BsReactNative;
 module type TextComponent = {
   let make:
     (
-      ~accessibilityRole: string=?,
+      ~className: string=?, // react-native-web
+      ~accessibilityRole: string=?, // react-native-web
       ~accessible: bool=?,
       ~accessibilityHint: string=?,
       ~accessibilityLabel: string=?,
@@ -35,7 +36,8 @@ module type TextComponent = {
 module CreateComponent = (Impl: View.Impl) : TextComponent => {
   let make =
       (
-        ~accessibilityRole=?,
+        ~className=?, // react-native-web
+        ~accessibilityRole=?, // react-native-web
         ~accessible=?,
         ~accessibilityHint=?,
         ~accessibilityLabel=?,
@@ -60,7 +62,8 @@ module CreateComponent = (Impl: View.Impl) : TextComponent => {
     ReasonReact.wrapJsForReason(
       ~reactClass=Impl.view,
       ~props={
-        "accessibilityRole": accessibilityRole,
+        "className": className, // react-native-web
+        "accessibilityRole": accessibilityRole, // react-native-web
         "accessible": accessible,
         "accessibilityHint": accessibilityHint,
         "accessibilityLabel": accessibilityLabel,
