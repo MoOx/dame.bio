@@ -65,6 +65,60 @@ body {
 }
 
 .ScrollViewWeb-snapToAlignment-center > div > div { scroll-snap-align: center !important }
+/* wordpress post/page */
+.DameBioHtml {
+  font-size: 16px;
+  line-height: 29px;
+  color: #49443A;
+}
+.DameBioHtml a {
+  color: #3ba013;
+}
+.DameBioHtml strong {
+  font-weight: 800;
+}
+.DameBioHtml img {
+  max-width: 100%;
+}
+
+.DameBioHtml .ingredients dt,
+.DameBioHtml h2 {
+  font-weight: 800;
+  font-size: 20px;
+  margin: 40px 0 20px;
+}
+
+.DameBioHtml .ingredients dt::before,
+.DameBioHtml h2::before {
+  content: "☆  ";
+}
+
+.DameBioHtml dd { margin: 0 }
+
+.DameBioHtml .wp-block-image {
+  margin: 8% auto;
+  max-width: 90%;
+}
+
+.DameBioHtml .wp-block-image figcaption {
+  color: #555d66;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.DameBioHtml .dbtmp-element-protector-wrapper {
+  position: relative;
+  display: block;
+  margin: 0;
+}
+.DameBioHtml .dbtmp-element-protector-wrapper img {display: block;}
+.DameBioHtml .dbtmp-element-protector-overlay {position:absolute;top:0;left:0;right:0;bottom:0;}
+
+/* keep wordpress html default rendering */
+.DameBioHtml .dbComment { white-space: normal }
+.DameBioHtml .dbComment p { margin: 0; }
+.DameBioHtml .dbComment a { color: #49443A; }
 |j}
         ->ReasonReact.string
       </style>
