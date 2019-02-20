@@ -54,7 +54,7 @@ let make = (~postId, ~commentCounts, ~comments, _) => {
            <>
              <Spacer size=L />
              <Text style=styles##noComment>
-               "Aucun commentaire pour l'instant. Laissez le vôtre !"
+               {j|Aucun commentaire pour l'instant. Laissez le vôtre !|j}
                ->ReasonReact.string
              </Text>
              <Spacer size=L />
