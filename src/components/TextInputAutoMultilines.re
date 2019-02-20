@@ -8,7 +8,15 @@ type state = {height: float};
 let component = ReasonReact.reducerComponent("TextInputAutoMultilines");
 
 let make =
-    (~value, ~style, ~placeholder, ~onFocus, ~onChangeText, ~minHeight=40., _) => {
+    (
+      ~value,
+      ~style,
+      ~placeholder,
+      ~onFocus=?,
+      ~onChangeText,
+      ~minHeight=40.,
+      _,
+    ) => {
   ...component,
   initialState: () => {height: 0.},
   reducer: (action, _) =>
@@ -36,7 +44,7 @@ let make =
       ])}
       value
       placeholder
-      onFocus
       onChangeText
+      ?onFocus
     />,
 };

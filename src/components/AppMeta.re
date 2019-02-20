@@ -65,6 +65,10 @@ body {
 }
 
 .ScrollViewWeb-snapToAlignment-center > div > div { scroll-snap-align: center !important }
+
+/* until we migrate and remove contact form <form> from the page */
+.DameBioHtml .wpcf7 {display: none !important}
+
 /* wordpress post/page */
 .DameBioHtml {
   font-size: 16px;

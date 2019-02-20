@@ -8,6 +8,7 @@ import gql from "graphql-tag";
 import initApollo from "./src/init-apollo.js";
 import RoutePostsOrPage from "./src/components/RoutePostsOrPage.bs.js";
 import RoutePost from "./src/components/RoutePost.bs.js";
+import RouteContact from "./src/components/RouteContact.bs.js";
 import RouteError from "./src/components/RouteError.bs.js";
 
 let apolloClient = initApollo();
@@ -149,6 +150,7 @@ const routes = () => (
   <Router history={browserHistory}>
     <Route path="/" component={RoutePostsOrPage} />
     <Route path="/after/:cursorAfter/" component={RoutePostsOrPage} />
+    <Route path="/contact/" component={RouteContact} />
     <Route path="/tag/:tagSlug/" component={RoutePostsOrPage} />
     <Route
       path="/tag/:tagSlug/after/:cursorAfter/"
