@@ -1,17 +1,21 @@
+open BsReactNative;
+
 module type TextComponent = {
   let make:
     (
       ~accessibilityRole: string=?,
       ~accessible: bool=?,
+      ~accessibilityHint: string=?,
+      ~accessibilityLabel: string=?,
       ~allowFontScaling: bool=?,
       ~ellipsizeMode: [ | `clip | `head | `middle | `tail]=?,
       ~numberOfLines: int=?,
-      ~onLayout: BsReactNative.RNEvent.NativeLayoutEvent.t => unit=?,
+      ~onLayout: RNEvent.NativeLayoutEvent.t => unit=?,
       ~onLongPress: unit => unit=?,
       ~onPress: unit => unit=?,
-      ~pressRetentionOffset: BsReactNative.Types.insets=?,
+      ~pressRetentionOffset: Types.insets=?,
       ~selectable: bool=?,
-      ~style: BsReactNative.Style.t=?,
+      ~style: Style.t=?,
       ~testID: string=?,
       ~selectionColor: string=?,
       ~textBreakStrategy: [ | `simple | `highQuality | `balanced]=?,
@@ -28,13 +32,13 @@ module type TextComponent = {
     );
 };
 
-module type Impl = {let view: ReasonReact.reactClass;};
-
-module CreateComponent = (Impl: Impl) : TextComponent => {
+module CreateComponent = (Impl: View.Impl) : TextComponent => {
   let make =
       (
         ~accessibilityRole=?,
         ~accessible=?,
+        ~accessibilityHint=?,
+        ~accessibilityLabel=?,
         ~allowFontScaling=?,
         ~ellipsizeMode=?,
         ~numberOfLines=?,
@@ -58,15 +62,16 @@ module CreateComponent = (Impl: Impl) : TextComponent => {
       ~props={
         "accessibilityRole": accessibilityRole,
         "accessible": accessible,
+        "accessibilityHint": accessibilityHint,
+        "accessibilityLabel": accessibilityLabel,
         "allowFontScaling": allowFontScaling,
         "ellipsizeMode":
-          UtilsRN.option_map(
+          ellipsizeMode->Belt.Option.map(
             fun
             | `head => "head"
             | `middle => "middle"
             | `tail => "tail"
             | `clip => "clip",
-            ellipsizeMode,
           ),
         "numberOfLines": numberOfLines,
         "onLayout": onLayout,
@@ -78,12 +83,11 @@ module CreateComponent = (Impl: Impl) : TextComponent => {
         "testID": testID,
         "selectionColor": selectionColor,
         "textBreakStrategy":
-          UtilsRN.option_map(
+          textBreakStrategy->Belt.Option.map(
             fun
             | `simple => "simple"
             | `highQuality => "highQuality"
             | `balanced => "balanced",
-            textBreakStrategy,
           ),
         "adjustsFontSizeToFit": adjustsFontSizeToFit,
         "minimumFontScale": minimumFontScale,

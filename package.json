@@ -16,7 +16,7 @@
     "babel-plugin-react-native-web": "^0.3.3",
     "bs-fetch": "^0.3.0",
     "bs-platform": "^4.0.18",
-    "bs-react-native": "^0.10.0",
+    "bs-react-native": "https://github.com/reasonml-community/bs-react-native.git#5e2eaaa",
     "bs-webapi": "^0.13.2",
     "fetch-jsonp": "^1.1.3",
     "graphql": "^14.0.2",

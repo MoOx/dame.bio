@@ -1,8 +1,5 @@
-/*
- Basically this file
- https://github.com/reasonml-community/bs-react-native/blob/master/src/components/view.re
- with react-native-web specific props
- */
+open BsReactNative;
+
 module type ViewComponent = {
   let make:
     (
@@ -11,50 +8,22 @@ module type ViewComponent = {
       ~accessibilityRole: string=?,
       ~accessibilityLabel: string=?,
       ~accessible: bool=?,
-      ~hitSlop: BsReactNative.Types.insets=?,
+      ~hitSlop: Types.insets=?,
       ~onAccessibilityTap: unit => unit=?,
-      ~onLayout: BsReactNative.RNEvent.NativeLayoutEvent.t => unit=?,
+      ~onLayout: RNEvent.NativeLayoutEvent.t => unit=?,
       ~onMagicTap: unit => unit=?,
-      ~responderHandlers: BsReactNative.Types.touchResponderHandlers=?,
-      ~pointerEvents: [ | `auto | `none | `boxNone | `boxOnly]=?,
+      ~responderHandlers: Types.touchResponderHandlers=?,
+      ~pointerEvents: Types.pointerEvents=?,
       ~removeClippedSubviews: bool=?,
-      ~style: BsReactNative.Style.t=?,
+      ~style: Style.t=?,
       ~testID: string=?,
-      ~accessibilityComponentType: [
-                                     | `none
-                                     | `button
-                                     | `radiobutton_checked
-                                     | `radiobutton_unchecked
-                                   ]
-                                     =?,
-      ~accessibilityLiveRegion: [ | `none | `polite | `assertive]=?,
+      ~accessibilityComponentType: Types.accessibilityComponentType=?,
+      ~accessibilityLiveRegion: Types.accessibilityLiveRegion=?,
       ~collapsable: bool=?,
-      ~importantForAccessibility: [ | `auto | `yes | `no | `noHideDescendants]
-                                    =?,
+      ~importantForAccessibility: Types.importantForAccessibility=?,
       ~needsOffscreenAlphaCompositing: bool=?,
       ~renderToHardwareTextureAndroid: bool=?,
-      ~accessibilityTraits: list(
-                              [
-                                | `none
-                                | `button
-                                | `link
-                                | `header
-                                | `search
-                                | `image
-                                | `selected
-                                | `plays
-                                | `key
-                                | `text
-                                | `summary
-                                | `disabled
-                                | `frequentUpdates
-                                | `startsMedia
-                                | `adjustable
-                                | `allowsDirectInteraction
-                                | `pageTurn
-                              ],
-                            )
-                              =?,
+      ~accessibilityTraits: list(Types.accessibilityTrait)=?,
       ~accessibilityViewIsModal: bool=?,
       ~shouldRasterizeIOS: bool=?,
       array(ReasonReact.reactElement)
@@ -131,4 +100,4 @@ include CreateComponent({
   [@bs.module "react-native"] external view: ReasonReact.reactClass = "View";
 });
 
-include ResponderUtils;
+include ResponderUtilsWeb;

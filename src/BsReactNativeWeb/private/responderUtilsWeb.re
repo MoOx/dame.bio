@@ -1,5 +1,3 @@
-open BsReactNative;
-
 let responderHandlers =
     (
       ~onMoveShouldSetResponder=?,
@@ -14,7 +12,7 @@ let responderHandlers =
       ~onStartShouldSetResponderCapture=?,
       (),
     )
-    : Types.touchResponderHandlers => {
+    : BsReactNative.Types.touchResponderHandlers => {
   onMoveShouldSetResponder,
   onMoveShouldSetResponderCapture,
   onResponderGrant,
