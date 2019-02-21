@@ -100,6 +100,41 @@ RoutePostsOrPage.getAllPossibleUrls = async ({ path }) => {
         return [];
       });
   }
+
+  // /:categoryOrPageSlug/ (pages)
+  if (path === "/:categoryOrPageSlug/") {
+    return apolloClient
+      .query({
+        query: gql`
+        {
+          pages(first: ${first}, where: { status: PUBLISH }) {
+            edges {
+              node {
+                slug
+              }
+            }
+          }
+        }
+      `,
+      })
+      .then(({ data }) => {
+        return data.posts.edges
+          .map(item => {
+            try {
+              return "/" + item.node.slug + "/";
+            } catch (e) {
+              console.log(`received error ${e}`);
+              console.log(JSON.stringify(item, null, 2));
+            }
+          })
+          .filter(i => i);
+      })
+      .catch(error => {
+        console.log(`received error ${error}`);
+        return [];
+      });
+  }
+
   return [];
 };
 
