@@ -40,7 +40,7 @@ RoutePostsOrPage.getAllPossibleUrls = async ({ path }) => {
   // /:categoryOrPageSlug/after/:cursorAfter
   // /:tag
   // /:tag/after/:cursorAfter (disabled, see comment below)
-  if (path === "/:categoryOrPageSlug/after/:cursorAfter") {
+  if (path === "/:categoryOrPageSlug/after/:cursorAfter/") {
     return apolloClient
       .query({
         query: gql`
@@ -118,7 +118,7 @@ RoutePostsOrPage.getAllPossibleUrls = async ({ path }) => {
       `,
       })
       .then(({ data }) => {
-        return data.posts.edges
+        return data.pages.edges
           .map(item => {
             try {
               return "/" + item.node.slug + "/";
