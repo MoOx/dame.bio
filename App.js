@@ -1,19 +1,20 @@
-import * as React from "react";
+/* eslint-disable import/max-dependencies */
+
+import React from "react";
 import { Router, Route, browserHistory } from "react-router";
 import { AppRegistry, Dimensions } from "react-native-web";
-import { createApp } from "@phenomic/preset-react-app/lib/client";
-import { createContainer } from "@phenomic/preset-react-app/src/phenomicPresetReactApp.bs.js";
-
+import { createApp, renderApp } from "@phenomic/preset-react-app/lib/client";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import gql from "graphql-tag";
+
 import initApollo from "./src/init-apollo.js";
 import RoutePostsOrPage from "./src/components/RoutePostsOrPage.bs.js";
 import RoutePost from "./src/components/RoutePost.bs.js";
 import RouteContact from "./src/components/RouteContact.bs.js";
 import RouteError from "./src/components/RouteError.bs.js";
 
-let apolloClient = initApollo();
-
-let first = 1000;
+const apolloClient = initApollo();
+const first = 1000;
 
 // SSR pre-defined window/screen dimensions
 // choice for values has been made according to site stats
@@ -34,7 +35,11 @@ RoutePostsOrPage.getAllPossibleUrls = async ({ path }) => {
   if (path == "/") {
     return ["/"];
   }
-  // generate all possible urls from this one only
+
+  // /:categoryOrPageSlug/ (categories)
+  // /:categoryOrPageSlug/after/:cursorAfter
+  // /:tag
+  // /:tag/after/:cursorAfter (disabled, see comment below)
   if (path === "/:categoryOrPageSlug/after/:cursorAfter") {
     return apolloClient
       .query({
@@ -98,10 +103,12 @@ RoutePostsOrPage.getAllPossibleUrls = async ({ path }) => {
   return [];
 };
 
-RoutePost.getAllPossibleUrls = () => {
+// already available via page slug
+RouteContact.getAllPossibleUrls = () => {
   return [];
 };
 
+// /:categoryOrPageSlug/:postSlug/
 RoutePost.getAllPossibleUrls = async () => {
   return apolloClient
     .query({
@@ -182,6 +189,7 @@ if (module.hot) {
 // will have to double check in prod (static)
 if (typeof window !== "undefined") {
   window.addEventListener("load", () => {
+    // eslint-disable-next-line import/no-extraneous-dependencies
     require("@phenomic/plugin-renderer-react/lib/components/Link.hash.js").default(
       window.location.hash,
     );

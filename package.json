@@ -11,6 +11,7 @@
     "@svgr/cli": "^3.1.0",
     "apollo-boost": "^0.1.22",
     "b64-lite": "^1.3.1",
+    "babel-eslint": "^10.0.1",
     "babel-jest": "^21.2.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-react-native-web": "^0.3.3",
@@ -18,6 +19,11 @@
     "bs-platform": "^4.0.18",
     "bs-react-native": "https://github.com/reasonml-community/bs-react-native.git#5e2eaaa",
     "bs-webapi": "^0.13.2",
+    "eslint": "^5.14.1",
+    "eslint-config-i-am-meticulous": "^11.0.0",
+    "eslint-plugin-flowtype": "^3.4.2",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-react-native": "^3.6.0",
     "fetch-jsonp": "^1.1.3",
     "graphql": "^14.0.2",
     "graphql_ppx": "^0.2.8",
@@ -79,12 +85,21 @@
     "trailingComma": "all",
     "proseWrap": "always"
   },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": "eslint-config-i-am-meticulous/react-flow"
+  },
   "lint-staged": {
     "*.re": [
       "bsrefmt --in-place",
       "git add"
     ],
-    "*.{js,json,css,md}": [
+    "*.js": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ],
+    "*.{json,css,md}": [
       "prettier --write",
       "git add"
     ]
