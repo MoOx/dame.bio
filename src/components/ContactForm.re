@@ -133,6 +133,8 @@ let sendMessage = (messageToSend, success, failure) =>
        })
   );
 
+let formName = "contact";
+
 let component = ReasonReact.reducerComponent("ContactForm");
 
 let make = (~page=?, _children) => {
@@ -174,7 +176,10 @@ let make = (~page=?, _children) => {
       | _ =>
         let payload =
           Utils.(
-            "name"
+            "form-name"
+            ++ "="
+            ++ encodeURI(formName)
+            ++ "name"
             ++ "="
             ++ encodeURI(message.name)
             ++ "&"
@@ -257,113 +262,131 @@ let make = (~page=?, _children) => {
          </>
        | _ => ReasonReact.null
        }}
-      <View style=styles##row>
-        {page
-         ->Option.map(item =>
-             <SpacedView style=styles##page>
-               <Html content=item##content />
-             </SpacedView>
-           )
-         ->Option.getWithDefault(ReasonReact.null)}
-        <ImageBackgroundFromUri
-          style=styles##messageBox
-          resizeMode=`stretch
-          uri="/images/watercolor-square-pink.png">
-          <Spacer />
-          <View style=styles##textInputWrapper>
-            <TextInput
-              style=Style.(
-                concat([
-                  styles##textInput,
-                  switch (errors.name) {
-                  | Some(_) => styles##textInputError
-                  | None => style([])
-                  },
-                  styles##textInputName,
-                ])
-              )
-              value={message.name}
-              placeholder="Nom *"
-              onChangeText={text => {
-                User.setName(text);
-                send(MessageEdit({...message, name: text}));
-              }}
-            />
-            {switch (errors.name) {
-             | Some(message) =>
-               <Text style=styles##errorText>
-                 message->ReasonReact.string
-               </Text>
-             | None => ReasonReact.null
-             }}
-          </View>
-          <Spacer />
-          <View style=styles##textInputWrapper>
-            <TextInput
-              style=Style.(
-                concat([
-                  styles##textInput,
-                  switch (errors.email) {
-                  | Some(_) => styles##textInputError
-                  | None => style([])
-                  },
-                  styles##textInputEmail,
-                ])
-              )
-              value={message.email}
-              placeholder="Email *"
-              onChangeText={text => {
-                User.setEmail(text);
-                send(MessageEdit({...message, email: text}));
-              }}
-            />
-            {switch (errors.email) {
-             | Some(message) =>
-               <Text style=styles##errorText>
-                 message->ReasonReact.string
-               </Text>
-             | None => ReasonReact.null
-             }}
-          </View>
-          <Spacer size=S />
-          <View style={Style.concat([styles##textInputWrapper])}>
-            <TextInput
-              style=Style.(
-                concat([
-                  styles##textInput,
-                  switch (errors.content) {
-                  | Some(_) => styles##textInputError
-                  | None => style([])
-                  },
-                  styles##textInputMessage,
-                ])
-              )
-              value={message.content}
-              placeholder={j|Votre message…|j}
-              onChangeText={text =>
-                send(MessageEdit({...message, content: text}))
-              }
-              multiline=true
-              numberOfLines=8
-            />
-            {switch (errors.content) {
-             | Some(message) =>
-               <Text style=styles##errorText>
-                 message->ReasonReact.string
-               </Text>
-             | None => ReasonReact.null
-             }}
-          </View>
-          <Spacer size=XXS />
-          <TouchableOpacity
-            onPress={() => send(MessageSend(message))}
-            style=styles##buttonSend>
-            <Text style=styles##buttonSendText>
-              {j|Envoyer|j}->ReasonReact.string
-            </Text>
-          </TouchableOpacity>
-        </ImageBackgroundFromUri>
-      </View>
+      {ReactDOMRe.createElementVariadic(
+         "form",
+         ~props=
+           ReactDOMRe.objToDOMProps({
+             "name": formName,
+             "method": "post",
+             "data-netlify": "true",
+             "data-netlify-honeypot": "subject",
+           }),
+         [|
+           <View style=styles##row>
+             {page
+              ->Option.map(item =>
+                  <SpacedView style=styles##page>
+                    <Html content=item##content />
+                  </SpacedView>
+                )
+              ->Option.getWithDefault(ReasonReact.null)}
+             <ImageBackgroundFromUri
+               style=styles##messageBox
+               resizeMode=`stretch
+               uri="/images/watercolor-square-pink.png">
+               <Spacer />
+               // <input> to make netlify bots happy
+               <input type_="hidden" name="form-name" value="contact" />
+               <input type_="hidden" name="name" value="" />
+               <input type_="hidden" name="email" value="" />
+               <input type_="hidden" name="content" value="" />
+               <input type_="hidden" name="subject" value="" /> // data-netlify-honeypot
+               <View style=styles##textInputWrapper>
+                 <TextInput
+                   style=Style.(
+                     concat([
+                       styles##textInput,
+                       switch (errors.name) {
+                       | Some(_) => styles##textInputError
+                       | None => style([])
+                       },
+                       styles##textInputName,
+                     ])
+                   )
+                   value={message.name}
+                   placeholder="Nom *"
+                   onChangeText={text => {
+                     User.setName(text);
+                     send(MessageEdit({...message, name: text}));
+                   }}
+                 />
+                 {switch (errors.name) {
+                  | Some(message) =>
+                    <Text style=styles##errorText>
+                      message->ReasonReact.string
+                    </Text>
+                  | None => ReasonReact.null
+                  }}
+               </View>
+               <Spacer />
+               <View style=styles##textInputWrapper>
+                 <TextInput
+                   style=Style.(
+                     concat([
+                       styles##textInput,
+                       switch (errors.email) {
+                       | Some(_) => styles##textInputError
+                       | None => style([])
+                       },
+                       styles##textInputEmail,
+                     ])
+                   )
+                   value={message.email}
+                   placeholder="Email *"
+                   onChangeText={text => {
+                     User.setEmail(text);
+                     send(MessageEdit({...message, email: text}));
+                   }}
+                 />
+                 {switch (errors.email) {
+                  | Some(message) =>
+                    <Text style=styles##errorText>
+                      message->ReasonReact.string
+                    </Text>
+                  | None => ReasonReact.null
+                  }}
+               </View>
+               <Spacer size=S />
+               <View style={Style.concat([styles##textInputWrapper])}>
+                 <TextInput
+                   style=Style.(
+                     concat([
+                       styles##textInput,
+                       switch (errors.content) {
+                       | Some(_) => styles##textInputError
+                       | None => style([])
+                       },
+                       styles##textInputMessage,
+                     ])
+                   )
+                   value={message.content}
+                   placeholder={j|Votre message…|j}
+                   onChangeText={text =>
+                     send(MessageEdit({...message, content: text}))
+                   }
+                   multiline=true
+                   numberOfLines=8
+                 />
+                 {switch (errors.content) {
+                  | Some(message) =>
+                    <Text style=styles##errorText>
+                      message->ReasonReact.string
+                    </Text>
+                  | None => ReasonReact.null
+                  }}
+               </View>
+               <Spacer size=XXS />
+               <TouchableOpacity
+                 onPress={() => send(MessageSend(message))}
+                 style=styles##buttonSend>
+                 <Text style=styles##buttonSendText>
+                   {j|Envoyer|j}->ReasonReact.string
+                 </Text>
+               </TouchableOpacity>
+             </ImageBackgroundFromUri>
+           </View>,
+         |],
+       )}
     </View>;
   },
 };
