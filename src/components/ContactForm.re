@@ -179,6 +179,7 @@ let make = (~page=?, _children) => {
             "form-name"
             ++ "="
             ++ encodeURI(formName)
+            ++ "&"
             ++ "name"
             ++ "="
             ++ encodeURI(message.name)
