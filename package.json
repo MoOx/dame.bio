@@ -17,7 +17,7 @@
     "babel-plugin-react-native-web": "^0.3.3",
     "bs-fetch": "^0.3.0",
     "bs-platform": "^4.0.18",
-    "bs-react-native": "https://github.com/reasonml-community/bs-react-native.git#5e2eaaa",
+    "bs-react-native": "https://github.com/reasonml-community/bs-react-native.git#3a6dab336f2b7e0c3393be19c9758f9a6cdfbbe7",
     "bs-webapi": "^0.13.2",
     "eslint": "^5.14.1",
     "eslint-config-i-am-meticulous": "^11.0.0",

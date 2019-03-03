@@ -2336,9 +2336,9 @@ bs-platform@^4.0.18:
   resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-4.0.18.tgz#d17b8693ba1f714d9b27e0ddb365f2069ba4b8a0"
   integrity sha512-BwzW0iYHvREqUZIgQxJmdJrxexppLvJxYQ4LLexbhCp7uZU5DIZ5ub4ZHpkCkc8fn8bsXWc+Rrejb3csi+BoAQ==
 
-"bs-react-native@https://github.com/reasonml-community/bs-react-native.git#5e2eaaa":
+"bs-react-native@https://github.com/reasonml-community/bs-react-native.git#3a6dab336f2b7e0c3393be19c9758f9a6cdfbbe7":
   version "0.10.0"
-  resolved "https://github.com/reasonml-community/bs-react-native.git#5e2eaaa69e82ec04034cdc7d29477d5d72cb9d9c"
+  resolved "https://github.com/reasonml-community/bs-react-native.git#3a6dab336f2b7e0c3393be19c9758f9a6cdfbbe7"
 
 bs-webapi@^0.13.2:
   version "0.13.2"
