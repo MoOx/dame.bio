@@ -83,7 +83,7 @@ let noErrors = {name: None, email: None, content: None};
 type action =
   | MessageEdit(message)
   | MessageSend(message)
-  | MessageSuccess((message, Js.Json.t))
+  | MessageSuccess(message)
   | MessageError((message, errors));
 
 type messageState =
@@ -109,22 +109,16 @@ let sendMessage = (messageToSend, success, failure) =>
         (),
       ),
     )
-    |> then_(response =>
-         all2((
-           resolve(Fetch.Response.status(response)),
-           Fetch.Response.json(response),
-         ))
-       )
-    |> then_(((status, json)) => {
-         Js.log3("response", status, json);
-         json->Obj.magic->success->resolve;
-         //  if (status == 201) {
-         //    json->Obj.magic->success->resolve;
-         //  } else {
-         //    {message: "Oups, une erreur est survenue!", email: None}
-         //    ->failure
-         //    ->resolve;
-         //  }
+    |> then_(response => response->Fetch.Response.status->resolve)
+    |> then_(status => {
+         Js.log2("response", status);
+         if (status == 200) {
+           status->success->resolve;
+         } else {
+           {message: "Votre message n'a pas pu être envoyé", email: None}
+           ->failure
+           ->resolve;
+         };
        })
     |> catch(err => {
          Js.log(err);
@@ -197,13 +191,13 @@ let make = (~page=?, _children) => {
           ({send}) =>
             sendMessage(
               payload,
-              response => send(MessageSuccess((message, response))),
+              _status => send(MessageSuccess(message)),
               error => send(MessageError((message, error))),
             )
             |> ignore,
         );
       }
-    | MessageSuccess((message, _response)) =>
+    | MessageSuccess(message) =>
       ReasonReact.Update({message: Posted(message)})
     | MessageError((message, err)) =>
       ReasonReact.Update({message: Errored((message, err))})
