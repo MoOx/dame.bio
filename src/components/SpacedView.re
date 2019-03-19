@@ -19,7 +19,7 @@ let make =
     (
       ~vertical=M,
       ~horizontal=M,
-      ~style=Style.style([]),
+      ~style as s=?,
       ~pointerEvents=`auto,
       ~onMouseEnter=?,
       ~onMouseLeave=?,
@@ -28,8 +28,8 @@ let make =
   ...component,
   render: _self =>
     <ViewWeb
-      style={Style.concat([
-        Style.style(
+      style=Style.(
+        style(
           switch (vertical) {
           | XXL => [Style.paddingVertical(Pt(space *. 4.))]
           | XL => [Style.paddingVertical(Pt(space *. 3.))]
@@ -41,22 +41,24 @@ let make =
           | Custom(value) => [Style.paddingVertical(Pt(value))]
           | None => []
           },
-        ),
-        Style.style(
-          switch (horizontal) {
-          | XXL => [Style.paddingHorizontal(Pt(space *. 4.))]
-          | XL => [Style.paddingHorizontal(Pt(space *. 3.))]
-          | L => [Style.paddingHorizontal(Pt(space *. 2.))]
-          | M => [Style.paddingHorizontal(Pt(space *. 1.))]
-          | S => [Style.paddingHorizontal(Pt(space *. 3. /. 4.))]
-          | XS => [Style.paddingHorizontal(Pt(space *. 2. /. 4.))]
-          | XXS => [Style.paddingHorizontal(Pt(space *. 1. /. 4.))]
-          | Custom(value) => [Style.paddingHorizontal(Pt(value))]
-          | None => []
-          },
-        ),
-        style,
-      ])}
+        )
+        ->merge(
+            style(
+              switch (horizontal) {
+              | XXL => [Style.paddingHorizontal(Pt(space *. 4.))]
+              | XL => [Style.paddingHorizontal(Pt(space *. 3.))]
+              | L => [Style.paddingHorizontal(Pt(space *. 2.))]
+              | M => [Style.paddingHorizontal(Pt(space *. 1.))]
+              | S => [Style.paddingHorizontal(Pt(space *. 3. /. 4.))]
+              | XS => [Style.paddingHorizontal(Pt(space *. 2. /. 4.))]
+              | XXS => [Style.paddingHorizontal(Pt(space *. 1. /. 4.))]
+              | Custom(value) => [Style.paddingHorizontal(Pt(value))]
+              | None => []
+              },
+            ),
+          )
+        ->mergeOptional(s)
+      )
       pointerEvents
       ?onMouseEnter
       ?onMouseLeave>

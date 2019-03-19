@@ -1,3 +1,4 @@
+open Belt;
 open BsReactNative;
 
 let opaque = 1.;
@@ -453,16 +454,15 @@ let make = (~postId, ~parentCommentId, _children) => {
             <View style=styles##commentBox>
               <Animated.View
                 style=Style.(
-                  concat([
-                    styles##metaPreview,
-                    style([
-                      opacity(Animated(state.animated.metaPreviewOpacity)),
-                      Transform.makeAnimated(
-                        ~translateY=state.animated.metaPreviewY,
-                        (),
-                      ),
-                    ]),
-                  ])
+                  styles##metaPreview
+                  ->merge(
+                      style([
+                        opacity(Animated(state.animated.metaPreviewOpacity)),
+                        transform([
+                          translateY(Animated(state.animated.metaPreviewY)),
+                        ]),
+                      ]),
+                    )
                 )>
                 <View style=styles##row>
                   <Spacer size=S />
@@ -488,20 +488,17 @@ let make = (~postId, ~parentCommentId, _children) => {
                 <Spacer size=XXS />
               </Animated.View>
               <View
-                style={Style.concat([
-                  styles##textInputCommentRow,
-                  styles##textInputWrapper,
-                ])}>
+                style=Style.(
+                  styles##textInputCommentRow->merge(styles##textInputWrapper)
+                )>
                 <TextInputAutoMultilines
                   style=Style.(
-                    concat([
-                      styles##textInput,
-                      switch (errors.content) {
-                      | Some(_) => styles##textInputError
-                      | None => style([])
-                      },
-                      styles##textInputComment,
-                    ])
+                    styles##textInput
+                    ->mergeOptional(
+                        errors.content
+                        ->Option.map(_ => styles##textInputError),
+                      )
+                    ->merge(styles##textInputComment)
                   )
                   value={comment.content}
                   placeholder={
@@ -558,29 +555,30 @@ let make = (~postId, ~parentCommentId, _children) => {
               <Spacer size=XXS />
               <Animated.View
                 style=Style.(
-                  concat([
-                    styles##textInputs,
-                    style([
-                      opacity(Animated(state.animated.metaTextInputOpacity)),
-                      Transform.makeAnimated(
-                        ~translateY=state.animated.metaTextInputY,
-                        (),
-                      ),
-                    ]),
-                  ])
+                  styles##textInputs
+                  ->merge(
+                      style([
+                        opacity(
+                          Animated(state.animated.metaTextInputOpacity),
+                        ),
+                        transform([
+                          translateY(
+                            Animated(state.animated.metaTextInputY),
+                          ),
+                        ]),
+                      ]),
+                    )
                 )>
                 <View style=styles##row>
                   <View style=styles##textInputWrapper>
                     <TextInput
                       style=Style.(
-                        concat([
-                          styles##textInput,
-                          switch (errors.name) {
-                          | Some(_) => styles##textInputError
-                          | None => style([])
-                          },
-                          styles##textInputName,
-                        ])
+                        styles##textInput
+                        ->mergeOptional(
+                            errors.name
+                            ->Option.map(_ => styles##textInputError),
+                          )
+                        ->merge(styles##textInputName)
                       )
                       value={comment.name}
                       placeholder="Nom *"
@@ -601,14 +599,12 @@ let make = (~postId, ~parentCommentId, _children) => {
                   <View style=styles##textInputWrapper>
                     <TextInput
                       style=Style.(
-                        concat([
-                          styles##textInput,
-                          switch (errors.email) {
-                          | Some(_) => styles##textInputError
-                          | None => style([])
-                          },
-                          styles##textInputEmail,
-                        ])
+                        styles##textInput
+                        ->mergeOptional(
+                            errors.email
+                            ->Option.map(_ => styles##textInputError),
+                          )
+                        ->merge(styles##textInputEmail)
                       )
                       value={comment.email}
                       placeholder="Email *"
@@ -629,7 +625,7 @@ let make = (~postId, ~parentCommentId, _children) => {
                   <View style=styles##textInputWrapper>
                     <TextInput
                       style=Style.(
-                        concat([styles##textInput, styles##textInputUrl])
+                        styles##textInput->merge(styles##textInputUrl)
                       )
                       value={comment.url}
                       placeholder="https://site.web"

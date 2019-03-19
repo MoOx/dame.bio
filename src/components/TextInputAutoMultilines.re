@@ -10,11 +10,11 @@ let component = ReasonReact.reducerComponent("TextInputAutoMultilines");
 let make =
     (
       ~value,
-      ~style,
+      ~style as s,
       ~placeholder,
       ~onFocus=?,
       ~onChangeText,
-      ~minHeight=40.,
+      ~minHeight as minH=40.,
       _,
     ) => {
   ...component,
@@ -38,10 +38,7 @@ let make =
         | _ => ()
         }
       }
-      style={Style.concat([
-        style,
-        Style.style([Style.height(Pt(max(minHeight, state.height)))]),
-      ])}
+      style=Style.(s->merge(style([height(Pt(max(minH, state.height)))])))
       value
       placeholder
       onChangeText

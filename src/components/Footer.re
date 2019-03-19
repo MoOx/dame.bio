@@ -71,9 +71,7 @@ let make = _children => {
       <SpacedView style=styles##content>
         <Container style=styles##blocks>
           <SpacedView
-            style=Style.(
-              concat([styles##block, style([alignItems(Center)])])
-            )>
+            style=Style.(styles##block->merge(style([alignItems(Center)])))>
             <SVGDameBioLogo
               fill=Consts.Colors.alt
               width={20. *. 2.0}

@@ -58,7 +58,7 @@ let make = _ => {
         onFocus={() => send(Focus)}
         onBlur={() => send(Blur)}
         onChangeText={value => send(Edit(value))}
-        onSubmitEditing={() => send(Submit)}
+        onSubmitEditing={_ => send(Submit)}
         clearButtonMode=`always
       />
       <Text

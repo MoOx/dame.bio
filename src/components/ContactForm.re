@@ -296,14 +296,11 @@ let make = (~page=?, _children) => {
             <View style=styles##textInputWrapper>
               <TextInput
                 style=Style.(
-                  concat([
-                    styles##textInput,
-                    switch (errors.name) {
-                    | Some(_) => styles##textInputError
-                    | None => style([])
-                    },
-                    styles##textInputName,
-                  ])
+                  styles##textInput
+                  ->mergeOptional(
+                      errors.name->Option.map(_ => styles##textInputError),
+                    )
+                  ->merge(styles##textInputName)
                 )
                 value={message.name}
                 placeholder="Nom *"
@@ -324,14 +321,11 @@ let make = (~page=?, _children) => {
             <View style=styles##textInputWrapper>
               <TextInput
                 style=Style.(
-                  concat([
-                    styles##textInput,
-                    switch (errors.email) {
-                    | Some(_) => styles##textInputError
-                    | None => style([])
-                    },
-                    styles##textInputEmail,
-                  ])
+                  styles##textInput
+                  ->mergeOptional(
+                      errors.email->Option.map(_ => styles##textInputError),
+                    )
+                  ->merge(styles##textInputEmail)
                 )
                 value={message.email}
                 placeholder="Email *"
@@ -349,17 +343,14 @@ let make = (~page=?, _children) => {
                }}
             </View>
             <Spacer size=S />
-            <View style={Style.concat([styles##textInputWrapper])}>
+            <View style={styles##textInputWrapper}>
               <TextInput
                 style=Style.(
-                  concat([
-                    styles##textInput,
-                    switch (errors.content) {
-                    | Some(_) => styles##textInputError
-                    | None => style([])
-                    },
-                    styles##textInputMessage,
-                  ])
+                  styles##textInput
+                  ->mergeOptional(
+                      errors.content->Option.map(_ => styles##textInputError),
+                    )
+                  ->merge(styles##textInputMessage)
                 )
                 value={message.content}
                 placeholder={j|Votre message…|j}

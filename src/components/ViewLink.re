@@ -1,5 +1,3 @@
-open Belt;
-
 [@bs.module "./TextLink"]
 external reactClass: ReasonReact.reactClass = "default";
 
@@ -22,7 +20,7 @@ let make =
     (
       ~accessibilityLabel=?,
       ~href,
-      ~style=?,
+      ~style as s=?,
       ~activeStyle=?,
       ~onMouseEnter=?,
       ~onMouseLeave=?,
@@ -36,10 +34,8 @@ let make =
         ~href,
         ~style=
           BsReactNative.(
-            Style.concat([
-              Style.style(Style.[display(Flex), flexDirection(Column)]),
-              style->Option.getWithDefault(Style.style([])),
-            ])
+            Style.style(Style.[display(Flex), flexDirection(Column)])
+            ->Style.mergeOptional(s)
           ),
         ~activeStyle?,
         ~onMouseEnter?,

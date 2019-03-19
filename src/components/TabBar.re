@@ -54,10 +54,10 @@ let make = (~currentLocation, _children) => {
                   )}
                  <Text
                    style=Style.(
-                     concat([
-                       styles##itemText,
-                       isActive ? styles##itemTextActive : style([]),
-                     ])
+                     styles##itemText
+                     ->mergeOptional(
+                         isActive ? Some(styles##itemTextActive) : None,
+                       )
                    )>
                    item.text->ReasonReact.string
                  </Text>

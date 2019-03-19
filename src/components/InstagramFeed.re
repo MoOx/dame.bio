@@ -158,7 +158,7 @@ let make = _children => {
                horizontal=true
                pagingEnabled=true
                style=Style.(
-                 concat([styles##items, style([height(Pt(size))])])
+                 styles##items->merge(style([height(Pt(size))]))
                )>
                {items
                 ->Array.map(item => <InstagramPost key=item##id item size />)

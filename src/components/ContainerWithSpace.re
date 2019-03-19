@@ -18,25 +18,12 @@ let styles =
     },
   );
 
-let make = (~wrapperStyle=?, ~style=?, children) => {
+let make = (~wrapperStyle=?, ~style as s=?, children) => {
   ...component,
   render: _self =>
-    <View
-      style={
-        switch (wrapperStyle) {
-        | None => styles##wrapper
-        | Some(wrapperStyle) => Style.concat([styles##wrapper, wrapperStyle])
-        }
-      }>
-      <SpacedView
-        vertical=None
-        style={
-          switch (style) {
-          | None => styles##container
-          | Some(style) => Style.concat([styles##container, style])
-          }
-        }>
+    <View style=Style.(styles##wrapper->mergeOptional(wrapperStyle))>
+      <View style=Style.(styles##container->mergeOptional(s))>
         ...children
-      </SpacedView>
+      </View>
     </View>,
 };

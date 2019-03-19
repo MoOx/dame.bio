@@ -48,10 +48,7 @@ let make = (~item, ~size, _children) => {
     <ViewLink
       href=item##link
       style=Style.(
-        concat([
-          styles##block,
-          style([width(Pt(size)), height(Pt(size))]),
-        ])
+        styles##block->merge(style([width(Pt(size)), height(Pt(size))]))
       )
       onMouseEnter={() => send(Focus)}
       onMouseLeave={() => send(Blur)}>

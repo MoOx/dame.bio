@@ -32,10 +32,8 @@ let make = (~currentLocation, _children) => {
              key={item.link}
              href={item.link}
              style=Style.(
-               concat([
-                 styles##link,
-                 isActive ? styles##linkActive : style([]),
-               ])
+               styles##link
+               ->mergeOptional(isActive ? Some(styles##linkActive) : None)
              )>
              item.text->ReasonReact.string
            </TextLink>;
