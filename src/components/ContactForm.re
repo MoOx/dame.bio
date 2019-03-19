@@ -236,15 +236,6 @@ let make = (~page=?, _children) => {
     <View>
       <Heading> {j|Contact|j}->ReasonReact.string </Heading>
       <Spacer />
-      {switch (state.message) {
-       | Sent((_, _)) => <> <ActivityIndicator size=`small /> <Spacer /> </>
-       | Posted(_) =>
-         <>
-           <Text> {j|👍 Message envoyé!|j}->ReasonReact.string </Text>
-           <Spacer />
-         </>
-       | _ => ReasonReact.null
-       }}
       // <form & input> to make netlify bots happy
       {ReactDOMRe.createElementVariadic(
          "form",
@@ -275,6 +266,16 @@ let make = (~page=?, _children) => {
            )
          ->Option.getWithDefault(ReasonReact.null)}
         <View>
+          {switch (state.message) {
+           | Sent((_, _)) =>
+             <> <ActivityIndicator size=`small /> <Spacer /> </>
+           | Posted(_) =>
+             <>
+               <Text> {j|👍 Message envoyé!|j}->ReasonReact.string </Text>
+               <Spacer />
+             </>
+           | _ => ReasonReact.null
+           }}
           <noscript>
             <Text>
               {j|🚨 Veuillez |j}->ReasonReact.string
