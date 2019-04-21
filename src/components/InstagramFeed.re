@@ -153,17 +153,18 @@ let make = _children => {
                  {j|INSTAGRAM / @damebio|j}->ReasonReact.string
                </TextLink>
              </SpacedView>
-             <ScrollViewWeb
-               className="ScrollViewWeb-snapToAlignment-center"
-               horizontal=true
-               pagingEnabled=true
-               style=Style.(
-                 styles##items->merge(style([height(Pt(size))]))
-               )>
-               {items
-                ->Array.map(item => <InstagramPost key=item##id item size />)
-                ->ReasonReact.array}
-             </ScrollViewWeb>
+             <div className="ScrollView-snapToAlignment-center">
+               <ScrollView
+                 horizontal=true
+                 pagingEnabled=true
+                 style=Style.(
+                   array([|styles##items, style([height(Pt(size))])|])
+                 )>
+                 {items
+                  ->Array.map(item => <InstagramPost key=item##id item size />)
+                  ->ReasonReact.array}
+               </ScrollView>
+             </div>
            </View>;
          }
        }}

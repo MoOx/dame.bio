@@ -9,21 +9,21 @@ let styles =
     Style.{
       "wrapper": style([flex(1.), flexBasis(Pt(340.))]),
       "container":
-        Dimensions.get(`window)##width <= 500 ?
-          style([
-            flex(1.),
-            shadowColor(String("#333333")),
-            shadowOffset(~height=4., ~width=0.),
-            shadowOpacity(0.1),
-            shadowRadius(20.),
-          ]) :
-          style([
-            flex(1.),
-            shadowColor(String("#333333")),
-            shadowOffset(~height=4., ~width=0.),
-            shadowOpacity(0.05),
-            shadowRadius(20.),
-          ]),
+        Dimensions.get(`window)##width <= 500
+          ? style([
+              flex(1.),
+              shadowColor(String("#333333")),
+              shadowOffset(~height=4., ~width=0.),
+              shadowOpacity(0.1),
+              shadowRadius(20.),
+            ])
+          : style([
+              flex(1.),
+              shadowColor(String("#333333")),
+              shadowOffset(~height=4., ~width=0.),
+              shadowOpacity(0.05),
+              shadowRadius(20.),
+            ]),
       "containerContent":
         style([
           flex(1.),
@@ -165,36 +165,36 @@ let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, _) => {
       };
     };
     <SpacedView key=id style=styles##wrapper vertical=M horizontal=M>
-      {withFlowers ?
-         <ImageFromUri
-           resizeMode=`contain
-           uri="/images/preview-corner-top-left.png"
-           style=Style.(
-             style([
-               position(Absolute),
-               top(Pt(-6.)),
-               left(Pt(-10.)),
-               width(Pt(290. /. 2.)),
-               height(Pt(491. /. 2.)),
-             ])
-           )
-         /> :
-         ReasonReact.null}
-      {withWatercolorCorner ?
-         <ImageFromUri
-           resizeMode=`contain
-           uri="/images/watercolor-bottom-right.png"
-           style=Style.(
-             style([
-               position(Absolute),
-               bottom(Pt(-10.)),
-               right(Pt(-15.)),
-               width(Pt(723. /. 2.)),
-               height(Pt(495. /. 2.)),
-             ])
-           )
-         /> :
-         ReasonReact.null}
+      {withFlowers
+         ? <ImageFromUri
+             resizeMode=`contain
+             uri="/images/preview-corner-top-left.png"
+             style=Style.(
+               style([
+                 position(Absolute),
+                 top(Pt(-6.)),
+                 left(Pt(-10.)),
+                 width(Pt(290. /. 2.)),
+                 height(Pt(491. /. 2.)),
+               ])
+             )
+           />
+         : ReasonReact.null}
+      {withWatercolorCorner
+         ? <ImageFromUri
+             resizeMode=`contain
+             uri="/images/watercolor-bottom-right.png"
+             style=Style.(
+               style([
+                 position(Absolute),
+                 bottom(Pt(-10.)),
+                 right(Pt(-15.)),
+                 width(Pt(723. /. 2.)),
+                 height(Pt(495. /. 2.)),
+               ])
+             )
+           />
+         : ReasonReact.null}
       <ViewLink
         href
         style=styles##container
@@ -215,34 +215,35 @@ let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, _) => {
         vertical=M
         horizontal=M
         style=styles##actionsWrapper
-        pointerEvents=`boxNone
-        onMouseEnter={() =>
-          send(
-            WillFocus(() => Webapi.requestAnimationFrame(_ => send(Focus))),
-          )
-        }
-        onMouseLeave={() =>
-          send(
-            WillBlur(() => Webapi.requestAnimationFrame(_ => send(Blur))),
-          )
-        }>
-        <PlaceholderWithAspectRatio ratio=imageRatio />
-        <View style=styles##actions pointerEvents=`boxNone>
-          <View style=styles##action>
-            <Text style=styles##actionText> likes </Text>
-            <ButtonLike id />
+        pointerEvents=`boxNone>
+        // onMouseEnter={() =>
+        //   send(
+        //     WillFocus(() => Webapi.requestAnimationFrame(_ => send(Focus))),
+        //   )
+        // }
+        // onMouseLeave={() =>
+        //   send(
+        //     WillBlur(() => Webapi.requestAnimationFrame(_ => send(Blur))),
+        //   )
+        // }
+
+          <PlaceholderWithAspectRatio ratio=imageRatio />
+          <View style=styles##actions pointerEvents=`boxNone>
+            <View style=styles##action>
+              <Text style=styles##actionText> likes </Text>
+              <ButtonLike id />
+            </View>
+            <Text> "    "->ReasonReact.string </Text>
+            <ViewLink style=styles##action href={href ++ "#comments"}>
+              <SVGSpeechBubbleOutline
+                fill=ButtonLike.defaultColor
+                width=ButtonLike.defaultSize
+                height=ButtonLike.defaultSize
+              />
+              <Text style=styles##actionText> comments </Text>
+            </ViewLink>
           </View>
-          <Text> "    "->ReasonReact.string </Text>
-          <ViewLink style=styles##action href={href ++ "#comments"}>
-            <SVGSpeechBubbleOutline
-              fill=ButtonLike.defaultColor
-              width=ButtonLike.defaultSize
-              height=ButtonLike.defaultSize
-            />
-            <Text style=styles##actionText> comments </Text>
-          </ViewLink>
-        </View>
-      </SpacedView>
+        </SpacedView>
     </SpacedView>;
   },
 };

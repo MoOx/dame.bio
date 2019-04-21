@@ -51,12 +51,12 @@ let make = (~name=?, ~url=?, _) => {
   render: _self =>
     <View
       style=Style.(
-        styles##avatar
-        ->mergeOptional(
-            name->Option.map(name =>
-              style([backgroundColor(String(notSoRandomColor(name)))])
-            ),
-          )
+        arrayOption([|
+          Some(styles##avatar),
+          name->Option.map(name =>
+            style([backgroundColor(String(notSoRandomColor(name)))])
+          ),
+        |])
       )>
       {switch (name) {
        | Some(name) when String.length(name) > 1 =>

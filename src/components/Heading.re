@@ -19,8 +19,8 @@ let component = ReasonReact.statelessComponent("Heading");
 let make = children => {
   ...component,
   render: _self => {
-    <TextWeb style=styles##title accessibilityRole="heading">
+    <Text style=styles##title /*accessibilityRole=`header*/>
       ...children
-    </TextWeb>;
+    </Text>;
   },
 };

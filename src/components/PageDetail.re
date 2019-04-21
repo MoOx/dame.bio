@@ -52,7 +52,7 @@ let component = ReasonReact.statelessComponent("PageDetail");
 let make = (~item, _) => {
   ...component,
   render: _self => {
-    <ViewWeb style=styles##block accessibilityRole="article">
+    <View style=styles##block /*accessibilityRole=`webAriaArticle*/>
       <Heading>
         <span
           dangerouslySetInnerHTML={
@@ -62,6 +62,6 @@ let make = (~item, _) => {
       </Heading>
       <Spacer />
       <SpacedView> <Html content=item##content /> </SpacedView>
-    </ViewWeb>;
+    </View>;
   },
 };

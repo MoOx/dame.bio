@@ -67,7 +67,7 @@ let styles =
     },
   );
 
-let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
+let make = (~comment, ~separator, ~canReply, ~onReply=_ => (), _) => {
   ...component,
   render: _self => {
     let name =
@@ -114,15 +114,15 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
         <Spacer size=XS />
         <View style=styles##commentTextContainer>
           <View style=styles##commentMeta>
-            {String.length(url) > 0 ?
-               <ViewLink style=styles##commentAuthor href=url>
-                 <Text style=styles##commentAuthorText>
+            {String.length(url) > 0
+               ? <ViewLink style=styles##commentAuthor href=url>
+                   <Text style=styles##commentAuthorText>
+                     name->ReasonReact.string
+                   </Text>
+                 </ViewLink>
+               : <Text style=styles##commentAuthor>
                    name->ReasonReact.string
-                 </Text>
-               </ViewLink> :
-               <Text style=styles##commentAuthor>
-                 name->ReasonReact.string
-               </Text>}
+                 </Text>}
             {switch (comment##author) {
              | Some(`User(a)) when a##userId->Option.getWithDefault(0) == 2 =>
                <>
@@ -147,13 +147,13 @@ let make = (~comment, ~separator, ~canReply, ~onReply=() => (), _) => {
                ++ {j|  ·  |j}
                |> ReasonReact.string}
             </Text>
-            {canReply ?
-               <TouchableOpacity onPress=onReply>
-                 <Text style=styles##commentDate>
-                   {j|Répondre|j}->ReasonReact.string
-                 </Text>
-               </TouchableOpacity> :
-               ReasonReact.null}
+            {canReply
+               ? <TouchableOpacity onPress=onReply>
+                   <Text style=styles##commentDate>
+                     {j|Répondre|j}->ReasonReact.string
+                   </Text>
+                 </TouchableOpacity>
+               : ReasonReact.null}
           </View>
           <Text style=styles##commentContent>
             <div

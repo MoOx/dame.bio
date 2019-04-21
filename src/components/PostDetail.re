@@ -77,7 +77,7 @@ let make = (~item, _) => {
       | v => ("  " ++ v->string_of_int)->ReasonReact.string
       };
     };
-    <ViewWeb style=styles##block accessibilityRole="article">
+    <View style=styles##block /*accessibilityRole=`webAriaArticle*/>
       <Heading>
         <span
           dangerouslySetInnerHTML={
@@ -183,6 +183,6 @@ let make = (~item, _) => {
           />
         }
       </ViewportObserver>
-    </ViewWeb>;
+    </View>;
   },
 };

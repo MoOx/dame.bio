@@ -296,11 +296,11 @@ let make = (~page=?, _children) => {
             <View style=styles##textInputWrapper>
               <TextInput
                 style=Style.(
-                  styles##textInput
-                  ->mergeOptional(
-                      errors.name->Option.map(_ => styles##textInputError),
-                    )
-                  ->merge(styles##textInputName)
+                  arrayOption([|
+                    Some(styles##textInput),
+                    errors.name->Option.map(_ => styles##textInputError),
+                    Some(styles##textInputName),
+                  |])
                 )
                 value={message.name}
                 placeholder="Nom *"
@@ -321,11 +321,11 @@ let make = (~page=?, _children) => {
             <View style=styles##textInputWrapper>
               <TextInput
                 style=Style.(
-                  styles##textInput
-                  ->mergeOptional(
-                      errors.email->Option.map(_ => styles##textInputError),
-                    )
-                  ->merge(styles##textInputEmail)
+                  arrayOption([|
+                    Some(styles##textInput),
+                    errors.email->Option.map(_ => styles##textInputError),
+                    Some(styles##textInputEmail),
+                  |])
                 )
                 value={message.email}
                 placeholder="Email *"
@@ -346,11 +346,11 @@ let make = (~page=?, _children) => {
             <View style={styles##textInputWrapper}>
               <TextInput
                 style=Style.(
-                  styles##textInput
-                  ->mergeOptional(
-                      errors.content->Option.map(_ => styles##textInputError),
-                    )
-                  ->merge(styles##textInputMessage)
+                  arrayOption([|
+                    Some(styles##textInput),
+                    errors.content->Option.map(_ => styles##textInputError),
+                    Some(styles##textInputMessage),
+                  |])
                 )
                 value={message.content}
                 placeholder={j|Votre message…|j}
@@ -370,7 +370,7 @@ let make = (~page=?, _children) => {
             </View>
             <Spacer size=XXS />
             <TouchableOpacity
-              onPress={() => send(MessageSend(message))}
+              onPress={_ => send(MessageSend(message))}
               style=styles##buttonSend>
               <Text style=styles##buttonSendText>
                 {j|Envoyer|j}->ReasonReact.string

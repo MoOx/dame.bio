@@ -22,7 +22,7 @@ let rec make = (~comment, ~postId, ~parentCommentId: int, ~comments, _) => {
         comment
         separator={comment##parent->Option.isNone}
         canReply=true
-        onReply={() => send(Reply) |> ignore}
+        onReply={_ => send(Reply) |> ignore}
       />
       {switch (state) {
        | None => ReasonReact.null
@@ -40,22 +40,22 @@ let rec make = (~comment, ~postId, ~parentCommentId: int, ~comments, _) => {
              comment##parent
              ->Option.flatMap(p => p##commentId)
              ->Option.getWithDefault(0)
-             == parentCommentId ?
-               ReasonReact.element(
-                 ~key=
-                   string_of_int(
-                     comment##commentId->Option.getWithDefault(index),
+             == parentCommentId
+               ? ReasonReact.element(
+                   ~key=
+                     string_of_int(
+                       comment##commentId->Option.getWithDefault(index),
+                     ),
+                   make(
+                     ~comment,
+                     ~postId,
+                     ~comments,
+                     ~parentCommentId=
+                       comment##commentId->Option.getWithDefault(0),
+                     [||],
                    ),
-                 make(
-                   ~comment,
-                   ~postId,
-                   ~comments,
-                   ~parentCommentId=
-                     comment##commentId->Option.getWithDefault(0),
-                   [||],
-                 ),
-               ) :
-               ReasonReact.null
+                 )
+               : ReasonReact.null
            )
          )
        ->ReasonReact.array}

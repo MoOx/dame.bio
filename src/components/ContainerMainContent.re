@@ -13,7 +13,6 @@ let styles =
 let make = children => {
   ...component,
   render: _self =>
-    <ViewWeb accessibilityRole="main" style=styles##container>
-      ...children
-    </ViewWeb>,
+    /*accessibilityRole=`webAriaMain*/
+    <View style=styles##container> ...children </View>,
 };

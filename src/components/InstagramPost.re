@@ -48,7 +48,10 @@ let make = (~item, ~size, _children) => {
     <ViewLink
       href=item##link
       style=Style.(
-        styles##block->merge(style([width(Pt(size)), height(Pt(size))]))
+        array([|
+          styles##block,
+          style([width(Pt(size)), height(Pt(size))]),
+        |])
       )
       onMouseEnter={() => send(Focus)}
       onMouseLeave={() => send(Blur)}>
@@ -56,21 +59,21 @@ let make = (~item, ~size, _children) => {
         style=styles##block
         source={`URI(Image.(imageURISource(~uri, ())))}
       />
-      {state.focus ?
-         <View style=styles##overlay>
-           <SVGFavorite fill="#fff" width=19. height=19. />
-           <Text style=styles##overlayText>
-             " "->ReasonReact.string
-             {string_of_int(item##likes##count)->ReasonReact.string}
-             "      "->ReasonReact.string
-           </Text>
-           <SVGSpeechBubbleRight fill="#fff" width=19. height=19. />
-           <Text style=styles##overlayText>
-             " "->ReasonReact.string
-             {string_of_int(item##comments##count)->ReasonReact.string}
-           </Text>
-         </View> :
-         ReasonReact.null}
+      {state.focus
+         ? <View style=styles##overlay>
+             <SVGFavorite fill="#fff" width=19. height=19. />
+             <Text style=styles##overlayText>
+               " "->ReasonReact.string
+               {string_of_int(item##likes##count)->ReasonReact.string}
+               "      "->ReasonReact.string
+             </Text>
+             <SVGSpeechBubbleRight fill="#fff" width=19. height=19. />
+             <Text style=styles##overlayText>
+               " "->ReasonReact.string
+               {string_of_int(item##comments##count)->ReasonReact.string}
+             </Text>
+           </View>
+         : ReasonReact.null}
     </ViewLink>;
   },
 };

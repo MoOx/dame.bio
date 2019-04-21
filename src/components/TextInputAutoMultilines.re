@@ -38,7 +38,9 @@ let make =
         | _ => ()
         }
       }
-      style=Style.(s->merge(style([height(Pt(max(minH, state.height)))])))
+      style=Style.(
+        array([|s, style([height(Pt(max(minH, state.height)))])|])
+      )
       value
       placeholder
       onChangeText

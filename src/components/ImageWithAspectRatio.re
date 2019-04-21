@@ -23,7 +23,10 @@ let make = (~uri, ~ratio, ~style as s=?, _) => {
   render: _self =>
     <View style=styles##imageContainer>
       <PlaceholderWithAspectRatio ratio>
-        <ImageFromUri style=Style.(styles##image->mergeOptional(s)) uri />
+        <ImageFromUri
+          style=Style.(arrayOption([|Some(styles##image), s|]))
+          uri
+        />
       </PlaceholderWithAspectRatio>
     </View>,
 };

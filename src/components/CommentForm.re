@@ -454,29 +454,29 @@ let make = (~postId, ~parentCommentId, _children) => {
             <View style=styles##commentBox>
               <Animated.View
                 style=Style.(
-                  styles##metaPreview
-                  ->merge(
-                      style([
-                        opacity(Animated(state.animated.metaPreviewOpacity)),
-                        transform([
-                          translateY(Animated(state.animated.metaPreviewY)),
-                        ]),
+                  array([|
+                    styles##metaPreview,
+                    style([
+                      opacity(Animated(state.animated.metaPreviewOpacity)),
+                      transform([
+                        translateY(Animated(state.animated.metaPreviewY)),
                       ]),
-                    )
+                    ]),
+                  |])
                 )>
                 <View style=styles##row>
                   <Spacer size=S />
-                  {String.length(comment.url) > 0 ?
-                     <ViewLink href={comment.url}>
-                       <Text style=styles##metaPreviewName>
+                  {String.length(comment.url) > 0
+                     ? <ViewLink href={comment.url}>
+                         <Text style=styles##metaPreviewName>
+                           comment.name->ReasonReact.string
+                         </Text>
+                       </ViewLink>
+                     : <Text style=styles##metaPreviewName>
                          comment.name->ReasonReact.string
-                       </Text>
-                     </ViewLink> :
-                     <Text style=styles##metaPreviewName>
-                       comment.name->ReasonReact.string
-                     </Text>}
+                       </Text>}
                   <TouchableOpacity
-                    onPress={() =>
+                    onPress={_ =>
                       send(CommentEdit({...comment, editMeta: true}))
                     }>
                     <Text style=styles##metaPreviewEdit>
@@ -489,23 +489,25 @@ let make = (~postId, ~parentCommentId, _children) => {
               </Animated.View>
               <View
                 style=Style.(
-                  styles##textInputCommentRow->merge(styles##textInputWrapper)
+                  array([|
+                    styles##textInputCommentRow,
+                    styles##textInputWrapper,
+                  |])
                 )>
                 <TextInputAutoMultilines
                   style=Style.(
-                    styles##textInput
-                    ->mergeOptional(
-                        errors.content
-                        ->Option.map(_ => styles##textInputError),
-                      )
-                    ->merge(styles##textInputComment)
+                    arrayOption([|
+                      Some(styles##textInput),
+                      errors.content->Option.map(_ => styles##textInputError),
+                      Some(styles##textInputComment),
+                    |])
                   )
                   value={comment.content}
                   placeholder={
                     "Ajouter un commentaire "
                     ++ (
-                      !comment.editMeta && String.length(comment.name) > 0 ?
-                        "en tant que " ++ comment.name : ""
+                      !comment.editMeta && String.length(comment.name) > 0
+                        ? "en tant que " ++ comment.name : ""
                     )
                     ++ "..."
                   }
@@ -555,30 +557,25 @@ let make = (~postId, ~parentCommentId, _children) => {
               <Spacer size=XXS />
               <Animated.View
                 style=Style.(
-                  styles##textInputs
-                  ->merge(
-                      style([
-                        opacity(
-                          Animated(state.animated.metaTextInputOpacity),
-                        ),
-                        transform([
-                          translateY(
-                            Animated(state.animated.metaTextInputY),
-                          ),
-                        ]),
+                  array([|
+                    styles##textInputs,
+                    style([
+                      opacity(Animated(state.animated.metaTextInputOpacity)),
+                      transform([
+                        translateY(Animated(state.animated.metaTextInputY)),
                       ]),
-                    )
+                    ]),
+                  |])
                 )>
                 <View style=styles##row>
                   <View style=styles##textInputWrapper>
                     <TextInput
                       style=Style.(
-                        styles##textInput
-                        ->mergeOptional(
-                            errors.name
-                            ->Option.map(_ => styles##textInputError),
-                          )
-                        ->merge(styles##textInputName)
+                        arrayOption([|
+                          Some(styles##textInput),
+                          errors.name->Option.map(_ => styles##textInputError),
+                          Some(styles##textInputName),
+                        |])
                       )
                       value={comment.name}
                       placeholder="Nom *"
@@ -599,12 +596,12 @@ let make = (~postId, ~parentCommentId, _children) => {
                   <View style=styles##textInputWrapper>
                     <TextInput
                       style=Style.(
-                        styles##textInput
-                        ->mergeOptional(
-                            errors.email
-                            ->Option.map(_ => styles##textInputError),
-                          )
-                        ->merge(styles##textInputEmail)
+                        arrayOption([|
+                          Some(styles##textInput),
+                          errors.email
+                          ->Option.map(_ => styles##textInputError),
+                          Some(styles##textInputEmail),
+                        |])
                       )
                       value={comment.email}
                       placeholder="Email *"
@@ -625,7 +622,7 @@ let make = (~postId, ~parentCommentId, _children) => {
                   <View style=styles##textInputWrapper>
                     <TextInput
                       style=Style.(
-                        styles##textInput->merge(styles##textInputUrl)
+                        array([|styles##textInput, styles##textInputUrl|])
                       )
                       value={comment.url}
                       placeholder="https://site.web"
@@ -638,7 +635,7 @@ let make = (~postId, ~parentCommentId, _children) => {
                 </View>
               </Animated.View>
               <TouchableOpacity
-                onPress={() => send(CommentSend(comment))}
+                onPress={_ => send(CommentSend(comment))}
                 style=styles##buttonSend>
                 <Text style=styles##buttonSendText>
                   "Envoyer"->ReasonReact.string

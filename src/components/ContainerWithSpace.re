@@ -21,8 +21,8 @@ let styles =
 let make = (~wrapperStyle=?, ~style as s=?, children) => {
   ...component,
   render: _self =>
-    <View style=Style.(styles##wrapper->mergeOptional(wrapperStyle))>
-      <View style=Style.(styles##container->mergeOptional(s))>
+    <View style=Style.(arrayOption([|Some(styles##wrapper), wrapperStyle|]))>
+      <View style=Style.(arrayOption([|Some(styles##container), s|]))>
         ...children
       </View>
     </View>,

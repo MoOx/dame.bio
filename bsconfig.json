@@ -19,6 +19,7 @@
     }
   ],
   "bsc-flags": ["-bs-super-errors"],
+  "ppx-flags": ["graphql_ppx/ppx"],
   "bs-dependencies": [
     "bs-webapi",
     "bs-fetch",
@@ -26,11 +27,13 @@
     "reason-future",
     "reason-react",
     "reason-apollo",
-    "bs-react-native",
+    "bs-react-native/bs-react-native",
     "@moox/bs-react-helmet",
     "@phenomic/preset-react-app",
     "@phenomic/plugin-renderer-react",
     "@phenomic/api-client"
   ],
-  "ppx-flags": ["graphql_ppx/ppx"]
+  "js-post-build": {
+    "cmd": "./node_modules/bs-react-native/git-monorepo-usage-trick"
+  }
 }

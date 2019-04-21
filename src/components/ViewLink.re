@@ -34,8 +34,16 @@ let make =
         ~href,
         ~style=
           BsReactNative.(
-            Style.style(Style.[display(Flex), flexDirection(Column)])
-            ->Style.mergeOptional(s)
+            Style.(
+              arrayOption([|
+                Some(
+                  Style.style(
+                    Style.[display(Flex), flexDirection(Column)],
+                  ),
+                ),
+                s,
+              |])
+            )
           ),
         ~activeStyle?,
         ~onMouseEnter?,

@@ -77,7 +77,7 @@ let make = _ => {
             borderBottomWidth(1.),
           ])
         )
-        onPress={() => send(Submit)}>
+        onPress={_ => send(Submit)}>
         <SVGSearch fill=Consts.Colors.light />
       </Text>
     </View>,

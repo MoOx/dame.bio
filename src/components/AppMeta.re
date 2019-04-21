@@ -64,7 +64,8 @@ body {
   }
 }
 
-.ScrollViewWeb-snapToAlignment-center > div > div { scroll-snap-align: center !important }
+/* https://github.com/necolas/react-native-web/issues/1250 */
+.ScrollView-snapToAlignment-center > div > div > div { scroll-snap-align: center !important }
 
 /* until we migrate and remove contact form <form> from the page */
 .DameBioHtml .wpcf7 {display: none !important}
