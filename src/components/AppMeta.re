@@ -75,6 +75,7 @@ body {
   font-size: 16px;
   line-height: 29px;
   color: #49443A;
+  padding: 20px;
 }
 .DameBioHtml a {
   color: #3ba013;
@@ -101,8 +102,15 @@ body {
 .DameBioHtml dd { margin: 0 }
 
 .DameBioHtml .wp-block-image {
-  margin: 8% auto;
-  max-width: 90%;
+  margin: 40px auto;
+  max-width: calc(100% - 20px * 2);
+}
+
+@media (max-width: 640px) {
+  .DameBioHtml .wp-block-image {
+    margin: 40px -20px;
+    max-width: calc(100% + 20px * 2);
+  }
 }
 
 .DameBioHtml .wp-block-image figcaption {

@@ -3,7 +3,6 @@ open BsReactNative;
 let styles =
   StyleSheet.create(
     Style.{
-      "container": style([]),
       "title":
         style([
           fontSize(Float(28.)),
@@ -22,14 +21,13 @@ let make = (~items: list(Structures.post), _) => {
     switch (items) {
     | [] => ReasonReact.null
     | _ =>
-      <View style=styles##container>
-        <View>
+      <>
+        <SpacedView>
           <Text style=styles##title>
             {j|Dans le même style|j}->ReasonReact.string
           </Text>
-        </View>
-        <Spacer size=S />
+        </SpacedView>
         <PostList posts=items />
-      </View>
+      </>
     },
 };

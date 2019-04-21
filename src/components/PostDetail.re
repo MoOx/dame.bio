@@ -9,7 +9,6 @@ let styles =
       "block":
         style([
           flex(1.),
-          padding(Pt(20.)),
           borderColor(String("#F0F0EF")),
           backgroundColor(String("#fff")),
         ]),
@@ -78,60 +77,61 @@ let make = (~item, _) => {
       };
     };
     <View style=styles##block /*accessibilityRole=`webAriaArticle*/>
-      <Heading>
-        <span
-          dangerouslySetInnerHTML={
-            "__html": item##title->Option.getWithDefault(""),
-          }
-        />
-      </Heading>
-      <View style=styles##metaRow>
-        <View style=styles##metaRowLeft>
-          <ViewLink
-            href={
-              "/"
-              ++ Utils.encodeURI(
-                   rootCategory##slug->Option.getWithDefault("_"),
+      <SpacedView>
+        <Heading>
+          <span
+            dangerouslySetInnerHTML={
+              "__html": item##title->Option.getWithDefault(""),
+            }
+          />
+        </Heading>
+        <View style=styles##metaRow>
+          <View style=styles##metaRowLeft>
+            <ViewLink
+              href={
+                "/"
+                ++ Utils.encodeURI(
+                     rootCategory##slug->Option.getWithDefault("_"),
+                   )
+                ++ "/"
+              }>
+              <Text style=styles##categoryText>
+                {String.uppercase(
+                   rootCategory##name->Option.getWithDefault(""),
                  )
-              ++ "/"
-            }>
-            <Text style=styles##categoryText>
-              {String.uppercase(
-                 rootCategory##name->Option.getWithDefault(""),
+                 ->ReasonReact.string}
+              </Text>
+            </ViewLink>
+            <Text style=styles##date>
+              {(
+                 {j|   ·   |j}
+                 ++ item##dateGmt
+                    ->Option.mapWithDefault(Js.Date.make(), d =>
+                        Js.Date.fromString(d |> Js.String.replace(" ", "T"))
+                      )
+                    ->Js.Date.toLocaleDateString
                )
                ->ReasonReact.string}
             </Text>
-          </ViewLink>
-          <Text style=styles##date>
-            {(
-               {j|   ·   |j}
-               ++ item##dateGmt
-                  ->Option.mapWithDefault(Js.Date.make(), d =>
-                      Js.Date.fromString(d |> Js.String.replace(" ", "T"))
-                    )
-                  ->Js.Date.toLocaleDateString
-             )
-             ->ReasonReact.string}
-          </Text>
-        </View>
-        <View style=styles##actions pointerEvents=`boxNone>
-          <View style=styles##action>
-            <Text style=styles##actionText> likes </Text>
-            <ButtonLike id />
           </View>
-          <Text> "    "->ReasonReact.string </Text>
-          <ViewLink style=styles##action href={href ++ "#comments"}>
-            <SVGSpeechBubbleOutline
-              fill=ButtonLike.defaultColor
-              width=ButtonLike.defaultSize
-              height=ButtonLike.defaultSize
-            />
-            <Text style=styles##actionText> comments </Text>
-          </ViewLink>
+          <View style=styles##actions pointerEvents=`boxNone>
+            <View style=styles##action>
+              <Text style=styles##actionText> likes </Text>
+              <ButtonLike id />
+            </View>
+            <Text> "    "->ReasonReact.string </Text>
+            <ViewLink style=styles##action href={href ++ "#comments"}>
+              <SVGSpeechBubbleOutline
+                fill=ButtonLike.defaultColor
+                width=ButtonLike.defaultSize
+                height=ButtonLike.defaultSize
+              />
+              <Text style=styles##actionText> comments </Text>
+            </ViewLink>
+          </View>
         </View>
-      </View>
-      <Spacer size=L />
-      <SpacedView> <Html content=item##content /> </SpacedView>
+      </SpacedView>
+      <Html content=item##content />
       <SpacedView vertical=L style=styles##tags>
         {item##tags
          ->Option.flatMap(ts => ts##nodes)
@@ -166,15 +166,16 @@ let make = (~item, _) => {
            )
          ->ReasonReact.array}
       </SpacedView>
-      <Spacer size=L />
-      <Author />
-      <Spacer size=XL />
-      <Comments
-        postId=item##postId
-        commentCounts=item##commentCount
-        comments=item##comments
-      />
-      <Spacer size=XL />
+      <Spacer />
+      <SpacedView>
+        <Author />
+        <Spacer size=L />
+        <Comments
+          postId=item##postId
+          commentCounts=item##commentCount
+          comments=item##comments
+        />
+      </SpacedView>
       <ViewportObserver>
         ...{state =>
           <PostRelatedPosts
