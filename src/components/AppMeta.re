@@ -72,10 +72,10 @@ body {
 
 /* wordpress post/page */
 .DameBioHtml {
-  font-size: 16px;
-  line-height: 29px;
-  color: #49443A;
-  padding: 20px;
+  font-size: 18px;
+  line-height: calc(18px * 1.65);
+  color: #333;
+  padding: 0 20px;
 }
 .DameBioHtml a {
   color: #3ba013;
@@ -89,9 +89,11 @@ body {
 
 .DameBioHtml .ingredients dt,
 .DameBioHtml h2 {
-  font-weight: 800;
-  font-size: 20px;
   margin: 40px 0 20px;
+  font-size: 26px;
+  line-height: 26px;
+  font-weight: 600;
+  color: #111;
 }
 
 .DameBioHtml .ingredients dt::before,
@@ -108,7 +110,7 @@ body {
 
 @media (max-width: 640px) {
   .DameBioHtml .wp-block-image {
-    margin: 40px -20px;
+    margin: 20px -20px;
     max-width: calc(100% + 20px * 2);
   }
 }

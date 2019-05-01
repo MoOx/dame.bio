@@ -5,10 +5,9 @@ let styles =
     Style.{
       "title":
         style([
-          marginBottom(Pt(10.)),
-          fontSize(Float(32.)),
-          lineHeight(32. *. 1.5),
-          color(String("#006579")),
+          fontSize(Float(40.)),
+          lineHeight(40. *. 1.2),
+          color(String("#005465")),
           fontWeight(`_300),
         ]),
     },

@@ -85,6 +85,7 @@ let make = (~item, _) => {
             }
           />
         </Heading>
+        <Spacer size=S />
         <View style=styles##metaRow>
           <View style=styles##metaRowLeft>
             <ViewLink
