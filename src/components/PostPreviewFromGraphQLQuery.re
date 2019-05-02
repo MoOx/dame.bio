@@ -5,8 +5,8 @@ let imageRatio = 240. /. 350.;
 let radius = 3.;
 
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "wrapper": style([flex(1.), flexBasis(Pt(340.))]),
       "container":
         Dimensions.get(`window)##width <= 500
@@ -78,7 +78,7 @@ let styles =
           fontSize(Float(10.)),
           color(String(ButtonLike.defaultColor)),
         ]),
-    },
+    })
   );
 
 type action =
@@ -98,152 +98,154 @@ let clearOptionalTimeout = optionalTimeoutRef =>
 
 let component = ReasonReact.reducerComponent("PostPreviewFromGraphQLQuery");
 
-let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, _) => {
-  ...component,
-  initialState: () => {focusTimeout: ref(None), focus: false},
-  reducer: (action, state) =>
-    switch (action) {
-    | WillFocus(cb) =>
-      clearOptionalTimeout(state.focusTimeout);
-      ReasonReact.SideEffects(
-        _ => state.focusTimeout := Some(Js.Global.setTimeout(cb, timing)),
-      );
-    | Focus =>
-      clearOptionalTimeout(state.focusTimeout);
-      ReasonReact.Update({...state, focus: true});
-    | WillBlur(cb) =>
-      clearOptionalTimeout(state.focusTimeout);
-      ReasonReact.SideEffects(
-        _ => state.focusTimeout := Some(Js.Global.setTimeout(cb, timing)),
-      );
-    | Blur =>
-      clearOptionalTimeout(state.focusTimeout);
-      ReasonReact.Update({...state, focus: false});
-    },
-  render: ({send}) => {
-    let id = item##id;
-    let rootCategory =
-      T.getMainCategory(
-        item##categories
-        ->Option.flatMap(cs => cs##nodes)
-        ->Option.getWithDefault([||]),
-      );
-    let href =
-      "/"
-      ++ rootCategory##slug->Option.getWithDefault("_")
-      ++ "/"
-      ++ item##slug->Option.getWithDefault(item##id)
-      ++ "/";
-    let image =
-      item##featuredImage
-      ->Option.flatMap(f => f##mediaDetails)
-      ->Option.flatMap(m => m##sizes)
-      ->Option.getWithDefault([||])
-      ->Array.keepMap(x => x)
-      ->Array.get(1)
-      ->Option.flatMap(s => s##sourceUrl)
-      ->Option.map(uri =>
-          <ImageWithAspectRatio uri style=styles##image ratio=imageRatio />
-        )
-      ->Option.getWithDefault(ReasonReact.null);
-    let category =
-      rootCategory##name
-      ->Option.getWithDefault("")
-      ->String.uppercase
-      ->ReasonReact.string;
-    let title = item##title->Option.getWithDefault("");
-    let likes = {
-      switch (item##likeCount->Option.getWithDefault(0)) {
-      | 0 => ReasonReact.null
-      | v => (v->string_of_int ++ "  ")->ReasonReact.string
-      };
-    };
-    let comments = {
-      switch (item##commentCount->Option.getWithDefault(0)) {
-      | 0 => ReasonReact.null
-      | v => ("  " ++ v->string_of_int)->ReasonReact.string
-      };
-    };
-    <SpacedView key=id style=styles##wrapper vertical=M horizontal=M>
-      {withFlowers
-         ? <ImageFromUri
-             resizeMode=`contain
-             uri="/images/preview-corner-top-left.png"
-             style=Style.(
-               style([
-                 position(Absolute),
-                 top(Pt(-6.)),
-                 left(Pt(-10.)),
-                 width(Pt(290. /. 2.)),
-                 height(Pt(491. /. 2.)),
-               ])
-             )
-           />
-         : ReasonReact.null}
-      {withWatercolorCorner
-         ? <ImageFromUri
-             resizeMode=`contain
-             uri="/images/watercolor-bottom-right.png"
-             style=Style.(
-               style([
-                 position(Absolute),
-                 bottom(Pt(-10.)),
-                 right(Pt(-15.)),
-                 width(Pt(723. /. 2.)),
-                 height(Pt(495. /. 2.)),
-               ])
-             )
-           />
-         : ReasonReact.null}
-      <ViewLink
-        href
-        style=styles##container
-        onMouseEnter={() => send(WillFocus(() => send(Focus)))}
-        onMouseLeave={() => send(WillBlur(() => send(Blur)))}>
-        <View style=styles##containerContent>
-          image
-          <SpacedView vertical=M horizontal=M style=styles##text>
-            <Text style=styles##categoryText> category </Text>
-            <Spacer size=XS />
-            <Text style=styles##titleText>
-              <span dangerouslySetInnerHTML={"__html": title} />
-            </Text>
-          </SpacedView>
-        </View>
-      </ViewLink>
-      <SpacedView
-        vertical=M
-        horizontal=M
-        style=styles##actionsWrapper
-        pointerEvents=`boxNone>
-        // onMouseEnter={() =>
-        //   send(
-        //     WillFocus(() => Webapi.requestAnimationFrame(_ => send(Focus))),
-        //   )
-        // }
-        // onMouseLeave={() =>
-        //   send(
-        //     WillBlur(() => Webapi.requestAnimationFrame(_ => send(Blur))),
-        //   )
-        // }
-
-          <PlaceholderWithAspectRatio ratio=imageRatio />
-          <View style=styles##actions pointerEvents=`boxNone>
-            <View style=styles##action>
-              <Text style=styles##actionText> likes </Text>
-              <ButtonLike id />
-            </View>
-            <Text> "    "->ReasonReact.string </Text>
-            <ViewLink style=styles##action href={href ++ "#comments"}>
-              <SVGSpeechBubbleOutline
-                fill=ButtonLike.defaultColor
-                width=ButtonLike.defaultSize
-                height=ButtonLike.defaultSize
-              />
-              <Text style=styles##actionText> comments </Text>
-            </ViewLink>
+[@react.component]
+let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, ()) =>
+  ReactCompat.useRecordApi({
+    ...component,
+    initialState: () => {focusTimeout: ref(None), focus: false},
+    reducer: (action, state) =>
+      switch (action) {
+      | WillFocus(cb) =>
+        clearOptionalTimeout(state.focusTimeout);
+        ReasonReact.SideEffects(
+          _ => state.focusTimeout := Some(Js.Global.setTimeout(cb, timing)),
+        );
+      | Focus =>
+        clearOptionalTimeout(state.focusTimeout);
+        ReasonReact.Update({...state, focus: true});
+      | WillBlur(cb) =>
+        clearOptionalTimeout(state.focusTimeout);
+        ReasonReact.SideEffects(
+          _ => state.focusTimeout := Some(Js.Global.setTimeout(cb, timing)),
+        );
+      | Blur =>
+        clearOptionalTimeout(state.focusTimeout);
+        ReasonReact.Update({...state, focus: false});
+      },
+    render: ({send}) => {
+      let id = item##id;
+      let rootCategory =
+        T.getMainCategory(
+          item##categories
+          ->Option.flatMap(cs => cs##nodes)
+          ->Option.getWithDefault([||]),
+        );
+      let href =
+        "/"
+        ++ rootCategory##slug->Option.getWithDefault("_")
+        ++ "/"
+        ++ item##slug->Option.getWithDefault(item##id)
+        ++ "/";
+      let image =
+        item##featuredImage
+        ->Option.flatMap(f => f##mediaDetails)
+        ->Option.flatMap(m => m##sizes)
+        ->Option.getWithDefault([||])
+        ->Array.keepMap(x => x)
+        ->Array.get(1)
+        ->Option.flatMap(s => s##sourceUrl)
+        ->Option.map(uri =>
+            <ImageWithAspectRatio uri style=styles##image ratio=imageRatio />
+          )
+        ->Option.getWithDefault(React.null);
+      let category =
+        rootCategory##name
+        ->Option.getWithDefault("")
+        ->String.uppercase
+        ->React.string;
+      let title = item##title->Option.getWithDefault("");
+      let likes =
+        switch (item##likeCount->Option.getWithDefault(0)) {
+        | 0 => React.null
+        | v => (v->string_of_int ++ "  ")->React.string
+        };
+      let comments =
+        switch (item##commentCount->Option.getWithDefault(0)) {
+        | 0 => React.null
+        | v => ("  " ++ v->string_of_int)->React.string
+        };
+      <SpacedView key=id style=styles##wrapper vertical=M horizontal=M>
+        {withFlowers
+           ? <ImageFromUri
+               resizeMode=`contain
+               uri="/images/preview-corner-top-left.png"
+               style=Style.(
+                 style([
+                   position(Absolute),
+                   top(Pt(-6.)),
+                   left(Pt(-10.)),
+                   width(Pt(290. /. 2.)),
+                   height(Pt(491. /. 2.)),
+                 ])
+               )
+             />
+           : React.null}
+        {withWatercolorCorner
+           ? <ImageFromUri
+               resizeMode=`contain
+               uri="/images/watercolor-bottom-right.png"
+               style=Style.(
+                 style([
+                   position(Absolute),
+                   bottom(Pt(-10.)),
+                   right(Pt(-15.)),
+                   width(Pt(723. /. 2.)),
+                   height(Pt(495. /. 2.)),
+                 ])
+               )
+             />
+           : React.null}
+        <ViewLink
+          href
+          style=styles##container
+          onMouseEnter={() => send(WillFocus(() => send(Focus)))}
+          onMouseLeave={() => send(WillBlur(() => send(Blur)))}>
+          <View style=styles##containerContent>
+            image
+            <SpacedView vertical=M horizontal=M style=styles##text>
+              <Text style=styles##categoryText> category </Text>
+              <Spacer size=XS />
+              <Text style=styles##titleText>
+                <span dangerouslySetInnerHTML={"__html": title} />
+              </Text>
+            </SpacedView>
           </View>
-        </SpacedView>
-    </SpacedView>;
-  },
-};
+        </ViewLink>
+        <SpacedView
+          vertical=M
+          horizontal=M
+          style=styles##actionsWrapper
+          pointerEvents=`boxNone>
+          /*
+                 // onMouseEnter={() =>
+                 //   send(
+                 //     WillFocus(() => Webapi.requestAnimationFrame(_ => send(Focus))),
+                 //   )
+                 // }
+                 // onMouseLeave={() =>
+                 //   send(
+                 //     WillBlur(() => Webapi.requestAnimationFrame(_ => send(Blur))),
+                 //   )
+                 // }
+           */
+
+            <PlaceholderWithAspectRatio ratio=imageRatio />
+            <View style=styles##actions pointerEvents=`boxNone>
+              <View style=styles##action>
+                <Text style=styles##actionText> likes </Text>
+                <ButtonLike id />
+              </View>
+              <Text> "    "->React.string </Text>
+              <ViewLink style=styles##action href={href ++ "#comments"}>
+                <SVGSpeechBubbleOutline
+                  fill=ButtonLike.defaultColor
+                  width=ButtonLike.defaultSize
+                  height=ButtonLike.defaultSize
+                />
+                <Text style=styles##actionText> comments </Text>
+              </ViewLink>
+            </View>
+          </SpacedView>
+      </SpacedView>;
+    },
+  });

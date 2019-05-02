@@ -1,17 +1,16 @@
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("ContainerMainContentLarge");
-
 let styles =
-  StyleSheet.create(
-    Style.{"container": style([flex(2.), flexBasis(Pt(800.))])},
+  Style.(
+    StyleSheet.create({
+      "container": style([flex(2.), flexBasis(Pt(800.))]),
+    })
   );
 
-let make = children => {
-  ...component,
-  render: _self =>
-    /*accessibilityRole=`webAriaMain*/
-    <View style=styles##container>
-      ...children
-    </View>,
+[@react.component]
+let make = (~children, ()) => {
+  /*accessibilityRole=`webAriaMain*/
+  <View style=styles##container>
+    children
+  </View>;
 };

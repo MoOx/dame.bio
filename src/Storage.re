@@ -33,6 +33,5 @@ let store =
   | None => freshStore()
   };
 
-let saveStore = (): unit => {
+let saveStore = (): unit =>
   saveIt("dame.bio", Js.Json.stringify(store->Obj.magic));
-};

@@ -1,202 +1,78 @@
-open BsReactNative;
+open ReactNative;
 
-[@bs.module "./TouchableScaleLink"]
-external reactClass: ReasonReact.reactClass = "default";
+include NativeElement;
 
-[@bs.deriving abstract]
-type jsProps = {
-  [@bs.optional]
-  href: string,
-  [@bs.optional]
-  activeStyle: BsReactNative.Style.t,
-  [@bs.optional]
-  defaultScale: float,
-  [@bs.optional]
-  activeScale: float,
-  [@bs.optional]
-  hoverScale: float,
-  [@bs.optional]
-  focusScale: float,
-  [@bs.optional]
-  tension: float,
-  [@bs.optional]
-  friction: float,
-  [@bs.optional]
-  pressInTension: float,
-  [@bs.optional]
-  pressInFriction: float,
-  [@bs.optional]
-  pressOutTension: float,
-  [@bs.optional]
-  pressOutFriction: float,
-  [@bs.optional]
-  mouseEnterTension: float,
-  [@bs.optional]
-  mouseEnterFriction: float,
-  [@bs.optional]
-  mouseLeaveTension: float,
-  [@bs.optional]
-  mouseLeaveFriction: float,
-  [@bs.optional]
-  hoverTension: float,
-  [@bs.optional]
-  hoverFriction: float,
-  [@bs.optional]
-  focusTension: float,
-  [@bs.optional]
-  focusFriction: float,
-  [@bs.optional]
-  useNativeDriver: bool,
-  /* TouchableWithoutFeedback props */
-  [@bs.optional]
-  accessible: bool,
-  [@bs.optional]
-  accessibilityLabel: string,
-  [@bs.optional]
-  accessibilityComponentType: [
-    | `none
-    | `button
-    | `radiobutton_checked
-    | `radiobutton_unchecked
-  ],
-  [@bs.optional]
-  accessibilityTraits:
-    list(
-      [
-        | `none
-        | `button
-        | `link
-        | `header
-        | `search
-        | `image
-        | `selected
-        | `plays
-        | `key
-        | `text
-        | `summary
-        | `disabled
-        | `frequentUpdates
-        | `startsMedia
-        | `adjustable
-        | `allowsDirectInteraction
-        | `pageTurn
-      ],
-    ),
-  [@bs.optional]
-  delayLongPress: int,
-  [@bs.optional]
-  delayPressIn: int,
-  [@bs.optional]
-  delayPressOut: int,
-  [@bs.optional]
-  disabled: bool,
-  [@bs.optional]
-  hitSlop: Types.insets,
-  [@bs.optional]
-  onLayout: RNEvent.NativeLayoutEvent.t => unit,
-  [@bs.optional]
-  onLongPress: unit => unit,
-  [@bs.optional]
-  onPress: unit => unit,
-  [@bs.optional]
-  onPressIn: unit => unit,
-  [@bs.optional]
-  onPressOut: unit => unit,
-  [@bs.optional]
-  pressRetentionOffset: Types.insets,
-  [@bs.optional]
-  style: Style.t,
-  [@bs.optional]
-  testID: string,
-};
-
-let make =
-    (
-      ~href=?,
-      ~activeStyle=?,
-      ~defaultScale=?,
-      ~activeScale=?,
-      ~hoverScale=?,
-      ~focusScale=?,
-      ~tension=?,
-      ~friction=?,
-      ~pressInTension=?,
-      ~pressInFriction=?,
-      ~pressOutTension=?,
-      ~pressOutFriction=?,
-      ~mouseEnterTension=?,
-      ~mouseEnterFriction=?,
-      ~mouseLeaveTension=?,
-      ~mouseLeaveFriction=?,
-      ~hoverTension=?,
-      ~hoverFriction=?,
-      ~focusTension=?,
-      ~focusFriction=?,
-      ~useNativeDriver=?,
-      /* TouchableWithoutFeedback props */
-      ~accessible=?,
-      ~accessibilityLabel=?,
-      ~accessibilityComponentType=?,
-      ~accessibilityTraits=?,
-      ~delayLongPress=?,
-      ~delayPressIn=?,
-      ~delayPressOut=?,
-      ~disabled=?,
-      ~hitSlop=?,
-      ~onLayout=?,
-      ~onLongPress=?,
-      ~onPress=?,
-      ~onPressIn=?,
-      ~onPressOut=?,
-      ~pressRetentionOffset=?,
-      ~style=?,
-      ~testID=?,
-      children,
-    ) =>
-  ReasonReact.wrapJsForReason(
-    ~reactClass,
-    ~props=
-      jsProps(
-        ~href?,
-        ~activeStyle?,
-        ~defaultScale?,
-        ~activeScale?,
-        ~hoverScale?,
-        ~focusScale?,
-        ~tension?,
-        ~friction?,
-        ~pressInTension?,
-        ~pressInFriction?,
-        ~pressOutTension?,
-        ~pressOutFriction?,
-        ~mouseEnterTension?,
-        ~mouseEnterFriction?,
-        ~mouseLeaveTension?,
-        ~mouseLeaveFriction?,
-        ~hoverTension?,
-        ~hoverFriction?,
-        ~focusTension?,
-        ~focusFriction?,
-        ~useNativeDriver?,
-        /* TouchableWithoutFeedback props */
-        ~accessible?,
-        ~accessibilityLabel?,
-        ~accessibilityComponentType?,
-        ~accessibilityTraits?,
-        ~delayLongPress?,
-        ~delayPressIn?,
-        ~delayPressOut?,
-        ~disabled?,
-        ~hitSlop?,
-        ~onLayout?,
-        ~onLongPress?,
-        ~onPress?,
-        ~onPressIn?,
-        ~onPressOut?,
-        ~pressRetentionOffset?,
-        ~style?,
-        ~testID?,
-        (),
-      ),
-    children,
-  );
+[@bs.module "./TouchableScaleLink.js"] [@react.component]
+external make:
+  (
+    ~ref: ref=?,
+    // TouchableScaleLink props
+    ~href: string=?,
+    ~activeStyle: Style.t=?,
+    // TouchableScale props
+    ~defaultScale: float=?,
+    ~activeScale: float=?,
+    ~hoverScale: float=?,
+    ~focusScale: float=?,
+    ~tension: float=?,
+    ~friction: float=?,
+    ~pressInTension: float=?,
+    ~pressInFriction: float=?,
+    ~pressOutTension: float=?,
+    ~pressOutFriction: float=?,
+    ~mouseEnterTension: float=?,
+    ~mouseEnterFriction: float=?,
+    ~mouseLeaveTension: float=?,
+    ~mouseLeaveFriction: float=?,
+    ~hoverTension: float=?,
+    ~hoverFriction: float=?,
+    ~focusTension: float=?,
+    ~focusFriction: float=?,
+    ~useNativeDriver: bool=?,
+    ~style: Style.t=?,
+    // TouchableWithoutFeedback props
+    ~accessible: bool=?,
+    ~accessibilityComponentType: [@bs.string] [
+                                   | `none
+                                   | `button
+                                   | `radiobutton_checked
+                                   | `radiobutton_unchecked
+                                 ]
+                                   =?,
+    ~accessibilityHint: string=?,
+    ~accessibilityIgnoresInvertColors: bool=?,
+    ~accessibilityLabel: string=?,
+    ~accessibilityRole: [@bs.string] [
+                          | `none
+                          | `button
+                          | `link
+                          | `search
+                          | `image
+                          | `keyboardkey
+                          | `text
+                          | `adjustable
+                          | `header
+                          | `summary
+                          | `imagebutton
+                        ]
+                          =?,
+    ~accessibilityStates: array(AccessibilityState.t)=?,
+    ~accessibilityTraits: array(AccessibilityTrait.t)=?,
+    ~delayLongPress: int=?,
+    ~delayPressIn: int=?,
+    ~delayPressOut: int=?,
+    ~disabled: bool=?,
+    ~hitSlop: Types.edgeInsets=?,
+    ~onBlur: Event.targetEvent => unit=?,
+    ~onFocus: Event.targetEvent => unit=?,
+    ~onLayout: Event.layoutEvent => unit=?,
+    ~onLongPress: Event.pressEvent => unit=?,
+    ~onPress: Event.pressEvent => unit=?,
+    ~onPressIn: Event.pressEvent => unit=?,
+    ~onPressOut: Event.pressEvent => unit=?,
+    ~pressRetentionOffset: Types.edgeInsets=?,
+    ~testID: string=?,
+    ~children: React.element=?
+  ) =>
+  React.element =
+  "TouchableWithoutFeedback";

@@ -80,8 +80,8 @@ let count = 14;
 let component = ReasonReact.reducerComponent("InstagramFeed");
 
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "blockTitle":
         style([
           fontSize(Float(12.)),
@@ -90,7 +90,7 @@ let styles =
           opacity(Float(0.75)),
         ]),
       "items": style([flexDirection(Row)]),
-    },
+    })
   );
 
 let fetchData = (success, failure) =>
@@ -107,66 +107,73 @@ let fetchData = (success, failure) =>
        })
   );
 
-let make = _children => {
-  ...component,
-  initialState: () => {fetching: false, items: None, error: None},
-  reducer: (action, state) =>
-    switch (action) {
-    | Fetching =>
-      ReasonReact.UpdateWithSideEffects(
-        {...state, fetching: true},
-        ({send}) =>
-          fetchData(
-            items => send(Fetched(items)),
-            error => send(Errored(error)),
-          )
-          |> ignore,
-      )
-    | Fetched(items) =>
-      ReasonReact.Update({fetching: false, items: Some(items), error: None})
-    | Errored(err) =>
-      ReasonReact.Update({fetching: false, items: None, error: Some(err)})
-    },
-  didMount: ({send}) => send(Fetching),
-  render: ({state}) =>
-    <View>
-      {switch (state.error) {
-       | None => ReasonReact.null
-       | Some(error) =>
-         Js.log2("Instagram", error);
-         ReasonReact.null;
-       }}
-      {switch (state.items) {
-       | None => ReasonReact.null
-       | Some(items) =>
-         switch (items) {
-         | [||] => ReasonReact.null
-         | _ =>
-           let size =
-             Dimensions.get(`window)##width->float_of_int->min(293.);
+[@react.component]
+let make = () =>
+  ReactCompat.useRecordApi({
+    ...component,
+    initialState: () => {fetching: false, items: None, error: None},
+    reducer: (action, state) =>
+      switch (action) {
+      | Fetching =>
+        ReasonReact.UpdateWithSideEffects(
+          {...state, fetching: true},
+          ({send}) =>
+            fetchData(
+              items => send(Fetched(items)),
+              error => send(Errored(error)),
+            )
+            |> ignore,
+        )
+      | Fetched(items) =>
+        ReasonReact.Update({
+          fetching: false,
+          items: Some(items),
+          error: None,
+        })
+      | Errored(err) =>
+        ReasonReact.Update({fetching: false, items: None, error: Some(err)})
+      },
+    didMount: ({send}) => send(Fetching),
+    render: ({state}) =>
+      <View>
+        {switch (state.error) {
+         | None => React.null
+         | Some(error) =>
+           Js.log2("Instagram", error);
+           React.null;
+         }}
+        {switch (state.items) {
+         | None => React.null
+         | Some(items) =>
+           switch (items) {
+           | [||] => React.null
+           | _ =>
+             let size =
+               Dimensions.get(`window)##width->float_of_int->min(293.);
 
-           <View>
-             <SpacedView horizontal=XS vertical=XS>
-               <TextLink
-                 style=styles##blockTitle
-                 href="https://instagram.com/dame.bio">
-                 {j|INSTAGRAM / @damebio|j}->ReasonReact.string
-               </TextLink>
-             </SpacedView>
-             <div className="ScrollView-snapToAlignment-center">
-               <ScrollView
-                 horizontal=true
-                 pagingEnabled=true
-                 style=Style.(
-                   array([|styles##items, style([height(Pt(size))])|])
-                 )>
-                 {items
-                  ->Array.map(item => <InstagramPost key=item##id item size />)
-                  ->ReasonReact.array}
-               </ScrollView>
-             </div>
-           </View>;
-         }
-       }}
-    </View>,
-};
+             <View>
+               <SpacedView horizontal=XS vertical=XS>
+                 <TextLink
+                   style=styles##blockTitle
+                   href="https://instagram.com/dame.bio">
+                   {j|INSTAGRAM / @damebio|j}->React.string
+                 </TextLink>
+               </SpacedView>
+               <div className="ScrollView-snapToAlignment-center">
+                 <ScrollView
+                   horizontal=true
+                   pagingEnabled=true
+                   style=Style.(
+                     array([|styles##items, style([height(Pt(size))])|])
+                   )>
+                   {{items->Array.map(item =>
+                       <InstagramPost key=item##id item size />
+                     )}
+                    ->React.array}
+                 </ScrollView>
+               </div>
+             </View>;
+           }
+         }}
+      </View>,
+  });

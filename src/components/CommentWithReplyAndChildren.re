@@ -9,55 +9,83 @@ type state =
 
 let component = ReasonReact.reducerComponent("CommentWithReplyAndChildren");
 
-let rec make = (~comment, ~postId, ~parentCommentId: int, ~comments, _) => {
-  ...component,
-  initialState: () => None,
-  reducer: (action, _) =>
-    switch (action) {
-    | Reply => ReasonReact.Update(ReplyOpen)
-    },
-  render: ({state, send}) =>
-    <>
-      <Comment
-        comment
-        separator={comment##parent->Option.isNone}
-        canReply=true
-        onReply={_ => send(Reply) |> ignore}
-      />
-      {switch (state) {
-       | None => ReasonReact.null
-       | ReplyOpen =>
-         <CommentForm
-           postId
-           parentCommentId={comment##commentId->Option.getWithDefault(0)}
-         />
-       }}
-      {comments
-       ->Option.flatMap(ts => ts##nodes)
-       ->Option.getWithDefault([||])
-       ->Array.mapWithIndex((index, c) =>
-           c->Option.mapWithDefault(ReasonReact.null, comment =>
-             comment##parent
-             ->Option.flatMap(p => p##commentId)
-             ->Option.getWithDefault(0)
-             == parentCommentId
-               ? ReasonReact.element(
-                   ~key=
-                     string_of_int(
-                       comment##commentId->Option.getWithDefault(index),
+// [@react.component]
+// let rec make = (~comment, ~postId, ~parentCommentId: int, ~comments) => {
+[@bs.obj]
+external makeProps:
+  (
+    ~comment: 'comment,
+    ~comments: 'comments,
+    ~postId: 'postId,
+    ~parentCommentId: int,
+    ~key: string=?,
+    unit
+  ) =>
+  {
+    .
+    "comment": 'comment,
+    "comments": 'comments,
+    "postId": 'postId,
+    "parentCommentId": int,
+  } =
+  "";
+
+let rec make = props => {
+  let comment = props##comment;
+  let postId = props##postId;
+  let parentCommentId = props##parentCommentId;
+  let comments = props##comments;
+  ReactCompat.useRecordApi({
+    ...component,
+    initialState: () => None,
+    reducer: (action, _) =>
+      switch (action) {
+      | Reply => ReasonReact.Update(ReplyOpen)
+      },
+    render: ({state, send}) =>
+      <>
+        <Comment
+          comment
+          separator={comment##parent->Option.isNone}
+          canReply=true
+          onReply={_ => send(Reply) |> ignore}
+        />
+        {switch (state) {
+         | None => React.null
+         | ReplyOpen =>
+           <CommentForm
+             postId
+             parentCommentId={comment##commentId->Option.getWithDefault(0)}
+           />
+         }}
+        {comments
+         ->Option.flatMap(ts => ts##nodes)
+         ->Option.getWithDefault([||])
+         ->Array.mapWithIndex((index, c) =>
+             c->Option.mapWithDefault(React.null, comment =>
+               comment##parent
+               ->Option.flatMap(p => p##commentId)
+               ->Option.getWithDefault(0)
+               == parentCommentId
+                 ? React.createElement(
+                     make,
+                     makeProps(
+                       ~comment,
+                       ~comments,
+                       ~postId,
+                       ~parentCommentId=
+                         comment##commentId->Option.getWithDefault(0),
+                       ~key=
+                         string_of_int(
+                           comment##commentId->Option.getWithDefault(index),
+                         ),
+                       (),
                      ),
-                   make(
-                     ~comment,
-                     ~postId,
-                     ~comments,
-                     ~parentCommentId=
-                       comment##commentId->Option.getWithDefault(0),
-                     [||],
-                   ),
-                 )
-               : ReasonReact.null
+                   )
+                 : React.null
+             )
            )
-         )
-       ->ReasonReact.array}
-    </>,
+         ->React.array}
+      </>,
+  });
 };

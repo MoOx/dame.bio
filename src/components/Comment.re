@@ -1,11 +1,9 @@
 open Belt;
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("Comment");
-
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "row": style([flexDirection(Row)]),
       "comment": style([flexDirection(Row)]),
       "commentAvatar":
@@ -64,111 +62,107 @@ let styles =
           fontSize(Float(14.)),
           lineHeight(24.),
         ]),
-    },
+    })
   );
 
-let make = (~comment, ~separator, ~canReply, ~onReply=_ => (), _) => {
-  ...component,
-  render: _self => {
-    let name =
-      (
-        switch (comment##author) {
-        | Some(`CommentAuthor(a)) => a##name
-        | Some(`User(a)) => a##name
-        | None => Some("")
-        }
-      )
-      ->Option.getWithDefault("");
-    let url =
-      (
-        switch (comment##author) {
-        | Some(`CommentAuthor(a)) => a##url
-        | Some(`User(a)) => a##url
-        | None => None
-        }
-      )
-      ->Option.getWithDefault("");
-    <>
-      {separator ? <> <CommentSeparator /> <Spacer /> </> : ReasonReact.null}
-      <View style=styles##comment>
-        {comment##parent->Option.isSome ? <Spacer size=XL /> : ReasonReact.null}
-        <View>
-          <Spacer size=XXS />
-          <Avatar
-            name
-            url={
-              "https://secure.gravatar.com/avatar/"
-              ++ (
-                   switch (comment##author) {
-                   | Some(`CommentAuthor(a)) => a##email
-                   | Some(`User(a)) => a##email
-                   | None => Some("")
-                   }
-                 )
-                 ->Option.getWithDefault("")
-                 ->Md5.make
-              ++ "?s=96&d=mm&r=g&d=blank"
+[@react.component]
+let make = (~comment, ~separator, ~canReply, ~onReply=_ => (), ()) => {
+  let name =
+    (
+      switch (comment##author) {
+      | Some(`CommentAuthor(a)) => a##name
+      | Some(`User(a)) => a##name
+      | None => Some("")
+      }
+    )
+    ->Option.getWithDefault("");
+  let url =
+    (
+      switch (comment##author) {
+      | Some(`CommentAuthor(a)) => a##url
+      | Some(`User(a)) => a##url
+      | None => None
+      }
+    )
+    ->Option.getWithDefault("");
+  <>
+    {separator ? <> <CommentSeparator /> <Spacer /> </> : React.null}
+    <View style=styles##comment>
+      {comment##parent->Option.isSome ? <Spacer size=XL /> : React.null}
+      <View>
+        <Spacer size=XXS />
+        <Avatar
+          name
+          url={
+            "https://secure.gravatar.com/avatar/"
+            ++ (
+                 switch (comment##author) {
+                 | Some(`CommentAuthor(a)) => a##email
+                 | Some(`User(a)) => a##email
+                 | None => Some("")
+                 }
+               )
+               ->Option.getWithDefault("")
+               ->Md5.make
+            ++ "?s=96&d=mm&r=g&d=blank"
+          }
+        />
+      </View>
+      <Spacer size=XS />
+      <View style=styles##commentTextContainer>
+        <View style=styles##commentMeta>
+          {String.length(url) > 0
+             ? <ViewLink style=styles##commentAuthor href=url>
+                 <Text style=styles##commentAuthorText>
+                   name->React.string
+                 </Text>
+               </ViewLink>
+             : <Text style=styles##commentAuthor> name->React.string </Text>}
+          {switch (comment##author) {
+           | Some(`User(a)) when a##userId->Option.getWithDefault(0) == 2 =>
+             <>
+               <Text> " "->React.string </Text>
+               <ViewLink href=url style=styles##commentOwner>
+                 <Text style=styles##commentOwnerText>
+                   "Auteur"->React.string
+                 </Text>
+               </ViewLink>
+             </>
+           | _ => React.null
+           }}
+        </View>
+        <View style=styles##row>
+          <Text style=styles##commentDate>
+            {comment##dateGmt
+             ->Option.mapWithDefault(Js.Date.make(), d =>
+                 Js.Date.fromString(d |> Js.String.replace(" ", "T"))
+               )
+             ->Date.relativeDate
+             ->String.capitalize
+             ++ {j|  ·  |j}
+             |> React.string}
+          </Text>
+          {canReply
+             ? <TouchableOpacity onPress=onReply>
+                 <Text style=styles##commentDate>
+                   {j|Répondre|j}->React.string
+                 </Text>
+               </TouchableOpacity>
+             : React.null}
+        </View>
+        <Text style=styles##commentContent>
+          <div
+            className="dbComment"
+            dangerouslySetInnerHTML={
+              "__html":
+                comment##content->Option.getWithDefault("")
+                |> Js.String.replace("<p>", "")
+                |> Js.String.replace("</p>", ""),
             }
           />
-        </View>
-        <Spacer size=XS />
-        <View style=styles##commentTextContainer>
-          <View style=styles##commentMeta>
-            {String.length(url) > 0
-               ? <ViewLink style=styles##commentAuthor href=url>
-                   <Text style=styles##commentAuthorText>
-                     name->ReasonReact.string
-                   </Text>
-                 </ViewLink>
-               : <Text style=styles##commentAuthor>
-                   name->ReasonReact.string
-                 </Text>}
-            {switch (comment##author) {
-             | Some(`User(a)) when a##userId->Option.getWithDefault(0) == 2 =>
-               <>
-                 <Text> " "->ReasonReact.string </Text>
-                 <ViewLink href=url style=styles##commentOwner>
-                   <Text style=styles##commentOwnerText>
-                     "Auteur"->ReasonReact.string
-                   </Text>
-                 </ViewLink>
-               </>
-             | _ => ReasonReact.null
-             }}
-          </View>
-          <View style=styles##row>
-            <Text style=styles##commentDate>
-              {comment##dateGmt
-               ->Option.mapWithDefault(Js.Date.make(), d =>
-                   Js.Date.fromString(d |> Js.String.replace(" ", "T"))
-                 )
-               ->Date.relativeDate
-               ->String.capitalize
-               ++ {j|  ·  |j}
-               |> ReasonReact.string}
-            </Text>
-            {canReply
-               ? <TouchableOpacity onPress=onReply>
-                   <Text style=styles##commentDate>
-                     {j|Répondre|j}->ReasonReact.string
-                   </Text>
-                 </TouchableOpacity>
-               : ReasonReact.null}
-          </View>
-          <Text style=styles##commentContent>
-            <div
-              className="dbComment"
-              dangerouslySetInnerHTML={
-                "__html":
-                  comment##content->Option.getWithDefault("")
-                  |> Js.String.replace("<p>", "")
-                  |> Js.String.replace("</p>", ""),
-              }
-            />
-          </Text>
-        </View>
+        </Text>
       </View>
-      <Spacer />
-    </>;
-  },
+    </View>
+    <Spacer />
+  </>;
 };

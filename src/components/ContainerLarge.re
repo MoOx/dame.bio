@@ -1,10 +1,8 @@
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("ContainerLarge");
-
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "wrapper":
         style([
           flex(1.),
@@ -21,15 +19,14 @@ let styles =
           width(Pct(100.)),
           maxWidth(Pt(1200.)),
         ]),
-    },
+    })
   );
 
-let make = (~wrapperStyle=?, ~style as s=?, children) => {
-  ...component,
-  render: _self =>
-    <View style=Style.(arrayOption([|Some(styles##wrapper), wrapperStyle|]))>
-      <View style=Style.(arrayOption([|Some(styles##container), s|]))>
-        ...children
-      </View>
-    </View>,
+[@react.component]
+let make = (~wrapperStyle=?, ~style as s=?, ~children, ()) => {
+  <View style=Style.(arrayOption([|Some(styles##wrapper), wrapperStyle|]))>
+    <View style=Style.(arrayOption([|Some(styles##container), s|]))>
+      children
+    </View>
+  </View>;
 };

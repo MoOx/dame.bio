@@ -1,11 +1,9 @@
 open Belt;
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("Comments");
-
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "comments": style([]),
       "subtitle":
         style([
@@ -22,49 +20,46 @@ let styles =
           color(String("#d6d5d2")),
           fontWeight(`_600),
         ]),
-    },
+    })
   );
 
-let make = (~postId, ~commentCounts, ~comments, _) => {
-  ...component,
-  render: _self =>
-    <>
-      /* @todo native fix */
-      <a name="comments" />
-      <View>
-        <Text style=styles##subtitle>
-          (
-            switch (commentCounts->Option.getWithDefault(0)) {
-            | 0 => "Commentaires"
-            | 1 => "1 Commentaire"
-            | count => count->string_of_int ++ " Commentaires"
-            }
-          )
-          ->ReasonReact.string
-        </Text>
-      </View>
-      <Spacer size=S />
-      <View style=styles##comments>
-        {switch (
-           comments
-           ->Option.flatMap(ts => ts##nodes)
-           ->Option.getWithDefault([||])
-         ) {
-         | [||] =>
-           <>
-             <Spacer size=L />
-             <Text style=styles##noComment>
-               {j|Aucun commentaire pour l'instant. Laissez le vôtre !|j}
-               ->ReasonReact.string
-             </Text>
-             <Spacer size=L />
-           </>
-         | coms =>
-           coms
-           ->Array.mapWithIndex((index, comment) =>
-               comment->Option.mapWithDefault(ReasonReact.null, comment =>
-                 comment##parent->Option.isNone ?
-                   <CommentWithReplyAndChildren
+[@react.component]
+let make = (~postId, ~commentCounts, ~comments, ()) => {
+  <>
+    /* @todo native fix */
+    <a name="comments" />
+    <View>
+      <Text style=styles##subtitle>
+        (
+          switch (commentCounts->Option.getWithDefault(0)) {
+          | 0 => "Commentaires"
+          | 1 => "1 Commentaire"
+          | count => count->string_of_int ++ " Commentaires"
+          }
+        )
+        ->React.string
+      </Text>
+    </View>
+    <Spacer size=S />
+    <View style=styles##comments>
+      {switch (
+         comments->Option.flatMap(ts => ts##nodes)->Option.getWithDefault([||])
+       ) {
+       | [||] =>
+         <>
+           <Spacer size=L />
+           <Text style=styles##noComment>
+             {j|Aucun commentaire pour l'instant. Laissez le vôtre !|j}
+             ->React.string
+           </Text>
+           <Spacer size=L />
+         </>
+       | coms =>
+         coms
+         ->Array.mapWithIndex((index, comment) =>
+             comment->Option.mapWithDefault(React.null, comment =>
+               comment##parent->Option.isNone
+                 ? <CommentWithReplyAndChildren
                      key={string_of_int(
                        comment##commentId->Option.getWithDefault(index),
                      )}
@@ -74,15 +69,15 @@ let make = (~postId, ~commentCounts, ~comments, _) => {
                      }
                      postId
                      comments
-                   /> :
-                   ReasonReact.null
-               )
+                   />
+                 : React.null
              )
-           ->ReasonReact.array
-         }}
-        <CommentSeparator />
-        <Spacer />
-        <CommentForm postId parentCommentId=0 />
-      </View>
-    </>,
+           )
+         ->React.array
+       }}
+      <CommentSeparator />
+      <Spacer />
+      <CommentForm postId parentCommentId=0 />
+    </View>
+  </>;
 };

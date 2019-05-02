@@ -86,77 +86,74 @@ module GetItem = [%graphql
 
 module GetItemQuery = ReasonApollo.CreateQuery(GetItem);
 
-let component = ReasonReact.statelessComponent("RoutePost");
-
-let make = (~status, ~postSlug, _) => {
-  ...component,
-  render: _ => {
-    let itemQuery = GetItem.make(~postSlug, ());
-    <AppWrapper>
-      <ContainerMainContent>
-        {switch (status) {
-         | Loading => <LoadingIndicator />
-         | Error(error) => <Error label=error />
-         | Ready =>
-           <GetItemQuery variables=itemQuery##variables>
-             ...{({result}) =>
-               switch (result) {
-               | Loading => <LoadingIndicator />
-               | Error(error) => <Error label={Some(error##message)} />
-               | Data(response) =>
-                 response##posts
-                 ->Option.flatMap(p => p##edges)
-                 ->Option.map(edges =>
-                     edges
-                     ->Array.map(edge =>
-                         edge
-                         ->Option.flatMap(edge => edge##node)
-                         ->Option.map(item =>
-                             <View key=item##id>
-                               {item##title
-                                ->Option.mapWithDefault(
-                                    ReasonReact.null, title =>
-                                    <BsReactHelmet
-                                      key=title
-                                      titleTemplate=Consts.titleTemplate>
-                                      <title>
-                                        title->ReasonReact.string
-                                      </title>
-                                    </BsReactHelmet>
-                                  )}
-                               <PostDetail item />
-                             </View>
-                           )
-                         ->Option.getWithDefault(ReasonReact.null)
-                       )
-                     ->ReasonReact.array
-                   )
-                 ->Option.getWithDefault(
-                     <Error label={Some({j|Aucun résultat|j})} />,
-                   )
-               }
+[@react.component]
+let make = (~status, ~postSlug) => {
+  let itemQuery = GetItem.make(~postSlug, ());
+  <AppWrapper>
+    <ContainerMainContent>
+      {switch (status) {
+       | Loading => <LoadingIndicator />
+       | Error(error) => <Error label=error />
+       | Ready =>
+         <GetItemQuery variables=itemQuery##variables>
+           ...{({result}) =>
+             switch (result) {
+             | Loading => <LoadingIndicator />
+             | Error(error) => <Error label={Some(error##message)} />
+             | Data(response) =>
+               response##posts
+               ->Option.flatMap(p => p##edges)
+               ->Option.map(edges =>
+                   edges
+                   ->Array.map(edge =>
+                       edge
+                       ->Option.flatMap(edge => edge##node)
+                       ->Option.map(item =>
+                           <View key=item##id>
+                             {item##title
+                              ->Option.mapWithDefault(React.null, title =>
+                                  <BsReactHelmet
+                                    key=title
+                                    titleTemplate=Consts.titleTemplate>
+                                    <title> title->React.string </title>
+                                  </BsReactHelmet>
+                                )}
+                             <PostDetail item />
+                           </View>
+                         )
+                       ->Option.getWithDefault(React.null)
+                     )
+                   ->React.array
+                 )
+               ->Option.getWithDefault(
+                   <Error label={Some({j|Aucun résultat|j})} />,
+                 )
              }
-           </GetItemQuery>
-         }}
-      </ContainerMainContent>
-    </AppWrapper>;
-  },
+           }
+         </GetItemQuery>
+       }}
+    </ContainerMainContent>
+  </AppWrapper>;
 };
 
-let composedComponent =
-  ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(
+[@react.component]
+let composedComponent = (~status, ~error, ~params: {. "postSlug": string}) => {
+  React.createElementVariadic(
+    make,
+    makeProps(
       ~status=
-        switch (jsProps##status) {
+        switch (status) {
         | "loading" => Loading
         | "ready" => Ready
         | "error"
-        | _ => Error(Js.Nullable.toOption(jsProps##error))
+        | _ => Error(Js.Nullable.toOption(error))
         },
-      ~postSlug=jsProps##params##postSlug,
-      [||],
-    )
+      ~postSlug=params##postSlug,
+      (),
+    ),
+    [|React.null|],
   );
+};
 
 /* let getInitialProps = (...args) => args; */
 /* let inject = [%bs.raw {| (cls, fn) => cls.getInitialProps = fn |}];

@@ -1,20 +1,17 @@
-let component = ReasonReact.statelessComponent("AppMeta");
-
-let make = _ => {
-  ...component,
-  render: _self => {
-    <BsReactHelmet defaultTitle=Consts.title>
-      <meta charSet="utf-8" />
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, viewport-fit=cover"
-      />
-      <style>
-        {j|@-ms-viewport { width: device-width } @viewport { width: device-width }|j}
-        ->ReasonReact.string
-      </style>
-      <style>
-        {j|
+[@react.component]
+let make = () =>
+  <BsReactHelmet defaultTitle=Consts.title>
+    <meta charSet="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <style>
+      {j|@-ms-viewport { width: device-width } @viewport { width: device-width }|j}
+      ->React.string
+    </style>
+    <style>
+      {j|
 html {
   height: 100%;
   background: #006579;
@@ -135,8 +132,6 @@ body {
 .DameBioHtml .dbComment p { margin: 0; }
 .DameBioHtml .dbComment a { color: #49443A; }
 |j}
-        ->ReasonReact.string
-      </style>
-    </BsReactHelmet>;
-  },
-};
+      ->React.string
+    </style>
+  </BsReactHelmet>;

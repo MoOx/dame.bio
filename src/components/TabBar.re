@@ -4,11 +4,9 @@ open BsReactNative;
 let colorInActive = Consts.Colors.tabBarIconInactive;
 let colorActive = Consts.Colors.tabBarIconActive;
 
-let component = ReasonReact.statelessComponent("TabBar");
-
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "wrapper":
         style([
           borderTopWidth(StyleSheet.hairlineWidth),
@@ -31,49 +29,40 @@ let styles =
           marginTop(Pt(1.5)),
         ]),
       "itemTextActive": style([color(String(colorActive))]),
-    },
+    })
   );
 
-let make = (~currentLocation, _children) => {
-  ...component,
-  render: _self => {
-    <SafeAreaView style=styles##wrapper>
-      <View style=styles##container>
-        {Consts.tabBarLinks
-         ->Array.map(item => {
-             let isActive =
-               item.isActive(currentLocation##pathname, item.link);
-             <ViewLink
-               key={item.link} href={item.link} style=styles##itemWrapper>
-               <View style=styles##item>
-                 {item.icon(
-                    ~width=24.,
-                    ~height=24.,
-                    ~fill={isActive ? colorActive : colorInActive},
-                    (),
-                  )}
-                 <Text
-                   style=Style.(
-                     arrayOption([|
-                       Some(styles##itemText),
-                       isActive ? Some(styles##itemTextActive) : None,
-                     |])
-                   )>
-                   item.text->ReasonReact.string
-                 </Text>
-               </View>
-             </ViewLink>;
-           })
-         ->ReasonReact.array}
-      </View>
-    </SafeAreaView>;
-  },
+[@react.component]
+let make = (~currentLocation, ()) => {
+  <SafeAreaView style=styles##wrapper>
+    <View style=styles##container>
+      {Consts.tabBarLinks
+       ->Array.map(item => {
+           let isActive = item.isActive(currentLocation##pathname, item.link);
+           <ViewLink
+             key={item.link} href={item.link} style=styles##itemWrapper>
+             <View style=styles##item>
+               {item.icon(
+                  ~width=24.,
+                  ~height=24.,
+                  ~fill=isActive ? colorActive : colorInActive,
+                  (),
+                )}
+               <Text
+                 style=Style.(
+                   arrayOption([|
+                     Some(styles##itemText),
+                     isActive ? Some(styles##itemTextActive) : None,
+                   |])
+                 )>
+                 item.text->React.string
+               </Text>
+             </View>
+           </ViewLink>;
+         })
+       ->React.array}
+    </View>
+  </SafeAreaView>;
 };
 
-[@bs.deriving abstract]
-type jsProps = {currentLocation: {. "pathname": string}};
-
-let default =
-  ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~currentLocation=jsProps->currentLocationGet, [||])
-  );
+let default = make;

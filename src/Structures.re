@@ -160,7 +160,7 @@ let decodePost = (json): post =>
 let decodePosts = (json): list(post) =>
   Json.Decode.(json |> array(decodePost)) |> Belt.List.fromArray;
 
-let decodeRelatedPosts = (json): list(post) => {
+let decodeRelatedPosts = (json): list(post) =>
   Json.Decode.(
     json
     |> field("rendered", string)
@@ -173,7 +173,6 @@ let decodeRelatedPosts = (json): list(post) => {
     |> Json.parseOrRaise
     |> decodePosts
   );
-};
 
 let findRootCategory = (item: post): term =>
   switch (

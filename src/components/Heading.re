@@ -1,8 +1,8 @@
 open BsReactNative;
 
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "title":
         style([
           fontSize(Float(40.)),
@@ -10,16 +10,10 @@ let styles =
           color(String("#005465")),
           fontWeight(`_300),
         ]),
-    },
+    })
   );
 
-let component = ReasonReact.statelessComponent("Heading");
-
-let make = children => {
-  ...component,
-  render: _self => {
-    <Text style=styles##title /*accessibilityRole=`header*/>
-      ...children
-    </Text>;
-  },
+[@react.component]
+let make = (~children, ()) => {
+  <Text style=styles##title /*accessibilityRole=`header*/> children </Text>;
 };

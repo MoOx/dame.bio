@@ -1,7 +1,5 @@
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("Spacer");
-
 let space = 20.;
 
 type size =
@@ -14,47 +12,50 @@ type size =
   | XXS
   | Custom(float);
 
-let styles =
-  StyleSheet.create(
-    Style.{
-      "xxl": style([width(Pt(space *. 4.)), height(Pt(space *. 4.))]),
-      "xl": style([width(Pt(space *. 3.)), height(Pt(space *. 3.))]),
-      "l": style([width(Pt(space *. 2.)), height(Pt(space *. 2.))]),
-      "m": style([width(Pt(space *. 1.)), height(Pt(space *. 1.))]),
-      "s":
-        style([
-          width(Pt(space *. 3. /. 4.)),
-          height(Pt(space *. 3. /. 4.)),
-        ]),
-      "xs":
-        style([
-          width(Pt(space *. 2. /. 4.)),
-          height(Pt(space *. 2. /. 4.)),
-        ]),
-      "xxs":
-        style([
-          width(Pt(space *. 1. /. 4.)),
-          height(Pt(space *. 1. /. 4.)),
-        ]),
-    },
-  );
+let size =
+  fun
+  | XXL => space *. 4.
+  | XL => space *. 3.
+  | L => space *. 2.
+  | M => space *. 1.
+  | S => space *. 3. /. 4.
+  | XS => space *. 2. /. 4.
+  | XXS => space *. 1. /. 4.
+  | Custom(value) => value;
 
-let make = (~size=M, _) => {
-  ...component,
-  render: _self =>
-    <View
-      style={
-        switch (size) {
-        | XXL => styles##xxl
-        | XL => styles##xl
-        | L => styles##l
-        | M => styles##m
-        | S => styles##s
-        | XS => styles##xs
-        | XXS => styles##xxs
-        | Custom(value) =>
-          Style.(style([width(Pt(value)), height(Pt(value))]))
-        }
-      }
-    />,
+let makeStyle = s => {
+  Style.(style([width(Pt(s)), height(Pt(s))]));
 };
+
+let styles =
+  StyleSheet.create({
+    "xxl": makeStyle(XXL->size),
+    "xl": makeStyle(XL->size),
+    "l": makeStyle(L->size),
+    "m": makeStyle(M->size),
+    "s": makeStyle(S->size),
+    "xs": makeStyle(XS->size),
+    "xxs": makeStyle(XXS->size),
+  });
+
+[@react.component]
+let make = (~size: size=M, ~style as styl=?, ()) =>
+  <View
+    style=Style.(
+      arrayOption([|
+        Some(
+          switch (size) {
+          | XXL => styles##xxl
+          | XL => styles##xl
+          | L => styles##l
+          | M => styles##m
+          | S => styles##s
+          | XS => styles##xs
+          | XXS => styles##xxs
+          | Custom(value) => makeStyle(value)
+          },
+        ),
+        styl,
+      |])
+    )
+  />;

@@ -2,8 +2,8 @@ open Belt;
 open BsReactNative;
 
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "container": style([flex(1.)]),
       "row": style([flex(1.), flexDirection(Row), flexWrap(Wrap)]),
       "avatar":
@@ -54,7 +54,7 @@ let styles =
           fontSize(Float(10.)),
           color(String("#e07676")),
         ]),
-    },
+    })
   );
 
 type message = {
@@ -64,7 +64,9 @@ type message = {
 };
 
 let newMessage = (): message => {
-  {name: User.getName(), email: User.getEmail(), content: ""};
+  name: User.getName(),
+  email: User.getEmail(),
+  content: "",
 };
 
 type errors = {
@@ -131,254 +133,256 @@ let formName = "contact";
 
 let component = ReasonReact.reducerComponent("ContactForm");
 
-let make = (~page=?, _children) => {
-  ...component,
-  initialState: () => {message: New},
-  reducer: (action, state) =>
-    switch (action) {
-    | MessageEdit(message) =>
-      switch (state.message) {
-      /* unless we are currently waiting for server reply for a message
-         we just allow edition of the message, even if status is errored */
-      /* | New */
-      /* | InProgress(message) */
-      /* | Posted((message, messageSuccessReponse)) */
-      | Sent(_) =>
-        Js.log("You can't edit while posting");
-        ReasonReact.NoUpdate;
-      /* | Errored((message, string)) */
-      | _ => ReasonReact.Update({message: InProgress(message)})
-      }
-    | MessageSend(message) =>
-      switch (state.message) {
-      | New =>
-        ReasonReact.Update({
-          message:
-            Errored((
-              message,
-              {message: {j|Vous n'avez encore rien écrit|j}, email: None},
-            )),
-        })
-      /* | InProgress(message) */
-      | Sent(_) =>
-        Js.log("You can't post while posting already");
-        ReasonReact.NoUpdate;
-      | Posted(_) =>
-        /* impossible state as you cannot have access to MessageSend while state is Posted */
-        ReasonReact.NoUpdate
-      | Errored((_, _)) => ReasonReact.NoUpdate
-      | _ =>
-        let payload =
-          Utils.(
-            "form-name"
-            ++ "="
-            ++ encodeURI(formName)
-            ++ "&"
-            ++ "name"
-            ++ "="
-            ++ encodeURI(message.name)
-            ++ "&"
-            ++ "email"
-            ++ "="
-            ++ encodeURI(message.email)
-            ++ "&"
-            ++ "content"
-            ++ "="
-            ++ encodeURI(message.content)
+[@react.component]
+let make = (~page=?, ()) =>
+  ReactCompat.useRecordApi({
+    ...component,
+    initialState: () => {message: New},
+    reducer: (action, state) =>
+      switch (action) {
+      | MessageEdit(message) =>
+        switch (state.message) {
+        /* unless we are currently waiting for server reply for a message
+           we just allow edition of the message, even if status is errored */
+        /* | New */
+        /* | InProgress(message) */
+        /* | Posted((message, messageSuccessReponse)) */
+        | Sent(_) =>
+          Js.log("You can't edit while posting");
+          ReasonReact.NoUpdate;
+        /* | Errored((message, string)) */
+        | _ => ReasonReact.Update({message: InProgress(message)})
+        }
+      | MessageSend(message) =>
+        switch (state.message) {
+        | New =>
+          ReasonReact.Update({
+            message:
+              Errored((
+                message,
+                {message: {j|Vous n'avez encore rien écrit|j}, email: None},
+              )),
+          })
+        /* | InProgress(message) */
+        | Sent(_) =>
+          Js.log("You can't post while posting already");
+          ReasonReact.NoUpdate;
+        | Posted(_) =>
+          /* impossible state as you cannot have access to MessageSend while state is Posted */
+          ReasonReact.NoUpdate
+        | Errored((_, _)) => ReasonReact.NoUpdate
+        | _ =>
+          let payload =
+            Utils.(
+              "form-name"
+              ++ "="
+              ++ encodeURI(formName)
+              ++ "&"
+              ++ "name"
+              ++ "="
+              ++ encodeURI(message.name)
+              ++ "&"
+              ++ "email"
+              ++ "="
+              ++ encodeURI(message.email)
+              ++ "&"
+              ++ "content"
+              ++ "="
+              ++ encodeURI(message.content)
+            );
+          ReasonReact.UpdateWithSideEffects(
+            {message: Sent((message, payload))},
+            ({send}) =>
+              sendMessage(
+                payload,
+                _status => send(MessageSuccess(message)),
+                error => send(MessageError((message, error))),
+              )
+              |> ignore,
           );
-        ReasonReact.UpdateWithSideEffects(
-          {message: Sent((message, payload))},
-          ({send}) =>
-            sendMessage(
-              payload,
-              _status => send(MessageSuccess(message)),
-              error => send(MessageError((message, error))),
-            )
-            |> ignore,
-        );
-      }
-    | MessageSuccess(message) =>
-      ReasonReact.Update({message: Posted(message)})
-    | MessageError((message, err)) =>
-      ReasonReact.Update({message: Errored((message, err))})
-    },
-  render: ({state, send}) => {
-    let errors =
-      switch (state.message) {
-      | New => noErrors
-      | InProgress(_) => noErrors
-      | Sent((_, _)) => noErrors
-      | Posted(_) => noErrors
-      | Errored((message, errors)) =>
-        let email =
-          String.length(message.email) == 0 ? Some("Requis") : errors.email;
-        let name = String.length(message.name) == 0 ? Some("Requis") : None;
-        let content =
-          switch (name, email) {
-          | (None, None) when String.length(message.content) == 0 =>
-            Some({j|Vous n'avez encore rien écrit|j})
-          | (None, None) => Some(errors.message)
-          | _ when String.length(message.content) == 0 =>
-            Some({j|Vous n'avez encore rien écrit|j})
-          | _ => None
-          };
-        {email, name, content};
-      };
+        }
+      | MessageSuccess(message) =>
+        ReasonReact.Update({message: Posted(message)})
+      | MessageError((message, err)) =>
+        ReasonReact.Update({message: Errored((message, err))})
+      },
+    render: ({state, send}) => {
+      let errors =
+        switch (state.message) {
+        | New => noErrors
+        | InProgress(_) => noErrors
+        | Sent((_, _)) => noErrors
+        | Posted(_) => noErrors
+        | Errored((message, errors)) =>
+          let email =
+            String.length(message.email) == 0
+              ? Some("Requis") : errors.email;
+          let name =
+            String.length(message.name) == 0 ? Some("Requis") : None;
+          let content =
+            switch (name, email) {
+            | (None, None) when String.length(message.content) == 0 =>
+              Some({j|Vous n'avez encore rien écrit|j})
+            | (None, None) => Some(errors.message)
+            | _ when String.length(message.content) == 0 =>
+              Some({j|Vous n'avez encore rien écrit|j})
+            | _ => None
+            };
+          {email, name, content};
+        };
 
-    let message =
-      switch (state.message) {
-      | New => newMessage()
-      | InProgress(message) => message
-      | Sent((message, _)) => message
-      | Posted(_) => newMessage()
-      | Errored((message, _)) => message
-      };
-    <View>
-      <Heading> {j|Contact|j}->ReasonReact.string </Heading>
-      <Spacer />
-      // <form & input> to make netlify bots happy
-      {ReactDOMRe.createElementVariadic(
-         "form",
-         ~props=
-           ReactDOMRe.objToDOMProps({
-             "name": formName,
-             "method": "post",
-             "netlify": "true",
-             "netlify-honeypot": "subject",
-             "hidden": "true",
-           }),
-         [|
-           <>
-             <input type_="text" name="name" />
-             <input type_="email" name="email" />
-             <input type_="text" name="content" />
-             // data-netlify-honeypot
-             <input type_="text" name="subject" />
-           </>,
-         |],
-       )}
-      <View style=styles##row>
-        {page
-         ->Option.map(item =>
-             <SpacedView style=styles##page>
-               <Html content=item##content />
-             </SpacedView>
-           )
-         ->Option.getWithDefault(ReasonReact.null)}
-        <View>
-          {switch (state.message) {
-           | Sent((_, _)) =>
-             <> <ActivityIndicator size=`small /> <Spacer /> </>
-           | Posted(_) =>
+      let message =
+        switch (state.message) {
+        | New => newMessage()
+        | InProgress(message) => message
+        | Sent((message, _)) => message
+        | Posted(_) => newMessage()
+        | Errored((message, _)) => message
+        };
+      <View>
+        <Heading> {j|Contact|j}->React.string </Heading>
+        <Spacer />
+        /*
+         // <form & input> to make netlify bots happy
+         */
+        {ReactDOMRe.createElementVariadic(
+           "form",
+           ~props=
+             ReactDOMRe.objToDOMProps({
+               "name": formName,
+               "method": "post",
+               "netlify": "true",
+               "netlify-honeypot": "subject",
+               "hidden": "true",
+             }),
+           [|
              <>
-               <Text> {j|👍 Message envoyé!|j}->ReasonReact.string </Text>
-               <Spacer />
-             </>
-           | _ => ReasonReact.null
-           }}
-          <noscript>
-            <Text>
-              {j|🚨 Veuillez |j}->ReasonReact.string
-              <a
-                target="_blank"
-                href="https://www.qwant.com/?q=comment%20activer%20javascript">
-                {j|activer JavaScript|j}->ReasonReact.string
-              </a>
-              {j| pour envoyer un message.|j}->ReasonReact.string
-            </Text>
-            <Spacer />
-          </noscript>
-          <ImageBackgroundFromUri
-            style=styles##messageBox
-            resizeMode=`stretch
-            uri="/images/watercolor-square-pink.png">
-            <Spacer />
-            <View style=styles##textInputWrapper>
-              <TextInput
-                style=Style.(
-                  arrayOption([|
-                    Some(styles##textInput),
-                    errors.name->Option.map(_ => styles##textInputError),
-                    Some(styles##textInputName),
-                  |])
-                )
-                value={message.name}
-                placeholder="Nom *"
-                onChangeText={text => {
-                  User.setName(text);
-                  send(MessageEdit({...message, name: text}));
-                }}
-              />
-              {switch (errors.name) {
-               | Some(message) =>
-                 <Text style=styles##errorText>
-                   message->ReasonReact.string
-                 </Text>
-               | None => ReasonReact.null
-               }}
-            </View>
-            <Spacer />
-            <View style=styles##textInputWrapper>
-              <TextInput
-                style=Style.(
-                  arrayOption([|
-                    Some(styles##textInput),
-                    errors.email->Option.map(_ => styles##textInputError),
-                    Some(styles##textInputEmail),
-                  |])
-                )
-                value={message.email}
-                placeholder="Email *"
-                onChangeText={text => {
-                  User.setEmail(text);
-                  send(MessageEdit({...message, email: text}));
-                }}
-              />
-              {switch (errors.email) {
-               | Some(message) =>
-                 <Text style=styles##errorText>
-                   message->ReasonReact.string
-                 </Text>
-               | None => ReasonReact.null
-               }}
-            </View>
-            <Spacer size=S />
-            <View style={styles##textInputWrapper}>
-              <TextInput
-                style=Style.(
-                  arrayOption([|
-                    Some(styles##textInput),
-                    errors.content->Option.map(_ => styles##textInputError),
-                    Some(styles##textInputMessage),
-                  |])
-                )
-                value={message.content}
-                placeholder={j|Votre message…|j}
-                onChangeText={text =>
-                  send(MessageEdit({...message, content: text}))
-                }
-                multiline=true
-                numberOfLines=8
-              />
-              {switch (errors.content) {
-               | Some(message) =>
-                 <Text style=styles##errorText>
-                   message->ReasonReact.string
-                 </Text>
-               | None => ReasonReact.null
-               }}
-            </View>
-            <Spacer size=XXS />
-            <TouchableOpacity
-              onPress={_ => send(MessageSend(message))}
-              style=styles##buttonSend>
-              <Text style=styles##buttonSendText>
-                {j|Envoyer|j}->ReasonReact.string
+               <input type_="text" name="name" />
+               <input type_="email" name="email" />
+               <input type_="text" name="content" />
+               /*
+                // data-netlify-honeypot
+                */
+               <input type_="text" name="subject" />
+             </>,
+           |],
+         )}
+        <View style=styles##row>
+          {page
+           ->Option.map(item =>
+               <SpacedView style=styles##page>
+                 <Html content=item##content />
+               </SpacedView>
+             )
+           ->Option.getWithDefault(React.null)}
+          <View>
+            {switch (state.message) {
+             | Sent((_, _)) =>
+               <> <ActivityIndicator size=`small /> <Spacer /> </>
+             | Posted(_) =>
+               <>
+                 <Text> {j|👍 Message envoyé!|j}->React.string </Text>
+                 <Spacer />
+               </>
+             | _ => React.null
+             }}
+            <noscript>
+              <Text>
+                {j|🚨 Veuillez |j}->React.string
+                <a
+                  target="_blank"
+                  href="https://www.qwant.com/?q=comment%20activer%20javascript">
+                  {j|activer JavaScript|j}->React.string
+                </a>
+                {j| pour envoyer un message.|j}->React.string
               </Text>
-            </TouchableOpacity>
-          </ImageBackgroundFromUri>
+              <Spacer />
+            </noscript>
+            <ImageBackgroundFromUri
+              style=styles##messageBox
+              resizeMode=`stretch
+              uri="/images/watercolor-square-pink.png">
+              <Spacer />
+              <View style=styles##textInputWrapper>
+                <TextInput
+                  style=Style.(
+                    arrayOption([|
+                      Some(styles##textInput),
+                      errors.name->Option.map(_ => styles##textInputError),
+                      Some(styles##textInputName),
+                    |])
+                  )
+                  value={message.name}
+                  placeholder="Nom *"
+                  onChangeText={text => {
+                    User.setName(text);
+                    send(MessageEdit({...message, name: text}));
+                  }}
+                />
+                {switch (errors.name) {
+                 | Some(message) =>
+                   <Text style=styles##errorText> message->React.string </Text>
+                 | None => React.null
+                 }}
+              </View>
+              <Spacer />
+              <View style=styles##textInputWrapper>
+                <TextInput
+                  style=Style.(
+                    arrayOption([|
+                      Some(styles##textInput),
+                      errors.email->Option.map(_ => styles##textInputError),
+                      Some(styles##textInputEmail),
+                    |])
+                  )
+                  value={message.email}
+                  placeholder="Email *"
+                  onChangeText={text => {
+                    User.setEmail(text);
+                    send(MessageEdit({...message, email: text}));
+                  }}
+                />
+                {switch (errors.email) {
+                 | Some(message) =>
+                   <Text style=styles##errorText> message->React.string </Text>
+                 | None => React.null
+                 }}
+              </View>
+              <Spacer size=S />
+              <View style=styles##textInputWrapper>
+                <TextInput
+                  style=Style.(
+                    arrayOption([|
+                      Some(styles##textInput),
+                      errors.content->Option.map(_ => styles##textInputError),
+                      Some(styles##textInputMessage),
+                    |])
+                  )
+                  value={message.content}
+                  placeholder={j|Votre message…|j}
+                  onChangeText={text =>
+                    send(MessageEdit({...message, content: text}))
+                  }
+                  multiline=true
+                  numberOfLines=8
+                />
+                {switch (errors.content) {
+                 | Some(message) =>
+                   <Text style=styles##errorText> message->React.string </Text>
+                 | None => React.null
+                 }}
+              </View>
+              <Spacer size=XXS />
+              <TouchableOpacity
+                onPress={_ => send(MessageSend(message))}
+                style=styles##buttonSend>
+                <Text style=styles##buttonSendText>
+                  {j|Envoyer|j}->React.string
+                </Text>
+              </TouchableOpacity>
+            </ImageBackgroundFromUri>
+          </View>
         </View>
-      </View>
-    </View>;
-  },
-};
+      </View>;
+    },
+  });

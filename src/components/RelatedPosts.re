@@ -1,8 +1,8 @@
 open BsReactNative;
 
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "title":
         style([
           fontSize(Float(28.)),
@@ -10,24 +10,21 @@ let styles =
           color(String("#006579")),
           fontWeight(`_300),
         ]),
-    },
+    })
   );
 
-let component = ReasonReact.statelessComponent("RelatedPosts");
-
-let make = (~items: list(Structures.post), _) => {
-  ...component,
-  render: _self =>
-    switch (items) {
-    | [] => ReasonReact.null
-    | _ =>
-      <>
-        <SpacedView>
-          <Text style=styles##title>
-            {j|Dans le même style|j}->ReasonReact.string
-          </Text>
-        </SpacedView>
-        <PostList posts=items />
-      </>
-    },
+[@react.component]
+let make = (~items: list(Structures.post), ()) => {
+  switch (items) {
+  | [] => React.null
+  | _ =>
+    <>
+      <SpacedView>
+        <Text style=styles##title>
+          {j|Dans le même style|j}->React.string
+        </Text>
+      </SpacedView>
+      <PostList posts=items />
+    </>
+  };
 };

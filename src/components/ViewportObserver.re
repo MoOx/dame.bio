@@ -1,6 +1,3 @@
-[@bs.module "./ViewportObserver"]
-external viewportObserver: ReasonReact.reactClass = "default";
-
 type cb = {
   .
   "hasBeenVisible": bool,
@@ -8,9 +5,5 @@ type cb = {
   "isCompletelyVisible": bool,
 };
 
-let make = (children: cb => ReasonReact.reactElement) =>
-  ReasonReact.wrapJsForReason(
-    ~reactClass=viewportObserver,
-    ~props=Js.Obj.empty(),
-    children,
-  );
+[@bs.module "./ViewportObserver.js"] [@react.component]
+external make: (~children: cb => React.element) => React.element = "default";

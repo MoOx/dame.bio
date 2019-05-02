@@ -1,10 +1,8 @@
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("Sidebar");
-
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "sidebar":
         style([
           flex(1.),
@@ -24,42 +22,38 @@ let styles =
       "iconWrapper":
         style([zIndex(1), lineHeight(24.), padding(Pt(14.))]),
       "iconBackground": style([paddingTop(Pt(3.)), paddingRight(Pt(2.))]),
-    },
+    })
   );
 
-let make = children => {
-  ...component,
-  render: _self => {
-    <View style=styles##sidebar>
-      <Spacer size=M />
-      <AuthorAvatar />
-      <Spacer size=M />
-      <View style=styles##block>
-        <Text style=styles##blockTitle>
-          {ReasonReact.string({j|Bienvenue|j})}
-        </Text>
-        <Bio />
-      </View>
-      <Spacer />
-      <SocialIcons
-        wrapperStyle=styles##icons
-        iconStyle=styles##icon
-        iconSize=24.
-        iconWrapperFunc={(~children) =>
-          <ImageBackgroundFromUri
-            resizeMode=`cover
-            style=styles##iconBackground
-            uri="/images/circle-splash-pink.png">
-            <Text style=styles##iconWrapper> ...children </Text>
-          </ImageBackgroundFromUri>
-        }
-      />
-      <Spacer size=L />
-      <DonationInvite />
-      <Spacer size=L />
-      <MoonPhase />
-      <Spacer size=L />
-      <View> ...children </View>
-    </View>;
-  },
+[@react.component]
+let make = (~children=?, ()) => {
+  <View style=styles##sidebar>
+    <Spacer size=M />
+    <AuthorAvatar />
+    <Spacer size=M />
+    <View style=styles##block>
+      <Text style=styles##blockTitle> {React.string({j|Bienvenue|j})} </Text>
+      <Bio />
+    </View>
+    <Spacer />
+    <SocialIcons
+      wrapperStyle=styles##icons
+      iconStyle=styles##icon
+      iconSize=24.
+      iconWrapperFunc={(~children) =>
+        <ImageBackgroundFromUri
+          resizeMode=`cover
+          style=styles##iconBackground
+          uri="/images/circle-splash-pink.png">
+          <Text style=styles##iconWrapper> children </Text>
+        </ImageBackgroundFromUri>
+      }
+    />
+    <Spacer size=L />
+    <DonationInvite />
+    <Spacer size=L />
+    <MoonPhase />
+    <Spacer size=L />
+    {children->Belt.Option.getWithDefault(React.null)}
+  </View>;
 };

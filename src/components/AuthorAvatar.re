@@ -1,10 +1,8 @@
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("Sidebar");
-
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "avatar": style([width(Pt(256.)), height(Pt(256.))]),
       "avatarDeco":
         style([
@@ -21,21 +19,16 @@ let styles =
           width(Pct(100.)),
           paddingBottom(Pct(100.)),
         ]),
-    },
+    })
   );
 
 let uriBg = "/images/avatar-background.png";
 let uri = "/images/avatar.jpg";
 
-let make = _ => {
-  ...component,
-  render: _self =>
-    <View style=styles##avatar>
-      <ImageBackgroundFromUri
-        resizeMode=`contain
-        style=styles##avatarDeco
-        uri=uriBg
-      />
-      <ImageFromUri style=styles##avatarImage uri />
-    </View>,
+[@react.component]
+let make = () => {
+  <View style=styles##avatar>
+    <ImageFromUri resizeMode=`contain style=styles##avatarDeco uri=uriBg />
+    <ImageFromUri style=styles##avatarImage uri />
+  </View>;
 };

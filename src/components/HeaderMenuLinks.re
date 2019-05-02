@@ -1,13 +1,11 @@
 open Belt;
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("HeaderMenuLinks");
-
 let textColor = Consts.Colors.light;
 
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "link":
         style([
           padding(Pt(10.)),
@@ -17,29 +15,27 @@ let styles =
         ]),
       "linkActive":
         style([textDecorationLine(Underline), textDecorationStyle(Solid)]),
-    },
+    })
   );
 
-let make = (~currentLocation, _children) => {
-  ...component,
-  render: _self =>
-    <View style=Style.(style([flexDirection(Row)]))>
-      {Consts.menuLinks
-       /* ->Array.sliceToEnd(1) */
-       ->Array.map(item => {
-           let isActive = item.isActive(currentLocation##pathname, item.link);
-           <TextLink
-             key={item.link}
-             href={item.link}
-             style=Style.(
-               arrayOption([|
-                 Some(styles##link),
-                 isActive ? Some(styles##linkActive) : None,
-               |])
-             )>
-             item.text->ReasonReact.string
-           </TextLink>;
-         })
-       ->ReasonReact.array}
-    </View>,
+[@react.component]
+let make = (~currentLocation, ()) => {
+  <View style=Style.(style([flexDirection(Row)]))>
+    {Consts.menuLinks
+     ->Array.map(item => {
+         let isActive = item.isActive(currentLocation##pathname, item.link);
+         <TextLink
+           key={item.link}
+           href={item.link}
+           style=Style.(
+             arrayOption([|
+               Some(styles##link),
+               isActive ? Some(styles##linkActive) : None,
+             |])
+           )>
+           item.text->React.string
+         </TextLink>;
+       })
+     ->React.array}
+  </View>;
 };

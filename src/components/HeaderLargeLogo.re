@@ -1,10 +1,8 @@
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("HeaderLargeLogo");
-
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "background":
         style([
           width(Pct(100.)),
@@ -31,38 +29,37 @@ let styles =
           width(Pt(685. *. 0.55)),
           height(Pt(290. *. 0.55)),
         ]),
-    },
+    })
   );
 
-let make = _children => {
-  ...component,
-  render: _self =>
-    <View style=styles##background>
-      <View style=styles##backgroundImageWrapper>
-        <ImageFromUri
-          resizeMode=`contain
-          style=styles##backgroundImage
-          uri="/images/header-background.png"
+[@react.component]
+let make = () => {
+  <View style=styles##background>
+    <View style=styles##backgroundImageWrapper>
+      <ImageFromUri
+        resizeMode=`contain
+        style=styles##backgroundImage
+        uri="/images/header-background.png"
+      />
+    </View>
+    <Spacer />
+    <ViewLink style=styles##logo href="/">
+      <View style=styles##logoImage>
+        <SVGDameBioLogoText width=365. height=104. fill=Consts.Colors.alt />
+        <Spacer />
+        <SVGDameBioLogoSeparator
+          width=145.
+          height=27.
+          fill=Consts.Colors.alt
         />
       </View>
-      <Spacer />
-      <ViewLink style=styles##logo href="/">
-        <View style=styles##logoImage>
-          <SVGDameBioLogoText width=365. height=104. fill=Consts.Colors.alt />
-          <Spacer />
-          <SVGDameBioLogoSeparator
-            width=145.
-            height=27.
-            fill=Consts.Colors.alt
-          />
-        </View>
-        <View style=styles##logoEffectWrapper>
-          <ImageFromUri
-            resizeMode=`cover
-            style=styles##logoEffect
-            uri="/images/logo-effect.png"
-          />
-        </View>
-      </ViewLink>
-    </View>,
+      <View style=styles##logoEffectWrapper>
+        <ImageFromUri
+          resizeMode=`cover
+          style=styles##logoEffect
+          uri="/images/logo-effect.png"
+        />
+      </View>
+    </ViewLink>
+  </View>;
 };

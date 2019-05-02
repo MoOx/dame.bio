@@ -3,23 +3,34 @@ const path = require("path");
 
 const template = ({ name }) =>
   `
-[@bs.scope "Platform"] [@bs.module "react-native"] external _os : string = "OS";
+  [@bs.scope "Platform"] [@bs.module "react-native"] external _os: string = "OS";
 
-[@bs.module "./${name}"] external js${name} : ReasonReact.reactClass = "default";
+  let defaultSize = 16.;
 
-let defaultSize = 16.;
+  module JsImplem = {
+    [@bs.module "./${name}"] [@react.component]
+    external make:
+      (
+        ~width: string,
+        ~height: string,
+        ~fill: string,
+        ~style: option(BsReactNative.Style.t),
+        unit
+      ) =>
+      React.element =
+      "default";
+  };
 
-let make = (~width=defaultSize, ~height=defaultSize, ~fill="#000", ~style=?, children) =>
-  ReasonReact.wrapJsForReason(
-    ~reactClass=js${name},
-    ~props={
-      "width": width->Js.Float.toString ++ (_os === "web" ? "px" : ""),
-      "height": height->Js.Float.toString ++ (_os === "web" ? "px" : ""),
-      "fill": fill,
-      "style": style
-    },
-    children
-  );
+  [@react.component]
+  let make =
+      (~width=defaultSize, ~height=defaultSize, ~fill="#000", ~style=?, ()) =>
+    <JsImplem
+      width={(width->Js.Float.toString) ++ (_os === "web" ? "px" : "")}
+      height={(height->Js.Float.toString) ++ (_os === "web" ? "px" : "")}
+      fill
+      style
+    />;
+
 `;
 
 const folderName = process.argv[2];

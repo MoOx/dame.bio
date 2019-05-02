@@ -4,8 +4,8 @@ open BsReactNative;
 let imageRatio = 240. /. 350.;
 
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "block":
         style([
           flex(1.),
@@ -44,24 +44,20 @@ let styles =
           lineHeight(29.),
           color(String("#006579")),
         ]),
-    },
+    })
   );
 
-let component = ReasonReact.statelessComponent("PageDetail");
-
-let make = (~item, _) => {
-  ...component,
-  render: _self => {
-    <View style=styles##block /*accessibilityRole=`webAriaArticle*/>
-      <Heading>
-        <span
-          dangerouslySetInnerHTML={
-            "__html": item##title->Option.getWithDefault(""),
-          }
-        />
-      </Heading>
-      <Spacer />
-      <SpacedView> <Html content=item##content /> </SpacedView>
-    </View>;
-  },
+[@react.component]
+let make = (~item, ()) => {
+  <View style=styles##block /*accessibilityRole=`webAriaArticle*/>
+    <Heading>
+      <span
+        dangerouslySetInnerHTML={
+          "__html": item##title->Option.getWithDefault(""),
+        }
+      />
+    </Heading>
+    <Spacer />
+    <SpacedView> <Html content=item##content /> </SpacedView>
+  </View>;
 };

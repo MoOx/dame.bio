@@ -2,8 +2,8 @@ open Belt;
 open BsReactNative;
 
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "avatar":
         style([width(Pt(40.)), height(Pt(40.)), borderRadius(100.)]),
       "avatarEmpty":
@@ -33,10 +33,8 @@ let styles =
           height(Pt(40.)),
           borderRadius(100.),
         ]),
-    },
+    })
   );
-
-let component = ReasonReact.statelessComponent("Avatar");
 
 let notSoRandomColor = s => {
   let hue =
@@ -46,32 +44,28 @@ let notSoRandomColor = s => {
   "hsl(" ++ string_of_int(hue) ++ ", 90%, 95%)";
 };
 
-let make = (~name=?, ~url=?, _) => {
-  ...component,
-  render: _self =>
-    <View
-      style=Style.(
-        arrayOption([|
-          Some(styles##avatar),
-          name->Option.map(name =>
-            style([backgroundColor(String(notSoRandomColor(name)))])
-          ),
-        |])
-      )>
-      {switch (name) {
-       | Some(name) when String.length(name) > 1 =>
-         <Text style=styles##avatarDefault>
-           {String.sub(name, 0, 1)->String.capitalize->ReasonReact.string}
-         </Text>
-       | _ =>
-         <Text style=styles##avatarEmpty>
-           {j|¨̮|j}->ReasonReact.string
-         </Text>
-       }}
-      {switch (url) {
-       | Some(url) =>
-         <ImageFromUri style=styles##avatarImage resizeMode=`contain uri=url />
-       | None => ReasonReact.null
-       }}
-    </View>,
+[@react.component]
+let make = (~name=?, ~url=?, ()) => {
+  <View
+    style=Style.(
+      arrayOption([|
+        Some(styles##avatar),
+        name->Option.map(name =>
+          style([backgroundColor(String(notSoRandomColor(name)))])
+        ),
+      |])
+    )>
+    {switch (name) {
+     | Some(name) when String.length(name) > 1 =>
+       <Text style=styles##avatarDefault>
+         {String.sub(name, 0, 1)->String.capitalize->React.string}
+       </Text>
+     | _ => <Text style=styles##avatarEmpty> {j|¨̮|j}->React.string </Text>
+     }}
+    {switch (url) {
+     | Some(url) =>
+       <ImageFromUri style=styles##avatarImage resizeMode=`contain uri=url />
+     | None => React.null
+     }}
+  </View>;
 };

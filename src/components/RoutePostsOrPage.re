@@ -86,86 +86,94 @@ module GetItems = [%graphql
 
 module GetItemsQuery = ReasonApollo.CreateQuery(GetItems);
 
-let component = ReasonReact.statelessComponent("RoutePostsOrPage");
-
-let make = (~status, ~categoryOrPageSlug, ~tagSlug, ~cursorAfter, _) => {
-  ...component,
-  render: _ => {
-    let itemsQuery =
-      GetItems.make(
-        ~first=perPage,
-        ~pageSlug=categoryOrPageSlug->Option.getWithDefault("noop"),
-        ~categorySlug=categoryOrPageSlug->Option.getWithDefault(""),
-        ~tagSlug?,
-        ~cursorAfter?,
-        (),
-      );
-    <AppWrapper>
-      <ContainerMainContentLarge>
-        {switch (status) {
-         | Loading => <LoadingIndicator />
-         | Error(error) => <Error label=error />
-         | Ready =>
-           <GetItemsQuery variables=itemsQuery##variables>
-             ...{({result}) =>
-               switch (result) {
-               | Loading => <LoadingIndicator />
-               | Error(error) => <Error label={Some(error##message)} />
-               | Data(response) =>
-                 let hasPosts = response##posts->Utils.hasEdges;
-                 let page =
-                   response##pages
-                   ->Option.flatMap(p => p##edges)
-                   ->Option.flatMap(edges => edges[0])
-                   ->Option.flatMap(edge => edge)
-                   ->Option.flatMap(edge => edge##node);
-                 let hasPage = page->Option.mapWithDefault(false, _ => true);
-                 <>
-                   <CategoryOrHomeTitle
-                     categories=response##categories
-                     generalSettings=response##generalSettings
-                   />
-                   {page
-                    ->Option.map(item => <PageDetail item />)
-                    ->Option.getWithDefault(ReasonReact.null)}
-                   {hasPosts ?
-                      <PostListGqlWithNav
+[@react.component]
+let make = (~status, ~categoryOrPageSlug, ~tagSlug, ~cursorAfter, ()) => {
+  let itemsQuery =
+    GetItems.make(
+      ~first=perPage,
+      ~pageSlug=categoryOrPageSlug->Option.getWithDefault("noop"),
+      ~categorySlug=categoryOrPageSlug->Option.getWithDefault(""),
+      ~tagSlug?,
+      ~cursorAfter?,
+      (),
+    );
+  <AppWrapper>
+    <ContainerMainContentLarge>
+      {switch (status) {
+       | Loading => <LoadingIndicator />
+       | Error(error) => <Error label=error />
+       | Ready =>
+         <GetItemsQuery variables=itemsQuery##variables>
+           ...{({result}) =>
+             switch (result) {
+             | Loading => <LoadingIndicator />
+             | Error(error) => <Error label={Some(error##message)} />
+             | Data(response) =>
+               let hasPosts = response##posts->Utils.hasEdges;
+               let page =
+                 response##pages
+                 ->Option.flatMap(p => p##edges)
+                 ->Option.flatMap(edges => edges[0])
+                 ->Option.flatMap(edge => edge)
+                 ->Option.flatMap(edge => edge##node);
+               let hasPage = page->Option.mapWithDefault(false, _ => true);
+               <>
+                 <CategoryOrHomeTitle
+                   categories=response##categories
+                   generalSettings=response##generalSettings
+                 />
+                 {page
+                  ->Option.map(item => <PageDetail item />)
+                  ->Option.getWithDefault(React.null)}
+                 {hasPosts
+                    ? <PostListGqlWithNav
                         posts=response##posts
                         categorySlug=categoryOrPageSlug
                         tagSlug
-                      /> :
-                      ReasonReact.null}
-                   {!hasPage && !hasPosts ?
-                      <Error label={Some({j|Aucun résultat|j})} /> :
-                      ReasonReact.null}
-                 </>;
-               }
+                      />
+                    : React.null}
+                 {!hasPage && !hasPosts
+                    ? <Error label={Some({j|Aucun résultat|j})} />
+                    : React.null}
+               </>;
              }
-           </GetItemsQuery>
-         }}
-      </ContainerMainContentLarge>
-      /* <SidebarSeparator /> */
-      <Sidebar />
-    </AppWrapper>;
-  },
+           }
+         </GetItemsQuery>
+       }}
+    </ContainerMainContentLarge>
+    /* <SidebarSeparator /> */
+    <Sidebar />
+  </AppWrapper>;
 };
 
+[@react.component]
 let composedComponent =
-  ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(
+    (
+      ~status,
+      ~error,
+      ~params: {
+         .
+         "categoryOrPageSlug": option(string),
+         "tagSlug": option(string),
+         "cursorAfter": option(string),
+       },
+    ) =>
+  React.createElementVariadic(
+    make,
+    makeProps(
       ~status=
-        switch (jsProps##status) {
+        switch (status) {
         | "loading" => Loading
         | "ready" => Ready
         | "error"
-        | _ => Error(Js.Nullable.toOption(jsProps##error))
+        | _ => Error(Js.Nullable.toOption(error))
         },
-      ~categoryOrPageSlug=
-        Js.Nullable.toOption(jsProps##params##categoryOrPageSlug),
-      ~tagSlug=Js.Nullable.toOption(jsProps##params##tagSlug),
-      ~cursorAfter=Js.Nullable.toOption(jsProps##params##cursorAfter),
-      [||],
-    )
+      ~categoryOrPageSlug=params##categoryOrPageSlug,
+      ~tagSlug=params##tagSlug,
+      ~cursorAfter=params##cursorAfter,
+      (),
+    ),
+    [|React.null|],
   );
 
 /* let getInitialProps = (...args) => args; */

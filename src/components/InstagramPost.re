@@ -1,8 +1,8 @@
 open BsReactNative;
 
 let styles =
-  StyleSheet.create(
-    Style.{
+  Style.(
+    StyleSheet.create({
       "block": style([position(Relative), flex(1.)]),
       "overlay":
         style([
@@ -24,7 +24,7 @@ let styles =
           fontWeight(`Bold),
           color(String("#fff")),
         ]),
-    },
+    })
   );
 
 type action =
@@ -35,45 +35,47 @@ type state = {focus: bool};
 
 let component = ReasonReact.reducerComponent("InstagramPost");
 
-let make = (~item, ~size, _children) => {
-  ...component,
-  initialState: () => {focus: false},
-  reducer: (action, _) =>
-    switch (action) {
-    | Focus => ReasonReact.Update({focus: true})
-    | Blur => ReasonReact.Update({focus: false})
+[@react.component]
+let make = (~item, ~size, ()) =>
+  ReactCompat.useRecordApi({
+    ...component,
+    initialState: () => {focus: false},
+    reducer: (action, _) =>
+      switch (action) {
+      | Focus => ReasonReact.Update({focus: true})
+      | Blur => ReasonReact.Update({focus: false})
+      },
+    render: ({state, send}) => {
+      let uri = item##images##standard_resolution##url;
+      <ViewLink
+        href=item##link
+        style=Style.(
+          array([|
+            styles##block,
+            style([width(Pt(size)), height(Pt(size))]),
+          |])
+        )
+        onMouseEnter={() => send(Focus)}
+        onMouseLeave={() => send(Blur)}>
+        <Image
+          style=styles##block
+          source={`URI(Image.(imageURISource(~uri, ())))}
+        />
+        {state.focus
+           ? <View style=styles##overlay>
+               <SVGFavorite fill="#fff" width=19. height=19. />
+               <Text style=styles##overlayText>
+                 " "->React.string
+                 {item##likes##count->string_of_int->React.string}
+                 "      "->React.string
+               </Text>
+               <SVGSpeechBubbleRight fill="#fff" width=19. height=19. />
+               <Text style=styles##overlayText>
+                 " "->React.string
+                 {item##comments##count->string_of_int->React.string}
+               </Text>
+             </View>
+           : React.null}
+      </ViewLink>;
     },
-  render: ({state, send}) => {
-    let uri = item##images##standard_resolution##url;
-    <ViewLink
-      href=item##link
-      style=Style.(
-        array([|
-          styles##block,
-          style([width(Pt(size)), height(Pt(size))]),
-        |])
-      )
-      onMouseEnter={() => send(Focus)}
-      onMouseLeave={() => send(Blur)}>
-      <Image
-        style=styles##block
-        source={`URI(Image.(imageURISource(~uri, ())))}
-      />
-      {state.focus
-         ? <View style=styles##overlay>
-             <SVGFavorite fill="#fff" width=19. height=19. />
-             <Text style=styles##overlayText>
-               " "->ReasonReact.string
-               {string_of_int(item##likes##count)->ReasonReact.string}
-               "      "->ReasonReact.string
-             </Text>
-             <SVGSpeechBubbleRight fill="#fff" width=19. height=19. />
-             <Text style=styles##overlayText>
-               " "->ReasonReact.string
-               {string_of_int(item##comments##count)->ReasonReact.string}
-             </Text>
-           </View>
-         : ReasonReact.null}
-    </ViewLink>;
-  },
-};
+  });

@@ -1,13 +1,11 @@
 open BsReactNative;
 
-let component = ReasonReact.statelessComponent("AppNative");
-
 let styles =
-  StyleSheet.create(Style.{"container": style([marginTop(Pt(44.))])});
+  Style.(StyleSheet.create({"container": style([marginTop(Pt(44.))])}));
 
-let make = _children => {
-  ...component,
-  render: _self => <View style=styles##container> <HeaderSmall /> </View>,
+[@react.component]
+let make = () => {
+  <View style=styles##container> <HeaderSmall /> </View>;
 };
 
-let default = ReasonReact.wrapReasonForJs(~component, _ => make([||]));
+let default = make;
