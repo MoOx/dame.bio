@@ -2391,9 +2391,10 @@ bs-platform@5.0.3:
   dependencies:
     yauzl "^2.9.1"
 
-"bs-react-native-monorepo@https://github.com/reasonml-community/bs-react-native.git#jsx3-migration":
-  version "0.0.0"
-  resolved "https://github.com/reasonml-community/bs-react-native.git#81add5a9e63771609ff9cee5a39dfc9284147bba"
+bs-react-native-jsx3-compat@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/bs-react-native-jsx3-compat/-/bs-react-native-jsx3-compat-0.11.1.tgz#643699594056e14dc61a719d0741b9c94d0c08fe"
+  integrity sha512-/+2DaxWBlRwjGP7luqn3hPWwcgabCm3uzRay6ly/md0JCSb/xsF4KgsS6VMHx0rZsndT81AfidlKb4rRQEaKUg==
 
 bs-webapi@^0.13.2:
   version "0.13.2"
@@ -9506,6 +9507,11 @@ reason-react-compat@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/reason-react-compat/-/reason-react-compat-0.4.0.tgz#9c6705f9bd67e7ff7219355f3a95fd67442b578d"
   integrity sha512-Bwwgb6AHusLiRhdd0aupFAuMYaG3gnwR6iHYYlj9gfLD6Uxp53dtJIhS2ZMTEpCSU1JE2X0k7x3rru1IRdx9FQ==
+
+reason-react-native@^0.60.0:
+  version "0.60.0"
+  resolved "https://registry.yarnpkg.com/reason-react-native/-/reason-react-native-0.60.0.tgz#7adb9837f28d79d9f1e009b5d01ae864aff15d51"
+  integrity sha512-7vq7KIaY1kGb5xnWVewuy8ttBx7/HAgeKfiwDYV3rij6Z89vU6QIheR6rENV8UxaKwRN/Gw168ladWLM042k9A==
 
 reason-react@^0.7.0:
   version "0.7.0"

@@ -29,13 +29,10 @@
     "reason-apollo",
     "reason-react-compat",
     "reason-react-native",
-    "bs-react-native-monorepo/bs-react-native-jsx3-compat",
+    "bs-react-native-jsx3-compat",
     "@moox/bs-react-helmet",
     "@phenomic/preset-react-app",
     "@phenomic/plugin-renderer-react",
     "@phenomic/api-client"
-  ],
-  "js-post-build": {
-    "cmd": "./node_modules/bs-react-native-monorepo/git-monorepo-usage-trick"
-  }
+  ]
 }
