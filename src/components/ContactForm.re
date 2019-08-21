@@ -91,23 +91,49 @@ type action =
 type messageState =
   | New
   | InProgress(message)
-  | Sent((message, string))
+  // netlify
+  // | Sent((message, string))
+  | Sent(
+      (
+        message,
+        {
+          .
+          "accessKey": string,
+          "name": string,
+          "email": string,
+          "message": string,
+        },
+      ),
+    )
   | Posted(message)
   | Errored((message, errors));
 
 type state = {message: messageState};
 
+let staticFormsAccessKey = "45eae26b-de71-4e38-9d09-00126bb4e0a5"; // contact2019@
+
 let sendMessage = (messageToSend, success, failure) =>
   Js.Promise.(
     Fetch.fetchWithInit(
-      "/",
+      // netlify
+      // "/",
+      // staticforms
+      "https://api.staticforms.xyz/submit",
       Fetch.RequestInit.make(
         ~method_=Post,
         ~headers=
           Fetch.HeadersInit.make({
-            "Content-Type": "application/x-www-form-urlencoded",
+            // netlify
+            // "Content-Type": "application/x-www-form-urlencoded",
+            // staticforms
+            "Content-Type": "application/json",
           }),
-        ~body=Fetch.BodyInit.make(messageToSend),
+        // netlify
+        // ~body=Fetch.BodyInit.make(messageToSend),
+        ~body=
+          Fetch.BodyInit.make(
+            Js.Json.stringifyAny(messageToSend)->Option.getWithDefault(""),
+          ),
         (),
       ),
     )
@@ -172,24 +198,32 @@ let make = (~page=?, ()) =>
           ReasonReact.NoUpdate
         | Errored((_, _)) => ReasonReact.NoUpdate
         | _ =>
-          let payload =
-            Utils.(
-              "form-name"
-              ++ "="
-              ++ encodeURI(formName)
-              ++ "&"
-              ++ "name"
-              ++ "="
-              ++ encodeURI(message.name)
-              ++ "&"
-              ++ "email"
-              ++ "="
-              ++ encodeURI(message.email)
-              ++ "&"
-              ++ "content"
-              ++ "="
-              ++ encodeURI(message.content)
-            );
+          /*
+           let payload =
+             Utils.(
+               "form-name"
+               ++ "="
+               ++ encodeURI(formName)
+               ++ "&"
+               ++ "name"
+               ++ "="
+               ++ encodeURI(message.name)
+               ++ "&"
+               ++ "email"
+               ++ "="
+               ++ encodeURI(message.email)
+               ++ "&"
+               ++ "content"
+               ++ "="
+               ++ encodeURI(message.content)
+             );
+             */
+          let payload = {
+            "accessKey": staticFormsAccessKey,
+            "name": message.name,
+            "email": message.email,
+            "message": message.content,
+          };
           ReasonReact.UpdateWithSideEffects(
             {message: Sent((message, payload))},
             ({send}) =>
@@ -200,6 +234,7 @@ let make = (~page=?, ()) =>
               )
               |> ignore,
           );
+        // netlify
         }
       | MessageSuccess(message) =>
         ReasonReact.Update({message: Posted(message)})
@@ -243,30 +278,31 @@ let make = (~page=?, ()) =>
         <Heading> {j|Contact|j}->React.string </Heading>
         <Spacer />
         /*
-         // <form & input> to make netlify bots happy
-         */
-        {ReactDOMRe.createElementVariadic(
-           "form",
-           ~props=
-             ReactDOMRe.objToDOMProps({
-               "name": formName,
-               "method": "post",
-               "netlify": "true",
-               "netlify-honeypot": "subject",
-               "hidden": "true",
-             }),
-           [|
-             <>
-               <input type_="text" name="name" />
-               <input type_="email" name="email" />
-               <input type_="text" name="content" />
-               /*
-                // data-netlify-honeypot
-                */
-               <input type_="text" name="subject" />
-             </>,
-           |],
-         )}
+          // <form & input> to make netlify bots happy
+          * /
+         {ReactDOMRe.createElementVariadic(
+            "form",
+            ~props=
+              ReactDOMRe.objToDOMProps({
+                "name": formName,
+                "method": "post",
+                "netlify": "true",
+                "netlify-honeypot": "subject",
+                "hidden": "true",
+              }),
+            [|
+              <>
+                <input type_="text" name="name" />
+                <input type_="email" name="email" />
+                <input type_="text" name="content" />
+                /*
+                 // data-netlify-honeypot
+                 */
+                <input type_="text" name="subject" />
+              </>,
+            |],
+          )}
+          */
         <View style=styles##row>
           {page
            ->Option.map(item =>
