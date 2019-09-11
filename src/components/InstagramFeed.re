@@ -156,7 +156,7 @@ let make = () =>
                  <TextLink
                    style=styles##blockTitle
                    href="https://instagram.com/dame.bio">
-                   {j|INSTAGRAM / @damebio|j}->React.string
+                   {j|INSTAGRAM / @dame.bio|j}->React.string
                  </TextLink>
                </SpacedView>
                <div className="ScrollView-snapToAlignment-center">
