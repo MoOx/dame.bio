@@ -2,7 +2,7 @@ open Belt;
 open BsReactNative;
 
 [@react.component]
-let make = (~posts, ~categorySlug, ~tagSlug, ()) => {
+let make = (~posts, ~categorySlug, ~tagSlug, ~cursorAfter, ()) => {
   let pageInfo = posts->Option.flatMap(p => p##pageInfo);
   <>
     {posts
@@ -38,7 +38,11 @@ let make = (~posts, ~categorySlug, ~tagSlug, ()) => {
                       </BannerButton>
                     )
                   ->Option.getWithDefault(React.null)
-                : React.null}
+                : cursorAfter->Option.isSome
+                    ? <BannerButton href="javascript:history.go(-1)">
+                        {j|Articles plus récents|j}->React.string
+                      </BannerButton>
+                    : React.null}
              {pageInfo
               ->Option.map(p => p##hasNextPage)
               ->Option.getWithDefault(false)

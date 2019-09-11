@@ -130,6 +130,7 @@ let make = (~status, ~categoryOrPageSlug, ~tagSlug, ~cursorAfter, ()) => {
                         posts=response##posts
                         categorySlug=categoryOrPageSlug
                         tagSlug
+                        cursorAfter
                       />
                     : React.null}
                  {!hasPage && !hasPosts
