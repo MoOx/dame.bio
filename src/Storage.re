@@ -18,9 +18,19 @@ type store = {
   mutable email: string,
   mutable url: string,
   mutable likes: array(string),
+  mutable authToken: option(string),
+  mutable refreshToken: option(string),
 };
 
-let freshStore = () => store(~name="", ~email="", ~url="", ~likes=[||]);
+let freshStore = () =>
+  store(
+    ~name="",
+    ~email="",
+    ~url="",
+    ~likes=[||],
+    ~authToken=None,
+    ~refreshToken=None,
+  );
 
 let store =
   switch (getIt("dame.bio")) {
@@ -32,6 +42,15 @@ let store =
     }
   | None => freshStore()
   };
+
+let cleanStore = () => {
+  store->nameSet("");
+  store->emailSet("");
+  store->urlSet("");
+  store->likesSet([||]);
+  store->authTokenSet(None);
+  store->refreshTokenSet(None);
+};
 
 let saveStore = (): unit =>
   saveIt("dame.bio", Js.Json.stringify(store->Obj.magic));

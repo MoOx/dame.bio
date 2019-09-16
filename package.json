@@ -114,5 +114,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "dependencies": {
+    "modal-enhanced-react-native-web": "^0.2.0",
+    "modal-react-native-web": "^0.2.0",
+    "react-native-modal": "^11.3.1"
   }
 }

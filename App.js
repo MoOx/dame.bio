@@ -9,7 +9,8 @@ import gql from "graphql-tag";
 
 import initApollo from "./src/init-apollo.js";
 import RoutePostsOrPage from "./src/components/RoutePostsOrPage.bs.js";
-import RoutePost from "./src/components/RoutePost.bs.js";
+import RoutePostBySlug from "./src/components/RoutePostBySlug.bs.js";
+import RoutePostById from "./src/components/RoutePostById.bs.js";
 import RouteContact from "./src/components/RouteContact.bs.js";
 import RouteError from "./src/components/RouteError.bs.js";
 
@@ -144,7 +145,7 @@ RouteContact.getAllPossibleUrls = () => {
 };
 
 // /:categoryOrPageSlug/:postSlug/
-RoutePost.getAllPossibleUrls = async () => {
+RoutePostBySlug.getAllPossibleUrls = async () => {
   return apolloClient
     .query({
       query: gql`
@@ -203,7 +204,8 @@ const routes = () => (
       path="/:categoryOrPageSlug/after/:cursorAfter/"
       component={RoutePostsOrPage}
     />
-    <Route path="/:categoryOrPageSlug/:postSlug/" component={RoutePost} />
+    <Route path="/:categoryOrPageSlug/:postSlug/" component={RoutePostBySlug} />
+    <Route path="/noindex/post/:postId/" component={RoutePostById} />
     <Route path="/404.html" component={RouteError} />
     <Route path="/*" component={RouteError} />
   </Router>

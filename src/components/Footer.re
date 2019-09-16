@@ -135,7 +135,8 @@ let make = () => {
         </SpacedView>
         <SpacedView vertical=S style=styles##footerMinitem>
           <Text style=styles##madeBy>
-            {j|⭑ By |j}->React.string
+            <LoginForm />
+            {j| By |j}->React.string
             <TextLink
               href="https://dame.bio/a-propos/"
               style=Style.(style([textDecorationLine(Underline)]))>
