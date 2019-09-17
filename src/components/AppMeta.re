@@ -105,7 +105,7 @@ body {
 
 .DameBioHtml .wp-block-image {
   margin: 40px auto;
-  max-width: calc(100% - 20px * 2);
+  max-width: calc(100% - 40px * 2);
 }
 
 @media (max-width: 640px) {
