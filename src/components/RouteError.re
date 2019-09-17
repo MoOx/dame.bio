@@ -11,4 +11,4 @@ let make = () =>
     <Sidebar />
   </AppWrapper>;
 
-let default = make;
+let default = WithApolloClient.make(make);
