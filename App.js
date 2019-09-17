@@ -32,6 +32,10 @@ if (typeof window === "undefined") {
   });
 }
 
+RouteError.getAllPossibleUrls = async () => {
+  return ["/404.html"];
+};
+
 RoutePostsOrPage.getAllPossibleUrls = async ({ path }) => {
   if (path == "/") {
     return ["/"];
@@ -206,7 +210,6 @@ const routes = () => (
     />
     <Route path="/:categoryOrPageSlug/:postSlug/" component={RoutePostBySlug} />
     <Route path="/noindex/post/:postId/" component={RoutePostById} />
-    <Route path="/404.html" component={RouteError} />
     <Route path="/*" component={RouteError} />
   </Router>
 );
