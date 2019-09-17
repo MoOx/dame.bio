@@ -40,8 +40,7 @@ let make = () => {
   let (pwd, setPwd) = React.useState(() => None);
   let isLogged = Auth.isLogged();
   <LoginMutation>
-    ...{(login, res) => {
-      Js.log2("ress", res);
+    ...{(login, _res) =>
       <>
         <ReactNativeModal
           isVisible=showLoginForm
@@ -104,9 +103,8 @@ let make = () => {
             <Spacer />
             <TouchableOpacity
               style=Style.(
-                style(
+                viewStyle(
                   ~backgroundColor="#333",
-                  ~color="#eee",
                   ~padding=(Spacer.space /. 2.)->dp,
                   ~borderRadius=3.,
                   (),
@@ -138,7 +136,9 @@ let make = () => {
                   )
                 ->ignore;
               }}>
-              <Text> "Login"->React.string </Text>
+              <Text style=Style.(textStyle(~color="#eee", ()))>
+                "Login"->React.string
+              </Text>
             </TouchableOpacity>
           </SpacedView>
         </ReactNativeModal>
@@ -157,7 +157,7 @@ let make = () => {
                onPress={_ => setShowLoginForm(_ => true)}>
                <Text> {j|⭑|j}->React.string </Text>
              </TouchableOpacity>}
-      </>;
-    }}
+      </>
+    }
   </LoginMutation>;
 };
