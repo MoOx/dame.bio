@@ -127,7 +127,7 @@ let make = (~item, ()) => {
         </View>
       </View>
     </SpacedView>
-    <Html content=item##content />
+    <Html content=item##content category=rootCategory />
     <SpacedView vertical=L style=styles##tags>
       {item##tags
        ->Option.flatMap(ts => ts##nodes)

@@ -88,7 +88,7 @@ body {
 .DameBioHtml h2 {
   margin: 40px 0 20px;
   font-size: 26px;
-  line-height: 26px;
+  line-height: calc(1.5 * 26px);
   font-weight: 600;
   color: #111;
 }
@@ -96,7 +96,10 @@ body {
 .DameBioHtml .ingredients dt::before,
 .DameBioHtml h2::before {
   content: "☆  ";
+  font-weight: 100;
 }
+
+.DameBioHtml--permaculture h2::before { content: "🍃 " }
 
 .DameBioHtml dd { margin: 0 }
 
@@ -131,6 +134,52 @@ body {
 .DameBioHtml .dbComment { white-space: normal }
 .DameBioHtml .dbComment p { margin: 0; }
 .DameBioHtml .dbComment a { color: #49443A; }
+
+.DameBioHtml blockquote {
+  border-left: 4px solid #b9c840;
+  margin: 0;
+  padding: 0 1em;
+}
+
+.DameBioHtml .conseils {
+  position: relative;
+  margin: 2em 0;
+  padding: 1em 1.5em;
+  background: #fff;
+  z-index: 1;
+}
+
+.DameBioHtml .conseils :first-child {
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.DameBioHtml .conseils::before {
+  display: block;
+  position: absolute;
+  left: 0em;
+  top: 0em;
+  content: " ";
+  width: 120px;
+  height: 60px;
+  border-top: 2px solid #b9c840;
+  border-left: 2px solid #b9c840;
+  border-top-left-radius: 6px;
+}
+
+.DameBioHtml .conseils::after {
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  content: " ";
+  width: 120px;
+  height: 60px;
+  border-bottom: 2px solid #b9c840;
+  border-right: 2px solid #b9c840;
+  border-bottom-right-radius: 6px;
+}
 |j}
       ->React.string
     </style>
