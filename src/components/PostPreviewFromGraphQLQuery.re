@@ -143,12 +143,15 @@ let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, ()) =>
             ->Option.flatMap(f => f##mediaDetails)
             ->Option.flatMap(m => m##sizes)
             ->Option.getWithDefault([||])
-            ->Array.keep(size => size##name === "medium")
+            ->Array.keep(size =>
+                size
+                ->Option.map(size =>
+                    size##name->Option.getWithDefault("") === "medium"
+                  )
+                ->Option.getWithDefault(false)
+              )
             ->Array.get(0)
-            ->Option.map(s => {
-                Js.log2("map s", s);
-                s##sourceUrl;
-              })
+            ->Option.flatMap(s => s->Option.map(s => s##sourceUrl))
             ->Option.getWithDefault(None)
           }
           style=styles##image
