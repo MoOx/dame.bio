@@ -1,29 +1,38 @@
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
-      "container": style([display(Flex)]),
-      "image": style([flexGrow(1.)]),
+      "container": viewStyle(~display=`flex, ()),
+      "image": imageStyle(~flexGrow=1., ()),
       "children":
-        style([
-          zIndex(1),
-          fontFamily("IndieFlower"),
-          fontWeight(`Bold),
-          fontSize(Float(24.)),
-          paddingHorizontal(Pt(60.)),
-          paddingVertical(Pt(20.)),
-          color(String("#fff")),
-        ]),
+        textStyle(
+          ~zIndex=1,
+          ~fontFamily="IndieFlower",
+          ~fontWeight=`bold,
+          ~fontSize=24.,
+          ~color="#fff",
+          (),
+        ),
     })
   );
 
 let uri = "/images/banner-button.png";
+
 [@react.component]
-let make = (~href, ~children, ()) => {
+let make =
+    (
+      ~href,
+      ~children,
+      ~verticalSpace as vertical=SpacedView.S,
+      ~horizontalSpace as horizontal=SpacedView.L,
+      (),
+    ) => {
   <ViewLink href style=styles##container>
-    <ImageBackgroundFromUri style=styles##image resizeMode=`contain uri>
-      <Text style=styles##children> children </Text>
+    <ImageBackgroundFromUri style=styles##image resizeMode=`stretch uri>
+      <SpacedView vertical horizontal>
+        <Text style=styles##children> children </Text>
+      </SpacedView>
     </ImageBackgroundFromUri>
   </ViewLink>;
 };
