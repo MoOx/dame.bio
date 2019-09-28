@@ -149,7 +149,7 @@ body {
   z-index: 1;
 }
 
-.DameBioHtml .conseils :first-child {
+.DameBioHtml .conseils > :first-child {
   text-transform: uppercase;
   font-size: 13px;
   font-weight: 800;
