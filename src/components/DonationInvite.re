@@ -1,83 +1,100 @@
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
       "container":
-        style([
-          paddingTop(Pt(30.)),
-          paddingHorizontal(Pt(10.)),
-          paddingBottom(Pt(20.)),
-          maxWidth(Pt(400.)),
-          width(Pct(100.)),
-          alignItems(Center),
-          borderRadius(6.),
-          /*
-           // for radius/image inside
-           */
-          overflow(Hidden),
-          backgroundColor(String(Consts.Colors.lightest)),
-          shadowColor(String("#333333")),
-          shadowOffset(~height=4., ~width=0.),
-          shadowOpacity(0.05),
-          shadowRadius(20.),
-        ]),
+        style(
+          ~paddingTop=30.->dp,
+          ~paddingHorizontal=10.->dp,
+          ~paddingBottom=20.->dp,
+          ~maxWidth=400.->dp,
+          ~width=100.->pct,
+          ~alignItems=`center,
+          ~borderRadius=6.,
+          // for radius/image inside
+          ~overflow=`hidden,
+          ~backgroundColor=Consts.Colors.lightest,
+          ~shadowColor="#333333",
+          ~shadowOffset=offset(~height=4., ~width=0.),
+          ~shadowOpacity=0.05,
+          ~shadowRadius=20.,
+          (),
+        ),
       "topLeft":
-        style([
-          position(Absolute),
-          top(Pt(0.)),
-          left(Pt(0.)),
-          width(Pt(158.)),
-          height(Pt(128.)),
-        ]),
+        style(
+          ~position=`absolute,
+          ~top=0.->dp,
+          ~left=0.->dp,
+          ~width=158.->dp,
+          ~height=128.->dp,
+          (),
+        ),
       "bottomRight":
-        style([
-          position(Absolute),
-          bottom(Pt(0.)),
-          right(Pt(0.)),
-          width(Pt(93.)),
-          height(Pt(86.)),
-        ]),
+        style(
+          ~position=`absolute,
+          ~bottom=0.->dp,
+          ~right=0.->dp,
+          ~width=93.->dp,
+          ~height=86.->dp,
+          (),
+        ),
       "bottom":
-        style([
-          position(Absolute),
-          bottom(Pt(0.)),
-          width(Pt(300.)),
-          height(Pt(22.)),
-        ]),
+        style(
+          ~position=`absolute,
+          ~bottom=0.->dp,
+          ~width=300.->dp,
+          ~height=22.->dp,
+          (),
+        ),
       "bottomLeft":
-        style([
-          position(Absolute),
-          bottom(Pt(0.)),
-          left(Pt(0.)),
-          width(Pt(26.)),
-          height(Pt(38.)),
-        ]),
+        style(
+          ~position=`absolute,
+          ~bottom=0.->dp,
+          ~left=0.->dp,
+          ~width=26.->dp,
+          ~height=38.->dp,
+          (),
+        ),
       "topRight":
-        style([
-          position(Absolute),
-          top(Pt(0.)),
-          right(Pt(0.)),
-          width(Pt(108.)),
-          height(Pt(115.)),
-        ]),
+        style(
+          ~position=`absolute,
+          ~top=0.->dp,
+          ~right=0.->dp,
+          ~width=108.->dp,
+          ~height=115.->dp,
+          (),
+        ),
       "content":
-        style([zIndex(1), justifyContent(Center), alignItems(Center)]),
-      "title": style([fontSize(Float(20.)), color(String("#ed6487"))]),
+        style(~zIndex=1, ~justifyContent=`center, ~alignItems=`center, ()),
+      "title": style(~fontSize=22., ~color="#ed6487", ()),
+      "button":
+        style(
+          ~fontSize=20.,
+          ~borderRadius=6.,
+          ~paddingVertical=10.->dp,
+          ~paddingHorizontal=20.->dp,
+          ~color="#fff",
+          ~backgroundColor="#ed6487",
+          ~opacity=0.75,
+          (),
+        ),
       "text":
-        style([
-          textAlign(Center),
-          fontSize(Float(10.)),
-          color(String("#67635b")),
-          fontWeight(`_300),
-        ]),
+        style(
+          ~textAlign=`center,
+          ~fontSize=10.,
+          ~color="#67635b",
+          ~fontWeight=`_300,
+          (),
+        ),
       "text2":
-        style([
-          textAlign(Center),
-          fontSize(Float(12.)),
-          color(String("#67635b")),
-          fontWeight(`_800),
-        ]),
+        style(
+          ~textAlign=`center,
+          ~fontSize=12.,
+          ~color="#67635b",
+          ~fontWeight=`_800,
+          (),
+        ),
     })
   );
 
@@ -105,37 +122,23 @@ let make = () => {
     <ImageFromUri style=styles##bottom resizeMode=`contain uri=bottom />
     <View style=styles##content>
       <Text style=styles##title> {j|Soutenir le blog|j}->React.string </Text>
-      <Spacer size=S />
-      <a
-        style={ReactDOMRe.Style.make(
-          ~margin="auto",
-          ~textDecoration="none",
-          ~padding="8px 14px",
-          ~fontWeight="bold",
-          ~color="#fff",
-          ~background="pink",
-          (),
-        )}
-        href="https://www.paypal.me/damebio/3">
-        {j|M'offrir un thé|j}->React.string
-      </a>
-      <Spacer size=S />
-      <Text style=styles##text>
-        {j|Vous pouvez soutenir mon travail en effectuant un don.|j}
-        ->React.string
-      </Text>
-      <Spacer size=S />
+      <Spacer size=M />
+      <ViewLink style=styles##button href="https://www.paypal.me/damebio/10">
+        {j|Faire un don|j}->React.string
+      </ViewLink>
+      <Spacer />
+      // <Spacer size=S />
+      // <Text style=styles##text>
+      //   {j|Vous pouvez soutenir mon travail en effectuant un don.|j}
+      //   ->React.string
+      // </Text>
+      // <Spacer size=S />
       <Text style=styles##text2>
         {j|Un grand merci à vous ♥|j}->React.string
       </Text>
       <Spacer size=S />
       <a
-        style={ReactDOMRe.Style.make(
-          ~color="#67635b",
-          ~fontSize="12px",
-          ~textDecoration="underline",
-          (),
-        )}
+        style={ReactDOMRe.Style.make(~color="#67635b", ~fontSize="12px", ())}
         href="https://www.paypal.me/damebio/">
         {j|Don libre via Paypal|j}->React.string
       </a>
