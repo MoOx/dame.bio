@@ -1,29 +1,35 @@
-open BsReactNative;
+open Belt;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
-      "imageContainer": style([display(Flex), overflow(Hidden)]),
+      "imageContainer": viewStyle(~display=`flex, ~overflow=`hidden, ()),
       "image":
-        style([
-          position(Absolute),
-          top(Pt(0.)),
-          bottom(Pt(0.)),
-          right(Pt(0.)),
-          left(Pt(0.)),
-          backgroundColor(String("#eee")),
-        ]),
+        imageStyle(
+          ~position=`absolute,
+          ~top=0.->dp,
+          ~bottom=0.->dp,
+          ~right=0.->dp,
+          ~left=0.->dp,
+          ~backgroundColor="#eee",
+          (),
+        ),
     })
   );
 
 [@react.component]
-let make = (~uri, ~ratio, ~style as s=?, ()) => {
+let make = (~uri=?, ~ratio, ~style as s=?, ()) => {
   <View style=styles##imageContainer>
     <PlaceholderWithAspectRatio ratio>
-      <ImageFromUri
-        style=Style.(arrayOption([|Some(styles##image), s|]))
-        uri
-      />
+      {uri
+       ->Option.map(uri =>
+           <ImageFromUri
+             style=Style.(arrayOption([|Some(styles##image), s|]))
+             uri
+           />
+         )
+       ->Option.getWithDefault(React.null)}
     </PlaceholderWithAspectRatio>
   </View>;
 };

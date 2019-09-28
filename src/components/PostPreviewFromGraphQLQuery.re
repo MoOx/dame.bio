@@ -137,17 +137,23 @@ let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, ()) =>
         ++ item##slug->Option.getWithDefault(item##id)
         ++ "/";
       let image =
-        item##featuredImage
-        ->Option.flatMap(f => f##mediaDetails)
-        ->Option.flatMap(m => m##sizes)
-        ->Option.getWithDefault([||])
-        ->Array.keepMap(x => x)
-        ->Array.get(1)
-        ->Option.flatMap(s => s##sourceUrl)
-        ->Option.map(uri =>
-            <ImageWithAspectRatio uri style=styles##image ratio=imageRatio />
-          )
-        ->Option.getWithDefault(React.null);
+        <ImageWithAspectRatio
+          uri=?{
+            item##featuredImage
+            ->Option.flatMap(f => f##mediaDetails)
+            ->Option.flatMap(m => m##sizes)
+            ->Option.getWithDefault([||])
+            ->Array.keep(size => size##name === "medium")
+            ->Array.get(0)
+            ->Option.map(s => {
+                Js.log2("map s", s);
+                s##sourceUrl;
+              })
+            ->Option.getWithDefault(None)
+          }
+          style=styles##image
+          ratio=imageRatio
+        />;
       let category =
         rootCategory##name
         ->Option.getWithDefault("")
