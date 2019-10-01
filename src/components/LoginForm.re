@@ -79,7 +79,7 @@ let make = () => {
               autoFocus=true
               clearButtonMode=`always
               keyboardType=`emailAddress
-              placeholder="Liloue"
+              placeholder="Nom utilisateur"
               textContentType=`emailAddress
             />
             <Spacer />

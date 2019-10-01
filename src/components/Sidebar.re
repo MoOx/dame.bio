@@ -33,7 +33,7 @@ let make = (~children=?, ()) => {
     <Spacer size=M />
     <View style=styles##block>
       <Text style=styles##blockTitle> {React.string({j|Bienvenue|j})} </Text>
-      <Bio />
+      <Bio> Consts.shortBio->React.string </Bio>
     </View>
     <Spacer />
     <SocialIcons

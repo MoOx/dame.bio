@@ -140,7 +140,7 @@ let make = () => {
             <TextLink
               href="https://dame.bio/a-propos/"
               style=Style.(style([textDecorationLine(Underline)]))>
-              {j|Liloue|j}->React.string
+              Consts.nickname->React.string
             </TextLink>
             {j| & |j}->React.string
             <TextLink

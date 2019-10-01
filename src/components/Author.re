@@ -3,8 +3,7 @@ open BsReactNative;
 let styles =
   Style.(
     StyleSheet.create({
-      "container":
-        style([flexDirection(Row), flexWrap(Wrap), alignItems(Center)]),
+      "container": style([flexDirection(Row), flexWrap(Wrap)]),
       "block": style([flex(1.), flexBasis(Pt(300.))]),
       "blockTitle":
         style([
@@ -12,12 +11,7 @@ let styles =
           marginBottom(Pt(12.)),
           color(String("#DE6D88")),
         ]),
-      "blockText":
-        style([
-          fontSize(Float(16.)),
-          lineHeight(29.),
-          marginBottom(Pt(12.)),
-        ]),
+      "blockText": style([fontSize(Float(16.)), lineHeight(16. *. 1.5)]),
       "icons": style([flexDirection(Row), justifyContent(FlexEnd)]),
       "icon": style([]),
       "iconWrapper":
@@ -35,8 +29,10 @@ let make = () => {
     <AuthorAvatar />
     <Spacer />
     <View style=styles##block>
-      <Text style=styles##blockTitle> {j|Liloue|j}->React.string </Text>
-      <Text style=styles##blockText> <Bio /> </Text>
+      <Text style=styles##blockTitle> Consts.nickname->React.string </Text>
+      <Text style=styles##blockText>
+        <Bio> Consts.bio->React.string </Bio>
+      </Text>
       <Spacer />
       <SocialIcons
         wrapperStyle=styles##icons

@@ -13,9 +13,6 @@ let styles =
   );
 
 [@react.component]
-let make = () => {
-  <Text style=styles##bioText>
-    {j|Curieuse et gourmande, je vis dans la région toulousaine à la campagne. Passionnée de cuisine et de potager bio, je crée des recettes sans gluten, souvent sans lactose et parfois sans oeufs.|j}
-    ->React.string
-  </Text>;
+let make = (~children) => {
+  <Text style=styles##bioText> children </Text>;
 };
