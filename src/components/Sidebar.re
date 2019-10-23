@@ -9,6 +9,7 @@ let styles =
           flexBasis(Pt(350.)),
           alignItems(Center),
           paddingHorizontal(Pt(20.)),
+          paddingVertical(Pt(10.)),
         ]),
       "block": style([padding(Pt(20.))]),
       "blockTitle":
