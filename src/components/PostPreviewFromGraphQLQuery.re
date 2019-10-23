@@ -50,7 +50,7 @@ let styles =
         style([fontSize(Float(10.)), color(String("#DE6D88"))]),
       "titleText":
         style([
-          fontSize(Float(22.)),
+          fontSize(Float(20.)),
           fontWeight(`_300),
           lineHeight(28.),
           color(String("#1C1C1C")),
