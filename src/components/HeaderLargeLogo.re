@@ -29,6 +29,19 @@ let styles =
           width(Pt(685. *. 0.55)),
           height(Pt(290. *. 0.55)),
         ]),
+      "words":
+        style([
+          fontWeight(`_300),
+          fontSize(Float(16.)),
+          color(String("#67B44B")),
+        ]),
+      "wordsSep":
+        style([
+          fontWeight(`_100),
+          fontSize(Float(10.)),
+          color(String("#67B44B")),
+          opacity(Float(0.5)),
+        ]),
     })
   );
 
@@ -59,6 +72,21 @@ let make = () => {
           style=styles##logoEffect
           uri="/images/logo-effect.png"
         />
+      </View>
+      <View
+        style=Style.(
+          style([
+            marginTop(Pt(20.)),
+            justifyContent(Center),
+            alignItems(Center),
+            flexDirection(Row),
+          ])
+        )>
+        <Text style=styles##words> {j|Éveil|j}->React.string </Text>
+        <Text style=styles##wordsSep> {j|  ♥  |j}->React.string </Text>
+        <Text style=styles##words> "Conscience"->React.string </Text>
+        <Text style=styles##wordsSep> {j|  ♥  |j}->React.string </Text>
+        <Text style=styles##words> "Nature"->React.string </Text>
       </View>
     </ViewLink>
   </View>;
