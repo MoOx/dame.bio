@@ -30,6 +30,13 @@ let categoriesLinks = [|
       Js.String.startsWith("/alimentation/", current),
   },
   {
+    link: "/yoga/",
+    text: {j|Yoga|j},
+    icon: (~width, ~height, ~fill, _) =>
+      <SVGMenuLifestyle width height fill />,
+    isActive: (current, _link) => Js.String.startsWith("/yoga/", current),
+  },
+  {
     link: "/permaculture/",
     text: {j|Permaculture|j},
     icon: (~width, ~height, ~fill, _) =>
