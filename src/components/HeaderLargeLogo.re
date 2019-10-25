@@ -11,14 +11,6 @@ let styles =
           alignItems(Center),
           overflow(Hidden),
         ]),
-      "backgroundImageWrapper":
-        style([position(Absolute), top(Pt(0.)), left(Pct(50.))]),
-      "backgroundImage":
-        style([
-          left(Pct(-50.)),
-          width(Pt(2523. *. 0.5)),
-          height(Pt(163. *. 0.5)),
-        ]),
       "logo": style([position(Relative), zIndex(1)]),
       "logoImage": style([justifyContent(Center), alignItems(Center)]),
       "logoEffectWrapper":
@@ -48,13 +40,6 @@ let styles =
 [@react.component]
 let make = () => {
   <View style=styles##background>
-    <View style=styles##backgroundImageWrapper>
-      <ImageFromUri
-        resizeMode=`contain
-        style=styles##backgroundImage
-        uri="/images/header-background.png"
-      />
-    </View>
     <Spacer />
     <ViewLink style=styles##logo href="/">
       <View style=styles##logoImage>

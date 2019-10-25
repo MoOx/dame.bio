@@ -1,26 +1,33 @@
 open Belt;
-open BsReactNative;
+open ReactNative;
 
 let textColor = Consts.Colors.light;
 
 let styles =
   Style.(
     StyleSheet.create({
+      "container": viewStyle(~flexDirection=`row, ()),
       "link":
-        style([
-          padding(Pt(10.)),
-          fontSize(Float(14.)),
-          lineHeight(14. *. 2.),
-          color(String(textColor)),
-        ]),
+        textStyle(
+          ~padding=10.->dp,
+          ~fontSize=14.,
+          ~fontWeight=`_500,
+          ~lineHeight=14. *. 2.,
+          ~color=textColor,
+          (),
+        ),
       "linkActive":
-        style([textDecorationLine(Underline), textDecorationStyle(Solid)]),
+        textStyle(
+          ~textDecorationLine=`underline,
+          ~textDecorationStyle=`solid,
+          (),
+        ),
     })
   );
 
 [@react.component]
 let make = (~currentLocation, ()) => {
-  <View style=Style.(style([flexDirection(Row)]))>
+  <View style=styles##container>
     {Consts.menuLinks
      ->Array.map(item => {
          let isActive = item.isActive(currentLocation##pathname, item.link);
