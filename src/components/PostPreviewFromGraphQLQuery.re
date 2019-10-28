@@ -2,37 +2,22 @@ open Belt;
 open BsReactNative;
 
 let imageRatio = 240. /. 350.;
-let radius = 3.;
+let radius = 10.;
 
 let styles =
   Style.(
     StyleSheet.create({
       "wrapper": style([flex(1.), flexBasis(Pt(340.))]),
       "container":
-        Dimensions.get(`window)##width <= 500
-          ? style([
-              flex(1.),
-              shadowColor(String("#333333")),
-              shadowOffset(~height=4., ~width=0.),
-              shadowOpacity(0.1),
-              shadowRadius(20.),
-            ])
-          : style([
-              flex(1.),
-              shadowColor(String("#333333")),
-              shadowOffset(~height=4., ~width=0.),
-              shadowOpacity(0.05),
-              shadowRadius(20.),
-            ]),
-      "containerContent":
         style([
           flex(1.),
-          /* shadow to help differentiate the top left flowers */
-          shadowColor(String("#fff")),
-          shadowOffset(~height=-1., ~width=-1.),
-          shadowOpacity(0.5),
-          shadowRadius(0.),
+          borderRadius(radius),
+          shadowColor(String("#333333")),
+          shadowOffset(~height=2., ~width=0.),
+          shadowOpacity(0.04),
+          shadowRadius(16.),
         ]),
+      "containerContent": style([flex(1.)]),
       "image":
         style([borderTopLeftRadius(radius), borderTopRightRadius(radius)]),
       "text":
@@ -40,10 +25,10 @@ let styles =
           flex(1.),
           borderBottomLeftRadius(radius),
           borderBottomRightRadius(radius),
-          borderLeftWidth(StyleSheet.hairlineWidth),
-          borderRightWidth(StyleSheet.hairlineWidth),
-          borderBottomWidth(StyleSheet.hairlineWidth),
-          borderColor(String(Consts.Colors.lightGrey)),
+          borderLeftWidth(0.5),
+          borderRightWidth(0.5),
+          borderBottomWidth(0.5),
+          borderColor(String("#efefef")),
           backgroundColor(String(Consts.Colors.lightest)),
         ]),
       "categoryText":
@@ -99,7 +84,7 @@ let clearOptionalTimeout = optionalTimeoutRef =>
 let component = ReasonReact.reducerComponent("PostPreviewFromGraphQLQuery");
 
 [@react.component]
-let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, ()) =>
+let make = (~item, ~withWatercolorBottomRightCorner=false, ()) =>
   ReactCompat.useRecordApi({
     ...component,
     initialState: () => {focusTimeout: ref(None), focus: false},
@@ -174,22 +159,7 @@ let make = (~item, ~withFlowers=false, ~withWatercolorCorner=false, ()) =>
         | v => ("  " ++ v->string_of_int)->React.string
         };
       <SpacedView key=id style=styles##wrapper vertical=M horizontal=M>
-        {withFlowers
-           ? <ImageFromUri
-               resizeMode=`contain
-               uri="/images/preview-corner-top-left.png"
-               style=Style.(
-                 style([
-                   position(Absolute),
-                   top(Pt(-6.)),
-                   left(Pt(-10.)),
-                   width(Pt(290. /. 2.)),
-                   height(Pt(491. /. 2.)),
-                 ])
-               )
-             />
-           : React.null}
-        {withWatercolorCorner
+        {withWatercolorBottomRightCorner
            ? <ImageFromUri
                resizeMode=`contain
                uri="/images/watercolor-bottom-right.png"

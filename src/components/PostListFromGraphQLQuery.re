@@ -23,8 +23,9 @@ let make = (~edges, ()) => {
              <PostPreviewFromGraphQLQuery
                key=item##id
                item
-               withFlowers={index == 0}
-               withWatercolorCorner={index == Array.length(edges) - 1}
+               withWatercolorBottomRightCorner={
+                 index == Array.length(edges) - 1
+               }
              />
            )
          ->Option.getWithDefault(React.null)
