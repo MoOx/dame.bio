@@ -1,39 +1,30 @@
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
       "background":
-        style([
-          width(Pct(100.)),
-          padding(Pt(40.)),
-          justifyContent(Center),
-          alignItems(Center),
-          overflow(Hidden),
-        ]),
-      "logo": style([position(Relative), zIndex(1)]),
-      "logoImage": style([justifyContent(Center), alignItems(Center)]),
+        style(
+          ~width=100.->pct,
+          ~padding=40.->dp,
+          ~justifyContent=`center,
+          ~alignItems=`center,
+          ~overflow=`hidden,
+          (),
+        ),
+      "logo": style(~position=`relative, ~zIndex=1, ()),
+      "logoImage": style(~justifyContent=`center, ~alignItems=`center, ()),
       "logoEffectWrapper":
-        style([position(Absolute), top(Pt(-15.)), left(Pct(50.))]),
+        style(~position=`absolute, ~top=(-1.)->dp, ~left=50.->pct, ()),
       "logoEffect":
-        style([
-          left(Pct(-50.)),
-          width(Pt(685. *. 0.55)),
-          height(Pt(290. *. 0.55)),
-        ]),
-      "words":
-        style([
-          fontWeight(`_300),
-          fontSize(Float(16.)),
-          color(String("#67B44B")),
-        ]),
-      "wordsSep":
-        style([
-          fontWeight(`_100),
-          fontSize(Float(10.)),
-          color(String("#67B44B")),
-          opacity(Float(0.5)),
-        ]),
+        style(
+          ~left=(-5.)->pct,
+          ~width=(685. *. 0.55)->dp,
+          ~height=(290. *. 0.55)->dp,
+          (),
+        ),
+      "words": style(~fontWeight=`_300, ~fontSize=16., ~color="#67B44B", ()),
+      "wordsSep": style(~opacity=0.5, ()),
     })
   );
 
@@ -43,29 +34,41 @@ let make = () => {
     <Spacer />
     <ViewLink style=styles##logo href="/">
       <View style=styles##logoImage>
-        <SVGDameBioLogoText width=365. height=104. fill=Consts.Colors.alt />
-        <Spacer />
-        <SVGDameBioLogoSeparator
-          width=145.
-          height=27.
-          fill=Consts.Colors.alt
-        />
-      </View>
-      <View style=styles##logoEffectWrapper>
         <ImageFromUri
           resizeMode=`cover
-          style=styles##logoEffect
-          uri="/images/logo-effect.png"
+          style=Style.(
+            imageStyle(
+              ~width=(727. *. 0.5)->dp,
+              ~height=(292. *. 0.5)->dp,
+              (),
+            )
+          )
+          uri="/images/logo-dame.bio.jpg"
         />
       </View>
+      // <SVGDameBioLogoText width=365. height=104. fill=Consts.Colors.alt />
+      // <Spacer />
+      // <SVGDameBioLogoSeparator
+      //   width=145.
+      //   height=27.
+      //   fill=Consts.Colors.alt
+      // />
+      // <View style=styles##logoEffectWrapper>
+      //   <ImageFromUri
+      //     resizeMode=`cover
+      //     style=styles##logoEffect
+      //     uri="/images/logo-effect.png"
+      //   />
+      // </View>
       <View
         style=Style.(
-          style([
-            marginTop(Pt(20.)),
-            justifyContent(Center),
-            alignItems(Center),
-            flexDirection(Row),
-          ])
+          style(
+            ~marginTop=20.->dp,
+            ~justifyContent=`center,
+            ~alignItems=`center,
+            ~flexDirection=`row,
+            (),
+          )
         )>
         <Text style=styles##words> {j|Éveil|j}->React.string </Text>
         <Text style=styles##wordsSep>
