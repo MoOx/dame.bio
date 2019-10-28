@@ -68,9 +68,17 @@ let make = () => {
           ])
         )>
         <Text style=styles##words> {j|Éveil|j}->React.string </Text>
-        <Text style=styles##wordsSep> {j|  ♥  |j}->React.string </Text>
+        <Text style=styles##wordsSep>
+          <SpacedView horizontal=XS>
+            <SVGHeart width={48. *. 0.2} height={39. *. 0.2} />
+          </SpacedView>
+        </Text>
         <Text style=styles##words> "Conscience"->React.string </Text>
-        <Text style=styles##wordsSep> {j|  ♥  |j}->React.string </Text>
+        <Text style=styles##wordsSep>
+          <SpacedView horizontal=XS>
+            <SVGHeart width={48. *. 0.2} height={39. *. 0.2} />
+          </SpacedView>
+        </Text>
         <Text style=styles##words> "Nature"->React.string </Text>
       </View>
     </ViewLink>
