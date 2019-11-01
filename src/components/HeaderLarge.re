@@ -1,22 +1,25 @@
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
       "header":
-        style([
-          justifyContent(Center),
-          alignItems(Center),
-          backgroundColor(String("#fefefe")),
-        ]),
+        style(
+          ~justifyContent=`center,
+          ~alignItems=`center,
+          ~backgroundColor="#fefefe",
+          ~overflow=`hidden,
+          (),
+        ),
       "backgroundImageWrapper":
-        style([position(Absolute), top(Pt(0.)), left(Pct(50.))]),
+        style(~position=`absolute, ~top=0.->dp, ~left=50.->pct, ()),
       "backgroundImage":
-        style([
-          left(Pct(-50.)),
-          width(Pt(3387. *. 0.5)),
-          height(Pt(394. *. 0.5)),
-        ]),
+        style(
+          ~left=(-50.)->pct,
+          ~width=(3387. *. 0.5)->dp,
+          ~height=(394. *. 0.5)->dp,
+          (),
+        ),
     })
   );
 
