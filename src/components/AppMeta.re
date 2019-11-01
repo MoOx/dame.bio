@@ -1,3 +1,5 @@
+open Consts.Colors;
+
 [@react.component]
 let make = () =>
   <BsReactHelmet defaultTitle=Consts.title>
@@ -109,6 +111,7 @@ body {
   display: block;
   margin: 40px auto;
   max-width: calc(100% - 40px * 2);
+  background: $lightGrey;
 }
 
 @media (max-width: 640px) {

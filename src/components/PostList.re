@@ -1,5 +1,5 @@
 open Belt;
-open BsReactNative;
+open ReactNative;
 
 let imageRatio = 240. /. 350.;
 
@@ -7,7 +7,7 @@ let styles =
   Style.(
     StyleSheet.create({
       "list":
-        style([flexDirection(Row), flexWrap(Wrap), alignItems(Stretch)]),
+        style(~flexDirection=`row, ~flexWrap=`wrap, ~alignItems=`stretch, ()),
     })
   );
 

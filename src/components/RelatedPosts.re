@@ -1,15 +1,16 @@
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
       "title":
-        style([
-          fontSize(Float(28.)),
-          lineHeight(28. *. 1.5),
-          color(String("#006579")),
-          fontWeight(`_300),
-        ]),
+        style(
+          ~fontSize=28.,
+          ~lineHeight=28. *. 1.5,
+          ~color="#006579",
+          ~fontWeight=`_300,
+          (),
+        ),
     })
   );
 

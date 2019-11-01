@@ -1,5 +1,5 @@
 open Belt;
-open BsReactNative;
+open ReactNative;
 
 include PostPreviewFromGraphQLQuery;
 

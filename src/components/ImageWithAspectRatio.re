@@ -12,7 +12,7 @@ let styles =
           ~bottom=0.->dp,
           ~right=0.->dp,
           ~left=0.->dp,
-          ~backgroundColor="#eee",
+          ~backgroundColor=Consts.Colors.lightGrey,
           (),
         ),
     })
