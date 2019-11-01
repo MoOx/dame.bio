@@ -112,6 +112,8 @@ body {
   margin: 40px auto;
   max-width: calc(100% - 40px * 2);
   background: $lightGrey;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 @media (max-width: 640px) {
