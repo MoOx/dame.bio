@@ -102,33 +102,31 @@ body {
 .DameBioHtml--permaculture h2::before { content: "🍃 " }
 
 .DameBioHtml dd { margin: 0 }
+.DameBioHtml .wp-block-image { margin: 0 }
 
-.DameBioHtml .wp-block-image {
+.DameBioHtml .Db-Media {
+  position: relative;
+  display: block;
   margin: 40px auto;
   max-width: calc(100% - 40px * 2);
 }
 
 @media (max-width: 640px) {
-  .DameBioHtml .wp-block-image {
+  .DameBioHtml .Db-Media {
     margin: 20px -20px;
     max-width: calc(100% + 20px * 2);
   }
 }
 
-.DameBioHtml .wp-block-image figcaption {
+.DameBioHtml .Db-Media img {display: block;}
+.DameBioHtml .Db-Media-overlay {position:absolute;top:0;left:0;right:0;bottom:0;}
+
+.DameBioHtml figcaption {
   color: #555d66;
   font-size: 14px;
   margin-top: 10px;
   text-align: center;
 }
-
-.DameBioHtml .dbtmp-element-protector-wrapper {
-  position: relative;
-  display: block;
-  margin: 0;
-}
-.DameBioHtml .dbtmp-element-protector-wrapper img {display: block;}
-.DameBioHtml .dbtmp-element-protector-overlay {position:absolute;top:0;left:0;right:0;bottom:0;}
 
 /* keep wordpress html default rendering */
 .DameBioHtml .dbComment { white-space: normal }
