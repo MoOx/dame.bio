@@ -77,6 +77,7 @@ let make = (~currentLocation, ()) => {
                                         currentLocation##pathname
                                         ->Js.String.startsWith(
                                             slugWithSlashes,
+                                            _,
                                           );
                                       <TextLink
                                         key=slugWithSlashes
