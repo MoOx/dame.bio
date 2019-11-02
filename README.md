@@ -1,8 +1,10 @@
 # D'Âme Bio website
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/1da94b97-0211-471d-9fa9-f7c1b0542b48/deploy-status)](https://app.netlify.com/sites/damebio/deploys)
+
 Front-end for the upcoming revamp of https://dame.bio
 
-For now online at https://damebio.netlify.com
+For now online at https://beta.dame.bio
 
 ## Made with
 
@@ -12,7 +14,7 @@ For now online at https://damebio.netlify.com
   [React-Native-Web](https://github.com/necolas/react-native-web)
 - [GraphQL](http://graphql.org) & [Apollo](https://www.apollographql.com)
 - [ReasonML](https://reasonml.github.io/) &
-  [BsReactNative](https://github.com/reasonml-community/bs-react-native)
+  [Reason React Native](https://reasonml-community.github.io/reason-react-native/)
 
 ## Contribute
 
