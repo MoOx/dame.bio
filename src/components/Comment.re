@@ -37,7 +37,7 @@ let styles =
         ]),
       "commentOwner":
         style([
-          backgroundColor(String("#DE6D88")),
+          backgroundColor(String(Consts.Colors.pink)),
           paddingHorizontal(Pt(6.)),
           borderRadius(8.),
           alignSelf(Center),

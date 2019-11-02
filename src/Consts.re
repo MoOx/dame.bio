@@ -1,5 +1,6 @@
 open Belt;
 
+let backendUrl = "https://dame.bio/";
 let title = {j|D'Âme Bio|j};
 let titleTemplateHome = title ++ {j| - %s|j};
 let titleTemplate = {j|%s - |j} ++ title;
@@ -135,4 +136,5 @@ module Colors = {
   let main = "rgb(0, 101, 121)";
   let main50 = "rgba(0, 101, 121, 0.5)";
   let alt = "#67B44B";
+  let pink = "#DE6D88";
 };

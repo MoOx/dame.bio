@@ -9,7 +9,7 @@ let styles =
         style([
           fontSize(Float(24.)),
           marginBottom(Pt(12.)),
-          color(String("#DE6D88")),
+          color(String(Consts.Colors.pink)),
         ]),
       "blockText": style([fontSize(Float(16.)), lineHeight(16. *. 1.5)]),
       "icons": style([flexDirection(Row), justifyContent(FlexEnd)]),

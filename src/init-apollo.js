@@ -11,6 +11,7 @@ import { onError } from "apollo-link-error";
 import { IntrospectionFragmentMatcher } from "apollo-cache-inmemory";
 /* eslint-enable */
 
+import { backendUrl } from "./Consts.bs";
 import { store, saveStore } from "./Storage.bs";
 import { logout } from "./Auth.bs";
 
@@ -18,7 +19,7 @@ let apolloClient = null;
 const isBrowser = typeof window !== "undefined";
 
 const httpLink = new HttpLink({
-  uri: "https://dame.bio/graphql",
+  uri: backendUrl + "graphql",
   credentials: "same-origin",
 });
 const middlewareLink = new ApolloLink((operation, forward) => {

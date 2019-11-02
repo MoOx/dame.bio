@@ -32,7 +32,7 @@ let styles =
           backgroundColor(String(Consts.Colors.lightest)),
         ]),
       "categoryText":
-        style([fontSize(Float(10.)), color(String("#DE6D88"))]),
+        style([fontSize(Float(10.)), color(String(Consts.Colors.pink))]),
       "titleText":
         style([
           fontSize(Float(20.)),

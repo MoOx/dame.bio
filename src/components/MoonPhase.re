@@ -1,34 +1,36 @@
-open BsReactNative;
+open ReactNative;
 
 [@react.component]
 let make = () => {
   let currentMoonPhase = Moon.currentPhase();
   <SpacedView
     style=Style.(
-      style([
-        width(Pct(100.)),
-        maxWidth(Pt(400.)),
-        alignItems(Center),
-        borderRadius(6.),
-        backgroundColor(String(Consts.Colors.lightest)),
-        shadowColor(String("#333333")),
-        shadowOffset(~height=4., ~width=0.),
-        shadowOpacity(0.05),
-        shadowRadius(20.),
-      ])
+      style(
+        ~width=100.->pct,
+        ~maxWidth=400.->dp,
+        ~alignItems=`center,
+        ~borderRadius=6.,
+        ~backgroundColor=Consts.Colors.lightest,
+        ~shadowColor="#333333",
+        ~shadowOffset=offset(~height=4., ~width=0.),
+        ~shadowOpacity=0.05,
+        ~shadowRadius=20.,
+        (),
+      )
     )>
     <View>
       <Text
         style=Style.(
-          style([
-            fontSize(Float(12.)),
-            fontWeight(`_600),
-            color(String(Consts.Colors.grey)),
-          ])
+          style(
+            ~fontSize=12.,
+            ~fontWeight=`_600,
+            ~color=Consts.Colors.grey,
+            (),
+          )
         )>
         {{j|Phase de la Lune|j}->String.uppercase->React.string}
       </Text>
-      <Text style=Style.(style([fontSize(Float(36.)), fontWeight(`_100)]))>
+      <Text style=Style.(style(~fontSize=36., ~fontWeight=`_100, ()))>
         (
           switch (currentMoonPhase.phase) {
           | New => {j|Nouvelle Lune|j}
@@ -45,7 +47,7 @@ let make = () => {
       </Text>
     </View>
     <Spacer />
-    <Text style=Style.(style([fontSize(Float(72.)), lineHeight(64.)]))>
+    <Text style=Style.(style(~fontSize=72., ~lineHeight=64., ()))>
       currentMoonPhase.unicode->React.string
     </Text>
   </SpacedView>;

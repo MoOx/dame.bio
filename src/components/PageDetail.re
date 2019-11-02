@@ -18,7 +18,7 @@ let styles =
       "date":
         style([fontSize(Float(12.)), color(String(Consts.Colors.grey))]),
       "categoryText":
-        style([fontSize(Float(14.)), color(String("#DE6D88"))]),
+        style([fontSize(Float(14.)), color(String(Consts.Colors.pink))]),
       "actions":
         style([
           flexDirection(Row),

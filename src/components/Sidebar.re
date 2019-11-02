@@ -1,28 +1,29 @@
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
       "sidebar":
-        style([
-          flex(1.),
-          flexBasis(Pt(350.)),
-          alignItems(Center),
-          paddingHorizontal(Pt(20.)),
-          paddingVertical(Pt(10.)),
-        ]),
-      "block": style([padding(Pt(20.))]),
+        style(
+          ~flex=1.,
+          ~flexBasis=350.->dp,
+          ~alignItems=`center,
+          ~paddingHorizontal=20.->dp,
+          ~paddingVertical=10.->dp,
+          (),
+        ),
+      "block": style(~padding=20.->dp, ()),
       "blockTitle":
-        style([
-          fontSize(Float(24.)),
-          marginBottom(Pt(12.)),
-          color(String("#DE6D88")),
-        ]),
-      "icons": style([flexDirection(Row), justifyContent(Center)]),
-      "icon": style([]),
-      "iconWrapper":
-        style([zIndex(1), lineHeight(24.), padding(Pt(14.))]),
-      "iconBackground": style([paddingTop(Pt(3.)), paddingRight(Pt(2.))]),
+        style(
+          ~fontSize=24.,
+          ~marginBottom=12.->dp,
+          ~color=Consts.Colors.pink,
+          (),
+        ),
+      "icons": style(~flexDirection=`row, ~justifyContent=`center, ()),
+      "icon": style(),
+      "iconWrapper": style(~zIndex=1, ~lineHeight=24., ~padding=14.->dp, ()),
+      "iconBackground": style(~paddingTop=3.->dp, ~paddingRight=2.->dp, ()),
     })
   );
 
@@ -54,6 +55,8 @@ let make = (~children=?, ()) => {
     <DonationInvite />
     <Spacer size=L />
     <MoonPhase />
+    <Spacer size=L />
+    <SidebarCategories />
     <Spacer size=L />
     {children->Belt.Option.getWithDefault(React.null)}
   </View>;
