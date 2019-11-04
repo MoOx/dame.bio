@@ -1,5 +1,4 @@
-open Belt;
-open BsReactNative;
+open ReactNative;
 
 let colorInActive = Consts.Colors.tabBarIconInactive;
 let colorActive = Consts.Colors.tabBarIconActive;
@@ -8,59 +7,98 @@ let styles =
   Style.(
     StyleSheet.create({
       "wrapper":
-        style([
-          borderTopWidth(StyleSheet.hairlineWidth),
-          borderColor(String("#E3E4E5")),
-        ]),
+        style(
+          ~borderTopWidth=StyleSheet.hairlineWidth,
+          ~borderColor="#E3E4E5",
+          (),
+        ),
       "container":
-        style([
-          flex(1.),
-          flexDirection(Row),
-          minHeight(Pt(50.)),
-          alignItems(Center),
-        ]),
-      "itemWrapper": style([flex(1.), justifyContent(Center)]),
-      "item": style([justifyContent(Center), alignItems(Center)]),
+        style(
+          ~flex=1.,
+          ~flexDirection=`row,
+          ~minHeight=50.->dp,
+          ~alignItems=`center,
+          (),
+        ),
+      "itemWrapper": style(~flex=1., ~justifyContent=`center, ()),
+      "item": style(~justifyContent=`center, ~alignItems=`center, ()),
       "itemText":
-        style([
-          flex(1.),
-          color(String(colorInActive)),
-          fontSize(Float(10.)),
-          marginTop(Pt(1.5)),
-        ]),
-      "itemTextActive": style([color(String(colorActive))]),
+        style(
+          ~flex=1.,
+          ~color=colorInActive,
+          ~fontSize=10.,
+          ~marginTop=1.5->dp,
+          (),
+        ),
+      "itemTextActive": style(~color=colorActive, ()),
     })
   );
+
+let width = 24.;
+let height = 24.;
+
+let renderItem = (~index, ~url, ~label, ~isActive) => {
+  index > 2
+    ? React.null
+    : <ViewLink key=url href=url style=styles##itemWrapper>
+        <View style=styles##item>
+          {switch (url) {
+           | "/" =>
+             <SVGMenuHome
+               width
+               height
+               fill={isActive ? colorActive : colorInActive}
+             />
+           | "/alimentation/" =>
+             <SVGMenuRepas
+               width
+               height
+               fill={isActive ? colorActive : colorInActive}
+             />
+           | "/yoga/" =>
+             <SVGMenuYoga
+               width
+               height
+               fill={isActive ? colorActive : colorInActive}
+             />
+           | "/permaculture/" =>
+             <SVGMenuFeuilles
+               width
+               height
+               fill={isActive ? colorActive : colorInActive}
+             />
+           | _ =>
+             <SVGMenu
+               width
+               height
+               fill={isActive ? colorActive : colorInActive}
+             />
+           }}
+          <Text
+            style=Style.(
+              arrayOption([|
+                Some(styles##itemText),
+                isActive ? Some(styles##itemTextActive) : None,
+              |])
+            )>
+            label->React.string
+          </Text>
+        </View>
+      </ViewLink>;
+};
 
 [@react.component]
 let make = (~currentLocation, ()) => {
   <SafeAreaView style=styles##wrapper>
     <View style=styles##container>
-      {Consts.tabBarLinks
-       ->Array.map(item => {
-           let isActive = item.isActive(currentLocation##pathname, item.link);
-           <ViewLink
-             key={item.link} href={item.link} style=styles##itemWrapper>
-             <View style=styles##item>
-               {item.icon(
-                  ~width=24.,
-                  ~height=24.,
-                  ~fill=isActive ? colorActive : colorInActive,
-                  (),
-                )}
-               <Text
-                 style=Style.(
-                   arrayOption([|
-                     Some(styles##itemText),
-                     isActive ? Some(styles##itemTextActive) : None,
-                   |])
-                 )>
-                 item.text->React.string
-               </Text>
-             </View>
-           </ViewLink>;
-         })
-       ->React.array}
+      {renderItem(
+         ~index=1,
+         ~url="/",
+         ~label="Accueil",
+         ~isActive=currentLocation##pathname == "/",
+       )}
+      <WpMenu id="TWVudTo5NTk=" currentLocation renderItem />
+      {renderItem(~index=1, ~url="#footer", ~label="Plus", ~isActive=false)}
     </View>
   </SafeAreaView>;
 };

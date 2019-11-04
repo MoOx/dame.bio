@@ -53,6 +53,12 @@ let uri = "/images/footer-flowers.png";
 let width: Style.pt_only = Style.Pt(1800. *. 0.75);
 let height: Style.pt_only = Style.Pt(324. *. 0.75);
 
+let renderItem = (~index as _, ~url, ~label, ~isActive as _) => {
+  <TextLink style=styles##link href=url key=url>
+    label->React.string
+  </TextLink>;
+};
+
 [@react.component]
 let make = () => {
   let year = "2019";
@@ -60,6 +66,7 @@ let make = () => {
     <Spacer size=XL />
     <InstagramFeed />
     <Spacer size=L />
+    <div id="footer" />
     <SpacedView style=styles##content>
       <Container style=styles##blocks>
         <SpacedView
@@ -77,13 +84,11 @@ let make = () => {
             {{j|Catégories|j}->String.uppercase->React.string}
           </Text>
           <Spacer />
-          {Consts.categoriesLinks
-           ->Array.map(l =>
-               <TextLink style=styles##link href={l.link} key={l.link}>
-                 l.text->React.string
-               </TextLink>
-             )
-           ->React.array}
+          <WpMenu
+            id="TWVudTo1ODM="
+            currentLocation={"pathname": ""}
+            renderItem
+          />
         </SpacedView>
         <SpacedView style=styles##block>
           <Text style=styles##blockTitle>

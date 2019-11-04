@@ -1,5 +1,3 @@
-open Belt;
-
 let backendUrl = "https://dame.bio/";
 let title = {j|D'Âme Bio|j};
 let titleTemplateHome = title ++ {j| - %s|j};
@@ -7,83 +5,6 @@ let titleTemplate = {j|%s - |j} ++ title;
 let nickname = {j|Aurélie|j};
 let shortBio = {j|Semeuse de graines et cultivatrice d’un mode de vie doux, naturel et respectueux de la Terre.|j};
 let bio = {j|Auteure, professeure de hatha yoga, créatrice de contenus et permacultrice. Je partage mon cheminement personnel, mes expériences, conseils, réflexions, coups de coeur et connaissances avec bienveillance et amour. A travers ce blog, je souhaite éveiller, transmettre, partager, renouer avec notre nature, revenir à l’essentiel, impulser des changements positifs et des prises de conscience.|j};
-
-type tabBarLink = {
-  link: string,
-  text: string,
-  icon: (~width: float, ~height: float, ~fill: string, unit) => React.element,
-  isActive: (string, string) => bool,
-};
-
-type menuLink = {
-  link: string,
-  text: string,
-  isActive: (string, string) => bool,
-};
-
-let categoriesLinks = [|
-  {
-    link: "/alimentation/",
-    text: {j|Alimentation|j},
-    icon: (~width, ~height, ~fill, _) =>
-      <SVGMenuAlimentation width height fill />,
-    isActive: (current, _link) =>
-      Js.String.startsWith("/alimentation/", current),
-  },
-  {
-    link: "/yoga/",
-    text: {j|Yoga|j},
-    icon: (~width, ~height, ~fill, _) =>
-      <SVGMenuLifestyle width height fill />,
-    isActive: (current, _link) => Js.String.startsWith("/yoga/", current),
-  },
-  {
-    link: "/permaculture/",
-    text: {j|Permaculture|j},
-    icon: (~width, ~height, ~fill, _) =>
-      <SVGMenuPermaculture width height fill />,
-    isActive: (current, _link) =>
-      Js.String.startsWith("/permaculture/", current),
-  },
-  {
-    link: "/bien-etre/",
-    text: {j|Bien-Être|j},
-    icon: (~width, ~height, ~fill, _) =>
-      <SVGMenuBienEtre width height fill />,
-    isActive: (current, _link) =>
-      Js.String.startsWith("/bien-etre/", current),
-  },
-  {
-    link: "/lifestyle/",
-    text: {j|Lifestyle|j},
-    icon: (~width, ~height, ~fill, _) =>
-      <SVGMenuLifestyle width height fill />,
-    isActive: (current, _link) =>
-      Js.String.startsWith("/lifestyle/", current),
-  },
-|];
-
-let menuLinks =
-  categoriesLinks
-  ->Array.map(l => {link: l.link, text: l.text, isActive: l.isActive})
-  ->Array.concat([|
-      {
-        link: "/a-propos/",
-        text: {j|À propos|j},
-        isActive: (current, link) => current == link,
-      },
-    |]);
-
-let tabBarLinks =
-  [|
-    {
-      link: "/",
-      text: {j|Accueil|j},
-      icon: (~width, ~height, ~fill, _) => <SVGMenuHome width height fill />,
-      isActive: (current, link) => current == link,
-    },
-  |]
-  ->Array.concat(categoriesLinks);
 
 type socialLink = {
   title: string,

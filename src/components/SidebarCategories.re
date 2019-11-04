@@ -29,82 +29,20 @@ let styles =
     })
   );
 
-module GetCategories = [%graphql
-  {|
-  query getCategories {
-    menu(id: "TWVudTo1ODM=") {
-      menuItems {
-        nodes {
-          label
-          url
-        }
-      }
-    }
-  }
-|}
-];
-
-module GetCategoriesQuery = ReasonApollo.CreateQuery(GetCategories);
+let renderItem = (~index, ~url, ~label, ~isActive as _) => {
+  <View key=url>
+    {index == 0 ? React.null : <View style=styles##sep />}
+    <ViewLink href=url>
+      <SpacedView vertical=S horizontal=XXS>
+        <Text style=styles##link> label->React.string </Text>
+      </SpacedView>
+    </ViewLink>
+  </View>;
+};
 
 [@react.component]
 let make = () => {
-  let itemsQuery = GetCategories.make();
   <SpacedView style=styles##categories>
-    <GetCategoriesQuery variables=itemsQuery##variables>
-      ...{({result}) =>
-        switch (result) {
-        | Loading => <LoadingIndicator />
-        | Error(error) => React.null
-        | Data(response) =>
-          response##menu
-          ->Option.flatMap(cs =>
-              cs##menuItems
-              ->Option.flatMap(maybeItems =>
-                  maybeItems##nodes
-                  ->Option.map(items =>
-                      items
-                      ->Array.mapWithIndex((index, maybeItem) =>
-                          maybeItem
-                          ->Option.flatMap(item =>
-                              item##label
-                              ->Option.flatMap(c =>
-                                  item##url
-                                  ->Option.map(url =>
-                                      <>
-                                        {index == 0
-                                           ? React.null
-                                           : <View style=styles##sep />}
-                                        <ViewLink
-                                          key=url
-                                          href={
-                                            url->Js.String.replace(
-                                                   Consts.backendUrl
-                                                   ++ "category/",
-                                                   "/",
-                                                   _,
-                                                 )
-                                            ++ "/"
-                                          }>
-                                          <SpacedView
-                                            vertical=S horizontal=XXS>
-                                            <Text style=styles##link>
-                                              c->React.string
-                                            </Text>
-                                          </SpacedView>
-                                        </ViewLink>
-                                      </>
-                                    )
-                                )
-                            )
-                          ->Option.getWithDefault(React.null)
-                        )
-                      ->React.array
-                    )
-                )
-            )
-          ->Option.getWithDefault(React.null)
-        }
-      }
-    </GetCategoriesQuery>
+    <WpMenu id="TWVudTo1ODM=" currentLocation={"pathname": ""} renderItem />
   </SpacedView>;
 };

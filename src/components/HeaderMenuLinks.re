@@ -1,4 +1,3 @@
-open Belt;
 open ReactNative;
 
 let textColor = Consts.Colors.light;
@@ -25,85 +24,23 @@ let styles =
     })
   );
 
-module GetCategories = [%graphql
-  {|
-  query getCategories {
-    menu(id: "TWVudTo5NTk=") {
-      menuItems {
-        nodes {
-          label
-          url
-        }
-      }
-    }
-  }
-|}
-];
-
-module GetCategoriesQuery = ReasonApollo.CreateQuery(GetCategories);
+let renderItem = (~index as _, ~url, ~label, ~isActive) => {
+  <TextLink
+    key=url
+    href=url
+    style=Style.(
+      arrayOption([|
+        Some(styles##link),
+        isActive ? Some(styles##linkActive) : None,
+      |])
+    )>
+    label->React.string
+  </TextLink>;
+};
 
 [@react.component]
-let make = (~currentLocation, ()) => {
-  let itemsQuery = GetCategories.make();
+let make = (~currentLocation) => {
   <View style=styles##container>
-    <GetCategoriesQuery variables=itemsQuery##variables>
-      ...{({result}) =>
-        switch (result) {
-        | Loading => <ActivityIndicator size=ActivityIndicator.Size.small />
-        | Error(error) => React.null
-        | Data(response) =>
-          response##menu
-          ->Option.flatMap(cs =>
-              cs##menuItems
-              ->Option.flatMap(maybeItems =>
-                  maybeItems##nodes
-                  ->Option.map(items =>
-                      items
-                      ->Array.map(maybeItem =>
-                          maybeItem
-                          ->Option.flatMap(item =>
-                              item##label
-                              ->Option.flatMap(c =>
-                                  item##url
-                                  ->Option.map(url => {
-                                      let slugWithSlashes =
-                                        url->Js.String.replace(
-                                               Consts.backendUrl ++ "category/",
-                                               "/",
-                                               _,
-                                             )
-                                        ++ "/";
-                                      let isActive =
-                                        currentLocation##pathname
-                                        ->Js.String.startsWith(
-                                            slugWithSlashes,
-                                            _,
-                                          );
-                                      <TextLink
-                                        key=slugWithSlashes
-                                        href=slugWithSlashes
-                                        style=Style.(
-                                          arrayOption([|
-                                            Some(styles##link),
-                                            isActive
-                                              ? Some(styles##linkActive)
-                                              : None,
-                                          |])
-                                        )>
-                                        c->React.string
-                                      </TextLink>;
-                                    })
-                                )
-                            )
-                          ->Option.getWithDefault(React.null)
-                        )
-                      ->React.array
-                    )
-                )
-            )
-          ->Option.getWithDefault(React.null)
-        }
-      }
-    </GetCategoriesQuery>
+    <WpMenu id="TWVudTo5NTk=" currentLocation renderItem />
   </View>;
 };
