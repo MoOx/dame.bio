@@ -68,7 +68,7 @@ let renderItem = (~index, ~url, ~label, ~isActive) => {
                fill={isActive ? colorActive : colorInActive}
              />
            | _ =>
-             <SVGMenu
+             <SVGMore
                width
                height
                fill={isActive ? colorActive : colorInActive}
