@@ -1,4 +1,6 @@
 let backendUrl = "https://dame.bio/";
+let backendGrapqlUrl = backendUrl ++ "graphql";
+let backendWpAjaxUrl = backendUrl ++ "wp-admin/admin-ajax.php";
 let title = {j|D'Âme Bio|j};
 let titleTemplateHome = title ++ {j| - %s|j};
 let titleTemplate = {j|%s - |j} ++ title;
@@ -47,6 +49,7 @@ let socialLinks = [|
 module Colors = {
   let darkest = "hsl(219.1, 100%, 2%)";
   let dark = "hsl(219.1, 100%, 8.5%)";
+  let darkLabel = "#49443A";
   let light = "hsl(219.1, 100%, 99%)";
   let lightest = "hsl(219.1, 100%, 99.5%)";
   let lightGrey = "#ebebeb";
@@ -58,4 +61,13 @@ module Colors = {
   let main50 = "rgba(0, 101, 121, 0.5)";
   let alt = "#67B44B";
   let pink = "#DE6D88";
+  let error = "red";
+  let success = main;
+};
+
+module Radius = {
+  let field = 20.;
+  let box = 10.;
+  let avatar = 100.;
+  let avatarBig = 500.;
 };

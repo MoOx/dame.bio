@@ -9,7 +9,7 @@ let make = () => {
         ~width=100.->pct,
         ~maxWidth=400.->dp,
         ~alignItems=`center,
-        ~borderRadius=6.,
+        ~borderRadius=Consts.Radius.box,
         ~backgroundColor=Consts.Colors.lightest,
         ~shadowColor="#333333",
         ~shadowOffset=offset(~height=4., ~width=0.),

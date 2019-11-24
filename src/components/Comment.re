@@ -7,7 +7,11 @@ let styles =
       "row": style([flexDirection(Row)]),
       "comment": style([flexDirection(Row)]),
       "commentAvatar":
-        style([width(Pt(40.)), height(Pt(40.)), borderRadius(100.)]),
+        style([
+          width(Pt(40.)),
+          height(Pt(40.)),
+          borderRadius(Consts.Radius.avatar),
+        ]),
       "commentAvatarDefault":
         style([
           lineHeight(40.),
@@ -23,14 +27,14 @@ let styles =
           left(Pt(0.)),
           width(Pt(40.)),
           height(Pt(40.)),
-          borderRadius(100.),
+          borderRadius(Consts.Radius.avatar),
         ]),
       "commentTextContainer": style([flex(1.)]),
       "commentMeta": style([flexDirection(Row)]),
       "commentAuthor": style([]),
       "commentAuthorText":
         style([
-          color(String("#49443A")),
+          color(String(Consts.Colors.darkLabel)),
           fontWeight(`_600),
           lineHeight(24.),
           textDecorationLine(Style.None),
@@ -39,7 +43,7 @@ let styles =
         style([
           backgroundColor(String(Consts.Colors.pink)),
           paddingHorizontal(Pt(6.)),
-          borderRadius(8.),
+          borderRadius(Consts.Radius.box),
           alignSelf(Center),
         ]),
       "commentOwnerText":
@@ -58,7 +62,7 @@ let styles =
       "commentContent":
         style([
           flexShrink(1.),
-          color(String("#49443A")),
+          color(String(Consts.Colors.darkLabel)),
           fontSize(Float(14.)),
           lineHeight(24.),
         ]),

@@ -2,7 +2,6 @@ open Belt;
 open BsReactNative;
 
 let imageRatio = 240. /. 350.;
-let radius = 10.;
 
 let styles =
   Style.(
@@ -11,7 +10,7 @@ let styles =
       "container":
         style([
           flex(1.),
-          borderRadius(radius),
+          borderRadius(Consts.Radius.box),
           shadowColor(String("#333333")),
           shadowOffset(~height=2., ~width=0.),
           shadowOpacity(0.04),
@@ -19,12 +18,15 @@ let styles =
         ]),
       "containerContent": style([flex(1.)]),
       "image":
-        style([borderTopLeftRadius(radius), borderTopRightRadius(radius)]),
+        style([
+          borderTopLeftRadius(Consts.Radius.box),
+          borderTopRightRadius(Consts.Radius.box),
+        ]),
       "text":
         style([
           flex(1.),
-          borderBottomLeftRadius(radius),
-          borderBottomRightRadius(radius),
+          borderBottomLeftRadius(Consts.Radius.box),
+          borderBottomRightRadius(Consts.Radius.box),
           borderLeftWidth(0.5),
           borderRightWidth(0.5),
           borderBottomWidth(0.5),

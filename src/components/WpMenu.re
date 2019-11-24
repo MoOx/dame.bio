@@ -25,11 +25,12 @@ type renderItem =
 let make = (~id, ~currentLocation, ~renderItem) => {
   let itemsQuery = GetWpMenu.make(~id, ());
   <GetWpMenuQuery variables=itemsQuery##variables>
-    ...{({result}) => {
-      Js.log2("render wpmenu", result);
+    ...{({result}) =>
       switch (result) {
       | Loading => <ActivityIndicator size=ActivityIndicator.Size.small />
-      | Error(error) => React.null
+      | Error(error) =>
+        Js.Console.error(error);
+        React.null;
       | Data(response) =>
         response##menu
         ->Option.flatMap(cs =>
@@ -78,7 +79,7 @@ let make = (~id, ~currentLocation, ~renderItem) => {
               )
           )
         ->Option.getWithDefault(React.null)
-      };
-    }}
+      }
+    }
   </GetWpMenuQuery>;
 };

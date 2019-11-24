@@ -6,7 +6,7 @@ let styles =
       "bioText":
         style([
           fontWeight(`_300),
-          color(String("#49443A")),
+          color(String(Consts.Colors.darkLabel)),
           maxWidth(Pt(500.)),
         ]),
     })

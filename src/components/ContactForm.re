@@ -22,7 +22,7 @@ let styles =
       "textInputWrapper": style([paddingBottom(Pt(10.))]),
       "textInput":
         style([
-          color(String("#49443A")),
+          color(String(Consts.Colors.darkLabel)),
           backgroundColor(String("#fff")),
           /* Don't go lower than 16 to avoid Safari iOS to zoom on the page */
           fontSize(Float(16.)),
@@ -34,13 +34,13 @@ let styles =
           borderColor(String("#ddd")),
         ]),
       "textInputError": style([borderColor(String("#e07676"))]),
-      "textInputName": style([borderRadius(16.)]),
-      "textInputEmail": style([borderRadius(16.)]),
+      "textInputName": style([borderRadius(Consts.Radius.field)]),
+      "textInputEmail": style([borderRadius(Consts.Radius.field)]),
       "textInputMessage":
         style([
           paddingLeft(Pt(12.)),
           paddingRight(Pt(80.)),
-          borderRadius(16.),
+          borderRadius(Consts.Radius.field),
         ]),
       "buttonSend": style([fontWeight(`_600), padding(Pt(10.))]),
       "buttonSendText":

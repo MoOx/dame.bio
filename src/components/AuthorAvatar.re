@@ -15,7 +15,7 @@ let styles =
       "avatarImage":
         style([
           /* opacity(Float(0.1)), */
-          borderRadius(500.),
+          borderRadius(Consts.Radius.avatarBig),
           width(Pct(100.)),
           paddingBottom(Pct(100.)),
         ]),

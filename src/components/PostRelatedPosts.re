@@ -14,7 +14,8 @@ type state =
 let fetchData = (id, success, failure) =>
   Js.Promise.(
     Fetch.fetch(
-      "https://dame.bio/wp-json/related-posts-by-taxonomy/v1/posts/"
+      Consts.backendUrl
+      ++ "wp-json/related-posts-by-taxonomy/v1/posts/"
       ++ string_of_int(id)
       ++ "?posts_per_page=4&format=json&title=&before_shortcode=&after_shortcode=",
     )

@@ -5,7 +5,11 @@ let styles =
   Style.(
     StyleSheet.create({
       "avatar":
-        style([width(Pt(40.)), height(Pt(40.)), borderRadius(100.)]),
+        style([
+          width(Pt(40.)),
+          height(Pt(40.)),
+          borderRadius(Consts.Radius.avatar),
+        ]),
       "avatarEmpty":
         style([
           lineHeight(62.),
@@ -31,7 +35,7 @@ let styles =
           left(Pt(0.)),
           width(Pt(40.)),
           height(Pt(40.)),
-          borderRadius(100.),
+          borderRadius(Consts.Radius.avatar),
         ]),
     })
   );

@@ -51,7 +51,7 @@ let styles =
       "metaPreview": style([]),
       "metaPreviewName":
         style([
-          color(String("#49443A")),
+          color(String(Consts.Colors.darkLabel)),
           fontWeight(`_600),
           lineHeight(24.),
           textDecorationLine(Style.None),
@@ -66,7 +66,7 @@ let styles =
       "textInputWrapper": style([flex(1.), paddingBottom(Pt(10.))]),
       "textInput":
         style([
-          color(String("#49443A")),
+          color(String(Consts.Colors.darkLabel)),
           backgroundColor(String("#fff")),
           /* Don't go lower than 16 to avoid Safari iOS to zoom on the page */
           fontSize(Float(16.)),
@@ -92,7 +92,7 @@ let styles =
         style([
           paddingLeft(Pt(12.)),
           paddingRight(Pt(80.)),
-          borderRadius(16.),
+          borderRadius(Consts.Radius.field),
         ]),
       "buttonSend":
         style([
@@ -178,7 +178,7 @@ type state = {
 let sendComment = (commentToSend, success, failure) =>
   Js.Promise.(
     Fetch.fetchWithInit(
-      "https://dame.bio/wp-json/wp/v2/comments",
+      Consts.backendUrl ++ "wp-json/wp/v2/comments",
       Fetch.RequestInit.make(
         ~method_=Post,
         ~body=Fetch.BodyInit.make(Js.Json.stringify(commentToSend)),
@@ -421,9 +421,7 @@ let make = (~postId, ~parentCommentId, ()) =>
         <noscript>
           <Text>
             {j|🚨 Veuillez |j}->React.string
-            <a
-              target="_blank"
-              href="https://www.qwant.com/?q=comment%20activer%20javascript">
+            <a target="_blank" href="https://www.enable-javascript.com/fr/">
               {j|activer JavaScript|j}->React.string
             </a>
             {j| pour poster un commentaire.|j}->React.string

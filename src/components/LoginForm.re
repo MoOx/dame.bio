@@ -67,7 +67,7 @@ let make = () => {
                   ~borderWidth=1.,
                   ~borderColor="#333",
                   ~padding=(Spacer.space /. 2.)->dp,
-                  ~borderRadius=3.,
+                  ~borderRadius=Consts.Radius.field,
                   (),
                 )
               )
@@ -91,7 +91,7 @@ let make = () => {
                   ~borderWidth=1.,
                   ~borderColor="#333",
                   ~padding=(Spacer.space /. 2.)->dp,
-                  ~borderRadius=3.,
+                  ~borderRadius=Consts.Radius.field,
                   (),
                 )
               )
@@ -106,7 +106,7 @@ let make = () => {
                 viewStyle(
                   ~backgroundColor="#333",
                   ~padding=(Spacer.space /. 2.)->dp,
-                  ~borderRadius=3.,
+                  ~borderRadius=Consts.Radius.field,
                   (),
                 )
               )

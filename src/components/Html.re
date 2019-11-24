@@ -11,7 +11,7 @@ let make = (~content, ~category=?, ()) => {
         /* make images url absolute */
         |> Js.String.replaceByRe(
              [%re "/=\"\\/wp-content/g"],
-             "=\"https://dame.bio/wp-content",
+             "=\"" ++ Consts.backendUrl ++ "wp-content",
            )
         /* custom behavior decided for us "white star unicode" => a png */
         |> Js.String.replaceByRe(
