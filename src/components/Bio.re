@@ -1,14 +1,17 @@
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
       "bioText":
-        style([
-          fontWeight(`_300),
-          color(String(Consts.Colors.darkLabel)),
-          maxWidth(Pt(500.)),
-        ]),
+        style(
+          ~fontWeight=`_300,
+          ~fontSize=14.,
+          ~lineHeight=14. *. 1.5,
+          ~color=Consts.Colors.darkLabel,
+          ~maxWidth=500.->dp,
+          (),
+        ),
     })
   );
 

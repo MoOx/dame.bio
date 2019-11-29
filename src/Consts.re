@@ -5,7 +5,9 @@ let title = {j|D'Âme Bio|j};
 let titleTemplateHome = title ++ {j| - %s|j};
 let titleTemplate = {j|%s - |j} ++ title;
 let nickname = {j|Aurélie|j};
-let shortBio = {j|Semeuse de graines et cultivatrice d’un mode de vie doux, naturel et respectueux de la Terre.|j};
+let shortBio = {j|Semeuse de graines et cultivatrice d’un mode de vie en lien avec la Nature pour prendre soin de soi, des autres et de la Terre.
+Cet espace est le partage de mes explorations sur l’écologie, la nature, le bien-être et de mon cheminement personnel.
+Avec amour et bienveillance. Aurélie ♥︎|j};
 let bio = {j|Auteure, professeure de hatha yoga, créatrice de contenus et permacultrice. Je partage mon cheminement personnel, mes expériences, conseils, réflexions, coups de coeur et connaissances avec bienveillance et amour. A travers ce blog, je souhaite éveiller, transmettre, partager, renouer avec notre nature, revenir à l’essentiel, impulser des changements positifs et des prises de conscience.|j};
 
 type socialLink = {
