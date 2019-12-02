@@ -372,6 +372,7 @@ let make = () => {
                                                 | 10 => {j|Impossible d'envoyer l'email de confirmation|j}
                                                 | 11 => {j|L'email est obligatoire|j}
                                                 | 12 => {j|Vous êtes déjà inscrit|j}
+                                                | 13 => {j|Votre email semble incorrect|j}
                                                 | _ =>
                                                   {j|Ouuuups, quelque chose d'inattendue est arrivée (code: |j}
                                                   ++ error->string_of_int
