@@ -203,23 +203,21 @@ let make = () => {
   <NewsletterMutation>
     ...{(newsletter, res) =>
       <SpacedView style=styles##container horizontal=XL>
-        <Image style=styles##topLeft resizeMode=`contain source=topLeft />
-        <Image
-          style=styles##topRight
-          resizeMode=`contain
-          source=topRightFlowers
-        />
-        <Image
-          style=styles##bottomLeft
-          resizeMode=`contain
-          source=bottomLeftFlowers
-        />
-        <Image
-          style=styles##bottomRight
-          resizeMode=`contain
-          source=bottomRight
-        />
-        <Image style=styles##bottom resizeMode=`contain source=bottom />
+        <View pointerEvents=`none style=styles##topLeft>
+          <Image resizeMode=`contain source=topLeft />
+        </View>
+        <View pointerEvents=`none style=styles##topRight>
+          <Image resizeMode=`contain source=topRightFlowers />
+        </View>
+        <View pointerEvents=`none style=styles##bottomLeft>
+          <Image resizeMode=`contain source=bottomLeftFlowers />
+        </View>
+        <View pointerEvents=`none style=styles##bottomRight>
+          <Image resizeMode=`contain source=bottomRight />
+        </View>
+        <View pointerEvents=`none style=styles##bottom>
+          <Image resizeMode=`contain source=bottom />
+        </View>
         <Text style=styles##title> "Newsletter"->React.string </Text>
         <Spacer />
         <noscript>
