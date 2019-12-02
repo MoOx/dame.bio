@@ -32,7 +32,7 @@ module GetItemsQuery = ReasonApollo.CreateQuery(GetItems);
 let make = (~status, ()) => {
   let itemsQuery = GetItems.make(~pageSlug="contact", ());
   <AppWrapper>
-    <ContainerMainContentLarge key="contact">
+    <ContainerMainContentLarge>
       {switch (status) {
        | Loading => <LoadingIndicator />
        | Error(error) => <Error label=error />

@@ -98,7 +98,7 @@ let make = (~status, ~categoryOrPageSlug, ~tagSlug, ~cursorAfter, ()) => {
       (),
     );
   <AppWrapper>
-    <ContainerMainContentLarge key="postsOrPage">
+    <ContainerMainContentLarge>
       {switch (status) {
        | Loading => <LoadingIndicator />
        | Error(error) => <Error label=error />

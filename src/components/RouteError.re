@@ -3,7 +3,7 @@ let component = ReasonReact.statelessComponent("RouteError");
 [@react.component]
 let make = () =>
   <AppWrapper>
-    <ContainerMainContentLarge key="error">
+    <ContainerMainContentLarge>
       <Error
         label={Some({j|Cette page est inaccessible ou n'existe pas!|j})}
       />

@@ -90,7 +90,7 @@ module GetItemQuery = ReasonApollo.CreateQuery(GetItem);
 let make = (~status, ~postId) => {
   let itemQuery = GetItem.make(~postId, ());
   <AppWrapper>
-    <ContainerMainContent key="postById">
+    <ContainerMainContent>
       {switch (status) {
        | Loading => <LoadingIndicator />
        | Error(error) => <Error label=error />
