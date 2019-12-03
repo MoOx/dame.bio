@@ -6,9 +6,10 @@ let titleTemplateHome = title ++ {j| - %s|j};
 let titleTemplate = {j|%s - |j} ++ title;
 let nickname = {j|Aurélie|j};
 let shortBio = {j|Semeuse de graines et cultivatrice d’un mode de vie en lien avec la Nature pour prendre soin de soi, des autres et de la Terre.
-Cet espace est le partage de mes explorations sur l’écologie, la nature, le bien-être et de mon cheminement personnel.
+Je partage avec vous mes explorations sur l’écologie, la nature, le bien-être et de mon cheminement personnel.
 Avec amour et bienveillance. Aurélie ♥︎|j};
-let bio = {j|Auteure, professeure de hatha yoga, créatrice de contenus et permacultrice. Je partage mon cheminement personnel, mes expériences, conseils, réflexions, coups de coeur et connaissances avec bienveillance et amour. A travers ce blog, je souhaite éveiller, transmettre, partager, renouer avec notre nature, revenir à l’essentiel, impulser des changements positifs et des prises de conscience.|j};
+let bio = {j|Auteure, prof de yoga, créatrice de contenus et coach en jardinage naturel. Je partage avec vous mes passions, expériences, conseils, réflexions, coups de coeur et des alternatives saines, durables et respectueuses de l’environnement que je mets en place dans mon quotidien tout en vivant pleinement.
+À travers cet espace, je souhaite éveiller, transmettre, partager, se reconnecter à la nature, revenir à l’essentiel, impulser des prises de conscience et des changements positifs. |j};
 
 type socialLink = {
   title: string,
