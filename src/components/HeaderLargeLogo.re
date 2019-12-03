@@ -38,28 +38,14 @@ let make = () => {
           resizeMode=`cover
           style=Style.(
             imageStyle(
-              ~width=(727. *. 0.5)->dp,
-              ~height=(292. *. 0.5)->dp,
+              ~width=(1080. *. 0.35)->dp,
+              ~height=(417. *. 0.35)->dp,
               (),
             )
           )
-          uri="/images/logo-dame.bio.jpg"
+          uri="/logo.jpg"
         />
       </View>
-      // <SVGDameBioLogoText width=365. height=104. fill=Consts.Colors.alt />
-      // <Spacer />
-      // <SVGDameBioLogoSeparator
-      //   width=145.
-      //   height=27.
-      //   fill=Consts.Colors.alt
-      // />
-      // <View style=styles##logoEffectWrapper>
-      //   <ImageFromUri
-      //     resizeMode=`cover
-      //     style=styles##logoEffect
-      //     uri="/images/logo-effect.png"
-      //   />
-      // </View>
       <View
         style=Style.(
           style(
