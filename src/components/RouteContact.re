@@ -12,14 +12,12 @@ module GetItems = [%graphql
   {|
   query getItems($pageSlug: String){
     pages(first: 1, where: {name: $pageSlug}) {
-      edges {
-        node {
-          id
-          title(format: RAW)
-          slug
-          dateGmt
-          content
-        }
+      nodes {
+        id
+        title(format: RAW)
+        slug
+        dateGmt
+        content
       }
     }
   }
@@ -45,10 +43,9 @@ let make = (~status, ()) => {
              | Data(response) =>
                <>
                  {response##pages
-                  ->Option.flatMap(p => p##edges)
-                  ->Option.flatMap(edges => edges[0])
-                  ->Option.flatMap(edge => edge)
-                  ->Option.flatMap(edge => edge##node)
+                  ->Option.flatMap(p => p##nodes)
+                  ->Option.flatMap(nodes => nodes[0])
+                  ->Option.flatMap(node => node)
                   ->Option.map(item => <ContactForm page=item />)
                   ->Option.getWithDefault(<ContactForm />)}
                </>
