@@ -112,17 +112,20 @@ let make = (~item, ~withWatercolorBottomRightCorner=false, ()) =>
     render: ({send}) => {
       let id = item##id;
       let rootCategory =
-        T.getMainCategory(
-          item##categories
-          ->Option.flatMap(cs => cs##nodes)
-          ->Option.getWithDefault([||]),
-        );
-      let href =
+        item##categories
+        ->Option.flatMap(categories => categories##nodes)
+        ->Option.map(nodes => nodes->Array.keepMap(node => node))
+        ->Option.flatMap(categoriesNodes => categoriesNodes[0]);
+
+      let catHref =
         "/"
-        ++ rootCategory##slug->Option.getWithDefault("_")
-        ++ "/"
-        ++ item##slug->Option.getWithDefault(item##id)
+        ++ rootCategory
+           ->Option.flatMap(cat => cat##slug)
+           ->Option.getWithDefault("_")
+           ->Utils.encodeURI
         ++ "/";
+      let href =
+        catHref ++ item##slug->Option.getWithDefault(item##id) ++ "/";
       let image =
         <ImageWithAspectRatio
           uri=?{
@@ -144,8 +147,9 @@ let make = (~item, ~withWatercolorBottomRightCorner=false, ()) =>
           style=styles##image
           ratio=imageRatio
         />;
-      let category =
-        rootCategory##name
+      let categoryName =
+        rootCategory
+        ->Option.flatMap(cat => cat##name)
         ->Option.getWithDefault("")
         ->String.uppercase
         ->React.string;
@@ -184,7 +188,7 @@ let make = (~item, ~withWatercolorBottomRightCorner=false, ()) =>
           <View style=styles##containerContent>
             image
             <SpacedView vertical=M horizontal=M style=styles##text>
-              <Text style=styles##categoryText> category </Text>
+              <Text style=styles##categoryText> categoryName </Text>
               <Spacer size=XS />
               <Text style=styles##titleText>
                 <span dangerouslySetInnerHTML={"__html": title} />

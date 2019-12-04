@@ -6,10 +6,10 @@ let make = (~posts, ~categorySlug, ~tagSlug, ~cursorAfter, ()) => {
   let pageInfo = posts->Option.flatMap(p => p##pageInfo);
   <>
     {posts
-     ->Option.flatMap(p => p##edges)
-     ->Option.map(edges =>
+     ->Option.flatMap(p => p##nodes)
+     ->Option.map(nodes =>
          <>
-           <PostListFromGraphQLQuery edges />
+           <PostListFromGraphQLQuery nodes />
            <View
              style=Style.(
                style([flexDirection(Row), justifyContent(SpaceAround)])

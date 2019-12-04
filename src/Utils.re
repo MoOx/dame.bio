@@ -1,5 +1,3 @@
-open Belt;
-
 [@bs.module]
 external fetchJsonp: string => Js.Promise.t(Fetch.Response.t) = "fetch-jsonp";
 
@@ -26,9 +24,3 @@ let tagifyChar = c =>
   };
 
 let tagifyString = string => stringMapPartial(tagifyChar, string);
-
-let hasEdges = a =>
-  a
-  ->Option.flatMap(p => p##edges)
-  ->Option.map(edges => edges->Array.length > 0)
-  ->Option.getWithDefault(false);

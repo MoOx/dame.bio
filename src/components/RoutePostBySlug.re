@@ -9,75 +9,12 @@ type status =
   | Ready
   | Error(option(string));
 
-module Fragments = [%graphql
-  {|
-  fragment CommentFragment on Comment {
-    commentId
-    parent {
-      commentId
-    }
-    dateGmt
-    content
-    author {
-      ... on User {
-        userId
-        name
-        url
-        email
-      }
-      ... on CommentAuthor {
-        name
-        url
-        email
-      }
-    }
-  }
-|}
-];
-
 module GetItem = [%graphql
   {|
   query getItem($postSlug: String!){
     posts(first: 1, where: {name: $postSlug}) {
-      edges {
-        node {
-          id
-          title(format: RAW)
-          slug
-          commentCount
-          likeCount
-          postId
-          dateGmt
-          content
-          comments(
-            first: 1000,
-            where: {
-              parent: 99999,
-              orderby: COMMENT_DATE_GMT,
-              order: ASC
-            }
-          ) {
-          # 99999 is a trick defined in `graphql_comment_connection_query_args` filter to have all comments
-            nodes {
-              ...Fragments.CommentFragment
-            }
-          }
-          categories {
-            nodes {
-              name
-              slug
-              parent {
-                id
-              }
-            }
-          }
-          tags(first: 100) {
-            nodes {
-              name
-              slug
-            }
-          }
-        }
+      nodes {
+        ...GraphQL.Fragments.PostDetailFragment
       }
     }
   }
@@ -102,12 +39,11 @@ let make = (~status, ~postSlug) => {
              | Error(error) => <Error label={Some(error##message)} />
              | Data(response) =>
                response##posts
-               ->Option.flatMap(p => p##edges)
-               ->Option.map(edges =>
-                   edges
-                   ->Array.map(edge =>
-                       edge
-                       ->Option.flatMap(edge => edge##node)
+               ->Option.flatMap(p => p##nodes)
+               ->Option.map(nodes =>
+                   nodes
+                   ->Array.map(node =>
+                       node
                        ->Option.map(item =>
                            <View key=item##id>
                              {item##title

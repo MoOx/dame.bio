@@ -31,49 +31,17 @@ module GetItems = [%graphql
         hasNextPage
         hasPreviousPage
       }
-      edges {
-        node {
-          id
-          title
-          slug
-          dateGmt
-          commentCount
-          likeCount
-          featuredImage {
-            mediaDetails {
-              sizes {
-                name
-                sourceUrl
-              }
-            }
-          }
-          categories {
-            nodes {
-              name
-              slug
-              parent {
-                id
-              }
-            }
-          }
-          tags {
-            nodes {
-              name
-              slug
-            }
-          }
-        }
+      nodes {
+        ...GraphQL.Fragments.PostPreviewFragment
       }
     }
     pages(first: 1, where: {name: $pageSlug}) {
-      edges {
-        node {
-          id
-          title(format: RAW)
-          slug
-          dateGmt
-          content
-        }
+      nodes {
+        id
+        title(format: RAW)
+        slug
+        dateGmt
+        content
       }
     }
   }
@@ -109,13 +77,16 @@ let make = (~status, ~categoryOrPageSlug, ~tagSlug, ~cursorAfter, ()) => {
              | Loading => <LoadingIndicator />
              | Error(error) => <Error label={Some(error##message)} />
              | Data(response) =>
-               let hasPosts = response##posts->Utils.hasEdges;
+               let hasPosts =
+                 response##posts
+                 ->Option.flatMap(p => p##nodes)
+                 ->Option.map(nodes => nodes->Array.length > 0)
+                 ->Option.getWithDefault(false);
                let page =
                  response##pages
-                 ->Option.flatMap(p => p##edges)
-                 ->Option.flatMap(edges => edges[0])
-                 ->Option.flatMap(edge => edge)
-                 ->Option.flatMap(edge => edge##node);
+                 ->Option.flatMap(p => p##nodes)
+                 ->Option.flatMap(nodes => nodes[0])
+                 ->Option.flatMap(node => node);
                let hasPage = page->Option.mapWithDefault(false, _ => true);
                <>
                  <CategoryOrHomeTitle

@@ -47,20 +47,21 @@ let styles =
   );
 
 [@react.component]
-let make = (~item, ()) => {
+let make = (~item: GraphQL.Fragments.PostDetailFragment.t, ()) => {
   let id = item##id;
   let rootCategory =
-    T.getMainCategory(
-      item##categories
-      ->Option.flatMap(cs => cs##nodes)
-      ->Option.getWithDefault([||]),
-    );
-  let href =
+    item##categories
+    ->Option.flatMap(categories => categories##nodes)
+    ->Option.map(nodes => nodes->Array.keepMap(node => node))
+    ->Option.flatMap(categoriesNodes => categoriesNodes[0]);
+  let catHref =
     "/"
-    ++ rootCategory##slug->Option.getWithDefault("_")
-    ++ "/"
-    ++ item##slug->Option.getWithDefault(item##id)
+    ++ rootCategory
+       ->Option.flatMap(cat => cat##slug)
+       ->Option.getWithDefault("_")
+       ->Utils.encodeURI
     ++ "/";
+  let href = catHref ++ item##slug->Option.getWithDefault(item##id) ++ "/";
   let likes =
     switch (item##likeCount->Option.getWithDefault(0)) {
     | 0 => React.null
@@ -83,16 +84,10 @@ let make = (~item, ()) => {
       <Spacer size=S />
       <View style=styles##metaRow>
         <View style=styles##metaRowLeft>
-          <ViewLink
-            href={
-              "/"
-              ++ Utils.encodeURI(
-                   rootCategory##slug->Option.getWithDefault("_"),
-                 )
-              ++ "/"
-            }>
+          <ViewLink href=catHref>
             <Text style=styles##categoryText>
-              {rootCategory##name
+              {rootCategory
+               ->Option.flatMap(cat => cat##name)
                ->Option.getWithDefault("")
                ->String.uppercase
                ->React.string}
@@ -127,7 +122,7 @@ let make = (~item, ()) => {
         </View>
       </View>
     </SpacedView>
-    <Html content=item##content category=rootCategory />
+    <Html content=item##content category=?rootCategory />
     <SpacedView vertical=L style=styles##tags>
       {item##tags
        ->Option.flatMap(ts => ts##nodes)
@@ -170,13 +165,22 @@ let make = (~item, ()) => {
         comments=item##comments
       />
     </SpacedView>
-    <ViewportObserver>
-      ...{state =>
-        <PostRelatedPosts
-          hasBeenVisible=state##hasBeenVisible
-          postId=item##postId
-        />
+    <SpacedView>
+      <TextSubtitle> {j|Dans le même style|j}->React.string </TextSubtitle>
+    </SpacedView>
+    <PostListFromGraphQLQuery
+      nodes={
+        rootCategory
+        ->Option.flatMap(category => category##posts)
+        ->Option.flatMap(posts => posts##nodes)
+        ->Option.getWithDefault([||])
+        ->Array.keep(node =>
+            node
+            ->Option.map(node => node##id != item##id)
+            ->Option.getWithDefault(false)
+          )
+        ->Array.slice(~offset=0, ~len=4)
       }
-    </ViewportObserver>
+    />
   </View>;
 };

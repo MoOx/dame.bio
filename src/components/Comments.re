@@ -5,14 +5,6 @@ let styles =
   Style.(
     StyleSheet.create({
       "comments": style([]),
-      "subtitle":
-        style([
-          marginBottom(Pt(10.)),
-          fontSize(Float(28.)),
-          lineHeight(28. *. 1.5),
-          color(String("#006579")),
-          fontWeight(`_300),
-        ]),
       "noComment":
         style([
           textAlign(Center),
@@ -29,7 +21,7 @@ let make = (~postId, ~commentCounts, ~comments, ()) => {
     /* @todo native fix */
     <a name="comments" />
     <View>
-      <Text style=styles##subtitle>
+      <TextSubtitle>
         (
           switch (commentCounts->Option.getWithDefault(0)) {
           | 0 => "Commentaires"
@@ -38,7 +30,7 @@ let make = (~postId, ~commentCounts, ~comments, ()) => {
           }
         )
         ->React.string
-      </Text>
+      </TextSubtitle>
     </View>
     <Spacer size=S />
     <View style=styles##comments>
