@@ -1,70 +1,71 @@
 open Belt;
-open BsReactNative;
+open ReactNative;
 
 let imageRatio = 240. /. 350.;
 
 let styles =
   Style.(
     StyleSheet.create({
-      "wrapper": style([flex(1.), flexBasis(Pt(340.))]),
+      "wrapper": style(~flex=1., ~flexBasis=340.->dp, ()),
       "container":
-        style([
-          flex(1.),
-          borderRadius(Consts.Radius.box),
-          shadowColor(String("#333333")),
-          shadowOffset(~height=2., ~width=0.),
-          shadowOpacity(0.04),
-          shadowRadius(16.),
-        ]),
-      "containerContent": style([flex(1.)]),
+        style(
+          ~flex=1.,
+          ~borderRadius=Consts.Radius.box,
+          ~shadowColor="#333333",
+          ~shadowOffset=offset(~height=2., ~width=0.),
+          ~shadowOpacity=0.04,
+          ~shadowRadius=16.,
+          (),
+        ),
+      "containerContent": style(~flex=1., ()),
       "image":
-        style([
-          borderTopLeftRadius(Consts.Radius.box),
-          borderTopRightRadius(Consts.Radius.box),
-        ]),
+        style(
+          ~borderTopLeftRadius=Consts.Radius.box,
+          ~borderTopRightRadius=Consts.Radius.box,
+          (),
+        ),
       "text":
-        style([
-          flex(1.),
-          borderBottomLeftRadius(Consts.Radius.box),
-          borderBottomRightRadius(Consts.Radius.box),
-          borderLeftWidth(0.5),
-          borderRightWidth(0.5),
-          borderBottomWidth(0.5),
-          borderColor(String("#efefef")),
-          backgroundColor(String(Consts.Colors.lightest)),
-        ]),
-      "categoryText":
-        style([fontSize(Float(10.)), color(String(Consts.Colors.pink))]),
+        style(
+          ~flex=1.,
+          ~borderBottomLeftRadius=Consts.Radius.box,
+          ~borderBottomRightRadius=Consts.Radius.box,
+          ~borderLeftWidth=0.5,
+          ~borderRightWidth=0.5,
+          ~borderBottomWidth=0.5,
+          ~borderColor="#efefef",
+          ~backgroundColor=Consts.Colors.lightest,
+          (),
+        ),
+      "categoryText": style(~fontSize=10., ~color=Consts.Colors.pink, ()),
       "titleText":
-        style([
-          fontSize(Float(20.)),
-          fontWeight(`_300),
-          lineHeight(28.),
-          color(String("#1C1C1C")),
-        ]),
+        style(
+          ~fontSize=20.,
+          ~fontWeight=`_300,
+          ~lineHeight=28.,
+          ~color="#1C1C1C",
+          (),
+        ),
       "actionsWrapper":
-        style([
-          position(Absolute),
-          top(Pt(0.)),
-          left(Pt(0.)),
-          right(Pt(0.)),
-        ]),
+        style(
+          ~position=`absolute,
+          ~top=0.->dp,
+          ~left=0.->dp,
+          ~right=0.->dp,
+          (),
+        ),
       "actions":
-        style([
-          flexDirection(Row),
-          right(Pt(0.)),
-          alignSelf(FlexEnd),
-          alignItems(Center),
-          paddingTop(Pt(Spacer.space *. 3. /. 4.)),
-          paddingRight(Pt(Spacer.space)),
-        ]),
-      "actionWrapper": style([flexDirection(Row)]),
-      "action": style([display(Flex), flexDirection(Row)]),
-      "actionText":
-        style([
-          fontSize(Float(10.)),
-          color(String(ButtonLike.defaultColor)),
-        ]),
+        style(
+          ~flexDirection=`row,
+          ~right=0.->dp,
+          ~alignSelf=`flexEnd,
+          ~alignItems=`center,
+          ~paddingTop=(Spacer.space *. 3. /. 4.)->dp,
+          ~paddingRight=Spacer.space->dp,
+          (),
+        ),
+      "actionWrapper": style(~flexDirection=`row, ()),
+      "action": style(~display=`flex, ~flexDirection=`row, ()),
+      "actionText": style(~fontSize=10., ~color=ButtonLike.defaultColor, ()),
     })
   );
 
@@ -170,13 +171,14 @@ let make = (~item, ~withWatercolorBottomRightCorner=false, ()) =>
                resizeMode=`contain
                uri="/images/watercolor-bottom-right.png"
                style=Style.(
-                 style([
-                   position(Absolute),
-                   bottom(Pt(-10.)),
-                   right(Pt(-15.)),
-                   width(Pt(723. /. 2.)),
-                   height(Pt(495. /. 2.)),
-                 ])
+                 style(
+                   ~position=`absolute,
+                   ~bottom=(-10.)->dp,
+                   ~right=(-15.)->dp,
+                   ~width=(723. /. 2.)->dp,
+                   ~height=(495. /. 2.)->dp,
+                   (),
+                 )
                )
              />
            : React.null}
