@@ -99,3 +99,33 @@ module Fragments = [%graphql
   }
 |}
 ];
+
+module Placeholders = {
+  let postPreview: int => Fragments.PostPreviewFragment.t =
+    i => {
+      "id": "placeholder" ++ i->string_of_int,
+      "title": None,
+      "slug": None,
+      "dateGmt": None,
+      "commentCount": None,
+      "likeCount": None,
+      "featuredImage": None,
+      "categories": None,
+      "tags": None,
+    };
+
+  let postDetail: int => Fragments.PostDetailFragment.t =
+    i => {
+      "id": "placeholder" ++ i->string_of_int,
+      "title": None,
+      "slug": None,
+      "commentCount": None,
+      "likeCount": None,
+      "postId": i,
+      "dateGmt": None,
+      "content": None,
+      "comments": None,
+      "categories": None,
+      "tags": None,
+    };
+};

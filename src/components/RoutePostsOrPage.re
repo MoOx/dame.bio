@@ -74,7 +74,19 @@ let make = (~status, ~categoryOrPageSlug, ~tagSlug, ~cursorAfter, ()) => {
          <GetItemsQuery variables=itemsQuery##variables>
            ...{({result}) =>
              switch (result) {
-             | Loading => <LoadingIndicator />
+             | Loading =>
+               <PostList
+                 nodes=[|
+                   Some(WPGraphQL.Placeholders.postPreview(1)),
+                   Some(WPGraphQL.Placeholders.postPreview(2)),
+                   Some(WPGraphQL.Placeholders.postPreview(3)),
+                   Some(WPGraphQL.Placeholders.postPreview(4)),
+                   Some(WPGraphQL.Placeholders.postPreview(5)),
+                   Some(WPGraphQL.Placeholders.postPreview(6)),
+                   Some(WPGraphQL.Placeholders.postPreview(7)),
+                   Some(WPGraphQL.Placeholders.postPreview(8)),
+                 |]
+               />
              | Error(error) => <Error label={Some(error##message)} />
              | Data(response) =>
                let hasPosts =
