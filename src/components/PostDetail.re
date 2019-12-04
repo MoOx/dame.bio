@@ -168,7 +168,7 @@ let make = (~item: WPGraphQL.Fragments.PostDetailFragment.t, ()) => {
     <SpacedView>
       <TextSubtitle> {j|Dans le même style|j}->React.string </TextSubtitle>
     </SpacedView>
-    <PostListFromGraphQLQuery
+    <PostList
       nodes={
         rootCategory
         ->Option.flatMap(category => category##posts)

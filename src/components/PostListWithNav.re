@@ -9,7 +9,7 @@ let make = (~posts, ~categorySlug, ~tagSlug, ~cursorAfter, ()) => {
      ->Option.flatMap(p => p##nodes)
      ->Option.map(nodes =>
          <>
-           <PostListFromGraphQLQuery nodes />
+           <PostList nodes />
            <View
              style=Style.(
                style([flexDirection(Row), justifyContent(SpaceAround)])

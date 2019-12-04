@@ -19,7 +19,7 @@ let make = (~nodes, ()) => {
      ->Array.mapWithIndex((index, node) =>
          node
          ->Option.map(item =>
-             <PostPreviewFromGraphQLQuery
+             <PostPreview
                key=item##id
                item
                withWatercolorBottomRightCorner={
@@ -32,7 +32,6 @@ let make = (~nodes, ()) => {
      ->React.array}
     /* Avoid huge lonely items if we get an odd number of result */
     {Array.length(nodes) mod 2 == 1
-       ? <View style=PostPreviewFromGraphQLQuery.styles##wrapper />
-       : React.null}
+       ? <View style=PostPreview.styles##wrapper /> : React.null}
   </SpacedView>;
 };

@@ -83,7 +83,7 @@ let timing = 150;
 let clearOptionalTimeout = optionalTimeoutRef =>
   (optionalTimeoutRef^)->Option.map(Js.Global.clearTimeout)->ignore;
 
-let component = ReasonReact.reducerComponent("PostPreviewFromGraphQLQuery");
+let component = ReasonReact.reducerComponent("PostPreview");
 
 [@react.component]
 let make = (~item, ~withWatercolorBottomRightCorner=false, ()) =>

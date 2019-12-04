@@ -97,7 +97,7 @@ let make = (~status, ~categoryOrPageSlug, ~tagSlug, ~cursorAfter, ()) => {
                   ->Option.map(item => <PageDetail item />)
                   ->Option.getWithDefault(React.null)}
                  {hasPosts
-                    ? <PostListGqlWithNav
+                    ? <PostListWithNav
                         posts=response##posts
                         categorySlug=categoryOrPageSlug
                         tagSlug
