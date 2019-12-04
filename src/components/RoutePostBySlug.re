@@ -14,7 +14,7 @@ module GetItem = [%graphql
   query getItem($postSlug: String!){
     posts(first: 1, where: {name: $postSlug}) {
       nodes {
-        ...GraphQL.Fragments.PostDetailFragment
+        ...WPGraphQL.Fragments.PostDetailFragment
       }
     }
   }

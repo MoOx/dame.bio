@@ -32,7 +32,7 @@ module GetItems = [%graphql
         hasPreviousPage
       }
       nodes {
-        ...GraphQL.Fragments.PostPreviewFragment
+        ...WPGraphQL.Fragments.PostPreviewFragment
       }
     }
     pages(first: 1, where: {name: $pageSlug}) {

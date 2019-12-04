@@ -47,7 +47,7 @@ let styles =
   );
 
 [@react.component]
-let make = (~item: GraphQL.Fragments.PostDetailFragment.t, ()) => {
+let make = (~item: WPGraphQL.Fragments.PostDetailFragment.t, ()) => {
   let id = item##id;
   let rootCategory =
     item##categories

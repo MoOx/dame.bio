@@ -153,14 +153,14 @@ let noErrors = {name: None, email: None, content: None};
 type action =
   | CommentEdit(comment)
   | CommentSend(comment)
-  | CommentSuccess((comment, Structures.comment))
+  | CommentSuccess((comment, WPRest.comment))
   | CommentError((comment, errors));
 
 type commentState =
   | New
   | InProgress(comment)
   | Sent((comment, Js.Json.t))
-  | Posted((comment, Structures.comment))
+  | Posted((comment, WPRest.comment))
   | Errored((comment, errors));
 
 type animatedState = {
@@ -194,7 +194,7 @@ let sendComment = (commentToSend, success, failure) =>
        )
     |> then_(((status, json)) =>
          if (status == 201) {
-           Structures.decodeComment(json)->success->resolve;
+           WPRest.decodeComment(json)->success->resolve;
          } else {
            json
            ->Obj.magic
