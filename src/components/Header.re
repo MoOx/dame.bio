@@ -59,9 +59,10 @@ let styles =
         ),
       "baseline":
         style(
+          ~flexGrow=1.,
+          ~flexDirection=`row,
           ~justifyContent=`center,
           ~alignItems=`center,
-          ~flexDirection=`row,
           (),
         ),
       "baselineWord":
@@ -239,7 +240,9 @@ let make = (~currentLocation, ()) => {
             />
           </div>
         </View>
-        <div className="device-small">
+        <div
+          className="device-small"
+          style={ReactDOMRe.Style.make(~textAlign="center", ())}>
           <View style=styles##baseline>
             <Text style=styles##baselineWordSmall>
               {j|Éveil|j}->React.string
@@ -254,8 +257,10 @@ let make = (~currentLocation, ()) => {
             </Text>
           </View>
         </div>
-        <div className="device-large">
-          <Spacer size=S />
+        <div className="device-large"> <Spacer size=S /> </div>
+        <div
+          className="device-large"
+          style={ReactDOMRe.Style.make(~textAlign="center", ())}>
           <View style=styles##baseline>
             <Text style=styles##baselineWord>
               {j|Éveil|j}->React.string
