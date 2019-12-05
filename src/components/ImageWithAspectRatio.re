@@ -19,17 +19,13 @@ let styles =
   );
 
 [@react.component]
-let make = (~uri=?, ~ratio, ~style as s=?, ()) => {
+let make = (~uri=?, ~ratio, ~style as s=?) => {
+  let style = Style.(arrayOption([|Some(styles##image), s|]));
   <View style=styles##imageContainer>
     <PlaceholderWithAspectRatio ratio>
       {uri
-       ->Option.map(uri =>
-           <ImageFromUri
-             style=Style.(arrayOption([|Some(styles##image), s|]))
-             uri
-           />
-         )
-       ->Option.getWithDefault(React.null)}
+       ->Option.map(uri => <ImageFromUri style uri />)
+       ->Option.getWithDefault(<View style />)}
     </PlaceholderWithAspectRatio>
   </View>;
 };
