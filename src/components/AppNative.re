@@ -5,7 +5,7 @@ let styles =
 
 [@react.component]
 let make = () => {
-  <View style=styles##container> <HeaderSmall /> </View>;
+  <View style=styles##container />;
 };
 
 let default = make;

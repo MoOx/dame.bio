@@ -34,24 +34,29 @@ let make = () =>
         )
       },
     render: ({state, send}) =>
-      <View style=Style.(style([flexDirection(Row), alignItems(Center)]))>
+      <View
+        style=Style.(
+          style([flexDirection(Row), flexShrink(1.), alignItems(Center)])
+        )>
         <TextInput
           style=Style.(
             style([
+              display(Flex),
+              flexGrow(1.),
+              flexShrink(1.),
+              minWidth(Pt(0.)),
+              maxWidth(Pt(120.)),
               margin(Pt(0.)),
               paddingVertical(Pt(4.)),
               paddingHorizontal(Pt(8.)),
               borderTopLeftRadius(5.),
               borderBottomLeftRadius(5.),
-              borderWidth(1.),
               fontSize(Float(13.)),
-              color(String(Consts.Colors.dark)),
-              borderColor(String(Consts.Colors.light)),
-              backgroundColor(String(Consts.Colors.lightest)),
-              width(Pt(140.)),
+              color(String(Consts.Colors.lightest)),
+              backgroundColor(String("rgba(255,255,255,0.4)")),
             ])
           )
-          placeholder="Rechercher..."
+          placeholder="Rechercher"
           placeholderTextColor=Consts.Colors.main
           value={state.value}
           onFocus={() => send(Focus)}
@@ -68,16 +73,11 @@ let make = () =>
               paddingHorizontal(Pt(8.)),
               borderTopRightRadius(5.),
               borderBottomRightRadius(5.),
-              backgroundColor(String(Consts.Colors.main)),
-              borderStyle(Solid),
-              borderColor(String(Consts.Colors.light)),
-              borderTopWidth(1.),
-              borderRightWidth(1.),
-              borderBottomWidth(1.),
+              backgroundColor(String("rgba(255,255,255,0.4)")),
             ])
           )
           onPress={_ => send(Submit)}>
-          <SVGSearch fill=Consts.Colors.light />
+          <SVGSearch fill=Consts.Colors.main />
         </Text>
       </View>,
   });

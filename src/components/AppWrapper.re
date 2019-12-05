@@ -2,8 +2,7 @@
 let make = (~children) =>
   <>
     <AppMeta />
-    <div className="device-small"> <HeaderSmall /> </div>
-    <div className="device-large"> <HeaderLargeWithRouter /> </div>
+    <HeaderWithRouter />
     <Container> children </Container>
     <Footer />
     <div
