@@ -94,14 +94,7 @@ let make = (~item: WPGraphQL.Fragments.PostDetailFragment.t, ()) => {
             </Text>
           </ViewLink>
           <Text style=styles##date>
-            {(
-               {j|   ·   |j}
-               ++ item##dateGmt
-                  ->Option.mapWithDefault(Js.Date.make(), d =>
-                      Js.Date.fromString(d |> Js.String.replace(" ", "T"))
-                    )
-                  ->Js.Date.toLocaleDateString
-             )
+            {({j|   ·   |j} ++ {item##dateGmt->Utils.frenchDate})
              ->React.string}
           </Text>
         </View>
