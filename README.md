@@ -1,10 +1,6 @@
-# D'Âme Bio website
+# [D'Âme Bio](https://dame.bio)
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/1da94b97-0211-471d-9fa9-f7c1b0542b48/deploy-status)](https://app.netlify.com/sites/damebio/deploys)
-
-Front-end for the upcoming revamp of https://dame.bio
-
-For now online at https://beta.dame.bio
 
 ## Made with
 
