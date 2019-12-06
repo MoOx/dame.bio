@@ -6,6 +6,7 @@ import { AppRegistry, Dimensions } from "react-native-web";
 import { createApp, renderApp } from "@phenomic/preset-react-app/lib/client";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import gql from "graphql-tag";
+import MatomoTracker from "matomo-tracker";
 
 import initApollo from "./src/init-apollo.js";
 import RoutePostsOrPage from "./src/components/RoutePostsOrPage.bs.js";
@@ -193,8 +194,15 @@ RoutePostBySlug.getAllPossibleUrls = async () => {
     });
 };
 
+const matomoSiteId = 2;
+let onUpdate = () => console.info("onUpdate", window.location.href);
+if (process.env.NODE_ENV === "production") {
+  const matomo = new MatomoTracker(matomoSiteId, "https://a.moox.fr/p", true);
+  onUpdate = () => matomo.track(window.location.href);
+}
+
 const routes = () => (
-  <Router history={browserHistory}>
+  <Router history={browserHistory} onUpdate={onUpdate}>
     <Route path="/" component={RoutePostsOrPage} />
     <Route path="/after/:cursorAfter/" component={RoutePostsOrPage} />
     <Route path="/contact/" component={RouteContact} />
