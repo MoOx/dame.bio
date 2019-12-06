@@ -1,0 +1,13 @@
+diff --git a/node_modules/@phenomic/core/lib/commands/build.js b/node_modules/@phenomic/core/lib/commands/build.js
+index 3a2294c..48c4b7d 100644
+--- a/node_modules/@phenomic/core/lib/commands/build.js
++++ b/node_modules/@phenomic/core/lib/commands/build.js
+@@ -152,7 +152,7 @@ async function build(config) {
+           return Promise.resolve([]);
+         }
+       }, {
+-        concurrency: 50
++        concurrency: 2
+       });
+     }));
+ 
