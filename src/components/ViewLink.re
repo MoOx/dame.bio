@@ -5,6 +5,7 @@ let make =
       ~href,
       ~style as styl=?,
       ~activeStyle=?,
+      ~onPress=?,
       ~onMouseEnter=?,
       ~onMouseLeave=?,
       ~children,
@@ -21,6 +22,7 @@ let make =
       )
     )
     ?activeStyle
+    ?onPress
     ?onMouseEnter
     ?onMouseLeave>
     children

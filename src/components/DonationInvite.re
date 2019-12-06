@@ -124,6 +124,10 @@ let bottom =
     )
   );
 
+[@bs.val] [@bs.scope "window"]
+external windowOpen: (~url: string, ~name: string, ~features: string=?) => unit =
+  "open";
+
 [@react.component]
 let make = () => {
   <View style=styles##container>
@@ -145,7 +149,17 @@ let make = () => {
     <View style=styles##content>
       <Text style=styles##title> {j|Soutenir le blog|j}->React.string </Text>
       <Spacer size=M />
-      <ViewLink style=styles##button href="https://www.paypal.me/damebio/10">
+      <ViewLink
+        style=styles##button
+        href="https://www.paypal.me/damebio/10"
+        onPress={pressEvent => {
+          pressEvent##preventDefault();
+          windowOpen(
+            ~url="https://www.paypal.me/damebio/10",
+            ~name="donation",
+            ~features="",
+          );
+        }}>
         {j|Faire un don|j}->React.string
       </ViewLink>
       <Spacer />

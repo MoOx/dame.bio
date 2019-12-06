@@ -7,7 +7,7 @@ import { isActive } from "@phenomic/plugin-renderer-react/lib/components/Link.js
 import { hrefify, handlePress } from "./linkUtils";
 
 export default function TextLink(props, context) {
-  const { style, activeStyle, ...otherProps } = props;
+  const { style, activeStyle, onPress, ...otherProps } = props;
   const href = props.to || props.href || "";
   return (
     <Text
@@ -15,7 +15,7 @@ export default function TextLink(props, context) {
       accessibilityLabel={props.accessibilityLabel}
       accessibilityRole="link"
       href={hrefify(href)}
-      onPress={handlePress(props, context.router)}
+      onPress={onPress || handlePress(props, context.router)}
       style={[style, isActive(href, context) && activeStyle]}
     />
   );
