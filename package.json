@@ -55,7 +55,7 @@
     "format:most": "prettier --write \"**/*.{js,json,css,md}\" \"!package.json\"",
     "format:re": "find . -name \"*.re\" | grep -v \"node_modules\" | xargs bsrefmt --in-place",
     "cleanup": "yarn svg:cleanup && yarn reason:cleanup",
-    "graphql:introspection": "yarn send-introspection-query https://dame.bio/graphql",
+    "graphql:introspection": "yarn send-introspection-query https://data.dame.bio/graphql",
     "reason:cleanup": "bsb -clean-world",
     "reason:compile": "bsb -make-world",
     "svg:cleanup": "trash assets/SVGs/components",
