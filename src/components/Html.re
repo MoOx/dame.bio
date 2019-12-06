@@ -8,11 +8,7 @@ let make = (~content, ~category=?, ()) => {
     dangerouslySetInnerHTML={
       "__html":
         content->Option.getWithDefault("")
-        /* make images url absolute */
-        |> Js.String.replaceByRe(
-             [%re "/=\"\\/wp-content/g"],
-             "=\"" ++ Consts.backendUrl ++ "wp-content",
-           )
+        |> Utils.adjustUrls
         /* custom behavior decided for us "white star unicode" => a png */
         |> Js.String.replaceByRe(
              [%re "/<p style=\"text-align:center\">☆<\\/p>/g"],

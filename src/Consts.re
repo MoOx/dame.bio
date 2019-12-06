@@ -1,6 +1,5 @@
-let backendUrl = "https://dame.bio/";
+let backendUrl = "https://data.dame.bio/";
 let backendGrapqlUrl = backendUrl ++ "graphql";
-let backendWpAjaxUrl = backendUrl ++ "wp-admin/admin-ajax.php";
 let title = {j|D'Âme Bio|j};
 let titleTemplateHome = title ++ {j| - %s|j};
 let titleTemplate = {j|%s - |j} ++ title;
