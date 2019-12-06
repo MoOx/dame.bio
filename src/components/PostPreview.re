@@ -142,7 +142,11 @@ let make = (~item, ~withWatercolorBottomRightCorner=false, ()) =>
                 ->Option.getWithDefault(false)
               )
             ->Array.get(0)
-            ->Option.flatMap(s => s->Option.map(s => s##sourceUrl))
+            ->Option.flatMap(s =>
+                s
+                ->Option.map(s => s##sourceUrl)
+                ->Option.map(url => url->Option.map(Utils.adjustUrls))
+              )
             ->Option.getWithDefault(None)
           }
           style=styles##image
