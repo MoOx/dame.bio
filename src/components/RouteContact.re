@@ -14,7 +14,7 @@ module GetItems = [%graphql
     pages(first: 1, where: {name: $pageSlug}) {
       nodes {
         id
-        title(format: RAW)
+        title
         slug
         dateGmt
         content

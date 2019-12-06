@@ -56,7 +56,7 @@ module Fragments = [%graphql
 
   fragment PostDetailFragment on Post {
     id
-    title(format: RAW)
+    title
     slug
     commentCount
     likeCount
