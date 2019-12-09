@@ -12,6 +12,7 @@ let make = () =>
       {j|@-ms-viewport { width: device-width } @viewport { width: device-width }|j}
       ->React.string
     </style>
+    <link rel="preconnect" href="https://data.dame.bio" />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
