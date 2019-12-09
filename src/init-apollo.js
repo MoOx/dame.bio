@@ -71,8 +71,12 @@ export const refreshAccessToken = RefreshJwtAuthTokenInput => {
     });
 };
 
-const errorLink = onError(({ networkError, operation, forward }) => {
-  if (networkError.statusCode === 403 && store.refreshToken) {
+const errorLink = onError(arg => {
+  const { graphQLErrors, networkError, operation, forward } = arg;
+  if (graphQLErrors) {
+    console.log("graphQLErrors", graphQLErrors);
+  }
+  if (networkError && networkError.statusCode === 403 && store.refreshToken) {
     store.authToken = undefined;
     return new Observable(observer => {
       refreshAccessToken(store.refreshToken)
