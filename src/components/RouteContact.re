@@ -76,4 +76,10 @@ let composedComponent = (~status, ~error) =>
     [|React.null|],
   );
 
-let default = withInitialProps(WithApolloClient.make(composedComponent));
+let default =
+  withInitialProps(
+    WithApolloClient.make(
+      ~initialOptions={"canRestoreInitialState": true},
+      ~component=composedComponent,
+    ),
+  );

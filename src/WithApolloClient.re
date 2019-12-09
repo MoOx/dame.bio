@@ -1,4 +1,9 @@
-[@bs.module "./withApolloClient"]
-external withApolloClient: 'a => 'a = "default";
+type initialOptions = {
+  .
+  // "getAllPos": option(bool),
+  "canRestoreInitialState": bool,
+};
 
-let make = withApolloClient;
+[@bs.module "./withApolloClient"]
+external make: (~component: 'a, ~initialOptions: initialOptions) => 'a =
+  "default";

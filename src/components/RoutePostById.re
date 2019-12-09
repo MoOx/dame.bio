@@ -96,4 +96,10 @@ let composedComponent = (~status, ~error, ~params: {. "postId": int}) => {
    inject(composedComponent, getInitialProps); */
 
 /* let default = withInitialProps(WithApolloClient.make(composedComponent), getAllPossibleUrls); */
-let default = withInitialProps(WithApolloClient.make(composedComponent));
+let default =
+  withInitialProps(
+    WithApolloClient.make(
+      ~component=composedComponent,
+      ~initialOptions={"canRestoreInitialState": !Auth.isLogged()},
+    ),
+  );

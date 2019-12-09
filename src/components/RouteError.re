@@ -11,4 +11,8 @@ let make = () =>
     <Sidebar />
   </AppWrapper>;
 
-let default = WithApolloClient.make(make);
+let default =
+  WithApolloClient.make(
+    ~component=make,
+    ~initialOptions={"canRestoreInitialState": true},
+  );

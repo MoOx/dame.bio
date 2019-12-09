@@ -5,7 +5,7 @@ import { ApolloProvider, getDataFromTree } from "react-apollo";
 
 let isBrowser = typeof window !== "undefined";
 
-export default (ComposedComponent, getAllPossibleUrls) => {
+export default (ComposedComponent, initialOptions) => {
   return class Apollo extends React.Component {
     static displayName = "withApolloClient(?)";
     static async getInitialProps(initialPropsArgs) {
@@ -19,14 +19,16 @@ export default (ComposedComponent, getAllPossibleUrls) => {
       const apollo = initApollo();
       if (!isBrowser) {
         console.log(
-          "SSR/Apollo: retrieving data for " + initialPropsArgs.pathname + "..."
+          "SSR/Apollo: retrieving data for " +
+            initialPropsArgs.pathname +
+            "...",
         );
         try {
           // Run all GraphQL queries
           await getDataFromTree(
             <ApolloProvider client={apollo}>
               <ComposedComponent status="ready" {...appProps} />
-            </ApolloProvider>
+            </ApolloProvider>,
           );
         } catch (error) {
           // Prevent Apollo Client GraphQL errors from crashing SSR.
@@ -44,7 +46,7 @@ export default (ComposedComponent, getAllPossibleUrls) => {
       const apolloState = apollo.cache.extract();
       return {
         ...appProps,
-        apolloState
+        apolloState,
       };
     }
 
@@ -52,34 +54,33 @@ export default (ComposedComponent, getAllPossibleUrls) => {
       if (ComposedComponent.getAllPossibleUrls) {
         return await ComposedComponent.getAllPossibleUrls(...args);
       }
-      if (getAllPossibleUrls) {
-        return await getAllPossibleUrls(...args);
+      if (initialOptions.getAllPossibleUrls) {
+        return await initialOptions.getAllPossibleUrls(...args);
       }
       console.warn(
-        "No getAllPossibleUrls() defined from " + ComposedComponent.displayName
+        "No getAllPossibleUrls() defined from " + ComposedComponent.displayName,
       );
       return [];
     }
 
     constructor(props) {
       super(props);
-      this.apolloClient = initApollo(props.apolloState);
+      this.apolloClient = initApollo(props.apolloState, initialOptions);
     }
 
     render() {
       return (
         <ApolloProvider client={this.apolloClient}>
           <ComposedComponent {...this.props} />
-          {!isBrowser &&
-            this.props.apolloState && (
-              <script
-                dangerouslySetInnerHTML={{
-                  __html: `window.__APOLLO_STATE__=${JSON.stringify(
-                    this.props.apolloState
-                  ).replace(/</g, "\\u003c")};`
-                }}
-              />
-            )}
+          {!isBrowser && this.props.apolloState && (
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.__APOLLO_STATE__=${JSON.stringify(
+                  this.props.apolloState,
+                ).replace(/</g, "\\u003c")};`,
+              }}
+            />
+          )}
         </ApolloProvider>
       );
     }

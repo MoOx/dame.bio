@@ -64,7 +64,6 @@ export const refreshAccessToken = RefreshJwtAuthTokenInput => {
       },
     })
     .then(({ data }) => {
-      // console.log("data", data);
       return data.refreshJwtAuthToken.authToken;
     })
     .catch(() => {
@@ -73,15 +72,12 @@ export const refreshAccessToken = RefreshJwtAuthTokenInput => {
 };
 
 const errorLink = onError(({ networkError, operation, forward }) => {
-  // console.log("erreur!");
   if (networkError.statusCode === 403 && store.refreshToken) {
-    // console.log("erreur 403");
     store.authToken = undefined;
     return new Observable(observer => {
       refreshAccessToken(store.refreshToken)
         .then(authToken => {
           if (!authToken) {
-            // console.log("logout no auth");
             logout();
           } else {
             store.authToken = authToken;
@@ -104,7 +100,6 @@ const errorLink = onError(({ networkError, operation, forward }) => {
           forward(operation).subscribe(subscriber);
         })
         .catch(err => {
-          // console.log("logout no caca");
           logout();
           observer.error(err);
         });
@@ -112,7 +107,7 @@ const errorLink = onError(({ networkError, operation, forward }) => {
   }
 });
 
-function create(initialState) {
+function create(initialState, initialOptions = {}) {
   return new ApolloClient({
     connectToDevTools: isBrowser,
     ssrMode: !isBrowser, // Disables forceFetch on the server (so queries are only run once)
@@ -125,19 +120,22 @@ function create(initialState) {
     }).restore(
       // until website is faster to build, we don't use the local serialized
       // state to be sure to have up to date (live) data from backend
-      initialState /*|| (isBrowser ? window.__APOLLO_STATE__ : undefined)*/ ||
+      initialState ||
+        (isBrowser && initialOptions.canRestoreInitialState
+          ? window.__APOLLO_STATE__
+          : undefined) ||
         {},
     ),
   });
 }
 
-export default function initApollo(initialState) {
+export default function initApollo(initialState, initialOptions) {
   if (!isBrowser) {
-    return create(initialState);
+    return create(initialState, initialOptions);
   }
 
   if (!apolloClient) {
-    apolloClient = create(initialState);
+    apolloClient = create(initialState, initialOptions);
   }
 
   return apolloClient;
