@@ -64,7 +64,9 @@ let make = () => {
   let year = "2019";
   <View style=styles##container>
     <Spacer size=XL />
-    <InstagramFeed />
+    <ViewportObserver>
+      ...{state => state##hasBeenVisible ? <InstagramFeed /> : React.null}
+    </ViewportObserver>
     <Spacer size=L />
     <div id="footer" />
     <SpacedView style=styles##content>
