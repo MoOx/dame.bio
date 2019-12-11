@@ -85,12 +85,12 @@ body {
   }
 }
 
-@media (min-width: 500px) {
+@media (min-width: 501px) {
   .device-small {
     display: none;
   }
 }
-@media (max-width: 501px) {
+@media (max-width: 500px) {
   .device-large {
     display: none;
   }
