@@ -15,9 +15,6 @@ import RoutePostById from "./src/components/RoutePostById.bs.js";
 import RouteContact from "./src/components/RouteContact.bs.js";
 import RouteError from "./src/components/RouteError.bs.js";
 
-const apolloClient = initApollo();
-const first = 1000;
-
 // SSR pre-defined window/screen dimensions
 // choice for values has been made according to site stats
 if (typeof window === "undefined") {
@@ -31,36 +28,137 @@ if (typeof window === "undefined") {
       height: 640,
     },
   });
-}
 
-RouteError.getAllPossibleUrls = async () => {
-  return ["/404.html"];
-};
+  const apolloClient = initApollo();
+  const first = 1000;
 
-RoutePostsOrPage.getAllPossibleUrls = async ({ path }) => {
-  if (path == "/") {
-    return ["/"];
-  }
+  RouteError.getAllPossibleUrls = async () => {
+    return ["/404.html"];
+  };
 
-  // /:categoryOrPageSlug/ (categories)
-  // /:categoryOrPageSlug/after/:cursorAfter
-  // /:tag
-  // /:tag/after/:cursorAfter (disabled, see comment below)
-  if (path === "/:categoryOrPageSlug/after/:cursorAfter/") {
+  RoutePostsOrPage.getAllPossibleUrls = async ({ path }) => {
+    if (path == "/") {
+      return ["/"];
+    }
+
+    // /:categoryOrPageSlug/ (categories)
+    // /:categoryOrPageSlug/after/:cursorAfter
+    // /:tag
+    // /:tag/after/:cursorAfter (disabled, see comment below)
+    if (path === "/:categoryOrPageSlug/after/:cursorAfter/") {
+      return apolloClient
+        .query({
+          query: gql`
+            {
+              posts(first: ${first}, where: { status: PUBLISH }) {
+                edges {
+                  cursor
+                  node {
+                    categories {
+                      nodes {
+                        slug
+                      }
+                    }
+                    tags {
+                      nodes {
+                        slug
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          `,
+        })
+        .then(({ data }) => {
+          // console.log(`received data ${JSON.stringify(data, null, 2)}`);
+          return data.posts.edges.reduce((acc, item) => {
+            try {
+              acc.push("/after/" + item.cursor + "/");
+              if (
+                item.node &&
+                item.node.categories &&
+                item.node.categories.nodes
+              ) {
+                item.node.categories.nodes.forEach(c => {
+                  acc.push("/" + c.slug + "/");
+                  acc.push("/" + c.slug + "/after/" + item.cursor + "/");
+                });
+              }
+              if (item.node && item.node.tags && item.node.tags.nodes) {
+                item.node.tags.nodes.forEach(t => {
+                  acc.push("/tag/" + t.slug + "/");
+                  // disable SSR for tag pagination because this adds lots of urls to pre-render
+                  // and until we have better perfs (= local db/fetch) it's totally slow to do this...
+                  // acc.push("/tag/" + t.slug + "/after/" + item.cursor + "/");
+                });
+              }
+            } catch (e) {
+              console.log(`received error ${e}`);
+              console.log(JSON.stringify(item, null, 2));
+            }
+            return acc;
+          }, []);
+        })
+        .catch(error => {
+          console.log(`received error ${error}`);
+          return [];
+        });
+    }
+
+    // /:categoryOrPageSlug/ (pages)
+    if (path === "/:categoryOrPageSlug/") {
+      return apolloClient
+        .query({
+          query: gql`
+          {
+            pages(first: ${first}, where: { status: PUBLISH }) {
+              edges {
+                node {
+                  slug
+                }
+              }
+            }
+          }
+        `,
+        })
+        .then(({ data }) => {
+          return data.pages.edges
+            .map(item => {
+              try {
+                return "/" + item.node.slug + "/";
+              } catch (e) {
+                console.log(`received error ${e}`);
+                console.log(JSON.stringify(item, null, 2));
+              }
+            })
+            .filter(i => i);
+        })
+        .catch(error => {
+          console.log(`received error ${error}`);
+          return [];
+        });
+    }
+
+    return [];
+  };
+
+  // already available via page slug
+  RouteContact.getAllPossibleUrls = () => {
+    return [];
+  };
+
+  // /:categoryOrPageSlug/:postSlug/
+  RoutePostBySlug.getAllPossibleUrls = async () => {
     return apolloClient
       .query({
         query: gql`
           {
             posts(first: ${first}, where: { status: PUBLISH }) {
               edges {
-                cursor
                 node {
-                  categories {
-                    nodes {
-                      slug
-                    }
-                  }
-                  tags {
+                  slug
+                  categories(first: 1) {
                     nodes {
                       slug
                     }
@@ -72,62 +170,16 @@ RoutePostsOrPage.getAllPossibleUrls = async ({ path }) => {
         `,
       })
       .then(({ data }) => {
-        // console.log(`received data ${JSON.stringify(data, null, 2)}`);
-        return data.posts.edges.reduce((acc, item) => {
-          try {
-            acc.push("/after/" + item.cursor + "/");
-            if (
-              item.node &&
-              item.node.categories &&
-              item.node.categories.nodes
-            ) {
-              item.node.categories.nodes.forEach(c => {
-                acc.push("/" + c.slug + "/");
-                acc.push("/" + c.slug + "/after/" + item.cursor + "/");
-              });
-            }
-            if (item.node && item.node.tags && item.node.tags.nodes) {
-              item.node.tags.nodes.forEach(t => {
-                acc.push("/tag/" + t.slug + "/");
-                // disable SSR for tag pagination because this adds lots of urls to pre-render
-                // and until we have better perfs (= local db/fetch) it's totally slow to do this...
-                // acc.push("/tag/" + t.slug + "/after/" + item.cursor + "/");
-              });
-            }
-          } catch (e) {
-            console.log(`received error ${e}`);
-            console.log(JSON.stringify(item, null, 2));
-          }
-          return acc;
-        }, []);
-      })
-      .catch(error => {
-        console.log(`received error ${error}`);
-        return [];
-      });
-  }
-
-  // /:categoryOrPageSlug/ (pages)
-  if (path === "/:categoryOrPageSlug/") {
-    return apolloClient
-      .query({
-        query: gql`
-        {
-          pages(first: ${first}, where: { status: PUBLISH }) {
-            edges {
-              node {
-                slug
-              }
-            }
-          }
-        }
-      `,
-      })
-      .then(({ data }) => {
-        return data.pages.edges
+        return data.posts.edges
           .map(item => {
             try {
-              return "/" + item.node.slug + "/";
+              return (
+                "/" +
+                item.node.categories.nodes[0].slug +
+                "/" +
+                item.node.slug +
+                "/"
+              );
             } catch (e) {
               console.log(`received error ${e}`);
               console.log(JSON.stringify(item, null, 2));
@@ -139,60 +191,8 @@ RoutePostsOrPage.getAllPossibleUrls = async ({ path }) => {
         console.log(`received error ${error}`);
         return [];
       });
-  }
-
-  return [];
-};
-
-// already available via page slug
-RouteContact.getAllPossibleUrls = () => {
-  return [];
-};
-
-// /:categoryOrPageSlug/:postSlug/
-RoutePostBySlug.getAllPossibleUrls = async () => {
-  return apolloClient
-    .query({
-      query: gql`
-        {
-          posts(first: ${first}, where: { status: PUBLISH }) {
-            edges {
-              node {
-                slug
-                categories(first: 1) {
-                  nodes {
-                    slug
-                  }
-                }
-              }
-            }
-          }
-        }
-      `,
-    })
-    .then(({ data }) => {
-      return data.posts.edges
-        .map(item => {
-          try {
-            return (
-              "/" +
-              item.node.categories.nodes[0].slug +
-              "/" +
-              item.node.slug +
-              "/"
-            );
-          } catch (e) {
-            console.log(`received error ${e}`);
-            console.log(JSON.stringify(item, null, 2));
-          }
-        })
-        .filter(i => i);
-    })
-    .catch(error => {
-      console.log(`received error ${error}`);
-      return [];
-    });
-};
+  };
+}
 
 const matomoSiteId = 2;
 let onUpdate = () => console.info("onUpdate", window.location.href);
