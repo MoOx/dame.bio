@@ -41,7 +41,13 @@ let styles =
   Style.(
     StyleSheet.create({
       "container": style([flex(1.)]),
-      "row": style([flex(1.), flexDirection(Row), flexWrap(Wrap)]),
+      "row":
+        style([
+          flexGrow(1.),
+          flexShrink(1.),
+          flexDirection(Row),
+          flexWrap(Wrap),
+        ]),
       "avatar":
         style([
           /* compensate TextInput borderWidth */
@@ -63,7 +69,8 @@ let styles =
           color(String("#bdbdbd")),
         ]),
       "textInputs": style([]),
-      "textInputWrapper": style([flex(1.), paddingBottom(Pt(10.))]),
+      "textInputWrapper":
+        style([flexGrow(1.), flexShrink(1.), paddingBottom(Pt(10.))]),
       "textInput":
         style([
           color(String(Consts.Colors.darkLabel)),

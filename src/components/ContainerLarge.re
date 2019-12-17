@@ -5,7 +5,8 @@ let styles =
     StyleSheet.create({
       "wrapper":
         style([
-          flex(1.),
+          flexGrow(1.),
+          flexShrink(1.),
           width(Pct(100.)),
           alignItems(Center),
           backgroundColor(String("#fefefe")),
@@ -15,7 +16,8 @@ let styles =
           flexDirection(Row),
           flexWrap(Wrap),
           justifyContent(SpaceBetween),
-          flex(1.),
+          flexGrow(1.),
+          flexShrink(1.),
           width(Pct(100.)),
           maxWidth(Pt(1200.)),
         ]),

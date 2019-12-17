@@ -13,7 +13,7 @@ let styles =
         ]),
       "content": style([alignItems(Center)]),
       "blocks": style([flexGrow(1.), flexShrink(0.), maxWidth(Pt(800.))]),
-      "block": style([flex(1.), flexBasis(Pt(150.))]),
+      "block": style([flexGrow(1.), flexShrink(1.), flexBasis(Pt(150.))]),
       "blockTitle":
         style([
           fontSize(Float(12.)),
@@ -29,7 +29,12 @@ let styles =
         ]),
       "footerCeption": style([flexDirection(Row), flexWrap(Wrap)]),
       "footerMinitem":
-        style([flex(1.), alignItems(Center), flexBasis(Pt(250.))]),
+        style([
+          flexGrow(1.),
+          flexShrink(1.),
+          alignItems(Center),
+          flexBasis(Pt(250.)),
+        ]),
       "copyright":
         style([
           fontSize(Float(12.)),

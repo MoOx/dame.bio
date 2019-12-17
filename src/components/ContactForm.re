@@ -5,7 +5,13 @@ let styles =
   Style.(
     StyleSheet.create({
       "container": style([flex(1.)]),
-      "row": style([flex(1.), flexDirection(Row), flexWrap(Wrap)]),
+      "row":
+        style([
+          flexGrow(1.),
+          flexShrink(1.),
+          flexDirection(Row),
+          flexWrap(Wrap),
+        ]),
       "avatar":
         style([
           /* compensate TextInput borderWidth */

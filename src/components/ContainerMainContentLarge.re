@@ -3,7 +3,8 @@ open BsReactNative;
 let styles =
   Style.(
     StyleSheet.create({
-      "container": style([flex(2.), flexBasis(Pt(800.))]),
+      "container":
+        style([flexGrow(2.), flexShrink(1.), flexBasis(Pt(800.))]),
     })
   );
 

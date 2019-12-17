@@ -8,7 +8,8 @@ let styles =
     StyleSheet.create({
       "block":
         style([
-          flex(1.),
+          flexGrow(1.),
+          flexShrink(1.),
           padding(Pt(20.)),
           borderColor(String("#F0F0EF")),
           backgroundColor(String("#fff")),

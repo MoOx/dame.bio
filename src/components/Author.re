@@ -4,7 +4,7 @@ let styles =
   Style.(
     StyleSheet.create({
       "container": style([flexDirection(Row), flexWrap(Wrap)]),
-      "block": style([flex(1.), flexBasis(Pt(300.))]),
+      "block": style([flexGrow(1.), flexShrink(1.), flexBasis(Pt(300.))]),
       "blockTitle":
         style([
           fontSize(Float(24.)),
