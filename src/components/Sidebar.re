@@ -5,7 +5,8 @@ let styles =
     StyleSheet.create({
       "sidebar":
         style(
-          ~flex=1.,
+          ~flexGrow=1.,
+          ~flexShrink=1.,
           ~flexBasis=350.->dp,
           ~alignItems=`center,
           ~paddingHorizontal=20.->dp,

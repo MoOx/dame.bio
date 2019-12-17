@@ -6,10 +6,11 @@ let imageRatio = 240. /. 350.;
 let styles =
   Style.(
     StyleSheet.create({
-      "wrapper": style(~flex=1., ~flexBasis=340.->dp, ()),
+      "wrapper": style(~flexGrow=1., ~flexShrink=1., ~flexBasis=340.->dp, ()),
       "container":
         style(
-          ~flex=1.,
+          ~flexGrow=1.,
+          ~flexShrink=1.,
           ~borderRadius=Consts.Radius.box,
           ~shadowColor="#333333",
           ~shadowOffset=offset(~height=2., ~width=0.),
@@ -17,7 +18,7 @@ let styles =
           ~shadowRadius=16.,
           (),
         ),
-      "containerContent": style(~flex=1., ()),
+      "containerContent": style(~flexGrow=1., ~flexShrink=1., ()),
       "image":
         style(
           ~borderTopLeftRadius=Consts.Radius.box,
@@ -26,7 +27,8 @@ let styles =
         ),
       "text":
         style(
-          ~flex=1.,
+          ~flexGrow=1.,
+          ~flexShrink=1.,
           ~borderBottomLeftRadius=Consts.Radius.box,
           ~borderBottomRightRadius=Consts.Radius.box,
           ~borderLeftWidth=0.5,

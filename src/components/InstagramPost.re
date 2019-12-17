@@ -6,11 +6,12 @@ let styles =
       "block":
         style(
           ~position=`relative,
-          ~flex=1.,
+          ~flexGrow=1.,
+          ~flexShrink=1.,
           ~backgroundColor=Consts.Colors.lightGrey,
           (),
         ),
-      "image": style(~position=`relative, ~flex=1., ()),
+      "image": style(~position=`relative, ~flexGrow=1., ~flexShrink=1., ()),
     })
   );
 

@@ -14,17 +14,20 @@ let styles =
         ),
       "container":
         style(
-          ~flex=1.,
+          ~flexGrow=1.,
+          ~flexShrink=1.,
           ~flexDirection=`row,
           ~minHeight=50.->dp,
           ~alignItems=`center,
           (),
         ),
-      "itemWrapper": style(~flex=1., ~justifyContent=`center, ()),
+      "itemWrapper":
+        style(~flexGrow=1., ~flexShrink=1., ~justifyContent=`center, ()),
       "item": style(~justifyContent=`center, ~alignItems=`center, ()),
       "itemText":
         style(
-          ~flex=1.,
+          ~flexGrow=1.,
+          ~flexShrink=1.,
           ~color=colorInActive,
           ~fontSize=10.,
           ~marginTop=1.5->dp,
