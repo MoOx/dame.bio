@@ -6,9 +6,9 @@ let styles =
       "wrapper":
         style([
           flexGrow(1.),
-          flexShrink(1.),
+          // flexShrink(1.),
           width(Pct(100.)),
-          overflow(Hidden),
+          // overflow(Hidden),
           alignItems(Center),
           backgroundColor(String("#fefefe")),
         ]),
