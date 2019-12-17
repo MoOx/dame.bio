@@ -26,6 +26,7 @@ const Html = ({ App, render } /*: PhenomicHtmlPropsType*/) => {
       <body {...head.bodyAttributes.toComponent()}>
         <Main />
         <State />
+        <script src="https://polyfill.io/v3/polyfill.min.js" />
         <Script />
       </body>
     </html>
