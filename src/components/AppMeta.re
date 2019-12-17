@@ -8,6 +8,12 @@ let make = () =>
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
+    <meta
+      name="react-ie-polyfill-hack"
+      dangerouslySetInnerHTML={
+        "__html": "<!--[if IE]><script src=\"https://polyfill.io/v3/polyfill.min.js\"></script><![endif]-->",
+      }
+    />
     <style>
       {j|@-ms-viewport { width: device-width } @viewport { width: device-width }|j}
       ->React.string
