@@ -1,5 +1,6 @@
-let backendUrl = "https://data.dame.bio/";
-let backendGrapqlUrl = backendUrl ++ "graphql";
+let frontendUrl = "https://dame.bio";
+let backendUrl = "https://data.dame.bio";
+let backendGrapqlUrl = backendUrl ++ "/graphql";
 let title = {j|D'Âme Bio|j};
 let titleTemplateHome = title ++ {j| - %s|j};
 let titleTemplate = {j|%s - |j} ++ title;

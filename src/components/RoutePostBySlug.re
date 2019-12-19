@@ -52,6 +52,13 @@ let make = (~status, ~postSlug) => {
                                     key=title
                                     titleTemplate=Consts.titleTemplate>
                                     <title> title->React.string </title>
+                                    <link
+                                      rel="canonical"
+                                      href={
+                                        Consts.frontendUrl
+                                        ++ item->Utils.postHref
+                                      }
+                                    />
                                   </BsReactHelmet>
                                 )}
                              <PostDetail item />

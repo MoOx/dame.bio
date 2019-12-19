@@ -217,6 +217,12 @@ const routes = () => (
       component={RoutePostsOrPage}
     />
     <Route path="/:categoryOrPageSlug/:postSlug/" component={RoutePostBySlug} />
+    {/* backward compat */}
+    <Route path="/:categoryOrPageSlug/:postSlug" component={RoutePostBySlug} />
+    <Route
+      path="/:categoryOrPageSlug/:postSlug/feed"
+      component={RoutePostBySlug}
+    />
     <Route path="/noindex/post/:postId/" component={RoutePostById} />
     <Route path="/*" component={RouteError} />
   </Router>

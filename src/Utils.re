@@ -31,7 +31,7 @@ let tagifyString = string => stringMapPartial(tagifyChar, string);
 let adjustUrls = s =>
   Js.String.replaceByRe(
     [%re "/=\"\\/wp-content/g"],
-    "=\"" ++ Consts.backendUrl ++ "wp-content",
+    "=\"" ++ Consts.backendUrl ++ "/wp-content",
     s,
   );
 
@@ -52,3 +52,22 @@ let frenchDate = (date: option(string)) => {
     )
   ->Option.getWithDefault("");
 };
+
+let rootCategory = item =>
+  item##categories
+  ->Option.flatMap(categories => categories##nodes)
+  ->Option.map(nodes => nodes->Array.keepMap(node => node))
+  ->Option.flatMap(categoriesNodes => categoriesNodes[0]);
+
+let catHref = cat =>
+  "/"
+  ++ cat
+     ->Option.flatMap(cat => cat##slug)
+     ->Option.getWithDefault("_")
+     ->encodeURI
+  ++ "/";
+
+let postHref = item =>
+  item->rootCategory->catHref
+  ++ item##slug->Option.getWithDefault(item##id)
+  ++ "/";

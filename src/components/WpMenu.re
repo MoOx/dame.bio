@@ -50,7 +50,7 @@ let make = (~id, ~currentLocation, ~renderItem) => {
                                       url
                                       ->Js.String.replace(
                                           Consts.backendUrl,
-                                          "/",
+                                          "",
                                           _,
                                         )
                                       ->Js.String.replace(

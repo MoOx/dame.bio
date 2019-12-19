@@ -50,19 +50,9 @@ let styles =
 [@react.component]
 let make = (~item: WPGraphQL.Fragments.PostDetailFragment.t, ()) => {
   let id = item##id;
-  let rootCategory =
-    item##categories
-    ->Option.flatMap(categories => categories##nodes)
-    ->Option.map(nodes => nodes->Array.keepMap(node => node))
-    ->Option.flatMap(categoriesNodes => categoriesNodes[0]);
-  let catHref =
-    "/"
-    ++ rootCategory
-       ->Option.flatMap(cat => cat##slug)
-       ->Option.getWithDefault("_")
-       ->Utils.encodeURI
-    ++ "/";
-  let href = catHref ++ item##slug->Option.getWithDefault(item##id) ++ "/";
+  let rootCategory = item->Utils.rootCategory;
+  let catHref = rootCategory->Utils.catHref;
+  let href = item->Utils.postHref;
   let likes =
     switch (item##likeCount->Option.getWithDefault(0)) {
     | 0 => React.null

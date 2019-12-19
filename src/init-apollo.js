@@ -19,7 +19,7 @@ let apolloClient = null;
 const isBrowser = typeof window !== "undefined";
 
 const httpLink = new HttpLink({
-  uri: backendUrl + "graphql",
+  uri: backendUrl + "/graphql",
   credentials: "same-origin",
 });
 const middlewareLink = new ApolloLink((operation, forward) => {

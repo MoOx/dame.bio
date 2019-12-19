@@ -150,7 +150,7 @@ let make = () => {
             <LoginForm />
             {j| By |j}->React.string
             <TextLink
-              href="https://dame.bio/a-propos/"
+              href={Consts.frontendUrl ++ "/a-propos/"}
               style=Style.(style([textDecorationLine(Underline)]))>
               Consts.nickname->React.string
             </TextLink>

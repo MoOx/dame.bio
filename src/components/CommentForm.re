@@ -185,7 +185,7 @@ type state = {
 let sendComment = (commentToSend, success, failure) =>
   Js.Promise.(
     Fetch.fetchWithInit(
-      Consts.backendUrl ++ "wp-json/wp/v2/comments",
+      Consts.backendUrl ++ "/wp-json/wp/v2/comments",
       Fetch.RequestInit.make(
         ~method_=Post,
         ~body=Fetch.BodyInit.make(Js.Json.stringify(commentToSend)),
