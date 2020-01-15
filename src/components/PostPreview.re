@@ -7,7 +7,7 @@ let styles =
   Style.(
     StyleSheet.create({
       "wrapper":
-        style(
+        viewStyle(
           ~flexGrow=1.,
           ~flexShrink=1.,
           ~flexBasis=340.->dp,
@@ -15,7 +15,7 @@ let styles =
           (),
         ),
       "container":
-        style(
+        viewStyle(
           ~flexGrow=1.,
           ~flexShrink=1.,
           ~borderRadius=Consts.Radius.box,
@@ -25,15 +25,15 @@ let styles =
           ~shadowRadius=16.,
           (),
         ),
-      "containerContent": style(~flexGrow=1., ~flexShrink=1., ()),
+      "containerContent": viewStyle(~flexGrow=1., ~flexShrink=1., ()),
       "image":
-        style(
+        viewStyle(
           ~borderTopLeftRadius=Consts.Radius.box,
           ~borderTopRightRadius=Consts.Radius.box,
           (),
         ),
       "text":
-        style(
+        viewStyle(
           ~flexGrow=1.,
           ~flexShrink=1.,
           ~borderBottomLeftRadius=Consts.Radius.box,
@@ -45,9 +45,9 @@ let styles =
           ~backgroundColor=Consts.Colors.lightest,
           (),
         ),
-      "categoryText": style(~fontSize=10., ~color=Consts.Colors.pink, ()),
+      "categoryText": textStyle(~fontSize=10., ~color=Consts.Colors.pink, ()),
       "titleText":
-        style(
+        textStyle(
           ~fontSize=20.,
           ~fontWeight=`_300,
           ~lineHeight=28.,
@@ -55,7 +55,7 @@ let styles =
           (),
         ),
       "actionsWrapper":
-        style(
+        viewStyle(
           ~position=`absolute,
           ~top=0.->dp,
           ~left=0.->dp,
@@ -63,7 +63,7 @@ let styles =
           (),
         ),
       "actions":
-        style(
+        viewStyle(
           ~flexDirection=`row,
           ~right=0.->dp,
           ~alignSelf=`flexEnd,
@@ -72,9 +72,10 @@ let styles =
           ~paddingRight=Spacer.space->dp,
           (),
         ),
-      "actionWrapper": style(~flexDirection=`row, ()),
-      "action": style(~display=`flex, ~flexDirection=`row, ()),
-      "actionText": style(~fontSize=10., ~color=ButtonLike.defaultColor, ()),
+      "actionWrapper": viewStyle(~flexDirection=`row, ()),
+      "action": viewStyle(~display=`flex, ~flexDirection=`row, ()),
+      "actionText":
+        textStyle(~fontSize=10., ~color=ButtonLike.defaultColor, ()),
     })
   );
 
@@ -123,31 +124,22 @@ let make = (~item, ~withWatercolorBottomRightCorner=false, ()) =>
       let id = item##id;
       let rootCategory = item->Utils.rootCategory;
       let href = item->Utils.postHref;
+      let uris =
+        item##featuredImage
+        ->Option.flatMap(f => f##mediaDetails)
+        ->Option.flatMap(m => m##sizes)
+        ->Option.map(sizes => sizes->Array.keepMap(o => o))
+        // ->Option.map(sizes =>
+        //     sizes->Array.keep(size =>
+        //       Js.Array.includes(
+        //         size##name->Option.getWithDefault(""),
+        //         Consts.imageSizes,
+        //       )
+        //     )
+        //   )
+        ->Option.getWithDefault([||]);
       let image =
-        <ImageWithAspectRatio
-          uri=?{
-            item##featuredImage
-            ->Option.flatMap(f => f##mediaDetails)
-            ->Option.flatMap(m => m##sizes)
-            ->Option.getWithDefault([||])
-            ->Array.keep(size =>
-                size
-                ->Option.map(size =>
-                    size##name->Option.getWithDefault("") === "medium"
-                  )
-                ->Option.getWithDefault(false)
-              )
-            ->Array.get(0)
-            ->Option.flatMap(s =>
-                s
-                ->Option.map(s => s##sourceUrl)
-                ->Option.map(url => url->Option.map(Utils.adjustUrls))
-              )
-            ->Option.getWithDefault(None)
-          }
-          style=styles##image
-          ratio=imageRatio
-        />;
+        <ImageWithAspectRatio uris style=styles##image ratio=imageRatio />;
       let categoryName =
         rootCategory
         ->Option.flatMap(cat => cat##name)
@@ -171,7 +163,7 @@ let make = (~item, ~withWatercolorBottomRightCorner=false, ()) =>
                resizeMode=`contain
                uri="/images/watercolor-bottom-right.png"
                style=Style.(
-                 style(
+                 viewStyle(
                    ~position=`absolute,
                    ~bottom=(-10.)->dp,
                    ~right=(-15.)->dp,

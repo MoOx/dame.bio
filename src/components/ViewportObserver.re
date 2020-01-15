@@ -6,4 +6,7 @@ type cb = {
 };
 
 [@bs.module "./ViewportObserver.js"] [@react.component]
-external make: (~children: cb => React.element) => React.element = "default";
+external make:
+  (~style: ReactNative.Style.t=?, ~children: cb => React.element) =>
+  React.element =
+  "default";

@@ -33,6 +33,7 @@ module Fragments = [%graphql
       mediaDetails {
         sizes {
           name
+          width
           sourceUrl
         }
       }

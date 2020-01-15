@@ -1,4 +1,3 @@
-open Belt;
 open ReactNative;
 
 let styles =
@@ -19,13 +18,11 @@ let styles =
   );
 
 [@react.component]
-let make = (~uri=?, ~ratio, ~style as s=?) => {
+let make = (~uris, ~ratio, ~style as s=?) => {
   let style = Style.(arrayOption([|Some(styles##image), s|]));
   <View style=styles##imageContainer>
     <PlaceholderWithAspectRatio ratio>
-      {uri
-       ->Option.map(uri => <ImageFromUri style uri />)
-       ->Option.getWithDefault(<View style />)}
+      <ImageFromUris style uris />
     </PlaceholderWithAspectRatio>
   </View>;
 };

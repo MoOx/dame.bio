@@ -7,7 +7,7 @@ export default class ViewportObserver extends Component {
   state = {
     hasBeenVisible: false,
     isVisible: false,
-    isCompletelyVisible: false
+    isCompletelyVisible: false,
   };
 
   componentDidMount() {
@@ -54,20 +54,22 @@ export default class ViewportObserver extends Component {
           this.state.isVisible !== isVisible ||
           this.state.isCompletelyVisible !== isCompletelyVisible
         ) {
-          this.setState({
-            hasBeenVisible: this.state.hasBeenVisible || isVisible,
+          this.setState(state => ({
+            hasBeenVisible: state.hasBeenVisible || isVisible,
             isVisible,
-            isCompletelyVisible
-          });
+            isCompletelyVisible,
+          }));
         }
       });
     }
   };
 
   render() {
+    const { children, ...remainingProps } = this.props;
+
     return (
-      <View collapsable={false} ref={c => (this._view = c)}>
-        {this.props.children(this.state)}
+      <View collapsable={false} ref={c => (this._view = c)} {...remainingProps}>
+        {children(this.state)}
       </View>
     );
   }
