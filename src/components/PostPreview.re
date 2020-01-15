@@ -6,7 +6,14 @@ let imageRatio = 240. /. 350.;
 let styles =
   Style.(
     StyleSheet.create({
-      "wrapper": style(~flexGrow=1., ~flexShrink=1., ~flexBasis=340.->dp, ()),
+      "wrapper":
+        style(
+          ~flexGrow=1.,
+          ~flexShrink=1.,
+          ~flexBasis=340.->dp,
+          ~overflow=`hidden,
+          (),
+        ),
       "container":
         style(
           ~flexGrow=1.,
