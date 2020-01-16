@@ -122,8 +122,6 @@ function create(initialState, initialOptions = {}) {
           .data,
       }),
     }).restore(
-      // until website is faster to build, we don't use the local serialized
-      // state to be sure to have up to date (live) data from backend
       initialState ||
         (isBrowser && initialOptions.canRestoreInitialState
           ? window.__APOLLO_STATE__

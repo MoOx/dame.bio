@@ -169,6 +169,6 @@ let default =
   withInitialProps(
     WithApolloClient.make(
       ~component=composedComponent,
-      ~initialOptions={"canRestoreInitialState": false},
+      ~initialOptions={"canRestoreInitialState": !Auth.isLogged()},
     ),
   );
