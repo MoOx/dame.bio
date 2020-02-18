@@ -92,7 +92,7 @@ let make = () => {
           </Text>
           <Spacer />
           <WpMenu
-            id="TWVudTo1ODM="
+            id=Consts.secondaryMenu
             currentLocation={"pathname": ""}
             renderItem
           />

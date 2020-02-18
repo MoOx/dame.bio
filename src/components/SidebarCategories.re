@@ -42,6 +42,10 @@ let renderItem = (~index, ~url, ~label, ~isActive as _) => {
 [@react.component]
 let make = () => {
   <SpacedView style=styles##categories>
-    <WpMenu id="TWVudTo1ODM=" currentLocation={"pathname": ""} renderItem />
+    <WpMenu
+      id=Consts.secondaryMenu
+      currentLocation={"pathname": ""}
+      renderItem
+    />
   </SpacedView>;
 };

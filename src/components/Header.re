@@ -156,7 +156,7 @@ let make = (~currentLocation, ()) => {
                <Spacer />
                <View style=styles##container>
                  <WpMenu
-                   id="TWVudTo5NTk="
+                   id=Consts.mainMenu
                    currentLocation
                    renderItem={(~index as _, ~url, ~label, ~isActive) =>
                      <TextLink

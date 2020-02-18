@@ -100,7 +100,7 @@ let make = (~currentLocation, ()) => {
          ~label="Accueil",
          ~isActive=currentLocation##pathname == "/",
        )}
-      <WpMenu id="TWVudTo5NTk=" currentLocation renderItem />
+      <WpMenu id=Consts.mainMenu currentLocation renderItem />
       {renderItem(~index=1, ~url="#footer", ~label="Plus", ~isActive=false)}
     </View>
   </SafeAreaView>;
