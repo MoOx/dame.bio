@@ -57,8 +57,7 @@ let make = (~id, ~currentLocation, ~renderItem) => {
                                           "/category/",
                                           "/",
                                           _,
-                                        )
-                                      ++ "/";
+                                        );
 
                                     let isActive =
                                       currentLocation##pathname
