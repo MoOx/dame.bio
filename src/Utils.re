@@ -29,11 +29,17 @@ let tagifyString = string => stringMapPartial(tagifyChar, string);
 
 /* make images url absolute */
 let adjustUrls = s =>
-  Js.String.replaceByRe(
-    [%re "/=\"\\/wp-content/g"],
-    "=\"" ++ Consts.backendUrl ++ "/wp-content",
-    s,
-  );
+  s
+  ->Js.String.replace(
+      "href=\"" ++ Consts.backendUrl ++ "/",
+      "href=\"" ++ Consts.frontendUrl ++ "/",
+      _,
+    )
+  ->Js.String.replaceByRe(
+      [%re "/=\"\\/wp-content/g"],
+      "=\"" ++ Consts.backendUrl ++ "/wp-content",
+      _,
+    );
 
 let frenchDate = (date: option(string)) => {
   date
