@@ -48,7 +48,6 @@
     "reason-react-compat": "^0.4.0",
     "reason-react-native": "^0.60.0",
     "trash-cli": "^1.4.0",
-    "upgrade-reason-react": "https://github.com/bloodyowl/upgrade-reason-react",
     "webpack-bundle-analyzer": "^3.0.3"
   },
   "scripts": {
