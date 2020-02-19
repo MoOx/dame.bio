@@ -43,7 +43,7 @@ let renderItem = (~index, ~url, ~label, ~isActive as _) => {
 let make = () => {
   <SpacedView style=styles##categories>
     <WpMenu
-      id=Consts.categoryMenu
+      id=Consts.Menus.categories
       currentLocation={"pathname": ""}
       renderItem
     />
