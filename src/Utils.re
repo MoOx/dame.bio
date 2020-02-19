@@ -30,14 +30,20 @@ let tagifyString = string => stringMapPartial(tagifyChar, string);
 /* make images url absolute */
 let adjustUrls = s =>
   s
-  ->Js.String.replace(
-      "href=\"" ++ Consts.backendUrl ++ "/",
+  ->Js.String.replaceByRe(
+      [%re "/href=\"https:\\/\\/data.dame.bio\\//g"],
       "href=\"" ++ Consts.frontendUrl ++ "/",
       _,
     )
   ->Js.String.replaceByRe(
       [%re "/=\"\\/wp-content/g"],
       "=\"" ++ Consts.backendUrl ++ "/wp-content",
+      _,
+    )
+  // legacy urls
+  ->Js.String.replaceByRe(
+      [%re "/href=\"\\/recettes\\//g"],
+      "href=\"/alimentation/",
       _,
     );
 
