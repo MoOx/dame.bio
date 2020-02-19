@@ -7,7 +7,7 @@ index 3a2294c..48c4b7d 100644
          }
        }, {
 -        concurrency: 50
-+        concurrency: 2
++        concurrency: 5
        });
      }));
  
