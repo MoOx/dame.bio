@@ -66,7 +66,8 @@ let renderItem = (~index as _, ~url, ~label, ~isActive as _) => {
 
 [@react.component]
 let make = () => {
-  let year = "2019";
+  let year =
+    Js.Date.now()->Js.Date.fromFloat->Js.Date.getFullYear->Js.Float.toString;
   <View style=styles##container>
     <Spacer size=XL />
     <ViewportObserver>
