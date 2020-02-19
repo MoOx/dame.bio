@@ -31,7 +31,6 @@
     "intl-relativeformat": "^2.1.0",
     "jest": "^21.2.1",
     "lint-staged": "^8.0.5",
-    "matomo-tracker": "^2.1.0",
     "md5": "^2.2.1",
     "npm-run-all": "^4.0.2",
     "patch-package": "^6.2.0",

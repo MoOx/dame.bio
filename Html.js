@@ -28,6 +28,22 @@ const Html = ({ App, render } /*: PhenomicHtmlPropsType*/) => {
         <State />
         <script src="https://polyfill.io/v3/polyfill.min.js" />
         <Script />
+        {process.env.NODE_ENV === "production" && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `var _paq = window._paq || [];
+_paq.push(['trackPageView']);
+_paq.push(['enableLinkTracking']);
+(function() {
+  var u="//a.moox.fr/";
+  _paq.push(['setTrackerUrl', u+'m']);
+  _paq.push(['setSiteId', 2]);
+  var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+  g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'m.js'; s.parentNode.insertBefore(g,s);
+})();`,
+            }}
+          />
+        )}
       </body>
     </html>
   );

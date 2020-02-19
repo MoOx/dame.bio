@@ -6,7 +6,6 @@ import { AppRegistry, Dimensions } from "react-native-web";
 import { createApp, renderApp } from "@phenomic/preset-react-app/lib/client";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import gql from "graphql-tag";
-import MatomoTracker from "matomo-tracker";
 
 import initApollo from "./src/init-apollo.js";
 import RoutePostsOrPage from "./src/components/RoutePostsOrPage.bs.js";
@@ -194,11 +193,17 @@ if (typeof window === "undefined") {
   };
 }
 
-const matomoSiteId = 2;
 let onUpdate = () => console.info("onUpdate", window.location.href);
-if (process.env.NODE_ENV === "production") {
-  const matomo = new MatomoTracker(matomoSiteId, "https://a.moox.fr/p", true);
-  onUpdate = () => matomo.track(window.location.href);
+if (
+  process.env.NODE_ENV === "production" &&
+  typeof window != undefined &&
+  typeof window._paq != undefined
+) {
+  onUpdate = () => {
+    window._paq.push(["setCustomUrl", window.location.href]);
+    window._paq.push(["setDocumentTitle", document.title]);
+    window._paq.push(["trackPageView"]);
+  };
 }
 
 const routes = () => (
