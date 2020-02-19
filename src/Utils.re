@@ -30,20 +30,37 @@ let tagifyString = string => stringMapPartial(tagifyChar, string);
 /* make images url absolute */
 let adjustUrls = s =>
   s
+  // remove domains
   ->Js.String.replaceByRe(
-      [%re "/href=\"https:\\/\\/data.dame.bio\\//g"],
-      "href=\"" ++ Consts.frontendUrl ++ "/",
+      [%re "/href=\"https:\\/\\/(data\\.)?dame\\.bio\\//g"],
+      "href=\"/",
       _,
     )
+  // enforce internal links to have trailing slash
+  ->Js.String.replaceByRe([%re "/href=\"\\/([^\"]+)/g"], "href=\"/$1/", _)
+  // enforce internal links to have trailing slash, and ONLY one, cause the rules above can duplicated them
+  ->Js.String.replaceByRe(
+      [%re "/href=\"\\/([^\"]+)\\/\\//g"],
+      "href=\"/$1/",
+      _,
+    )
+  // re-force wordpress href/src to point to the right place
   ->Js.String.replaceByRe(
       [%re "/=\"\\/wp-content/g"],
       "=\"" ++ Consts.backendUrl ++ "/wp-content",
       _,
     )
-  // legacy urls
+  // legacy urls inside posts
+  // @todo, change in database
+  // also check public/_redirects
   ->Js.String.replaceByRe(
       [%re "/href=\"\\/recettes\\//g"],
       "href=\"/alimentation/",
+      _,
+    )
+  ->Js.String.replaceByRe(
+      [%re "/href=\"\\/ecologie\\//g"],
+      "href=\"/permaculture/",
       _,
     );
 
