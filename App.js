@@ -194,15 +194,18 @@ if (typeof window === "undefined") {
 }
 
 let onUpdate = () => console.info("onUpdate", window.location.href);
-if (
-  process.env.NODE_ENV === "production" &&
-  typeof window != undefined &&
-  typeof window._paq != undefined
-) {
+if (process.env.NODE_ENV === "production" && typeof window != undefined) {
   onUpdate = () => {
-    window._paq.push(["setCustomUrl", window.location.href]);
-    window._paq.push(["setDocumentTitle", document.title]);
-    window._paq.push(["trackPageView"]);
+    if (typeof window._paq != undefined) {
+      window._paq.push(["setCustomUrl", window.location.href]);
+      window._paq.push(["setDocumentTitle", document.title]);
+      window._paq.push(["trackPageView"]);
+    }
+    if (typeof window.gtag != undefined) {
+      window.gtag("config", "UA-158797869-1", {
+        page_location: window.location.href,
+      });
+    }
   };
 }
 

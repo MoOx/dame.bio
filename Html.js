@@ -44,6 +44,22 @@ _paq.push(['enableLinkTracking']);
             }}
           />
         )}
+        {process.env.NODE_ENV === "production" && (
+          <>
+            <script
+              async={true}
+              src="https://www.googletagmanager.com/gtag/js?id=UA-158797869-1"
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-158797869-1');`,
+              }}
+            />
+          </>
+        )}
       </body>
     </html>
   );
