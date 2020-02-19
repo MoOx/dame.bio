@@ -93,7 +93,7 @@ let make = () => {
           </Text>
           <Spacer />
           <WpMenu
-            id=Consts.secondaryMenu
+            id=Consts.Menus.categories
             currentLocation={"pathname": ""}
             renderItem
           />
@@ -103,15 +103,11 @@ let make = () => {
             {{j|Plus|j}->String.uppercase->React.string}
           </Text>
           <Spacer />
-          <TextLink style=styles##link href="/contact/">
-            {j|Contact|j}->React.string
-          </TextLink>
-          <TextLink style=styles##link href="/a-propos/">
-            {j|À propos|j}->React.string
-          </TextLink>
-          <TextLink style=styles##link href="/mentions-legales/">
-            {j|Mentions légales|j}->React.string
-          </TextLink>
+          <WpMenu
+            id=Consts.Menus.more
+            currentLocation={"pathname": ""}
+            renderItem
+          />
         </SpacedView>
         <SpacedView style=styles##block>
           <Text style=styles##blockTitle>

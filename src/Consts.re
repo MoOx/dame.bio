@@ -11,8 +11,11 @@ Avec amour et bienveillance. Aurélie ♥︎|j};
 let bio = {j|Auteure, enseignante de yoga, créatrice de contenus et coach en jardinage naturel. Je partage avec vous mes passions, expériences, conseils, réflexions, coups de coeur et des alternatives saines, durables et respectueuses de l’environnement que je mets en place dans mon quotidien tout en vivant pleinement.
 À travers cet espace, je souhaite éveiller, transmettre, partager, se reconnecter à la nature, revenir à l’essentiel, impulser des prises de conscience et des changements positifs. |j};
 
-let mainMenu = "TWVudTo5ODU="; // Menu:985
-let secondaryMenu = "TWVudTo5ODQ="; // Menu:984
+module Menus = {
+  let main = "TWVudTo5ODU="; // Menu:985
+  let categories = "TWVudTo5ODQ="; // Menu:984
+  let more = "TWVudTo5ODY="; // Menu:986
+};
 
 type socialLink = {
   title: string,
