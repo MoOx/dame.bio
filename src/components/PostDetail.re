@@ -10,7 +10,6 @@ let styles =
         style([
           flexGrow(1.),
           flexShrink(1.),
-          borderColor(String("#F0F0EF")),
           backgroundColor(String("#fff")),
         ]),
       "metaRow": style([flexDirection(Row), justifyContent(SpaceBetween)]),
@@ -105,42 +104,44 @@ let make = (~item: WPGraphQL.Fragments.PostDetailFragment.t, ()) => {
           </ViewLink>
         </View>
       </View>
-    </SpacedView>
-    <Html content=item##content category=?rootCategory />
-    <SpacedView vertical=L style=styles##tags>
-      {item##tags
-       ->Option.flatMap(ts => ts##nodes)
-       ->Option.getWithDefault([||])
-       ->Array.mapWithIndex((index, tag) =>
-           tag
-           ->Option.map(tag =>
-               <Text
-                 key={tag##slug->Option.getWithDefault(string_of_int(index))}>
-                 <TextLink
-                   href={
-                     "/tag/"
-                     ++ Utils.encodeURI(
-                          tag##slug->Option.getWithDefault(""),
-                        )
-                     ++ "/"
+      <Spacer size=S />
+      <Html content=item##content category=?rootCategory />
+      <Spacer size=L />
+      <View style=styles##tags>
+        {item##tags
+         ->Option.flatMap(ts => ts##nodes)
+         ->Option.getWithDefault([||])
+         ->Array.mapWithIndex((index, tag) =>
+             tag
+             ->Option.map(tag =>
+                 <Text
+                   key={
+                     tag##slug->Option.getWithDefault(string_of_int(index))
                    }>
-                   <Text style=styles##tagText>
-                     {"#"
-                      ++ Utils.tagifyString(
-                           tag##name->Option.getWithDefault(""),
-                         )
-                      |> React.string}
-                   </Text>
-                 </TextLink>
-                 " "->React.string
-               </Text>
-             )
-           ->Option.getWithDefault(React.null)
-         )
-       ->React.array}
-    </SpacedView>
-    <Spacer />
-    <SpacedView>
+                   <TextLink
+                     href={
+                       "/tag/"
+                       ++ Utils.encodeURI(
+                            tag##slug->Option.getWithDefault(""),
+                          )
+                       ++ "/"
+                     }>
+                     <Text style=styles##tagText>
+                       {"#"
+                        ++ Utils.tagifyString(
+                             tag##name->Option.getWithDefault(""),
+                           )
+                        |> React.string}
+                     </Text>
+                   </TextLink>
+                   " "->React.string
+                 </Text>
+               )
+             ->Option.getWithDefault(React.null)
+           )
+         ->React.array}
+      </View>
+      <Spacer size=XL />
       <Author />
       <Spacer size=L />
       <Comments
@@ -149,7 +150,7 @@ let make = (~item: WPGraphQL.Fragments.PostDetailFragment.t, ()) => {
         comments=item##comments
       />
     </SpacedView>
-    <SpacedView>
+    <SpacedView vertical=None>
       <TextSubtitle> {j|Dans le même style|j}->React.string </TextSubtitle>
     </SpacedView>
     <PostList

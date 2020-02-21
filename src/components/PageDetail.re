@@ -10,8 +10,6 @@ let styles =
         style([
           flexGrow(1.),
           flexShrink(1.),
-          padding(Pt(20.)),
-          borderColor(String("#F0F0EF")),
           backgroundColor(String("#fff")),
         ]),
       "metaRow": style([flexDirection(Row), justifyContent(SpaceBetween)]),
@@ -51,14 +49,16 @@ let styles =
 [@react.component]
 let make = (~item, ()) => {
   <View style=styles##block /*accessibilityRole=`webAriaArticle*/>
-    <Heading>
-      <span
-        dangerouslySetInnerHTML={
-          "__html": item##title->Option.getWithDefault(""),
-        }
-      />
-    </Heading>
-    <Spacer />
-    <SpacedView> <Html content=item##content /> </SpacedView>
+    <SpacedView>
+      <Heading>
+        <span
+          dangerouslySetInnerHTML={
+            "__html": item##title->Option.getWithDefault(""),
+          }
+        />
+      </Heading>
+      <Spacer />
+      <Html content=item##content />
+    </SpacedView>
   </View>;
 };

@@ -107,7 +107,6 @@ body {
   font-size: 18px;
   line-height: calc(18px * 1.65);
   color: #333;
-  padding: 0 20px;
 }
 .DameBioHtml a {
   color: #3ba013;

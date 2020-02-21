@@ -17,10 +17,11 @@ let styles =
           /* compensate TextInput borderWidth */
           paddingVertical(Pt(2.)),
         ]),
-      "page": style([maxWidth(Pt(400.))]),
+      "page": style([flexGrow(1.), flexShrink(1.), flexBasis(Pt(200.))]),
       "messageBox":
         style([
-          maxWidth(Pt(400.)),
+          flexGrow(1.),
+          flexShrink(1.),
           paddingVertical(Pt(Spacer.space)),
           paddingHorizontal(Pt(Spacer.space *. 1.5)),
         ]),
@@ -280,7 +281,7 @@ let make = (~page=?, ()) =>
         | Posted(_) => newMessage()
         | Errored((message, _)) => message
         };
-      <View>
+      <SpacedView>
         <Heading> {j|Contact|j}->React.string </Heading>
         <Spacer />
         /*
@@ -312,11 +313,10 @@ let make = (~page=?, ()) =>
         <View style=styles##row>
           {page
            ->Option.map(item =>
-               <SpacedView style=styles##page>
-                 <Html content=item##content />
-               </SpacedView>
+               <View style=styles##page> <Html content=item##content /> </View>
              )
            ->Option.getWithDefault(React.null)}
+          <Spacer />
           <View>
             {switch (state.message) {
              | Sent((_, _)) =>
@@ -425,6 +425,6 @@ let make = (~page=?, ()) =>
             </ImageBackgroundFromUri>
           </View>
         </View>
-      </View>;
+      </SpacedView>;
     },
   });
