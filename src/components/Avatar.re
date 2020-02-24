@@ -26,7 +26,6 @@ let styles =
           fontWeight(`_600),
           fontSize(Float(24.)),
           lineHeight(40.),
-          fontFamily("IndieFlower"),
         ]),
       "avatarImage":
         style([

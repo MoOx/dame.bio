@@ -8,7 +8,6 @@ let styles =
       "children":
         textStyle(
           ~zIndex=1,
-          ~fontFamily="IndieFlower",
           ~fontWeight=`bold,
           ~fontSize=24.,
           ~color="#fff",
