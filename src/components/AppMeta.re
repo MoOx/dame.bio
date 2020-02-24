@@ -1,8 +1,10 @@
 open Consts.Colors;
 
 [@react.component]
-let make = () =>
-  <BsReactHelmet defaultTitle=Consts.title>
+let make = () => {
+  <BsReactHelmet
+    defaultTitle=Consts.title
+    htmlAttributes={BsReactHelmet.htmlAttributes(~lang="fr")}>
     <meta charSet="utf-8" />
     <meta
       name="viewport"
@@ -13,6 +15,7 @@ let make = () =>
       ->React.string
     </style>
     <link rel="preconnect" href="https://data.dame.bio" />
+    <meta name="description" content=Consts.shortBio />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -212,3 +215,4 @@ body {
       ->React.string
     </style>
   </BsReactHelmet>;
+};

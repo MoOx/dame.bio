@@ -52,6 +52,18 @@ let make = (~status, ~postId) => {
                                     key=title
                                     titleTemplate=Consts.titleTemplate>
                                     <title> title->React.string </title>
+                                    <meta
+                                      name="description"
+                                      content={
+                                        item##content
+                                        ->Option.getWithDefault("")
+                                        ->Js.String.substrAtMost(
+                                            ~from=0,
+                                            ~length=120,
+                                          )
+                                        ++ "…"
+                                      }
+                                    />
                                   </BsReactHelmet>
                                 )}
                              <PostDetail item />

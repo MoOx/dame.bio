@@ -4,7 +4,7 @@
   "version": "3.0.0",
   "devDependencies": {
     "@glennsl/bs-json": "^3.0.0",
-    "@moox/bs-react-helmet": "^2.0.0",
+    "@moox/bs-react-helmet": "^2.1.0",
     "@phenomic/cli": "^1.0.0-beta.11",
     "@phenomic/core": "^1.0.0-beta.11",
     "@phenomic/preset-react-app": "^1.0.0-beta.11",

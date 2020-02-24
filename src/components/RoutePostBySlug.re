@@ -59,6 +59,18 @@ let make = (~status, ~postSlug) => {
                                         ++ item->Utils.postHref
                                       }
                                     />
+                                    <meta
+                                      name="description"
+                                      content={
+                                        item##content
+                                        ->Option.getWithDefault("")
+                                        ->Js.String.substrAtMost(
+                                            ~from=0,
+                                            ~length=120,
+                                          )
+                                        ++ "…"
+                                      }
+                                    />
                                   </BsReactHelmet>
                                 )}
                              <PostDetail item />
