@@ -1,71 +1,74 @@
 open Belt;
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
-      "row": style([flexDirection(Row)]),
-      "comment": style([flexDirection(Row)]),
+      "row": style(~flexDirection=`row, ()),
+      "comment": style(~flexDirection=`row, ()),
       "commentAvatar":
-        style([
-          width(Pt(40.)),
-          height(Pt(40.)),
-          borderRadius(Consts.Radius.avatar),
-        ]),
+        style(
+          ~width=40.->dp,
+          ~height=40.->dp,
+          ~borderRadius=Consts.Radius.avatar,
+          (),
+        ),
       "commentAvatarDefault":
-        style([
-          lineHeight(40.),
-          color(String("#fff")),
-          textAlign(Center),
-          fontWeight(`_600),
-          fontSize(Float(18.)),
-        ]),
+        style(
+          ~lineHeight=40.,
+          ~color="#fff",
+          ~textAlign=`center,
+          ~fontWeight=`_600,
+          ~fontSize=18.,
+          (),
+        ),
       "commentAvatarImage":
-        style([
-          position(Absolute),
-          top(Pt(0.)),
-          left(Pt(0.)),
-          width(Pt(40.)),
-          height(Pt(40.)),
-          borderRadius(Consts.Radius.avatar),
-        ]),
-      "commentTextContainer": style([flex(1.)]),
-      "commentMeta": style([flexDirection(Row)]),
-      "commentAuthor": style([]),
+        style(
+          ~position=`absolute,
+          ~top=0.->dp,
+          ~left=0.->dp,
+          ~width=40.->dp,
+          ~height=40.->dp,
+          ~borderRadius=Consts.Radius.avatar,
+          (),
+        ),
+      "commentTextContainer": style(~flex=1., ()),
+      "commentMeta": style(~flexDirection=`row, ()),
+      "commentAuthor": style(),
       "commentAuthorText":
-        style([
-          color(String(Consts.Colors.darkLabel)),
-          fontWeight(`_600),
-          lineHeight(24.),
-          textDecorationLine(Style.None),
-        ]),
+        style(
+          ~color=Consts.Colors.darkLabel,
+          ~fontWeight=`_600,
+          ~lineHeight=24.,
+          ~textDecorationLine=`none,
+          (),
+        ),
       "commentOwner":
-        style([
-          backgroundColor(String(Consts.Colors.pink)),
-          paddingHorizontal(Pt(6.)),
-          borderRadius(Consts.Radius.box),
-          alignSelf(Center),
-        ]),
+        style(
+          ~backgroundColor=Consts.Colors.pink,
+          ~paddingHorizontal=6.->dp,
+          ~borderRadius=Consts.Radius.box,
+          ~alignSelf=`center,
+          (),
+        ),
       "commentOwnerText":
-        style([
-          color(String("#fff")),
-          fontSize(Float(10.)),
-          fontWeight(`_300),
-          lineHeight(20.),
-        ]),
+        style(
+          ~color="#fff",
+          ~fontSize=10.,
+          ~fontWeight=`_300,
+          ~lineHeight=20.,
+          (),
+        ),
       "commentDate":
-        style([
-          fontSize(Float(11.)),
-          lineHeight(24.),
-          color(String("#bdbdbd")),
-        ]),
+        style(~fontSize=11., ~lineHeight=24., ~color="#bdbdbd", ()),
       "commentContent":
-        style([
-          flexShrink(1.),
-          color(String(Consts.Colors.darkLabel)),
-          fontSize(Float(14.)),
-          lineHeight(24.),
-        ]),
+        style(
+          ~flexShrink=1.,
+          ~color=Consts.Colors.darkLabel,
+          ~fontSize=14.,
+          ~lineHeight=24.,
+          (),
+        ),
     })
   );
 

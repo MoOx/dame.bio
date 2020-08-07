@@ -1,6 +1,6 @@
-open BsReactNative;
+open ReactNative;
 
-let styles = Style.(StyleSheet.create({"separator": style([])}));
+let styles = Style.(StyleSheet.create({"separator": style()}));
 
 let makeAsString = category => {
   "<span style=\"display: flex; flex-direction: row; justify-content: center; align-items: center; margin: 60px auto; width: 80%;\">"

@@ -1,62 +1,54 @@
 open Belt;
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
       "container":
-        style([
-          justifyContent(Center),
-          backgroundColor(String("#fefefe")),
+        style(
+          ~justifyContent=`center,
+          ~backgroundColor="#fefefe",
           /* For the image on small screen */
-          overflow(Hidden),
-        ]),
-      "content": style([alignItems(Center)]),
-      "blocks": style([flexGrow(1.), flexShrink(0.), maxWidth(Pt(800.))]),
-      "block": style([flexGrow(1.), flexShrink(1.), flexBasis(Pt(150.))]),
+          ~overflow=`hidden,
+          (),
+        ),
+      "content": style(~alignItems=`center, ()),
+      "blocks": style(~flexGrow=1., ~flexShrink=0., ~maxWidth=800.->dp, ()),
+      "block": style(~flexGrow=1., ~flexShrink=1., ~flexBasis=150.->dp, ()),
       "blockTitle":
-        style([
-          fontSize(Float(12.)),
-          fontWeight(`_800),
-          color(String(Consts.Colors.grey)),
-          opacity(Float(0.75)),
-        ]),
+        style(
+          ~fontSize=12.,
+          ~fontWeight=`_800,
+          ~color=Consts.Colors.grey,
+          ~opacity=0.75,
+          (),
+        ),
       "link":
-        style([
-          alignItems(Baseline),
-          paddingVertical(Pt(Spacer.space /. 3.)),
-          color(String(Consts.Colors.darkGrey)),
-        ]),
-      "footerCeption": style([flexDirection(Row), flexWrap(Wrap)]),
+        style(
+          ~alignItems=`baseline,
+          ~paddingVertical=(Spacer.space /. 3.)->dp,
+          ~color=Consts.Colors.darkGrey,
+          (),
+        ),
+      "footerCeption": style(~flexDirection=`row, ~flexWrap=`wrap, ()),
       "footerMinitem":
-        style([
-          flexGrow(1.),
-          flexShrink(1.),
-          alignItems(Center),
-          flexBasis(Pt(250.)),
-        ]),
-      "copyright":
-        style([
-          fontSize(Float(12.)),
-          color(String(Consts.Colors.darkGrey)),
-        ]),
-      "madeWith":
-        style([
-          fontSize(Float(12.)),
-          color(String(Consts.Colors.darkGrey)),
-        ]),
-      "madeBy":
-        style([
-          fontSize(Float(12.)),
-          color(String(Consts.Colors.darkGrey)),
-        ]),
-      "image": style([alignSelf(Center), flex(1.)]),
+        style(
+          ~flexGrow=1.,
+          ~flexShrink=1.,
+          ~alignItems=`center,
+          ~flexBasis=250.->dp,
+          (),
+        ),
+      "copyright": style(~fontSize=12., ~color=Consts.Colors.darkGrey, ()),
+      "madeWith": style(~fontSize=12., ~color=Consts.Colors.darkGrey, ()),
+      "madeBy": style(~fontSize=12., ~color=Consts.Colors.darkGrey, ()),
+      "image": style(~alignSelf=`center, ~flex=1., ()),
     })
   );
 
 let uri = "/images/footer-flowers.png";
-let width: Style.pt_only = Style.Pt(1800. *. 0.75);
-let height: Style.pt_only = Style.Pt(324. *. 0.75);
+let width = 1800. *. 0.75;
+let height = 324. *. 0.75;
 
 let renderItem = (~index as _, ~url, ~label, ~isActive as _) => {
   <TextLink style=styles##link href=url key=url>
@@ -79,7 +71,7 @@ let make = () => {
       <Container style=styles##blocks>
         <SpacedView
           style=Style.(
-            array([|styles##block, style([alignItems(Center)])|])
+            array([|styles##block, style(~alignItems=`center, ())|])
           )>
           <SVGDameBioLogo
             fill=Consts.Colors.alt
@@ -148,13 +140,13 @@ let make = () => {
             {j| By |j}->React.string
             <TextLink
               href={Consts.frontendUrl ++ "/a-propos/"}
-              style=Style.(style([textDecorationLine(Underline)]))>
+              style=Style.(style(~textDecorationLine=`underline, ()))>
               Consts.nickname->React.string
             </TextLink>
             {j| & |j}->React.string
             <TextLink
               href="https://moox.io/"
-              style=Style.(style([textDecorationLine(Underline)]))>
+              style=Style.(style(~textDecorationLine=`underline, ()))>
               {j|MoOx|j}->React.string
             </TextLink>
           </Text>
@@ -167,12 +159,11 @@ let make = () => {
       style={ReactDOMRe.Style.make(~alignSelf="center", ~flex="1", ())}>
       <Image
         style=styles##image
-        source={`URI(Image.(imageURISource(~uri, ~width, ~height, ())))}
-        defaultSource={
-                        `URI(
-                          Image.(defaultURISource(~uri, ~width, ~height, ())),
-                        )
-                      }
+        source=Image.(
+          Source.fromUriSource(uriSource(~uri, ~width, ~height, ()))
+        )
+        // SSR workaround https://github.com/necolas/react-native-web/issues/543
+        defaultSource={Image.DefaultSource.fromUri(~uri, ~width, ~height, ())}
       />
     </div>
   </View>;

@@ -1,5 +1,5 @@
 open Belt;
-open BsReactNative;
+open ReactNative;
 
 [@react.component]
 let make = (~posts, ~categorySlug, ~tagSlug, ~cursorAfter, ()) => {
@@ -12,7 +12,7 @@ let make = (~posts, ~categorySlug, ~tagSlug, ~cursorAfter, ()) => {
            <PostList nodes />
            <View
              style=Style.(
-               style([flexDirection(Row), justifyContent(SpaceAround)])
+               style(~flexDirection=`row, ~justifyContent=`spaceAround, ())
              )>
              {// https://github.com/wp-graphql/wp-graphql/issues/594
               // not working yet

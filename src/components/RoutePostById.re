@@ -1,5 +1,5 @@
 open Belt;
-open BsReactNative;
+open ReactNative;
 
 [@bs.module "@phenomic/preset-react-app/lib/client"]
 external withInitialProps: 'a => 'a = "";

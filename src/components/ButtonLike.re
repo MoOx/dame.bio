@@ -1,11 +1,13 @@
-open BsReactNative;
+open ReactNative;
 
 let defaultSize = 14.;
 
 let defaultColor = Consts.Colors.grey;
 
 let styles =
-  Style.(StyleSheet.create({"touchable": style([justifyContent(Center)])}));
+  Style.(
+    StyleSheet.create({"touchable": style(~justifyContent=`center, ())})
+  );
 
 module LikePost = [%graphql
   {|

@@ -1,24 +1,26 @@
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
-      "avatar": style([width(Pt(256.)), height(Pt(256.))]),
+      "avatar": style(~width=256.->dp, ~height=256.->dp, ()),
       "avatarDeco":
-        style([
-          position(Absolute),
-          left(Pt(-35.)),
-          top(Pt(-30.)),
-          right(Pt(-10.)),
-          bottom(Pt(-20.)),
-        ]),
+        style(
+          ~position=`absolute,
+          ~left=(-35.)->dp,
+          ~top=(-30.)->dp,
+          ~right=(-10.)->dp,
+          ~bottom=(-20.)->dp,
+          (),
+        ),
       "avatarImage":
-        style([
-          /* opacity(Float(0.1)), */
-          borderRadius(Consts.Radius.avatarBig),
-          width(Pct(100.)),
-          paddingBottom(Pct(100.)),
-        ]),
+        style(
+          /* ~opacity=0.1, */
+          ~borderRadius=Consts.Radius.avatarBig,
+          ~width=100.->pct,
+          ~paddingBottom=100.->pct,
+          (),
+        ),
     })
   );
 

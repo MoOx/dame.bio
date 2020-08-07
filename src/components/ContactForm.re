@@ -1,66 +1,71 @@
 open Belt;
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
-      "container": style([flex(1.)]),
+      "container": style(~flex=1., ()),
       "row":
-        style([
-          flexGrow(1.),
-          flexShrink(1.),
-          flexDirection(Row),
-          flexWrap(Wrap),
-        ]),
+        style(
+          ~flexGrow=1.,
+          ~flexShrink=1.,
+          ~flexDirection=`row,
+          ~flexWrap=`wrap,
+          (),
+        ),
       "avatar":
-        style([
+        style(
           /* compensate TextInput borderWidth */
-          paddingVertical(Pt(2.)),
-        ]),
-      "page": style([flexGrow(1.), flexShrink(1.), flexBasis(Pt(200.))]),
+          ~paddingVertical=2.->dp,
+          (),
+        ),
+      "page": style(~flexGrow=1., ~flexShrink=1., ~flexBasis=200.->dp, ()),
       "messageBox":
-        style([
-          flexGrow(1.),
-          flexShrink(1.),
-          paddingVertical(Pt(Spacer.space)),
-          paddingHorizontal(Pt(Spacer.space *. 1.5)),
-        ]),
-      "textInputs": style([]),
-      "textInputWrapper": style([paddingBottom(Pt(10.))]),
+        style(
+          ~flexGrow=1.,
+          ~flexShrink=1.,
+          ~paddingVertical=dp(Spacer.space),
+          ~paddingHorizontal=dp(Spacer.space *. 1.5),
+          (),
+        ),
+      "textInputs": style(),
+      "textInputWrapper": style(~paddingBottom=10.->dp, ()),
       "textInput":
-        style([
-          color(String(Consts.Colors.darkLabel)),
-          backgroundColor(String("#fff")),
+        style(
+          ~color=Consts.Colors.darkLabel,
+          ~backgroundColor="#fff",
           /* Don't go lower than 16 to avoid Safari iOS to zoom on the page */
-          fontSize(Float(16.)),
-          lineHeight(16.),
-          margin(Pt(0.)),
-          paddingVertical(Pt(10.)),
-          paddingHorizontal(Pt(12.)),
-          borderWidth(1.),
-          borderColor(String("#ddd")),
-        ]),
-      "textInputError": style([borderColor(String("#e07676"))]),
-      "textInputName": style([borderRadius(Consts.Radius.field)]),
-      "textInputEmail": style([borderRadius(Consts.Radius.field)]),
+          ~fontSize=16.,
+          ~lineHeight=16.,
+          ~margin=0.->dp,
+          ~paddingVertical=10.->dp,
+          ~paddingHorizontal=12.->dp,
+          ~borderWidth=1.,
+          ~borderColor="#ddd",
+          (),
+        ),
+      "textInputError": style(~borderColor="#e07676", ()),
+      "textInputName": style(~borderRadius=Consts.Radius.field, ()),
+      "textInputEmail": style(~borderRadius=Consts.Radius.field, ()),
       "textInputMessage":
-        style([
-          paddingLeft(Pt(12.)),
-          paddingRight(Pt(80.)),
-          borderRadius(Consts.Radius.field),
-        ]),
-      "buttonSend": style([fontWeight(`_600), padding(Pt(10.))]),
-      "buttonSendText":
-        style([fontSize(Float(14.)), color(String("#2096F3"))]),
+        style(
+          ~paddingLeft=12.->dp,
+          ~paddingRight=80.->dp,
+          ~borderRadius=Consts.Radius.field,
+          (),
+        ),
+      "buttonSend": style(~fontWeight=`_600, ~padding=10.->dp, ()),
+      "buttonSendText": style(~fontSize=14., ~color="#2096F3", ()),
       "errorText":
-        style([
-          position(Absolute),
-          bottom(Pt(-4.)),
-          paddingVertical(Pt(2.)),
-          paddingHorizontal(Pt(13.)),
-          fontSize(Float(10.)),
-          color(String("#e07676")),
-        ]),
+        style(
+          ~position=`absolute,
+          ~bottom=dp(-4.),
+          ~paddingVertical=2.->dp,
+          ~paddingHorizontal=13.->dp,
+          ~fontSize=10.,
+          ~color="#e07676",
+          (),
+        ),
     })
   );
 
@@ -320,7 +325,10 @@ let make = (~page=?, ()) =>
           <View>
             {switch (state.message) {
              | Sent((_, _)) =>
-               <> <ActivityIndicator size=`small /> <Spacer /> </>
+               <>
+                 <ActivityIndicator size=ActivityIndicator.Size.small />
+                 <Spacer />
+               </>
              | Posted(_) =>
                <>
                  <Text> {j|👍 Message envoyé!|j}->React.string </Text>

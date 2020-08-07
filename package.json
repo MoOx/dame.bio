@@ -17,7 +17,6 @@
     "babel-plugin-react-native-web": "^0.3.3",
     "bs-fetch": "^0.3.0",
     "bs-platform": "5.0.3",
-    "bs-react-native-jsx3-compat": "^0.11.1",
     "bs-webapi": "^0.13.2",
     "eslint": "^5.14.1",
     "eslint-config-i-am-meticulous": "^11.0.0",

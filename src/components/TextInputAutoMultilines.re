@@ -1,4 +1,4 @@
-open BsReactNative;
+open ReactNative;
 
 type action =
   | UpdateHeight(float);
@@ -33,17 +33,15 @@ let make =
            */
           send(UpdateHeight(event##nativeEvent##contentSize##height))}
         onChange={_ =>
-          switch (Platform.os()) {
-          | exception (Platform.UnknownPlatform(os)) when os == "web" =>
+          if (Platform.os === Platform.web) {
             /* https://github.com/necolas/react-native-web/issues/793#issuecomment-437549351
              */
             let event = [%raw "arguments[0]"];
             send(UpdateHeight(event##nativeEvent##srcElement##scrollHeight));
-          | _ => ()
           }
         }
         style=Style.(
-          array([|s, style([height(Pt(max(minH, state.height)))])|])
+          array([|s, style(~height=dp(max(minH, state.height)), ())|])
         )
         value
         placeholder

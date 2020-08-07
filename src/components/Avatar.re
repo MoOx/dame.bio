@@ -1,44 +1,46 @@
 open Belt;
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
       "avatar":
-        style([
-          width(Pt(40.)),
-          height(Pt(40.)),
-          borderRadius(Consts.Radius.avatar),
-        ]),
+        style(
+          ~width=40.->dp,
+          ~height=40.->dp,
+          ~borderRadius=Consts.Radius.avatar,
+          (),
+        ),
       "avatarEmpty":
-        style([
-          lineHeight(62.),
-          color(String("#fff")),
-          textAlign(Center),
-          fontWeight(`_300),
-          fontSize(Float(50.)),
-          fontFamily("Georgia"),
-        ]),
+        style(
+          ~lineHeight=62.,
+          ~color="#fff",
+          ~textAlign=`center,
+          ~fontWeight=`_300,
+          ~fontSize=50.,
+          ~fontFamily="Georgia",
+          (),
+        ),
       "avatarDefault":
-        style([
-          color(String("#fff")),
-          textAlign(Center),
-          fontWeight(`_600),
-          fontSize(Float(24.)),
-          lineHeight(40.),
-        ]),
+        style(
+          ~color="#fff",
+          ~textAlign=`center,
+          ~fontWeight=`_600,
+          ~fontSize=24.,
+          ~lineHeight=40.,
+          (),
+        ),
       "avatarImage":
-        style([
-          position(Absolute),
-          top(Pt(0.)),
-          left(Pt(0.)),
-          width(Pt(40.)),
-          height(Pt(40.)),
-          borderRadius(Consts.Radius.avatar),
-        ]),
+        style(
+          ~position=`absolute,
+          ~top=0.->dp,
+          ~left=0.->dp,
+          ~width=40.->dp,
+          ~height=40.->dp,
+          (),
+        ),
     })
   );
-
 let notSoRandomColor = s => {
   let hue =
     List.makeBy(String.length(s), i => s.[i])
@@ -54,7 +56,7 @@ let make = (~name=?, ~url=?, ()) => {
       arrayOption([|
         Some(styles##avatar),
         name->Option.map(name =>
-          style([backgroundColor(String(notSoRandomColor(name)))])
+          style(~backgroundColor=notSoRandomColor(name), ())
         ),
       |])
     )>

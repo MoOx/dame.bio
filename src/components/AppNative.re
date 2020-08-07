@@ -1,7 +1,7 @@
-open BsReactNative;
+open ReactNative;
 
 let styles =
-  Style.(StyleSheet.create({"container": style([marginTop(Pt(44.))])}));
+  Style.(StyleSheet.create({"container": style(~marginTop=44.->dp, ())}));
 
 [@react.component]
 let make = () => {

@@ -1,10 +1,10 @@
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
       "container":
-        style([flexGrow(2.), flexShrink(1.), flexBasis(Pt(800.))]),
+        style(~flexGrow=2., ~flexShrink=1., ~flexBasis=800.->dp, ()),
     })
   );
 

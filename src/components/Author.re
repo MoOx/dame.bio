@@ -1,22 +1,23 @@
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
-      "container": style([flexDirection(Row), flexWrap(Wrap)]),
-      "block": style([flexGrow(1.), flexShrink(1.), flexBasis(Pt(300.))]),
+      "container": style(~flexDirection=`row, ~flexWrap=`wrap, ()),
+      "block": style(~flexGrow=1., ~flexShrink=1., ~flexBasis=300.->dp, ()),
       "blockTitle":
-        style([
-          fontSize(Float(24.)),
-          marginBottom(Pt(12.)),
-          color(String(Consts.Colors.pink)),
-        ]),
-      "blockText": style([fontSize(Float(16.)), lineHeight(16. *. 1.5)]),
-      "icons": style([flexDirection(Row), justifyContent(FlexEnd)]),
-      "icon": style([]),
-      "iconWrapper":
-        style([zIndex(1), lineHeight(24.), padding(Pt(14.))]),
-      "iconBackground": style([paddingTop(Pt(3.)), paddingRight(Pt(2.))]),
+        style(
+          ~fontSize=24.,
+          ~marginBottom=12.->dp,
+          ~color=Consts.Colors.pink,
+          (),
+        ),
+      "blockText": style(~fontSize=16., ~lineHeight=16. *. 1.5, ()),
+      "icons": style(~flexDirection=`row, ~justifyContent=`flexEnd, ()),
+
+      "icon": style(),
+      "iconWrapper": style(~zIndex=1, ~lineHeight=24., ~padding=14.->dp, ()),
+      "iconBackground": style(~paddingTop=3.->dp, ~paddingRight=2.->dp, ()),
     })
   );
 

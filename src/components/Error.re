@@ -1,22 +1,18 @@
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
-      "container": style([justifyContent(Center), alignItems(Center)]),
-      "oops":
-        style([
-          fontSize(Float(64.)),
-          lineHeight(64.),
-          color(String("#ddd")),
-        ]),
+      "container": style(~justifyContent=`center, ~alignItems=`center, ()),
+      "oops": style(~fontSize=64., ~lineHeight=64., ~color="#ddd", ()),
       "title":
-        style([
-          margin(Pt(60.)),
-          fontSize(Float(24.)),
-          lineHeight(48.),
-          textAlign(Center),
-        ]),
+        style(
+          ~margin=60.->dp,
+          ~fontSize=24.,
+          ~lineHeight=48.,
+          ~textAlign=`center,
+          (),
+        ),
     })
   );
 

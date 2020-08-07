@@ -1,4 +1,4 @@
-open BsReactNative;
+open ReactNative;
 
 let space = 20.;
 
@@ -24,7 +24,7 @@ let size =
   | Custom(value) => value;
 
 let makeStyle = s => {
-  Style.(style([width(Pt(s)), height(Pt(s))]));
+  Style.(style(~width=dp(s), ~height=dp(s), ()));
 };
 
 let styles =

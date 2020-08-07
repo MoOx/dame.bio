@@ -1,5 +1,5 @@
 open Belt;
-open BsReactNative;
+open ReactNative;
 
 type item = {
   .
@@ -83,13 +83,14 @@ let styles =
   Style.(
     StyleSheet.create({
       "blockTitle":
-        style([
-          fontSize(Float(12.)),
-          fontWeight(`_800),
-          color(String(Consts.Colors.grey)),
-          opacity(Float(0.75)),
-        ]),
-      "items": style([flexDirection(Row)]),
+        style(
+          ~fontSize=12.,
+          ~fontWeight=`_800,
+          ~color=Consts.Colors.grey,
+          ~opacity=0.75,
+          (),
+        ),
+      "items": style(~flexDirection=`row, ()),
     })
   );
 
@@ -148,8 +149,7 @@ let make = () =>
            switch (items) {
            | [||] => React.null
            | _ =>
-             let size =
-               Dimensions.get(`window)##width->float_of_int->min(293.);
+             let size = Dimensions.get(`window)##width->min(293.);
 
              <View>
                <SpacedView horizontal=XS vertical=XS>
@@ -164,7 +164,7 @@ let make = () =>
                    horizontal=true
                    pagingEnabled=true
                    style=Style.(
-                     array([|styles##items, style([height(Pt(size))])|])
+                     array([|styles##items, style(~height=dp(size), ())|])
                    )>
                    {{items->Array.map(item =>
                        <InstagramPost key=item##id item size />

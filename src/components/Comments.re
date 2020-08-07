@@ -1,17 +1,18 @@
 open Belt;
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
-      "comments": style([]),
+      "comments": style(),
       "noComment":
-        style([
-          textAlign(Center),
-          fontSize(Float(18.)),
-          color(String("#d6d5d2")),
-          fontWeight(`_600),
-        ]),
+        style(
+          ~textAlign=`center,
+          ~fontSize=18.,
+          ~color="#d6d5d2",
+          ~fontWeight=`_600,
+          (),
+        ),
     })
   );
 

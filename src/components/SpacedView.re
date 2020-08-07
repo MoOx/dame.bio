@@ -1,5 +1,5 @@
 open Belt;
-open BsReactNative;
+open ReactNative;
 
 let space = 20.;
 
@@ -38,10 +38,10 @@ let make =
   <View
     style=Style.(
       arrayOption([|
-        vertical->size->Option.map(s => style([paddingVertical(Pt(s))])),
+        vertical->size->Option.map(s => style(~paddingVertical=s->dp, ())),
         horizontal
         ->size
-        ->Option.map(s => style([paddingHorizontal(Pt(s))])),
+        ->Option.map(s => style(~paddingHorizontal=s->dp, ())),
         styl,
       |])
     )

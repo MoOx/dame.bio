@@ -1,27 +1,29 @@
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
       "wrapper":
-        style([
-          flexGrow(1.),
+        style(
+          ~flexGrow=1.,
           // flexShrink(1.),
-          width(Pct(100.)),
+          ~width=100.->pct,
           // overflow(Hidden),
-          alignItems(Center),
-          backgroundColor(String("#fefefe")),
-        ]),
+          ~alignItems=`center,
+          ~backgroundColor="#fefefe",
+          (),
+        ),
       "container":
-        style([
-          flexDirection(Row),
-          flexWrap(Wrap),
-          justifyContent(Center),
-          flexGrow(1.),
-          flexShrink(1.),
-          width(Pct(100.)),
-          maxWidth(Pt(1200.)),
-        ]),
+        style(
+          ~flexDirection=`row,
+          ~flexWrap=`wrap,
+          ~justifyContent=`center,
+          ~flexGrow=1.,
+          ~flexShrink=1.,
+          ~width=100.->pct,
+          ~maxWidth=1200.->dp,
+          (),
+        ),
     })
   );
 

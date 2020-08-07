@@ -1,10 +1,10 @@
-open BsReactNative;
+open ReactNative;
 
 let styles =
   Style.(
     StyleSheet.create({
       "container":
-        style([flexShrink(1.), alignSelf(Center), flexBasis(Pt(800.))]),
+        style(~flexShrink=1., ~alignSelf=`center, ~flexBasis=800.->dp, ()),
     })
   );
 

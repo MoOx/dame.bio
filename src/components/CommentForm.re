@@ -1,5 +1,5 @@
 open Belt;
-open BsReactNative;
+open ReactNative;
 
 let opaque = 1.;
 let transparent = 0.;
@@ -11,25 +11,37 @@ let animateFormMeta =
   Animated.start(
     Animated.parallel(
       [|
-        Animated.spring(
-          ~value=previewOpacity,
-          ~toValue=`raw(showPreview ? opaque : transparent),
-          (),
+        previewOpacity->Animated.spring(
+          Animated.Value.Spring.config(
+            ~toValue=
+              (showPreview ? opaque : transparent)
+              ->Animated.Value.Spring.fromRawValue,
+            (),
+          ),
         ),
-        Animated.spring(
-          ~value=previewY,
-          ~toValue=`raw(showPreview ? yVisible : yHidden),
-          (),
+        previewY->Animated.spring(
+          Animated.Value.Spring.config(
+            ~toValue=
+              (showPreview ? yVisible : yHidden)
+              ->Animated.Value.Spring.fromRawValue,
+            (),
+          ),
         ),
-        Animated.spring(
-          ~value=textInputOpacity,
-          ~toValue=`raw(showPreview ? transparent : opaque),
-          (),
+        textInputOpacity->Animated.spring(
+          Animated.Value.Spring.config(
+            ~toValue=
+              (showPreview ? transparent : opaque)
+              ->Animated.Value.Spring.fromRawValue,
+            (),
+          ),
         ),
-        Animated.spring(
-          ~value=textInputY,
-          ~toValue=`raw(showPreview ? -. yHidden : yVisible),
-          (),
+        textInputY->Animated.spring(
+          Animated.Value.Spring.config(
+            ~toValue=
+              (showPreview ? -. yHidden : yVisible)
+              ->Animated.Value.Spring.fromRawValue,
+            (),
+          ),
         ),
       |],
       {"stopTogether": true},
@@ -40,86 +52,89 @@ let animateFormMeta =
 let styles =
   Style.(
     StyleSheet.create({
-      "container": style([flex(1.)]),
+      "container": style(~flex=1., ()),
       "row":
-        style([
-          flexGrow(1.),
-          flexShrink(1.),
-          flexDirection(Row),
-          flexWrap(Wrap),
-        ]),
+        style(
+          ~flexGrow=1.,
+          ~flexShrink=1.,
+          ~flexDirection=`row,
+          ~flexWrap=`wrap,
+          (),
+        ),
       "avatar":
-        style([
+        style(
           /* compensate TextInput borderWidth */
-          paddingVertical(Pt(2.)),
-        ]),
-      "commentBox": style([flex(1.)]),
-      "metaPreview": style([]),
+          ~paddingVertical=2.->dp,
+          (),
+        ),
+      "commentBox": style(~flex=1., ()),
+      "metaPreview": style(),
       "metaPreviewName":
-        style([
-          color(String(Consts.Colors.darkLabel)),
-          fontWeight(`_600),
-          lineHeight(24.),
-          textDecorationLine(Style.None),
-        ]),
+        style(
+          ~color=Consts.Colors.darkLabel,
+          ~fontWeight=`_600,
+          ~lineHeight=24.,
+          ~textDecorationLine=`none,
+          (),
+        ),
       "metaPreviewEdit":
-        style([
-          fontSize(Float(11.)),
-          lineHeight(24.),
-          color(String("#bdbdbd")),
-        ]),
-      "textInputs": style([]),
+        style(~fontSize=11., ~lineHeight=24., ~color="#bdbdbd", ()),
+      "textInputs": style(),
       "textInputWrapper":
-        style([flexGrow(1.), flexShrink(1.), paddingBottom(Pt(10.))]),
+        style(~flexGrow=1., ~flexShrink=1., ~paddingBottom=10.->dp, ()),
       "textInput":
-        style([
-          color(String(Consts.Colors.darkLabel)),
-          backgroundColor(String("#fff")),
+        style(
+          ~color=Consts.Colors.darkLabel,
+          ~backgroundColor="#fff",
           /* Don't go lower than 16 to avoid Safari iOS to zoom on the page */
-          fontSize(Float(16.)),
-          lineHeight(16.),
-          margin(Pt(0.)),
-          paddingVertical(Pt(10.)),
-          paddingHorizontal(Pt(12.)),
-          borderWidth(1.),
-          borderColor(String("#ddd")),
-        ]),
-      "textInputError": style([borderColor(String("#e07676"))]),
+          ~fontSize=16.,
+          ~lineHeight=16.,
+          ~margin=0.->dp,
+          ~paddingVertical=10.->dp,
+          ~paddingHorizontal=12.->dp,
+          ~borderWidth=1.,
+          ~borderColor="#ddd",
+          (),
+        ),
+      "textInputError": style(~borderColor="#e07676", ()),
       "textInputName":
-        style([
-          fontWeight(`_600),
-          borderTopLeftRadius(16.),
-          borderBottomLeftRadius(16.),
-        ]),
-      "textInputEmail": style([]),
+        style(
+          ~fontWeight=`_600,
+          ~borderTopLeftRadius=16.,
+          ~borderBottomLeftRadius=16.,
+          (),
+        ),
+      "textInputEmail": style(),
       "textInputUrl":
-        style([borderTopRightRadius(16.), borderBottomRightRadius(16.)]),
-      "textInputCommentRow": style([zIndex(1)]),
+        style(~borderTopRightRadius=16., ~borderBottomRightRadius=16., ()),
+      "textInputCommentRow": style(~zIndex=1, ()),
       "textInputComment":
-        style([
-          paddingLeft(Pt(12.)),
-          paddingRight(Pt(80.)),
-          borderRadius(Consts.Radius.field),
-        ]),
+        style(
+          ~paddingLeft=12.->dp,
+          ~paddingRight=80.->dp,
+          ~borderRadius=Consts.Radius.field,
+          (),
+        ),
       "buttonSend":
-        style([
-          zIndex(1),
-          position(Absolute),
-          top(Pt(29.)),
-          right(Pt(10.)),
-          padding(Pt(10.)),
-        ]),
-      "buttonSendText":
-        style([fontSize(Float(14.)), color(String("#2096F3"))]),
+        style(
+          ~zIndex=1,
+          ~position=`absolute,
+          ~top=29.->dp,
+          ~right=10.->dp,
+          ~padding=10.->dp,
+          (),
+        ),
+      "buttonSendText": style(~fontSize=14., ~color="#2096F3", ()),
       "errorText":
-        style([
-          position(Absolute),
-          bottom(Pt(-4.)),
-          paddingVertical(Pt(2.)),
-          paddingHorizontal(Pt(13.)),
-          fontSize(Float(10.)),
-          color(String("#e07676")),
-        ]),
+        style(
+          ~position=`absolute,
+          ~bottom=(-4.)->dp,
+          ~paddingVertical=2.->dp,
+          ~paddingHorizontal=13.->dp,
+          ~fontSize=10.,
+          ~color="#e07676",
+          (),
+        ),
     })
   );
 
@@ -436,7 +451,11 @@ let make = (~postId, ~parentCommentId, ()) =>
           <Spacer />
         </noscript>
         {switch (state.comment) {
-         | Sent((_, _)) => <> <ActivityIndicator size=`small /> <Spacer /> </>
+         | Sent((_, _)) =>
+           <>
+             <ActivityIndicator size=ActivityIndicator.Size.small />
+             <Spacer />
+           </>
          | Posted((_, _)) =>
            <>
              <Text> {j|👍 Commentaire envoyé!|j}->React.string </Text>
@@ -466,12 +485,19 @@ let make = (~postId, ~parentCommentId, ()) =>
                   style=Style.(
                     array([|
                       styles##metaPreview,
-                      style([
-                        opacity(Animated(state.animated.metaPreviewOpacity)),
-                        transform([
-                          translateY(Animated(state.animated.metaPreviewY)),
-                        ]),
-                      ]),
+                      style(
+                        ~opacity=
+                          state.animated.metaPreviewOpacity
+                          ->Animated.StyleProp.float,
+                        ~transform=[|
+                          translateY(
+                            ~translateY=
+                              state.animated.metaPreviewY
+                              ->Animated.StyleProp.float,
+                          ),
+                        |],
+                        (),
+                      ),
                     |])
                   )>
                   <View style=styles##row>
@@ -533,7 +559,7 @@ let make = (~postId, ~parentCommentId, ()) =>
                         }),
                       )
                     }
-                    onFocus={() => {
+                    onFocus={_ => {
                       let shouldEditComment =
                         switch (state.comment) {
                         | New => true
@@ -570,16 +596,19 @@ let make = (~postId, ~parentCommentId, ()) =>
                   style=Style.(
                     array([|
                       styles##textInputs,
-                      style([
-                        opacity(
-                          Animated(state.animated.metaTextInputOpacity),
-                        ),
-                        transform([
+                      style(
+                        ~opacity=
+                          state.animated.metaTextInputOpacity
+                          ->Animated.StyleProp.float,
+                        ~transform=[|
                           translateY(
-                            Animated(state.animated.metaTextInputY),
+                            ~translateY=
+                              state.animated.metaTextInputY
+                              ->Animated.StyleProp.float,
                           ),
-                        ]),
-                      ]),
+                        |],
+                        (),
+                      ),
                     |])
                   )>
                   <View style=styles##row>

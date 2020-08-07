@@ -1,13 +1,13 @@
-open BsReactNative;
+open ReactNative;
 
 [@react.component]
 let make = (~uri, ~resizeMode=?, ~style=?, ~children, ()) => {
   <ImageBackground
     ?resizeMode
     ?style
-    source={`URI(Image.(imageURISource(~uri, ())))}
+    source=Image.(Source.fromUriSource(uriSource(~uri, ())))
     // SSR workaround https://github.com/necolas/react-native-web/issues/543
-    defaultSource={`URI(Image.(defaultURISource(~uri, ())))}>
+    defaultSource={Image.DefaultSource.fromUri(~uri, ())}>
     children
   </ImageBackground>;
 };

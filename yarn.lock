@@ -2332,11 +2332,6 @@ bs-platform@5.0.3:
   resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-5.0.3.tgz#2b167603ef52574cb9534fabab702f6013715e6c"
   integrity sha512-GAeypBebeDGTay5kJ3v5Z3Whp1Q4zQ0hAttflVtPG3zps88xDZnVAlS3JGIIBDmJFEMyNtv5947a/IWKvWXcPw==
 
-bs-react-native-jsx3-compat@^0.11.1:
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/bs-react-native-jsx3-compat/-/bs-react-native-jsx3-compat-0.11.2.tgz#72629685362b6551029b0765ef97219ea528192a"
-  integrity sha512-/AcoNd3W2V1gMRSQtSDdkJV8t/4S1RERglIq8KVfxaKAPhXzTRRtUfmkbfGdHig2Rey9Udo+pG6iLkG8BTgwNA==
-
 bs-webapi@^0.13.2:
   version "0.13.6"
   resolved "https://registry.yarnpkg.com/bs-webapi/-/bs-webapi-0.13.6.tgz#5dace034c1e9bc82c114966395ac9c0466b54e79"
