@@ -30,28 +30,44 @@ let socialLinks = [|
     text: "@Damebio sur Instagram",
     link: "https://www.instagram.com/dame.bio/",
     componentFunc: (~iconColor, ~iconSize) =>
-      <SVGSocialInstagram fill=iconColor width=iconSize height=iconSize />,
+      <SVGSocialInstagram
+        fill=iconColor
+        width={iconSize->Js.Float.toString}
+        height={iconSize->Js.Float.toString}
+      />,
   },
   {
     title: "Pinterest",
     text: "@Damebio sur Pinterest",
     link: "https://www.pinterest.com/damebio/",
     componentFunc: (~iconColor, ~iconSize) =>
-      <SVGSocialPinterest fill=iconColor width=iconSize height=iconSize />,
+      <SVGSocialPinterest
+        fill=iconColor
+        width={iconSize->Js.Float.toString}
+        height={iconSize->Js.Float.toString}
+      />,
   },
   {
     title: "Twitter",
     text: "@Damebio sur Twitter",
     link: "https://twitter.com/damebio/",
     componentFunc: (~iconColor, ~iconSize) =>
-      <SVGSocialTwitter fill=iconColor width=iconSize height=iconSize />,
+      <SVGSocialTwitter
+        fill=iconColor
+        width={iconSize->Js.Float.toString}
+        height={iconSize->Js.Float.toString}
+      />,
   },
   {
     title: "Facebook",
     text: "@Damebio sur Facebook",
     link: "https://www.facebook.com/Damebio/",
     componentFunc: (~iconColor, ~iconSize) =>
-      <SVGSocialFacebook fill=iconColor width=iconSize height=iconSize />,
+      <SVGSocialFacebook
+        fill=iconColor
+        width={iconSize->Js.Float.toString}
+        height={iconSize->Js.Float.toString}
+      />,
   },
 |];
 

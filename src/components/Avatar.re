@@ -37,6 +37,7 @@ let styles =
           ~left=0.->dp,
           ~width=40.->dp,
           ~height=40.->dp,
+          ~borderRadius=Consts.Radius.avatar,
           (),
         ),
     })
@@ -63,7 +64,7 @@ let make = (~name=?, ~url=?, ()) => {
     {switch (name) {
      | Some(name) when String.length(name) > 1 =>
        <Text style=styles##avatarDefault>
-         {String.sub(name, 0, 1)->String.capitalize->React.string}
+         {String.sub(name, 0, 1)->String.capitalize_ascii->React.string}
        </Text>
      | _ => <Text style=styles##avatarEmpty> {j|¨̮|j}->React.string </Text>
      }}

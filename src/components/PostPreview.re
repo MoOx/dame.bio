@@ -144,7 +144,7 @@ let make = (~item, ~withWatercolorBottomRightCorner=false, ()) =>
         rootCategory
         ->Option.flatMap(cat => cat##name)
         ->Option.getWithDefault("")
-        ->String.uppercase
+        ->Js.String.toUpperCase
         ->React.string;
       let title = item##title->Option.getWithDefault("");
       let likes =
@@ -218,8 +218,8 @@ let make = (~item, ~withWatercolorBottomRightCorner=false, ()) =>
               <ViewLink style=styles##action href={href ++ "#comments"}>
                 <SVGSpeechBubbleOutline
                   fill=ButtonLike.defaultColor
-                  width=ButtonLike.defaultSize
-                  height=ButtonLike.defaultSize
+                  width={ButtonLike.defaultSize->Js.Float.toString}
+                  height={ButtonLike.defaultSize->Js.Float.toString}
                 />
                 <Text style=styles##actionText> comments </Text>
               </ViewLink>

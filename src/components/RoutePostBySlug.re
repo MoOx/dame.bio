@@ -2,7 +2,7 @@ open Belt;
 open ReactNative;
 
 [@bs.module "@phenomic/preset-react-app/lib/client"]
-external withInitialProps: 'a => 'a = "";
+external withInitialProps: 'a => 'a = "withInitialProps";
 
 type status =
   | Loading
@@ -36,7 +36,7 @@ let make = (~status, ~postSlug) => {
            ...{({result}) =>
              switch (result) {
              | Loading => <LoadingIndicator />
-             | Error(error) => <Error label={Some(error##message)} />
+             | Error(error) => <Error label={Some(error.message)} />
              | Data(response) =>
                response##posts
                ->Option.flatMap(p => p##nodes)

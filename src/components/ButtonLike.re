@@ -82,8 +82,8 @@ let make = (~id, ~size=defaultSize, ()) =>
                   }}>
                   <SVGFavoriteOutline
                     fill=defaultColor
-                    width=size
-                    height=size
+                    width={size->Js.Float.toString}
+                    height={size->Js.Float.toString}
                   />
                 </TouchableScale>
               | Liked =>
@@ -96,7 +96,11 @@ let make = (~id, ~size=defaultSize, ()) =>
                     unlike(~variables=unlikeMutation##variables, ()) |> ignore;
                     send(Unlike);
                   }}>
-                  <SVGFavorite fill="#E2254D" width=size height=size />
+                  <SVGFavorite
+                    fill="#E2254D"
+                    width={size->Js.Float.toString}
+                    height={size->Js.Float.toString}
+                  />
                 </TouchableScale>
               };
             }}

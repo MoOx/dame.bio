@@ -28,7 +28,7 @@ let make = () => {
             (),
           )
         )>
-        {{j|Phase de la Lune|j}->String.uppercase->React.string}
+        {{j|Phase de la Lune|j}->Js.String.toUpperCase->React.string}
       </Text>
       <Text style=Style.(style(~fontSize=36., ~fontWeight=`_100, ()))>
         (

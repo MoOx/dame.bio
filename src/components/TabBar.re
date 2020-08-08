@@ -37,8 +37,8 @@ let styles =
     })
   );
 
-let width = 24.;
-let height = 24.;
+let width = 24.->Js.Float.toString;
+let height = 24.->Js.Float.toString;
 
 let renderItem = (~index, ~url, ~label, ~isActive) => {
   index > 2

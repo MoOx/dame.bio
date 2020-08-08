@@ -1,7 +1,7 @@
 open Belt;
 
 [@bs.module "@phenomic/preset-react-app/lib/client"]
-external withInitialProps: 'a => 'a = "";
+external withInitialProps: 'a => 'a = "withInitialProps";
 
 type status =
   | Loading
@@ -39,7 +39,7 @@ let make = (~status, ()) => {
            ...{({result}) =>
              switch (result) {
              | Loading => <LoadingIndicator />
-             | Error(error) => <Error label={Some(error##message)} />
+             | Error(error) => <Error label={Some(error.message)} />
              | Data(response) =>
                <>
                  {response##pages

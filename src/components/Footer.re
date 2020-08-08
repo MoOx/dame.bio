@@ -75,13 +75,13 @@ let make = () => {
           )>
           <SVGDameBioLogo
             fill=Consts.Colors.alt
-            width={20. *. 2.0}
-            height={28. *. 2.0}
+            width={(20. *. 2.0)->Js.Float.toString}
+            height={(28. *. 2.0)->Js.Float.toString}
           />
         </SpacedView>
         <SpacedView style=styles##block>
           <Text style=styles##blockTitle>
-            {{j|Catégories|j}->String.uppercase->React.string}
+            {{j|Catégories|j}->Js.String.toUpperCase->React.string}
           </Text>
           <Spacer />
           <WpMenu
@@ -92,7 +92,7 @@ let make = () => {
         </SpacedView>
         <SpacedView style=styles##block>
           <Text style=styles##blockTitle>
-            {{j|Plus|j}->String.uppercase->React.string}
+            {{j|Plus|j}->Js.String.toUpperCase->React.string}
           </Text>
           <Spacer />
           <WpMenu
@@ -103,7 +103,7 @@ let make = () => {
         </SpacedView>
         <SpacedView style=styles##block>
           <Text style=styles##blockTitle>
-            {{j|Réseaux|j}->String.uppercase->React.string}
+            {{j|Réseaux|j}->Js.String.toUpperCase->React.string}
           </Text>
           <Spacer />
           {Consts.socialLinks

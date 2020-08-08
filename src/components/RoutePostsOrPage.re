@@ -1,7 +1,7 @@
 open Belt;
 
 [@bs.module "@phenomic/preset-react-app/lib/client"]
-external withInitialProps: 'a => 'a = "";
+external withInitialProps: 'a => 'a = "withInitialProps";
 
 let perPage = 8;
 
@@ -87,7 +87,7 @@ let make = (~status, ~categoryOrPageSlug, ~tagSlug, ~cursorAfter, ()) => {
                    Some(WPGraphQL.Placeholders.postPreview(8)),
                  |]
                />
-             | Error(error) => <Error label={Some(error##message)} />
+             | Error(error) => <Error label={Some(error.message)} />
              | Data(response) =>
                let hasPosts =
                  response##posts

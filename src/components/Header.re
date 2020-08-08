@@ -76,7 +76,10 @@ let styles =
 let baselineSep =
   <Text style=styles##baselineSep>
     <SpacedView horizontal=XS>
-      <SVGHeart width={48. *. 0.2} height={39. *. 0.2} />
+      <SVGHeart
+        width={(48. *. 0.2)->Js.Float.toString}
+        height={(39. *. 0.2)->Js.Float.toString}
+      />
     </SpacedView>
   </Text>;
 
@@ -149,8 +152,8 @@ let make = (~currentLocation, ()) => {
                <TextLink href="/">
                  <SVGDameBioLogo
                    fill=Consts.Colors.light
-                   width={20. *. 0.8}
-                   height={28. *. 0.8}
+                   width={(20. *. 0.8)->Js.Float.toString}
+                   height={(28. *. 0.8)->Js.Float.toString}
                  />
                </TextLink>
                <Spacer />

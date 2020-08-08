@@ -73,12 +73,13 @@ let make = () =>
               ~paddingVertical=4.->dp,
               ~paddingHorizontal=8.->dp,
               ~borderTopRightRadius=5.,
+              ~borderBottomRightRadius=5.,
               ~backgroundColor="rgba(255,255,255,0.4)",
               (),
             )
           )
           onPress={_ => send(Submit)}>
-          <SVGSearch fill=Consts.Colors.main />
+          <SVGSearch fill=Consts.Colors.main width="16" height="16" />
         </Text>
       </View>,
   });

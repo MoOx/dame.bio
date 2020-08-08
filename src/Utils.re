@@ -3,7 +3,7 @@ open Belt;
 [@bs.module]
 external fetchJsonp: string => Js.Promise.t(Fetch.Response.t) = "fetch-jsonp";
 
-[@bs.val] external encodeURIComponent: string => string = "";
+[@bs.val] external encodeURIComponent: string => string = "encodeURIComponent";
 
 let encodeURI = uri => encodeURIComponent(uri);
 

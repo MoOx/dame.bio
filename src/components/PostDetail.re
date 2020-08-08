@@ -67,12 +67,17 @@ let make = (~item: WPGraphQL.Fragments.PostDetailFragment.t, ()) => {
               {rootCategory
                ->Option.flatMap(cat => cat##name)
                ->Option.getWithDefault("")
-               ->String.uppercase
+               ->Js.String.toUpperCase
                ->React.string}
             </Text>
           </ViewLink>
           <Text style=styles##date>
-            {({j|   ·   |j} ++ {item##dateGmt->Utils.frenchDate})
+            {(
+               {j|   ·   |j}
+               ++ {
+                 item##dateGmt->Utils.frenchDate;
+               }
+             )
              ->React.string}
           </Text>
         </View>
@@ -85,8 +90,8 @@ let make = (~item: WPGraphQL.Fragments.PostDetailFragment.t, ()) => {
           <ViewLink style=styles##action href={href ++ "#comments"}>
             <SVGSpeechBubbleOutline
               fill=ButtonLike.defaultColor
-              width=ButtonLike.defaultSize
-              height=ButtonLike.defaultSize
+              width={ButtonLike.defaultSize->Js.Float.toString}
+              height={ButtonLike.defaultSize->Js.Float.toString}
             />
             <Text style=styles##actionText> comments </Text>
           </ViewLink>

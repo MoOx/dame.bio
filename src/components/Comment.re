@@ -145,7 +145,7 @@ let make = (~comment, ~separator, ~canReply, ~onReply=_ => (), ()) => {
                  Js.Date.fromString(d |> Js.String.replace(" ", "T"))
                )
              ->Date.relativeDate
-             ->String.capitalize
+             ->String.capitalize_ascii
              ++ {j|  ·  |j}
              |> React.string}
           </Text>
