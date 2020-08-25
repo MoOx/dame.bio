@@ -13,6 +13,7 @@ let animateFormMeta =
       [|
         previewOpacity->Animated.spring(
           Animated.Value.Spring.config(
+            ~useNativeDriver=true,
             ~toValue=
               (showPreview ? opaque : transparent)
               ->Animated.Value.Spring.fromRawValue,
@@ -21,6 +22,7 @@ let animateFormMeta =
         ),
         previewY->Animated.spring(
           Animated.Value.Spring.config(
+            ~useNativeDriver=true,
             ~toValue=
               (showPreview ? yVisible : yHidden)
               ->Animated.Value.Spring.fromRawValue,
@@ -29,6 +31,7 @@ let animateFormMeta =
         ),
         textInputOpacity->Animated.spring(
           Animated.Value.Spring.config(
+            ~useNativeDriver=true,
             ~toValue=
               (showPreview ? transparent : opaque)
               ->Animated.Value.Spring.fromRawValue,
@@ -37,6 +40,7 @@ let animateFormMeta =
         ),
         textInputY->Animated.spring(
           Animated.Value.Spring.config(
+            ~useNativeDriver=true,
             ~toValue=
               (showPreview ? -. yHidden : yVisible)
               ->Animated.Value.Spring.fromRawValue,
@@ -44,7 +48,7 @@ let animateFormMeta =
           ),
         ),
       |],
-      {"stopTogether": true},
+      {stopTogether: true},
     ),
     (),
   );

@@ -149,7 +149,7 @@ let make = () =>
            switch (items) {
            | [||] => React.null
            | _ =>
-             let size = Dimensions.get(`window)##width->min(293.);
+             let size = Dimensions.get(`window).width->min(293.);
 
              <View>
                <SpacedView horizontal=XS vertical=XS>
@@ -166,9 +166,11 @@ let make = () =>
                    style=Style.(
                      array([|styles##items, style(~height=dp(size), ())|])
                    )>
-                   {{items->Array.map(item =>
-                       <InstagramPost key=item##id item size />
-                     )}
+                   {{
+                      items->Array.map(item =>
+                        <InstagramPost key=item##id item size />
+                      );
+                    }
                     ->React.array}
                  </ScrollView>
                </div>

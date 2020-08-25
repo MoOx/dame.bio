@@ -22,9 +22,9 @@ let make = (~uris: array(uri), ~resizeMode=?, ~style as s=?) => {
   let (layout, setLayout) = React.useState(() => None);
   let onLayout =
     React.useCallback1(
-      e => {
-        setLayout(_ => Some(e##nativeEvent##layout));
-        ();
+      (e: Event.layoutEvent) => {
+        let layout = e.nativeEvent.layout;
+        setLayout(_ => Some(layout));
       },
       [|setLayout|],
     );
@@ -40,8 +40,7 @@ let make = (~uris: array(uri), ~resizeMode=?, ~style as s=?) => {
     ->Option.map(l =>
         sorted->Array.keep(uri =>
           uri##width->Option.map(float_of_string)->Option.getWithDefault(0.)
-          >
-          l##width
+          > l.width
           *. PixelRatio.get()
         )
       )

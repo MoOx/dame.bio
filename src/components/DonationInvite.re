@@ -153,7 +153,7 @@ let make = () => {
         style=styles##button
         href="https://www.paypal.me/damebio/10"
         onPress={pressEvent => {
-          pressEvent##preventDefault();
+          pressEvent->Event.PressEvent.preventDefault;
           windowOpen(
             ~url="https://www.paypal.me/damebio/10",
             ~name="donation",

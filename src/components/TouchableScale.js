@@ -3,30 +3,6 @@ import PropTypes from "prop-types";
 import { Platform, TouchableWithoutFeedback, Animated } from "react-native";
 
 export default class TouchableScale extends React.Component {
-  static propTypes = {
-    ...TouchableWithoutFeedback.propTypes,
-    style: Animated.View.propTypes.style,
-    defaultScale: PropTypes.number.isRequired,
-    activeScale: PropTypes.number.isRequired,
-    hoverScale: PropTypes.number,
-    focusScale: PropTypes.number,
-    tension: PropTypes.number.isRequired,
-    friction: PropTypes.number.isRequired,
-    pressInTension: PropTypes.number,
-    pressInFriction: PropTypes.number,
-    pressOutTension: PropTypes.number,
-    pressOutFriction: PropTypes.number,
-    mouseEnterTension: PropTypes.number,
-    mouseEnterFriction: PropTypes.number,
-    mouseLeaveTension: PropTypes.number,
-    mouseLeaveFriction: PropTypes.number,
-    hoverTension: PropTypes.number,
-    hoverFriction: PropTypes.number,
-    focusTension: PropTypes.number,
-    focusFriction: PropTypes.number,
-    useNativeDriver: PropTypes.bool,
-  };
-
   static defaultProps = {
     defaultScale: 1,
     activeScale: 0.95,

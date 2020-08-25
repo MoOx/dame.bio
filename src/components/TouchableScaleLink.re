@@ -32,17 +32,19 @@ external make:
     ~style: Style.t=?,
     // TouchableWithoutFeedback props
     ~accessible: bool=?,
-    ~accessibilityComponentType: [@bs.string] [
+    ~accessibilityComponentType: [
                                    | `none
                                    | `button
                                    | `radiobutton_checked
                                    | `radiobutton_unchecked
                                  ]
                                    =?,
+    ~accessibilityElementsHidden: bool=?,
     ~accessibilityHint: string=?,
     ~accessibilityIgnoresInvertColors: bool=?,
     ~accessibilityLabel: string=?,
-    ~accessibilityRole: [@bs.string] [
+    ~accessibilityLiveRegion: [ | `none | `polite | `assertive]=?,
+    ~accessibilityRole: [
                           | `none
                           | `button
                           | `link
@@ -56,15 +58,23 @@ external make:
                           | `imagebutton
                         ]
                           =?,
-    ~accessibilityStates: array(AccessibilityState.t)=?,
+    ~accessibilityState: Accessibility.state=?,
     ~accessibilityTraits: array(AccessibilityTrait.t)=?,
+    ~accessibilityValue: Accessibility.value=?,
+    ~accessibilityViewIsModal: bool=?,
     ~delayLongPress: int=?,
     ~delayPressIn: int=?,
     ~delayPressOut: int=?,
     ~disabled: bool=?,
     ~hitSlop: View.edgeInsets=?,
-    ~onBlur: Event.targetEvent => unit=?,
-    ~onFocus: Event.targetEvent => unit=?,
+    ~importantForAccessibility: [@bs.string] [
+                                  | `auto
+                                  | `yes
+                                  | `no
+                                  | [@bs.as "no-hide-descendants"]
+                                    `noHideDescendants
+                                ]
+                                  =?,
     ~onLayout: Event.layoutEvent => unit=?,
     ~onLongPress: Event.pressEvent => unit=?,
     ~onPress: Event.pressEvent => unit=?,
@@ -72,7 +82,28 @@ external make:
     ~onPressOut: Event.pressEvent => unit=?,
     ~pressRetentionOffset: View.edgeInsets=?,
     ~testID: string=?,
-    ~children: React.element=?
+    ~touchSoundDisabled: bool=?,
+    ~children: React.element=?,
+    // React Native Web Props
+    ~rel: [@bs.string] [
+            | `alternate
+            | `author
+            | [@bs.as "dns-prefetch"] `dnsPrefetch
+            | `icon
+            | `license
+            | `next
+            | `pingback
+            | `preconnect
+            | `prefetch
+            | `preload
+            | `prerender
+            | `prev
+            | `search
+            | `stylesheet
+          ]
+            =?,
+    ~href: string=?,
+    ~target: [ | `_blank | `_self | `_parent | `_top]=?
   ) =>
   React.element =
   "TouchableWithoutFeedback";

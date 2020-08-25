@@ -26,7 +26,7 @@ const Html = ({ App, render } /*: PhenomicHtmlPropsType*/) => {
       <body {...head.bodyAttributes.toComponent()}>
         <Main />
         <State />
-        <script src="https://polyfill.io/v3/polyfill.min.js" />
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=Map%2CSet%2CIntersectionObserver%2CIntersectionObserverEntry%2CResizeObserver" />
         <Script />
         {process.env.NODE_ENV === "production" && (
           <script
