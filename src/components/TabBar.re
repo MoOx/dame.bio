@@ -52,6 +52,12 @@ let renderItem = (~index, ~url, ~label, ~isActive) => {
                height
                fill={isActive ? colorActive : colorInActive}
              />
+           | "/ateliers/" =>
+             <SVGMenuAteliers
+               width
+               height
+               fill={isActive ? colorActive : colorInActive}
+             />
            | "/alimentation/" =>
              <SVGMenuRepas
                width
