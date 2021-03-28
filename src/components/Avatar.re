@@ -70,7 +70,12 @@ let make = (~name=?, ~url=?, ()) => {
      }}
     {switch (url) {
      | Some(url) =>
-       <ImageFromUri style=styles##avatarImage resizeMode=`contain uri=url />
+       <ImageFromUri
+         style=styles##avatarImage
+         resizeMode=`contain
+         uri=url
+         ssr=false
+       />
      | None => React.null
      }}
   </View>;
