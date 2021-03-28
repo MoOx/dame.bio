@@ -1,10 +1,10 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 
-import { isActive } from "@phenomic/plugin-renderer-react/lib/components/Link.js";
+// import { isActive } from "@phenomic/plugin-renderer-react/lib/components/Link.js";
+// import { hrefify, handlePress } from "./linkUtils";
 
 import TouchableScale from "./TouchableScale.js";
-import { hrefify, handlePress } from "./linkUtils";
 
 export default function TouchableScaleLink(props, context) {
   const { style, activeStyle, ...otherProps } = props;
@@ -13,13 +13,10 @@ export default function TouchableScaleLink(props, context) {
     <TouchableScale
       {...otherProps}
       accessibilityRole="link"
-      href={hrefify(href)}
-      onPress={handlePress(props, context.router)}
-      style={[style, isActive(href, context) && activeStyle]}
+      href={href}
+      // onPress={handlePress(props, context.router)}
+      // style={[style, isActive(href, context) && activeStyle]}
+      style={[style]}
     />
   );
 }
-
-TouchableScaleLink.contextTypes = {
-  router: PropTypes.object.isRequired,
-};

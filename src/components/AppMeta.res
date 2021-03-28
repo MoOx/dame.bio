@@ -1,55 +1,36 @@
-open Consts.Colors;
-
-[@react.component]
+@react.component
 let make = () => {
-  <BsReactHelmet
-    defaultTitle=Consts.title
-    htmlAttributes={BsReactHelmet.htmlAttributes(~lang="fr")}>
+  <Next.Head>
     <meta charSet="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <style
+      dangerouslySetInnerHTML={
+        "__html": `@-ms-viewport { width: device-width } @viewport { width: device-width }`,
+      }
     />
-    <style>
-      {j|@-ms-viewport { width: device-width } @viewport { width: device-width }|j}
-      ->React.string
-    </style>
     <link rel="preconnect" href="https://data.dame.bio" />
     <meta name="description" content=Consts.shortBio />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type_="image/png"
-      sizes="32x32"
-      href="/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type_="image/png"
-      sizes="16x16"
-      href="/favicon-16x16.png"
-    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type_="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type_="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    // <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#006579" />
-    {ReactDOMRe.createDOMElementVariadic(
-       "link",
-       ~props=
-         {
-           "rel": "mask-icon",
-           "href": "/safari-pinned-tab.svg",
-           "color": "#006579",
-         }
-         ->Obj.magic,
-       [||],
-     )}
+    {
+      // <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#006579" />
+      ReactDOMRe.createDOMElementVariadic(
+        "link",
+        ~props={
+          "rel": "mask-icon",
+          "href": "/safari-pinned-tab.svg",
+          "color": "#006579",
+        }->Obj.magic,
+        [],
+      )
+    }
     <meta name="msapplication-TileColor" content="#006579" />
     <meta name="theme-color" content="#ffffff" />
-    <style>
-      {j|
+    <style
+      dangerouslySetInnerHTML={
+        "__html": `
 html {
   height: 100%;
   background: #006579;
@@ -211,8 +192,8 @@ body {
   border-right: 2px solid #b9c840;
   border-bottom-right-radius: 6px;
 }
-|j}
-      ->React.string
-    </style>
-  </BsReactHelmet>;
-};
+`,
+      }
+    />
+  </Next.Head>
+}

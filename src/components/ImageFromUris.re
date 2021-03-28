@@ -2,10 +2,9 @@ open Belt;
 open ReactNative;
 
 type uri = {
-  .
-  "name": option(string),
-  "width": option(string),
-  "sourceUrl": option(string),
+  name: option(string),
+  width: option(string),
+  sourceUrl: option(string),
 };
 
 [@react.component]
@@ -30,22 +29,22 @@ let make = (~uris: array(uri), ~resizeMode=?, ~style as s=?) => {
     );
   let sorted =
     uris->SortArray.stableSortBy((uri, uri2) =>
-      uri##width->Option.map(int_of_string)->Option.getWithDefault(0)
-      - uri2##width->Option.map(int_of_string)->Option.getWithDefault(0)
+      uri.width->Option.map(int_of_string)->Option.getWithDefault(0)
+      - uri2.width->Option.map(int_of_string)->Option.getWithDefault(0)
     );
   let firstItem = sorted[0];
-  let smallerSourceUri = firstItem->Option.flatMap(uri => uri##sourceUrl);
+  let smallerSourceUri = firstItem->Option.flatMap(uri => uri.sourceUrl);
   let adaptedSourceUri =
     layout
     ->Option.map(l =>
         sorted->Array.keep(uri =>
-          uri##width->Option.map(float_of_string)->Option.getWithDefault(0.)
+          uri.width->Option.map(float_of_string)->Option.getWithDefault(0.)
           > l.width
           *. PixelRatio.get()
         )
       )
     ->Option.flatMap(candidates => candidates[0])
-    ->Option.flatMap(uri => uri##sourceUrl)
+    ->Option.flatMap(uri => uri.sourceUrl)
     ->Option.getWithDefault(smallerSourceUri->Option.getWithDefault(""));
   smallerSourceUri
   ->Option.map(smallerSourceUri =>

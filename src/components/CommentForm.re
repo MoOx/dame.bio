@@ -246,12 +246,10 @@ let sendComment = (commentToSend, success, failure) =>
        })
   );
 
-let component = ReasonReact.reducerComponent("CommentForm");
-
 [@react.component]
-let make = (~postId, ~parentCommentId, ()) =>
+let make = (~databaseId, ~parentCommentId, ()) =>
   ReactCompat.useRecordApi({
-    ...component,
+    ...ReactCompat.component,
     initialState: () => {
       comment: New,
       animated: {
@@ -272,14 +270,14 @@ let make = (~postId, ~parentCommentId, ()) =>
         /* | Posted((comment, commentSuccessReponse)) */
         | Sent(_) =>
           Js.log("You can't edit while posting");
-          ReasonReact.NoUpdate;
+          ReactCompat.NoUpdate;
         /* | Errored((comment, string)) */
-        | _ => ReasonReact.Update({...state, comment: InProgress(comment)})
+        | _ => ReactCompat.Update({...state, comment: InProgress(comment)})
         }
       | CommentSend(comment) =>
         switch (state.comment) {
         | New =>
-          ReasonReact.Update({
+          ReactCompat.Update({
             ...state,
             comment:
               Errored((
@@ -290,11 +288,11 @@ let make = (~postId, ~parentCommentId, ()) =>
         /* | InProgress(comment) */
         | Sent(_) =>
           Js.log("You can't post while posting already");
-          ReasonReact.NoUpdate;
+          ReactCompat.NoUpdate;
         | Posted(_) =>
           /* impossible state as you cannot have access to CommentSend while state is Posted */
-          ReasonReact.NoUpdate
-        | Errored((_, _)) => ReasonReact.NoUpdate
+          ReactCompat.NoUpdate
+        | Errored((_, _)) => ReactCompat.NoUpdate
         | _ =>
           /*
            // https://developer.wordpress.org/rest-api/reference/comments/#arguments
@@ -342,9 +340,9 @@ let make = (~postId, ~parentCommentId, ()) =>
             "parent",
             Js.Json.number(float_of_int(parentCommentId)),
           );
-          Js.Dict.set(pl, "post", Js.Json.number(float_of_int(postId)));
+          Js.Dict.set(pl, "post", Js.Json.number(float_of_int(databaseId)));
           let payload = Js.Json.object_(pl);
-          ReasonReact.UpdateWithSideEffects(
+          ReactCompat.UpdateWithSideEffects(
             {...state, comment: Sent((comment, payload))},
             ({send}) =>
               sendComment(
@@ -356,9 +354,9 @@ let make = (~postId, ~parentCommentId, ()) =>
           );
         }
       | CommentSuccess((comment, response)) =>
-        ReasonReact.Update({...state, comment: Posted((comment, response))})
+        ReactCompat.Update({...state, comment: Posted((comment, response))})
       | CommentError((comment, err)) =>
-        ReasonReact.Update({...state, comment: Errored((comment, err))})
+        ReactCompat.Update({...state, comment: Errored((comment, err))})
       },
     didUpdate: ({oldSelf, newSelf}) => {
       let (animate, showPreview) =

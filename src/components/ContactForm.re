@@ -169,12 +169,11 @@ let sendMessage = (messageToSend, success, failure) =>
 
 let formName = "contact";
 
-let component = ReasonReact.reducerComponent("ContactForm");
-
 [@react.component]
-let make = (~page=?, ()) =>
+let make =
+    (~page: option(WPGraphQL.GetPage.GetPage_inner.t_pages_nodes)=?, ()) =>
   ReactCompat.useRecordApi({
-    ...component,
+    ...ReactCompat.component,
     initialState: () => {message: New},
     reducer: (action, state) =>
       switch (action) {
@@ -187,14 +186,14 @@ let make = (~page=?, ()) =>
         /* | Posted((message, messageSuccessReponse)) */
         | Sent(_) =>
           Js.log("You can't edit while posting");
-          ReasonReact.NoUpdate;
+          ReactCompat.NoUpdate;
         /* | Errored((message, string)) */
-        | _ => ReasonReact.Update({message: InProgress(message)})
+        | _ => ReactCompat.Update({message: InProgress(message)})
         }
       | MessageSend(message) =>
         switch (state.message) {
         | New =>
-          ReasonReact.Update({
+          ReactCompat.Update({
             message:
               Errored((
                 message,
@@ -204,11 +203,11 @@ let make = (~page=?, ()) =>
         /* | InProgress(message) */
         | Sent(_) =>
           Js.log("You can't post while posting already");
-          ReasonReact.NoUpdate;
+          ReactCompat.NoUpdate;
         | Posted(_) =>
           /* impossible state as you cannot have access to MessageSend while state is Posted */
-          ReasonReact.NoUpdate
-        | Errored((_, _)) => ReasonReact.NoUpdate
+          ReactCompat.NoUpdate
+        | Errored((_, _)) => ReactCompat.NoUpdate
         | _ =>
           /*
            let payload =
@@ -236,7 +235,7 @@ let make = (~page=?, ()) =>
             "email": message.email,
             "message": message.content,
           };
-          ReasonReact.UpdateWithSideEffects(
+          ReactCompat.UpdateWithSideEffects(
             {message: Sent((message, payload))},
             ({send}) =>
               sendMessage(
@@ -249,9 +248,9 @@ let make = (~page=?, ()) =>
         // netlify
         }
       | MessageSuccess(message) =>
-        ReasonReact.Update({message: Posted(message)})
+        ReactCompat.Update({message: Posted(message)})
       | MessageError((message, err)) =>
-        ReasonReact.Update({message: Errored((message, err))})
+        ReactCompat.Update({message: Errored((message, err))})
       },
     render: ({state, send}) => {
       let errors =
@@ -318,7 +317,9 @@ let make = (~page=?, ()) =>
         <View style=styles##row>
           {page
            ->Option.map(item =>
-               <View style=styles##page> <Html content=item##content /> </View>
+               <View style=styles##page>
+                 <Html content={item.content} />
+               </View>
              )
            ->Option.getWithDefault(React.null)}
           <Spacer />

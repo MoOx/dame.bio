@@ -57,7 +57,7 @@ let renderItem = (~index as _, ~url, ~label, ~isActive as _) => {
 };
 
 [@react.component]
-let make = () => {
+let make = (~globals=?, ~currentLocation) => {
   let year =
     Js.Date.now()->Js.Date.fromFloat->Js.Date.getFullYear->Js.Float.toString;
   <View style=styles##container>
@@ -85,9 +85,9 @@ let make = () => {
           </Text>
           <Spacer />
           <WpMenu
-            id=Consts.Menus.categories
-            currentLocation={"pathname": ""}
+            menu=?{WpMenu.getMenu(globals, Consts.Menus.categories)}
             renderItem
+            currentLocation
           />
         </SpacedView>
         <SpacedView style=styles##block>
@@ -96,9 +96,9 @@ let make = () => {
           </Text>
           <Spacer />
           <WpMenu
-            id=Consts.Menus.more
-            currentLocation={"pathname": ""}
+            menu=?{WpMenu.getMenu(globals, Consts.Menus.more)}
             renderItem
+            currentLocation
           />
         </SpacedView>
         <SpacedView style=styles##block>
@@ -136,20 +136,21 @@ let make = () => {
         </SpacedView>
         <SpacedView vertical=S style=styles##footerMinitem>
           <Text style=styles##madeBy>
-            <LoginForm />
-            {j| By |j}->React.string
-            <TextLink
-              href={Consts.frontendUrl ++ "/a-propos/"}
-              style=Style.(style(~textDecorationLine=`underline, ()))>
-              Consts.nickname->React.string
-            </TextLink>
-            {j| & |j}->React.string
-            <TextLink
-              href="https://moox.io/"
-              style=Style.(style(~textDecorationLine=`underline, ()))>
-              {j|MoOx|j}->React.string
-            </TextLink>
-          </Text>
+            // <LoginForm />
+
+              {j| By |j}->React.string
+              <TextLink
+                href={Consts.frontendUrl ++ "/a-propos/"}
+                style=Style.(style(~textDecorationLine=`underline, ()))>
+                Consts.nickname->React.string
+              </TextLink>
+              {j| & |j}->React.string
+              <TextLink
+                href="https://moox.io/"
+                style=Style.(style(~textDecorationLine=`underline, ()))>
+                {j|MoOx|j}->React.string
+              </TextLink>
+            </Text>
         </SpacedView>
       </ContainerLarge>
     </SpacedView>

@@ -7,46 +7,46 @@ type state =
   | None
   | ReplyOpen;
 
-let component = ReasonReact.reducerComponent("CommentWithReplyAndChildren");
+type props('comment, 'databaseId) = {
+  .
+  "comment": 'comment,
+  "comments": option(WPGraphQL.PostDetailFragment.t_comments),
+  "databaseId": 'databaseId,
+  "parentCommentId": int,
+};
 
 // [@react.component]
-// let rec make = (~comment, ~postId, ~parentCommentId: int, ~comments) => {
+// let rec make = (~comment, ~databaseId, ~parentCommentId: int, ~comments) => {
 [@bs.obj]
 external makeProps:
   (
     ~comment: 'comment,
-    ~comments: 'comments,
-    ~postId: 'postId,
+    ~comments: option(WPGraphQL.PostDetailFragment.t_comments),
+    ~databaseId: 'databaseId,
     ~parentCommentId: int,
     ~key: string=?,
     unit
   ) =>
-  {
-    .
-    "comment": 'comment,
-    "comments": 'comments,
-    "postId": 'postId,
-    "parentCommentId": int,
-  } =
-  "";
+  props('comment, 'databaseId);
 
-let rec make = props => {
+let rec make = (props: props('comment, 'databaseId)) => {
   let comment = props##comment;
-  let postId = props##postId;
+  let databaseId = props##databaseId;
   let parentCommentId = props##parentCommentId;
   let comments = props##comments;
+
   ReactCompat.useRecordApi({
-    ...component,
+    ...ReactCompat.component,
     initialState: () => None,
     reducer: (action, _) =>
       switch (action) {
-      | Reply => ReasonReact.Update(ReplyOpen)
+      | Reply => ReactCompat.Update(ReplyOpen)
       },
     render: ({state, send}) =>
       <>
         <Comment
           comment
-          separator={comment##parent->Option.isNone}
+          separator={comment.parent->Option.isNone}
           canReply=true
           onReply={_ => send(Reply) |> ignore}
         />
@@ -54,17 +54,17 @@ let rec make = props => {
          | None => React.null
          | ReplyOpen =>
            <CommentForm
-             postId
-             parentCommentId={comment##commentId->Option.getWithDefault(0)}
+             databaseId
+             parentCommentId={comment.commentId->Option.getWithDefault(0)}
            />
          }}
         {comments
-         ->Option.flatMap(ts => ts##nodes)
+         ->Option.flatMap(ts => ts.nodes)
          ->Option.getWithDefault([||])
          ->Array.mapWithIndex((index, c) =>
              c->Option.mapWithDefault(React.null, comment =>
-               comment##parent
-               ->Option.flatMap(p => p##commentId)
+               comment.parent
+               ->Option.flatMap(p => p.commentId)
                ->Option.getWithDefault(0)
                == parentCommentId
                  ? React.createElement(
@@ -72,12 +72,12 @@ let rec make = props => {
                      makeProps(
                        ~comment,
                        ~comments,
-                       ~postId,
+                       ~databaseId,
                        ~parentCommentId=
-                         comment##commentId->Option.getWithDefault(0),
+                         comment.commentId->Option.getWithDefault(0),
                        ~key=
                          string_of_int(
-                           comment##commentId->Option.getWithDefault(index),
+                           comment.commentId->Option.getWithDefault(index),
                          ),
                        (),
                      ),

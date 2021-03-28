@@ -17,7 +17,12 @@ let styles =
   );
 
 [@react.component]
-let make = (~postId, ~commentCounts, ~comments, ()) => {
+let make =
+    (
+      ~databaseId,
+      ~commentCounts,
+      ~comments: option(WPGraphQL.PostDetailFragment.t_comments),
+    ) => {
   <>
     /* @todo native fix */
     <a name="comments" />
@@ -36,7 +41,7 @@ let make = (~postId, ~commentCounts, ~comments, ()) => {
     <Spacer size=S />
     <View style=styles##comments>
       {switch (
-         comments->Option.flatMap(ts => ts##nodes)->Option.getWithDefault([||])
+         comments->Option.flatMap(ts => ts.nodes)->Option.getWithDefault([||])
        ) {
        | [||] =>
          <>
@@ -51,16 +56,16 @@ let make = (~postId, ~commentCounts, ~comments, ()) => {
          coms
          ->Array.mapWithIndex((index, comment) =>
              comment->Option.mapWithDefault(React.null, comment =>
-               comment##parent->Option.isNone
+               comment.parent->Option.isNone
                  ? <CommentWithReplyAndChildren
                      key={string_of_int(
-                       comment##commentId->Option.getWithDefault(index),
+                       comment.commentId->Option.getWithDefault(index),
                      )}
                      comment
                      parentCommentId={
-                       comment##commentId->Option.getWithDefault(0)
+                       comment.commentId->Option.getWithDefault(0)
                      }
-                     postId
+                     databaseId
                      comments
                    />
                  : React.null
@@ -70,7 +75,7 @@ let make = (~postId, ~commentCounts, ~comments, ()) => {
        }}
       <CommentSeparator />
       <Spacer />
-      <CommentForm postId parentCommentId=0 />
     </View>
+    <CommentForm databaseId parentCommentId=0 />
   </>;
 };

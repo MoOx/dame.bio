@@ -73,21 +73,30 @@ let styles =
   );
 
 [@react.component]
-let make = (~comment, ~separator, ~canReply, ~onReply=_ => (), ()) => {
+let make =
+    (
+      ~comment: WPGraphQL.PostDetailFragment.t_comments_nodes,
+      ~separator,
+      ~canReply,
+      ~onReply=_ => (),
+      (),
+    ) => {
   let name =
     (
-      switch (comment##author) {
-      | Some(`CommentAuthor(a)) => a##name
-      | Some(`User(a)) => a##name
+      switch (comment.author) {
+      | Some(`CommentAuthor(a)) => a.name
+      | Some(`User(a)) => a.name
+      | Some(`FutureAddedValue(_)) => Some("")
       | None => Some("")
       }
     )
     ->Option.getWithDefault("");
   let url =
     (
-      switch (comment##author) {
-      | Some(`CommentAuthor(a)) => a##url
-      | Some(`User(a)) => a##url
+      switch (comment.author) {
+      | Some(`CommentAuthor(a)) => a.url
+      | Some(`User(a)) => a.url
+      | Some(`FutureAddedValue(_)) => Some("")
       | None => None
       }
     )
@@ -95,7 +104,7 @@ let make = (~comment, ~separator, ~canReply, ~onReply=_ => (), ()) => {
   <>
     {separator ? <> <CommentSeparator /> <Spacer /> </> : React.null}
     <View style=styles##comment>
-      {comment##parent->Option.isSome ? <Spacer size=XL /> : React.null}
+      {comment.parent->Option.isSome ? <Spacer size=XL /> : React.null}
       <View>
         <Spacer size=XXS />
         <Avatar
@@ -103,9 +112,10 @@ let make = (~comment, ~separator, ~canReply, ~onReply=_ => (), ()) => {
           url={
             "https://secure.gravatar.com/avatar/"
             ++ (
-                 switch (comment##author) {
-                 | Some(`CommentAuthor(a)) => a##email
-                 | Some(`User(a)) => a##email
+                 switch (comment.author) {
+                 | Some(`CommentAuthor(a)) => a.email
+                 | Some(`User(a)) => a.email
+                 | Some(`FutureAddedValue(_)) => Some("")
                  | None => Some("")
                  }
                )
@@ -125,8 +135,8 @@ let make = (~comment, ~separator, ~canReply, ~onReply=_ => (), ()) => {
                  </Text>
                </ViewLink>
              : <Text style=styles##commentAuthor> name->React.string </Text>}
-          {switch (comment##author) {
-           | Some(`User(a)) when a##userId->Option.getWithDefault(0) == 2 =>
+          {switch (comment.author) {
+           | Some(`User(a)) when a.userId->Option.getWithDefault(0) == 2 =>
              <>
                <Text> " "->React.string </Text>
                <ViewLink href=url style=styles##commentOwner>
@@ -140,7 +150,7 @@ let make = (~comment, ~separator, ~canReply, ~onReply=_ => (), ()) => {
         </View>
         <View style=styles##row>
           <Text style=styles##commentDate>
-            {comment##dateGmt
+            {comment.dateGmt
              ->Option.mapWithDefault(Js.Date.make(), d =>
                  Js.Date.fromString(d |> Js.String.replace(" ", "T"))
                )
@@ -162,7 +172,7 @@ let make = (~comment, ~separator, ~canReply, ~onReply=_ => (), ()) => {
             className="dbComment"
             dangerouslySetInnerHTML={
               "__html":
-                comment##content->Option.getWithDefault("")
+                comment.content->Option.getWithDefault("")
                 |> Js.String.replace("<p>", "")
                 |> Js.String.replace("</p>", ""),
             }

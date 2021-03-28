@@ -46,6 +46,7 @@ let styles =
           (),
         ),
       "categoryText": textStyle(~fontSize=10., ~color=Consts.Colors.pink, ()),
+      "dateText": textStyle(~fontSize=10., ~color=Consts.Colors.grey, ()),
       "titleText":
         textStyle(
           ~fontSize=20.,
@@ -68,8 +69,6 @@ let styles =
           ~right=0.->dp,
           ~alignSelf=`flexEnd,
           ~alignItems=`center,
-          ~paddingTop=(Spacer.space *. 3. /. 4.)->dp,
-          ~paddingRight=Spacer.space->dp,
           (),
         ),
       "actionWrapper": viewStyle(~flexDirection=`row, ()),
@@ -94,137 +93,126 @@ let timing = 150;
 let clearOptionalTimeout = optionalTimeoutRef =>
   (optionalTimeoutRef^)->Option.map(Js.Global.clearTimeout)->ignore;
 
-let component = ReasonReact.reducerComponent("PostPreview");
-
 [@react.component]
-let make = (~item, ~withWatercolorBottomRightCorner=false, ()) =>
-  ReactCompat.useRecordApi({
-    ...component,
-    initialState: () => {focusTimeout: ref(None), focus: false},
-    reducer: (action, state) =>
-      switch (action) {
-      | WillFocus(cb) =>
-        clearOptionalTimeout(state.focusTimeout);
-        ReasonReact.SideEffects(
-          _ => state.focusTimeout := Some(Js.Global.setTimeout(cb, timing)),
-        );
-      | Focus =>
-        clearOptionalTimeout(state.focusTimeout);
-        ReasonReact.Update({...state, focus: true});
-      | WillBlur(cb) =>
-        clearOptionalTimeout(state.focusTimeout);
-        ReasonReact.SideEffects(
-          _ => state.focusTimeout := Some(Js.Global.setTimeout(cb, timing)),
-        );
-      | Blur =>
-        clearOptionalTimeout(state.focusTimeout);
-        ReasonReact.Update({...state, focus: false});
-      },
-    render: ({send}) => {
-      let id = item##id;
-      let rootCategory = item->Utils.rootCategory;
-      let href = item->Utils.postHref;
-      let uris =
-        item##featuredImage
-        ->Option.flatMap(f => f##mediaDetails)
-        ->Option.flatMap(m => m##sizes)
-        ->Option.map(sizes => sizes->Array.keepMap(o => o))
-        // ->Option.map(sizes =>
-        //     sizes->Array.keep(size =>
-        //       Js.Array.includes(
-        //         size##name->Option.getWithDefault(""),
-        //         Consts.imageSizes,
-        //       )
-        //     )
-        //   )
-        ->Option.getWithDefault([||]);
-      let image =
-        <ImageWithAspectRatio uris style=styles##image ratio=imageRatio />;
-      let categoryName =
-        rootCategory
-        ->Option.flatMap(cat => cat##name)
-        ->Option.getWithDefault("")
-        ->Js.String.toUpperCase
-        ->React.string;
-      let title = item##title->Option.getWithDefault("");
-      let likes =
-        switch (item##likeCount->Option.getWithDefault(0)) {
-        | 0 => React.null
-        | v => (v->string_of_int ++ "  ")->React.string
-        };
-      let comments =
-        switch (item##commentCount->Option.getWithDefault(0)) {
-        | 0 => React.null
-        | v => ("  " ++ v->string_of_int)->React.string
-        };
-      <SpacedView key=id style=styles##wrapper vertical=M horizontal=M>
-        {withWatercolorBottomRightCorner
-           ? <ImageFromUri
-               resizeMode=`contain
-               uri="/images/watercolor-bottom-right.png"
-               style=Style.(
-                 viewStyle(
-                   ~position=`absolute,
-                   ~bottom=(-10.)->dp,
-                   ~right=(-15.)->dp,
-                   ~width=(723. /. 2.)->dp,
-                   ~height=(495. /. 2.)->dp,
-                   (),
-                 )
-               )
-             />
-           : React.null}
-        <ViewLink
-          href
-          style=styles##container
-          onMouseEnter={() => send(WillFocus(() => send(Focus)))}
-          onMouseLeave={() => send(WillBlur(() => send(Blur)))}>
-          <View style=styles##containerContent>
-            image
-            <SpacedView vertical=M horizontal=M style=styles##text>
-              <Text style=styles##categoryText> categoryName </Text>
-              <Spacer size=XS />
-              <Text style=styles##titleText>
-                <span dangerouslySetInnerHTML={"__html": title} />
-              </Text>
-            </SpacedView>
-          </View>
+let make =
+    (
+      ~item: WPGraphQL.PostPreviewFragment.t,
+      ~withWatercolorBottomRightCorner=false,
+      (),
+    ) => {
+  let id = item.id;
+  let rootCategory =
+    item.categories
+    ->Option.flatMap(categories => categories.nodes)
+    ->Option.map(nodes => nodes->Array.keepMap(node => node))
+    ->Option.flatMap(categoriesNodes => categoriesNodes[0]);
+  let href =
+    "/"
+    ++ rootCategory
+       ->Option.flatMap(cat => cat.slug)
+       ->Option.getWithDefault("_")
+       ->Utils.encodeURI
+    ++ "/"
+    ++ item.slug->Option.getWithDefault(item.id);
+  let uris =
+    item.featuredImage
+    ->Option.flatMap(f => f.mediaDetails)
+    ->Option.flatMap(m => m.sizes)
+    ->Option.map(sizes => sizes->Array.keepMap(o => o))
+    // ->Option.map(sizes =>
+    //     sizes->Array.keep(size =>
+    //       Js.Array.includes(
+    //         size.name->Option.getWithDefault(""),
+    //         Consts.imageSizes,
+    //       )
+    //     )
+    //   )
+    ->Option.getWithDefault([||]);
+  let image =
+    <ImageWithAspectRatio
+      uris={
+        uris->Array.map(({name, width, sourceUrl}) =>
+          ImageFromUris.{name, width, sourceUrl}
+        )
+      }
+      style=styles##image
+      ratio=imageRatio
+    />;
+  let categoryName =
+    rootCategory
+    ->Option.flatMap(cat => cat.name)
+    ->Option.getWithDefault("")
+    ->Js.String.toUpperCase
+    ->React.string;
+  let title = item.title->Option.getWithDefault("");
+  let likes =
+    switch (item.likeCount->Option.getWithDefault(0)) {
+    | 0 => React.null
+    | v => (v->string_of_int ++ "  ")->React.string
+    };
+  let comments =
+    switch (item.commentCount->Option.getWithDefault(0)) {
+    | 0 => React.null
+    | v => ("  " ++ v->string_of_int)->React.string
+    };
+  <SpacedView key=id style=styles##wrapper vertical=M horizontal=M>
+    {withWatercolorBottomRightCorner
+       ? <ImageFromUri
+           resizeMode=`contain
+           uri="/images/watercolor-bottom-right.png"
+           style=Style.(
+             viewStyle(
+               ~position=`absolute,
+               ~bottom=(-10.)->dp,
+               ~right=(-15.)->dp,
+               ~width=(723. /. 2.)->dp,
+               ~height=(495. /. 2.)->dp,
+               (),
+             )
+           )
+         />
+       : React.null}
+    <ViewLink href style=styles##container>
+      <View style=styles##containerContent>
+        image
+        <SpacedView vertical=S horizontal=M style=styles##text>
+          <Text>
+            <Text style=styles##categoryText> categoryName </Text>
+            <Text style=styles##dateText>
+              <Text> {j|  ·  |j}->React.string </Text>
+              {item.dateGmt->Utils.frenchDate->React.string}
+            </Text>
+          </Text>
+          <Spacer size=XS />
+          <Text style=styles##titleText>
+            <span dangerouslySetInnerHTML={"__html": title} />
+          </Text>
+          <Spacer size=XS />
+        </SpacedView>
+      </View>
+    </ViewLink>
+    <SpacedView
+      vertical=M
+      horizontal=M
+      style=styles##actionsWrapper
+      pointerEvents=`boxNone>
+      <PlaceholderWithAspectRatio ratio=imageRatio />
+      <SpacedView
+        vertical=S horizontal=M style=styles##actions pointerEvents=`boxNone>
+        <View style=styles##action>
+          <Text style=styles##actionText> likes </Text>
+          <ButtonLike id />
+        </View>
+        <Text> "    "->React.string </Text>
+        <ViewLink style=styles##action href={href ++ "#comments"}>
+          <SVGSpeechBubbleOutline
+            fill=ButtonLike.defaultColor
+            width={ButtonLike.defaultSize->Js.Float.toString}
+            height={ButtonLike.defaultSize->Js.Float.toString}
+          />
+          <Text style=styles##actionText> comments </Text>
         </ViewLink>
-        <SpacedView
-          vertical=M
-          horizontal=M
-          style=styles##actionsWrapper
-          pointerEvents=`boxNone>
-          /*
-                 // onMouseEnter={() =>
-                 //   send(
-                 //     WillFocus(() => Webapi.requestAnimationFrame(_ => send(Focus))),
-                 //   )
-                 // }
-                 // onMouseLeave={() =>
-                 //   send(
-                 //     WillBlur(() => Webapi.requestAnimationFrame(_ => send(Blur))),
-                 //   )
-                 // }
-           */
-
-            <PlaceholderWithAspectRatio ratio=imageRatio />
-            <View style=styles##actions pointerEvents=`boxNone>
-              <View style=styles##action>
-                <Text style=styles##actionText> likes </Text>
-                <ButtonLike id />
-              </View>
-              <Text> "    "->React.string </Text>
-              <ViewLink style=styles##action href={href ++ "#comments"}>
-                <SVGSpeechBubbleOutline
-                  fill=ButtonLike.defaultColor
-                  width={ButtonLike.defaultSize->Js.Float.toString}
-                  height={ButtonLike.defaultSize->Js.Float.toString}
-                />
-                <Text style=styles##actionText> comments </Text>
-              </ViewLink>
-            </View>
-          </SpacedView>
-      </SpacedView>;
-    },
-  });
+      </SpacedView>
+    </SpacedView>
+  </SpacedView>;
+};

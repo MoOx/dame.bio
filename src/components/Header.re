@@ -84,7 +84,7 @@ let baselineSep =
   </Text>;
 
 [@react.component]
-let make = (~currentLocation, ()) => {
+let make = (~globals=?, ~currentLocation) => {
   <View style=styles##header>
     <View style=styles##backgroundImageWrapper>
       <div className="device-small">
@@ -159,7 +159,7 @@ let make = (~currentLocation, ()) => {
                <Spacer />
                <View style=styles##container>
                  <WpMenu
-                   id=Consts.Menus.main
+                   menu=?{WpMenu.getMenu(globals, Consts.Menus.main)}
                    currentLocation
                    renderItem={(~index as _, ~url, ~label, ~isActive) =>
                      <TextLink
@@ -281,6 +281,5 @@ let make = (~currentLocation, ()) => {
     </View>
   </View>;
 };
-/* <HeaderLargeMenu /> */
 
 let default = make;

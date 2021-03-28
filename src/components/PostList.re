@@ -12,7 +12,7 @@ let styles =
   );
 
 [@react.component]
-let make = (~nodes, ()) => {
+let make = (~nodes) => {
   /* SpacedView for PostPreview background effect that overflow out of its container */
   <SpacedView vertical=S horizontal=None style=styles##list>
     {nodes
@@ -20,7 +20,7 @@ let make = (~nodes, ()) => {
          node
          ->Option.map(item =>
              <PostPreview
-               key=item##id
+               key={item.id}
                item
                withWatercolorBottomRightCorner={
                  index == Array.length(nodes) - 1

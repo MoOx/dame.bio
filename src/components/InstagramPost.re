@@ -19,7 +19,7 @@ let styles =
 let make = (~item, ~size, ()) => {
   let uri = item##images##standard_resolution##url;
   <ViewLink
-    href=item##link
+    href={item##link}
     style=Style.(
       array([|styles##block, style(~width=size->dp, ~height=size->dp, ())|])
     )>

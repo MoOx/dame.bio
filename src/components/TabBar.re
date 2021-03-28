@@ -52,25 +52,25 @@ let renderItem = (~index, ~url, ~label, ~isActive) => {
                height
                fill={isActive ? colorActive : colorInActive}
              />
-           | "/ateliers/" =>
+           | "/ateliers" =>
              <SVGMenuAteliers
                width
                height
                fill={isActive ? colorActive : colorInActive}
              />
-           | "/alimentation/" =>
+           | "/alimentation" =>
              <SVGMenuRepas
                width
                height
                fill={isActive ? colorActive : colorInActive}
              />
-           | "/yoga/" =>
+           | "/yoga" =>
              <SVGMenuYoga
                width
                height
                fill={isActive ? colorActive : colorInActive}
              />
-           | "/permaculture/" =>
+           | "/permaculture" =>
              <SVGMenuFeuilles
                width
                height
@@ -97,16 +97,21 @@ let renderItem = (~index, ~url, ~label, ~isActive) => {
 };
 
 [@react.component]
-let make = (~currentLocation, ()) => {
+let make = (~globals=?) => {
+  let currentLocation = Next.useRouter().asPath;
   <SafeAreaView style=styles##wrapper>
     <View style=styles##container>
       {renderItem(
          ~index=1,
          ~url="/",
          ~label="Accueil",
-         ~isActive=currentLocation##pathname == "/",
+         ~isActive=currentLocation == "/",
        )}
-      <WpMenu id=Consts.Menus.main currentLocation renderItem />
+      <WpMenu
+        menu=?{WpMenu.getMenu(globals, Consts.Menus.main)}
+        renderItem
+        currentLocation
+      />
       {renderItem(~index=1, ~url="#footer", ~label="Plus", ~isActive=false)}
     </View>
   </SafeAreaView>;

@@ -32,18 +32,17 @@ let styles =
         style(~zIndex=1, ~justifyContent=`center, ~alignItems=`center, ()),
       "title": style(~fontSize=22., ~color=Consts.Colors.pink, ()),
       "button":
-        textStyle(
-          ~fontSize=20.,
+        viewStyle(
           ~borderRadius=Consts.Radius.field,
           ~paddingVertical=10.->dp,
           ~paddingHorizontal=20.->dp,
           ~justifyContent=`center,
           ~alignItems=`center,
-          ~color="#fff",
           ~backgroundColor=Consts.Colors.pink,
           ~opacity=0.75,
           (),
         ),
+      "buttonText": textStyle(~fontSize=20., ~color="#fff", ()),
       "text":
         style(
           ~textAlign=`center,
@@ -149,18 +148,10 @@ let make = () => {
     <View style=styles##content>
       <Text style=styles##title> {j|Soutenir le blog|j}->React.string </Text>
       <Spacer size=M />
-      <ViewLink
-        style=styles##button
-        href="https://www.paypal.me/damebio/10"
-        onPress={pressEvent => {
-          pressEvent->Event.PressEvent.preventDefault;
-          windowOpen(
-            ~url="https://www.paypal.me/damebio/10",
-            ~name="donation",
-            ~features="",
-          );
-        }}>
-        {j|Faire un don|j}->React.string
+      <ViewLink style=styles##button href="https://www.paypal.me/damebio/10">
+        <Text style=styles##buttonText>
+          {j|Faire un don|j}->React.string
+        </Text>
       </ViewLink>
       <Spacer />
       // <Spacer size=S />

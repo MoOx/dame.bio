@@ -1,8 +1,13 @@
 open Belt;
 
 [@react.component]
-let make = (~content, ~category=?, ()) => {
-  let cat = category->Category.from;
+let make =
+    (
+      ~content,
+      ~category: option(WPGraphQL.PostDetailFragment.t_categories_nodes)=?,
+      (),
+    ) => {
+  let cat = category->Option.flatMap(c => c.slug)->Category.from;
   // @todo to migrate from wordpress filters
   // - callback_ingredients
   // - callback_blocks
@@ -45,11 +50,11 @@ let make = (~content, ~category=?, ()) => {
         // '/\s+height="\d+"/i',
         // remove link around attachements
         |> Js.String.replaceByRe(
-             [%re "/<a[^>]*(wp-att|wp-content\/uploads)[^>]*><img/"],
+             [%re "/<a[^>]*(wp-att|wp-content\\/uploads)[^>]*><img/"],
              "<img",
            )
         |> Js.String.replaceByRe(
-             [%re "/ wp-image-[0-9]*\" \/><\/a>/"],
+             [%re "/ wp-image-[0-9]*\" \\/><\\/a>/"],
              "\" />",
            ),
     }

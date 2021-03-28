@@ -1,10 +1,11 @@
 [@react.component]
-let make = (~children) =>
+let make = (~globals=?, ~children) => {
+  let currentLocation = Next.useRouter().asPath;
   <>
     <AppMeta />
-    <HeaderWithRouter />
+    <Header ?globals currentLocation />
     <Container> children </Container>
-    <Footer />
+    <Footer ?globals currentLocation />
     <div
       className="device-small menu-backdrop"
       style={ReactDOMRe.Style.make(
@@ -14,6 +15,7 @@ let make = (~children) =>
         ~right="0",
         (),
       )}>
-      <TabBarWithRouter />
+      <TabBar ?globals />
     </div>
   </>;
+};

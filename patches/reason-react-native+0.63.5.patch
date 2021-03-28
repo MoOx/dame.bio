@@ -1,0 +1,12 @@
+diff --git a/node_modules/reason-react-native/src/components/View.re b/node_modules/reason-react-native/src/components/View.re
+index c938438..5cf3994 100644
+--- a/node_modules/reason-react-native/src/components/View.re
++++ b/node_modules/reason-react-native/src/components/View.re
+@@ -76,6 +76,7 @@ external make:
+     ~testID: string=?,
+     ~children: React.element=?,
+     // React Native Web Props
++    ~href: string=?,
+     ~onMouseDown: ReactEvent.Mouse.t => unit=?,
+     ~onMouseEnter: ReactEvent.Mouse.t => unit=?,
+     ~onMouseLeave: ReactEvent.Mouse.t => unit=?,

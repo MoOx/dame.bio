@@ -1,14 +1,10 @@
 open ReactNative;
-
 let defaultSize = 14.;
-
 let defaultColor = Consts.Colors.grey;
-
 let styles =
   Style.(
     StyleSheet.create({"touchable": style(~justifyContent=`center, ())})
   );
-
 module LikePost = [%graphql
   {|
   mutation like($id: ID!) {
@@ -22,9 +18,6 @@ module LikePost = [%graphql
   }
 |}
 ];
-
-module LikePostMutation = ReasonApollo.CreateMutation(LikePost);
-
 module UnlikePost = [%graphql
   {|
   mutation like($id: ID!) {
@@ -38,73 +31,46 @@ module UnlikePost = [%graphql
   }
 |}
 ];
-
-module UnlikePostMutation = ReasonApollo.CreateMutation(UnlikePost);
-
 type state =
   | NotLiked
   | Liked;
-
 type action =
   | Like
   | Unlike;
-
-let component = ReasonReact.reducerComponent("LikeButton");
-
 [@react.component]
-let make = (~id, ~size=defaultSize, ()) =>
-  ReactCompat.useRecordApi({
-    ...component,
-    initialState: () => Likes.isLiked(id) ? Liked : NotLiked,
-    reducer: (action, _) =>
-      switch (action) {
-      | Like => ReasonReact.UpdateWithSideEffects(Liked, _ => Likes.like(id))
-      | Unlike =>
-        ReasonReact.UpdateWithSideEffects(NotLiked, _ => Likes.unlike(id))
-      },
-    render: ({state, send}) =>
-      <LikePostMutation>
-        ...{(like, _) => {
-          let likeMutation = LikePost.make(~id, ());
-          <UnlikePostMutation>
-            ...{(unlike, _) => {
-              let unlikeMutation = UnlikePost.make(~id, ());
-              switch (state) {
-              | NotLiked =>
-                <TouchableScale
-                  style=styles##touchable
-                  activeScale=1.5
-                  hoverScale=1.1
-                  focusScale=1.1
-                  onPress={_ => {
-                    like(~variables=likeMutation##variables, ()) |> ignore;
-                    send(Like);
-                  }}>
-                  <SVGFavoriteOutline
-                    fill=defaultColor
-                    width={size->Js.Float.toString}
-                    height={size->Js.Float.toString}
-                  />
-                </TouchableScale>
-              | Liked =>
-                <TouchableScale
-                  style=styles##touchable
-                  activeScale=0.75
-                  hoverScale=1.1
-                  focusScale=1.1
-                  onPress={_ => {
-                    unlike(~variables=unlikeMutation##variables, ()) |> ignore;
-                    send(Unlike);
-                  }}>
-                  <SVGFavorite
-                    fill="#E2254D"
-                    width={size->Js.Float.toString}
-                    height={size->Js.Float.toString}
-                  />
-                </TouchableScale>
-              };
-            }}
-          </UnlikePostMutation>;
-        }}
-      </LikePostMutation>,
-  });
+let make = (~id, ~size=defaultSize) => {
+  let (isLiked, isLiked_set) = React.useState(() => Likes.isLiked(id));
+  let (like, _like_result) = LikePost.use();
+  let (unlike, _unlike_result) = UnlikePost.use();
+  !isLiked
+    ? <TouchableScale
+        style=styles##touchable
+        activeScale=1.5
+        hoverScale=1.1
+        focusScale=1.1
+        onPress={_ => {
+          like({id: id})->ignore;
+          isLiked_set(_ => true);
+        }}>
+        <SVGFavoriteOutline
+          fill=defaultColor
+          width={size->Js.Float.toString}
+          height={size->Js.Float.toString}
+        />
+      </TouchableScale>
+    : <TouchableScale
+        style=styles##touchable
+        activeScale=0.75
+        hoverScale=1.1
+        focusScale=1.1
+        onPress={_ => {
+          unlike({id: id})->ignore;
+          isLiked_set(_ => false);
+        }}>
+        <SVGFavorite
+          fill="#E2254D"
+          width={size->Js.Float.toString}
+          height={size->Js.Float.toString}
+        />
+      </TouchableScale>;
+};

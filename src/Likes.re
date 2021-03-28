@@ -1,3 +1,4 @@
+open Belt;
 open Storage;
 let get = () => store->likesGet;
 let set = lks => {
@@ -5,13 +6,18 @@ let set = lks => {
   saveStore();
 };
 
-let isLiked = (id): bool => get()->Belt.Array.some(i => i == id);
+let isLiked = (id): bool => get()->Array.some(i => i == id);
 
-let like = id =>
+let like = id => {
+  Js.log(("Like", id));
   !isLiked(id)
-    ? set(get()->Belt.Array.concat([|id|])) : Js.log2(id, "already liked");
+    ? set(get()->Array.concat([|id|]))
+    : Js.log(("Like", id, "already liked"));
+};
 
-let unlike = id =>
+let unlike = id => {
+  Js.log(("Like (un)", id));
   isLiked(id)
-    ? set(get()->Belt.Array.keep(i => i != id))
-    : Js.log2(id, "not liked yet");
+    ? set(get()->Array.keep(i => i != id))
+    : Js.log(("Like", id, "not liked yet"));
+};

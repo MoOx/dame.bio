@@ -1,12 +1,14 @@
 open Belt;
 open ReactNative;
 
+open WPGraphQL.GetPagesAndPosts.GetPagesAndPosts_inner;
+
 [@react.component]
-let make = (~posts, ~categorySlug, ~tagSlug, ~cursorAfter, ()) => {
-  let pageInfo = posts->Option.flatMap(p => p##pageInfo);
+let make = (~posts, ~categorySlug, ~tagSlug) => {
+  let pageInfo = posts->Option.flatMap(p => p.pageInfo);
   <>
     {posts
-     ->Option.flatMap(p => p##nodes)
+     ->Option.flatMap(p => p.nodes)
      ->Option.map(nodes =>
          <>
            <PostList nodes />
@@ -14,52 +16,46 @@ let make = (~posts, ~categorySlug, ~tagSlug, ~cursorAfter, ()) => {
              style=Style.(
                style(~flexDirection=`row, ~justifyContent=`spaceAround, ())
              )>
-             {// https://github.com/wp-graphql/wp-graphql/issues/594
-              // not working yet
-              pageInfo
-              ->Option.map(p => p##hasPreviousPage)
+             {pageInfo
+              ->Option.map(p => p.hasPreviousPage)
               ->Option.getWithDefault(false)
                 ? pageInfo
-                  ->Option.flatMap(p => p##startCursor)
+                  ->Option.flatMap(p => p.startCursor)
                   ->Option.map(cursor =>
                       <BannerButton
                         href={
-                          categorySlug->Option.mapWithDefault("", c =>
-                            "/" ++ c
-                          )
-                          ++ tagSlug->Option.mapWithDefault("", t =>
-                               "/tag/" ++ t
+                          "/"
+                          ++ categorySlug->Option.mapWithDefault("", c =>
+                               c ++ "/"
                              )
-                          ++ "/after/"
+                          ++ tagSlug->Option.mapWithDefault("", t =>
+                               "tag/" ++ t ++ "/"
+                             )
+                          ++ "before/"
                           ++ cursor
-                          ++ "/"
                         }>
                         {j|Articles plus récents|j}->React.string
                       </BannerButton>
                     )
                   ->Option.getWithDefault(React.null)
-                : cursorAfter->Option.isSome
-                    ? <BannerButton href="javascript:history.go(-1)">
-                        {j|Articles plus récents|j}->React.string
-                      </BannerButton>
-                    : React.null}
+                : React.null}
              {pageInfo
-              ->Option.map(p => p##hasNextPage)
+              ->Option.map(p => p.hasNextPage)
               ->Option.getWithDefault(false)
                 ? pageInfo
-                  ->Option.flatMap(p => p##endCursor)
+                  ->Option.flatMap(p => p.endCursor)
                   ->Option.map(cursor =>
                       <BannerButton
                         href={
-                          categorySlug->Option.mapWithDefault("", c =>
-                            "/" ++ c
-                          )
-                          ++ tagSlug->Option.mapWithDefault("", t =>
-                               "/tag/" ++ t
+                          "/"
+                          ++ categorySlug->Option.mapWithDefault("", c =>
+                               c ++ "/"
                              )
-                          ++ "/after/"
+                          ++ tagSlug->Option.mapWithDefault("", t =>
+                               "tag/" ++ t ++ "/"
+                             )
+                          ++ "after/"
                           ++ cursor
-                          ++ "/"
                         }>
                         {j|Encore plus d'articles|j}->React.string
                       </BannerButton>

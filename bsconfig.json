@@ -1,6 +1,5 @@
 {
   "name": "dame.bio",
-  "refmt": 3,
   "reason": {
     "react-jsx": 3
   },
@@ -19,19 +18,25 @@
     }
   ],
   "bsc-flags": ["-bs-super-errors"],
-  "ppx-flags": ["@baransu/graphql_ppx_re/ppx"],
+  "graphql": {
+    "apolloMode": true,
+    "extendMutation": "ApolloClient.GraphQL_PPX.ExtendMutation",
+    "extendQuery": "ApolloClient.GraphQL_PPX.ExtendQuery",
+    "extendSubscription": "ApolloClient.GraphQL_PPX.ExtendSubscription",
+    "templateTagReturnType": "ApolloClient.GraphQL_PPX.templateTagReturnType",
+    "templateTagImport": "gql",
+    "templateTagLocation": "@apollo/client"
+  },
+  "ppx-flags": ["@reasonml-community/graphql-ppx/ppx"],
   "bs-dependencies": [
-    "bs-webapi",
-    "bs-fetch",
     "@glennsl/bs-json",
+    "@reasonml-community/graphql-ppx",
+    "bs-fetch",
+    "bs-webapi",
     "reason-future",
-    "reason-react",
-    "reason-apollo",
     "reason-react-compat",
     "reason-react-native",
-    "@moox/bs-react-helmet",
-    "@phenomic/preset-react-app",
-    "@phenomic/plugin-renderer-react",
-    "@phenomic/api-client"
+    "reason-react",
+    "rescript-apollo-client"
   ]
 }

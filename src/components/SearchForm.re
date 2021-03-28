@@ -11,20 +11,18 @@ type action =
   | Edit(string)
   | Submit;
 
-let component = ReasonReact.reducerComponent("SearchForm");
-
 [@react.component]
 let make = () =>
   ReactCompat.useRecordApi({
-    ...component,
+    ...ReactCompat.component,
     initialState: () => {value: "", focus: false},
     reducer: (action, state) =>
       switch (action) {
-      | Focus => ReasonReact.Update({...state, focus: true})
-      | Blur => ReasonReact.Update({...state, focus: false})
-      | Edit(value) => ReasonReact.Update({...state, value})
+      | Focus => ReactCompat.Update({...state, focus: true})
+      | Blur => ReactCompat.Update({...state, focus: false})
+      | Edit(value) => ReactCompat.Update({...state, value})
       | Submit =>
-        ReasonReact.SideEffects(
+        ReactCompat.SideEffects(
           _ =>
             Linking.openURL(
               "https://www.ecosia.org/search?q=site%3Adame.bio+"

@@ -29,7 +29,7 @@ let styles =
   );
 
 [@react.component]
-let make = (~children=?, ()) => {
+let make = (~globals=?, ~children=?, ()) => {
   <View style=styles##sidebar>
     <Spacer size=M />
     <AuthorAvatar />
@@ -57,9 +57,9 @@ let make = (~children=?, ()) => {
     <Spacer size=L />
     <MoonPhase />
     <Spacer size=L />
-    <NewsletterBox />
-    <Spacer size=L />
-    <SidebarCategories />
+    // <NewsletterBox />
+    // <Spacer size=L />
+    <SidebarCategories ?globals />
     <Spacer size=L />
     {children->Belt.Option.getWithDefault(React.null)}
   </View>;

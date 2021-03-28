@@ -40,12 +40,12 @@ let renderItem = (~index, ~url, ~label, ~isActive as _) => {
 };
 
 [@react.component]
-let make = () => {
+let make = (~globals=?) => {
   <SpacedView style=styles##categories>
     <WpMenu
-      id=Consts.Menus.categories
-      currentLocation={"pathname": ""}
+      menu=?{WpMenu.getMenu(globals, Consts.Menus.categories)}
       renderItem
+      currentLocation=""
     />
   </SpacedView>;
 };

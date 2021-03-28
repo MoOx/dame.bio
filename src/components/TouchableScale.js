@@ -111,12 +111,12 @@ export default class TouchableScale extends React.Component {
         {...this.props}
         onPressIn={this.handlePressIn}
         onPressOut={this.handlePressOut}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
       >
         <Animated.View
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
           style={[
             this.props.style,
             {

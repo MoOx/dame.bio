@@ -1,5 +1,3 @@
-open Belt;
-
 type t = [
   | `permaculture
   | `alimentation
@@ -8,18 +6,14 @@ type t = [
   | `default
 ];
 
-let from = category =>
-  category
-  ->Option.map(c =>
-      switch (c##slug) {
-      | Some("permaculture") => `permaculture
-      | Some("alimentation") => `alimentation
-      | Some("bien-etre") => `bienEtre
-      | Some("lifestyle") => `lifestyle
-      | _ => `default
-      }
-    )
-  ->Option.getWithDefault(`default);
+let from = categorySlug =>
+  switch (categorySlug) {
+  | Some("permaculture") => `permaculture
+  | Some("alimentation") => `alimentation
+  | Some("bien-etre") => `bienEtre
+  | Some("lifestyle") => `lifestyle
+  | _ => `default
+  };
 
 let toSlug =
   fun

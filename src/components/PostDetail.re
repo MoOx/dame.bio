@@ -1,8 +1,6 @@
 open Belt;
 open ReactNative;
-
 let imageRatio = 240. /. 350.;
-
 let styles =
   Style.(
     StyleSheet.create({
@@ -35,18 +33,27 @@ let styles =
   );
 
 [@react.component]
-let make = (~item: WPGraphQL.Fragments.PostDetailFragment.t, ()) => {
-  let id = item##id;
-  let rootCategory = item->Utils.rootCategory;
-  let catHref = rootCategory->Utils.catHref;
-  let href = item->Utils.postHref;
+let make = (~item: WPGraphQL.PostDetailFragment.t) => {
+  let id = item.id;
+  let rootCategory =
+    item.categories
+    ->Option.flatMap(categories => categories.nodes)
+    ->Option.map(nodes => nodes->Array.keepMap(node => node))
+    ->Option.flatMap(categoriesNodes => categoriesNodes[0]);
+  let catHref =
+    "/"
+    ++ rootCategory
+       ->Option.flatMap(cat => cat.slug)
+       ->Option.getWithDefault("_")
+       ->Utils.encodeURI;
+  let href = catHref ++ "/" ++ item.slug->Option.getWithDefault(item.id);
   let likes =
-    switch (item##likeCount->Option.getWithDefault(0)) {
+    switch (item.likeCount->Option.getWithDefault(0)) {
     | 0 => React.null
     | v => (v->string_of_int ++ "  ")->React.string
     };
   let comments =
-    switch (item##commentCount->Option.getWithDefault(0)) {
+    switch (item.commentCount->Option.getWithDefault(0)) {
     | 0 => React.null
     | v => ("  " ++ v->string_of_int)->React.string
     };
@@ -55,7 +62,7 @@ let make = (~item: WPGraphQL.Fragments.PostDetailFragment.t, ()) => {
       <Heading>
         <span
           dangerouslySetInnerHTML={
-            "__html": item##title->Option.getWithDefault(""),
+            "__html": item.title->Option.getWithDefault(""),
           }
         />
       </Heading>
@@ -65,7 +72,7 @@ let make = (~item: WPGraphQL.Fragments.PostDetailFragment.t, ()) => {
           <ViewLink href=catHref>
             <Text style=styles##categoryText>
               {rootCategory
-               ->Option.flatMap(cat => cat##name)
+               ->Option.flatMap(cat => cat.name)
                ->Option.getWithDefault("")
                ->Js.String.toUpperCase
                ->React.string}
@@ -75,7 +82,7 @@ let make = (~item: WPGraphQL.Fragments.PostDetailFragment.t, ()) => {
             {(
                {j|   ·   |j}
                ++ {
-                 item##dateGmt->Utils.frenchDate;
+                 item.dateGmt->Utils.frenchDate;
                }
              )
              ->React.string}
@@ -98,31 +105,30 @@ let make = (~item: WPGraphQL.Fragments.PostDetailFragment.t, ()) => {
         </View>
       </View>
       <Spacer size=S />
-      <Html content=item##content category=?rootCategory />
+      <Html content={item.content} category=?rootCategory />
       <Spacer size=L />
       <View style=styles##tags>
-        {item##tags
-         ->Option.flatMap(ts => ts##nodes)
+        {item.tags
+         ->Option.flatMap(ts => ts.nodes)
          ->Option.getWithDefault([||])
          ->Array.mapWithIndex((index, tag) =>
              tag
              ->Option.map(tag =>
                  <Text
                    key={
-                     tag##slug->Option.getWithDefault(string_of_int(index))
+                     tag.slug->Option.getWithDefault(string_of_int(index))
                    }>
                    <TextLink
                      href={
                        "/tag/"
                        ++ Utils.encodeURI(
-                            tag##slug->Option.getWithDefault(""),
+                            tag.slug->Option.getWithDefault(""),
                           )
-                       ++ "/"
                      }>
                      <Text style=styles##tagText>
                        {"#"
                         ++ Utils.tagifyString(
-                             tag##name->Option.getWithDefault(""),
+                             tag.name->Option.getWithDefault(""),
                            )
                         |> React.string}
                      </Text>
@@ -137,24 +143,24 @@ let make = (~item: WPGraphQL.Fragments.PostDetailFragment.t, ()) => {
       <Spacer size=XL />
       <Author />
       <Spacer size=L />
-      <Comments
-        postId=item##postId
-        commentCounts=item##commentCount
-        comments=item##comments
-      />
     </SpacedView>
+    <Comments
+      databaseId={item.databaseId}
+      commentCounts={item.commentCount}
+      comments={item.comments}
+    />
     <SpacedView vertical=None>
       <TextSubtitle> {j|Dans le même style|j}->React.string </TextSubtitle>
     </SpacedView>
     <PostList
       nodes={
         rootCategory
-        ->Option.flatMap(category => category##posts)
-        ->Option.flatMap(posts => posts##nodes)
+        ->Option.flatMap(category => category.posts)
+        ->Option.flatMap(posts => posts.nodes)
         ->Option.getWithDefault([||])
         ->Array.keep(node =>
             node
-            ->Option.map(node => node##id != item##id)
+            ->Option.map(node => node.id != item.id)
             ->Option.getWithDefault(false)
           )
         ->Array.slice(~offset=0, ~len=4)

@@ -35,7 +35,7 @@ let freshStore = () =>
 let store =
   switch (getIt("dame.bio")) {
   | Some(serializedStore) =>
-    try (Js.Json.parseExn(serializedStore)->Obj.magic) {
+    try(Js.Json.parseExn(serializedStore)->Obj.magic) {
     | exn =>
       Js.log2("Failed to parse store", exn);
       freshStore();

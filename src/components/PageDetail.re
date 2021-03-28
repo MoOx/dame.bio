@@ -35,18 +35,22 @@ let styles =
   );
 
 [@react.component]
-let make = (~item, ()) => {
+let make =
+    (
+      ~item: WPGraphQL.GetPagesAndPosts.GetPagesAndPosts_inner.t_pages_nodes,
+      (),
+    ) => {
   <View style=styles##block /*accessibilityRole=`webAriaArticle*/>
     <SpacedView>
       <Heading>
         <span
           dangerouslySetInnerHTML={
-            "__html": item##title->Option.getWithDefault(""),
+            "__html": item.title->Option.getWithDefault(""),
           }
         />
       </Heading>
       <Spacer />
-      <Html content=item##content />
+      <Html content={item.content} />
     </SpacedView>
   </View>;
 };
