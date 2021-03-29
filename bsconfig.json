@@ -19,7 +19,7 @@
     }
   ],
   "bsc-flags": ["-bs-super-errors"],
-  "ppx-flags": ["graphql_ppx/ppx"],
+  "ppx-flags": ["@reasonml-community/graphql-ppx/ppx"],
   "bs-dependencies": [
     "bs-webapi",
     "bs-fetch",
