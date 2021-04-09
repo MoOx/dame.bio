@@ -5,7 +5,7 @@
   "dependencies": {
     "@apollo/client": "3.1.1",
     "@glennsl/bs-json": "^3.0.0",
-    "@reasonml-community/graphql-ppx": "https://github.com/reasonml-community/graphql-ppx#855b16b",
+    "@reasonml-community/graphql-ppx": "^1.2.0",
     "@socialgouv/matomo-next": "^1.2.1",
     "bs-fetch": "^0.6.0",
     "bs-webapi": "^0.13.2",

@@ -57,8 +57,8 @@ let make = (~globals=?, ~children=?, ()) => {
     <Spacer size=L />
     <MoonPhase />
     <Spacer size=L />
-    // <NewsletterBox />
-    // <Spacer size=L />
+    <NewsletterBox />
+    <Spacer size=L />
     <SidebarCategories ?globals />
     <Spacer size=L />
     {children->Belt.Option.getWithDefault(React.null)}
