@@ -40,7 +40,7 @@
     "next-transpile-modules": "^6.3.0",
     "npm-run-all": "^4.0.2",
     "patch-package": "^6.2.0",
-    "prettier": "^1.14.3",
+    "prettier": "^2.0.0",
     "react-from-svg": "^4.0.0",
     "trash-cli": "^1.4.0"
   },
@@ -66,10 +66,6 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  },
-  "prettier": {
-    "trailingComma": "all",
-    "proseWrap": "always"
   },
   "lint-staged": {
     "*.re": [
