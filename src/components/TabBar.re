@@ -14,15 +14,13 @@ let styles =
         ),
       "container":
         style(
-          ~flexGrow=1.,
-          ~flexShrink=1.,
           ~flexDirection=`row,
           ~minHeight=50.->dp,
           ~alignItems=`center,
           (),
         ),
       "itemWrapper":
-        style(~flexGrow=1., ~flexShrink=1., ~justifyContent=`center, ()),
+        style(~justifyContent=`center, ~width=(100. /. 6.)->pct, ()),
       "item": style(~justifyContent=`center, ~alignItems=`center, ()),
       "itemText":
         style(
@@ -41,59 +39,53 @@ let width = 24.->Js.Float.toString;
 let height = 24.->Js.Float.toString;
 
 let renderItem = (~index, ~url, ~label, ~isActive) => {
-  index > 2
-    ? React.null
-    : <ViewLink key=url href=url style=styles##itemWrapper>
-        <View style=styles##item>
-          {switch (url) {
-           | "/" =>
-             <SVGMenuHome
-               width
-               height
-               fill={isActive ? colorActive : colorInActive}
-             />
-           | "/ateliers" =>
-             <SVGMenuAteliers
-               width
-               height
-               fill={isActive ? colorActive : colorInActive}
-             />
-           | "/alimentation" =>
-             <SVGMenuRepas
-               width
-               height
-               fill={isActive ? colorActive : colorInActive}
-             />
-           | "/yoga" =>
-             <SVGMenuYoga
-               width
-               height
-               fill={isActive ? colorActive : colorInActive}
-             />
-           | "/permaculture" =>
-             <SVGMenuFeuilles
-               width
-               height
-               fill={isActive ? colorActive : colorInActive}
-             />
-           | _ =>
-             <SVGMore
-               width
-               height
-               fill={isActive ? colorActive : colorInActive}
-             />
-           }}
-          <Text
-            style=Style.(
-              arrayOption([|
-                Some(styles##itemText),
-                isActive ? Some(styles##itemTextActive) : None,
-              |])
-            )>
-            label->React.string
-          </Text>
-        </View>
-      </ViewLink>;
+  <ViewLink key=url href=url style=styles##itemWrapper>
+    <View style=styles##item>
+      {switch (url) {
+       | "/" =>
+         <SVGMenuHome
+           width
+           height
+           fill={isActive ? colorActive : colorInActive}
+         />
+       | "/ateliers" =>
+         <SVGMenuAteliers
+           width
+           height
+           fill={isActive ? colorActive : colorInActive}
+         />
+       | "/alimentation" =>
+         <SVGMenuRepas
+           width
+           height
+           fill={isActive ? colorActive : colorInActive}
+         />
+       | "/yoga" =>
+         <SVGMenuYoga
+           width
+           height
+           fill={isActive ? colorActive : colorInActive}
+         />
+       | "/permaculture" =>
+         <SVGMenuFeuilles
+           width
+           height
+           fill={isActive ? colorActive : colorInActive}
+         />
+       | _ =>
+         <SVGMore width height fill={isActive ? colorActive : colorInActive} />
+       }}
+      <Text
+        style=Style.(
+          arrayOption([|
+            Some(styles##itemText),
+            isActive ? Some(styles##itemTextActive) : None,
+          |])
+        )>
+        label->React.string
+      </Text>
+    </View>
+  </ViewLink>;
 };
 
 [@react.component]
@@ -111,6 +103,7 @@ let make = (~globals=?) => {
         menu=?{WpMenu.getMenu(globals, Consts.Menus.main)}
         renderItem
         currentLocation
+        maxItems=4
       />
       {renderItem(~index=1, ~url="#footer", ~label="Plus", ~isActive=false)}
     </View>

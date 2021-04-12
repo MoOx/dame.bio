@@ -134,52 +134,42 @@ let make = (~globals=?, ~currentLocation) => {
           (),
         )
       )>
-      {React.createElement(
-         View.make,
-         {
-           "className": "device-large",
-           "style":
-             Style.(
-               style(
-                 ~alignItems=`center,
-                 ~flexDirection=`row,
-                 ~flexGrow=20.,
-                 (),
-               )
-             ),
-           "children":
-             <>
-               <TextLink href="/">
-                 <SVGDameBioLogo
-                   fill=Consts.Colors.light
-                   width={(20. *. 0.8)->Js.Float.toString}
-                   height={(28. *. 0.8)->Js.Float.toString}
-                 />
-               </TextLink>
-               <Spacer />
-               <View style=styles##container>
-                 <WpMenu
-                   menu=?{WpMenu.getMenu(globals, Consts.Menus.main)}
-                   currentLocation
-                   renderItem={(~index as _, ~url, ~label, ~isActive) =>
-                     <TextLink
-                       key=url
-                       href=url
-                       style=Style.(
-                         arrayOption([|
-                           Some(styles##link),
-                           isActive ? Some(styles##linkActive) : None,
-                         |])
-                       )>
-                       label->React.string
-                     </TextLink>
-                   }
-                 />
-               </View>
-             </>,
-         }
-         ->Obj.magic,
-       )}
+      <div
+        className="device-large"
+        style={ReactDOMRe.Style.make(~flexGrow="20", ())}>
+        <View
+          style=Style.(
+            style(~alignItems=`center, ~flexDirection=`row, ~flexGrow=1., ())
+          )>
+          <TextLink href="/">
+            <SVGDameBioLogo
+              fill=Consts.Colors.light
+              width={(20. *. 0.8)->Js.Float.toString}
+              height={(28. *. 0.8)->Js.Float.toString}
+            />
+          </TextLink>
+          <Spacer />
+          <View style=styles##container>
+            <WpMenu
+              menu=?{WpMenu.getMenu(globals, Consts.Menus.main)}
+              currentLocation
+              renderItem={(~index as _, ~url, ~label, ~isActive) =>
+                <TextLink
+                  key=url
+                  href=url
+                  style=Style.(
+                    arrayOption([|
+                      Some(styles##link),
+                      isActive ? Some(styles##linkActive) : None,
+                    |])
+                  )>
+                  label->React.string
+                </TextLink>
+              }
+            />
+          </View>
+        </View>
+      </div>
       <SpacedView
         vertical=XS
         horizontal=None

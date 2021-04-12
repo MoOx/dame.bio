@@ -23,10 +23,7 @@ let make = (
           {children}
         </View>
       </Next.Link>
-    : <Pressable_ onPress={_ => Linking.openURL(href)->ignore}>
-        {_ =>
-          <View ?onMouseEnter ?onMouseLeave href ?accessibilityLabel accessibilityRole style>
-            {children}
-          </View>}
-      </Pressable_>
+    : <View ?onMouseEnter ?onMouseLeave href ?accessibilityLabel accessibilityRole style>
+        {children}
+      </View>
 }

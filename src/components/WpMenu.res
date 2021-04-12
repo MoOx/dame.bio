@@ -15,6 +15,7 @@ let make = (
   ~menu: option<WPGraphQL.GetGlobals.GetGlobals_inner.t_menus_nodes>=?,
   ~currentLocation,
   ~renderItem,
+  ~maxItems=100,
 ) => {
   menu
   ->Option.flatMap(cs =>
@@ -39,6 +40,7 @@ let make = (
           )
           ->Option.getWithDefault(React.null)
         )
+        ->Array.slice(~offset=0, ~len=maxItems)
         ->React.array
       )
     )
