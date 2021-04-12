@@ -56,16 +56,14 @@ let renderItem = (~index as _, ~url, ~label, ~isActive as _) => {
   </TextLink>;
 };
 
+let isClient: bool = [%raw "typeof window !== \"undefined\""];
+
 [@react.component]
 let make = (~globals=?, ~currentLocation) => {
   let year =
     Js.Date.now()->Js.Date.fromFloat->Js.Date.getFullYear->Js.Float.toString;
   <View style=styles##container>
     <Spacer size=XL />
-    <ViewportObserver>
-      ...{state => state##hasBeenVisible ? <InstagramFeed /> : React.null}
-    </ViewportObserver>
-    <Spacer size=L />
     <div id="footer" />
     <SpacedView style=styles##content>
       <Container style=styles##blocks>

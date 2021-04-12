@@ -38,7 +38,7 @@ let styles =
 let width = 24.->Js.Float.toString;
 let height = 24.->Js.Float.toString;
 
-let renderItem = (~index, ~url, ~label, ~isActive) => {
+let renderItem = (~index as _, ~url, ~label, ~isActive) => {
   <ViewLink key=url href=url style=styles##itemWrapper>
     <View style=styles##item>
       {switch (url) {

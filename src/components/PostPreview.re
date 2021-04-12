@@ -1,7 +1,9 @@
 open Belt;
 open ReactNative;
 
-let imageRatio = 240. /. 350.;
+let imageWidth = 512.;
+let imageHeight = 384.;
+let imageRatio = imageHeight /. imageWidth;
 
 let styles =
   Style.(
@@ -30,6 +32,7 @@ let styles =
         viewStyle(
           ~borderTopLeftRadius=Consts.Radius.box,
           ~borderTopRightRadius=Consts.Radius.box,
+          ~backgroundColor=Consts.Colors.lightGrey,
           (),
         ),
       "text":
@@ -119,25 +122,17 @@ let make =
     ->Option.flatMap(f => f.mediaDetails)
     ->Option.flatMap(m => m.sizes)
     ->Option.map(sizes => sizes->Array.keepMap(o => o))
-    // ->Option.map(sizes =>
-    //     sizes->Array.keep(size =>
-    //       Js.Array.includes(
-    //         size.name->Option.getWithDefault(""),
-    //         Consts.imageSizes,
-    //       )
-    //     )
-    //   )
-    ->Option.getWithDefault([||]);
-  let image =
-    <ImageWithAspectRatio
-      uris={
-        uris->Array.map(({name, width, sourceUrl}) =>
-          ImageFromUris.{name, width, sourceUrl}
-        )
-      }
-      style=styles##image
-      ratio=imageRatio
-    />;
+    ->Option.getWithDefault([||])
+    ->Array.keep(img =>
+        img.width->Option.getWithDefault("0")->Js.Float.fromString < 1024.
+      );
+  let featuredImageUri =
+    uris->Js.Array2.sortInPlaceWith((a, b) => {
+      let wa = a.width->Option.getWithDefault("0")->Js.Float.fromString;
+      let wb = b.width->Option.getWithDefault("0")->Js.Float.fromString;
+      wa < wb ? 1 : wa > wb ? (-1) : 0;
+    })[0]
+    ->Option.flatMap(i => i.sourceUrl);
   let categoryName =
     rootCategory
     ->Option.flatMap(cat => cat.name)
@@ -174,7 +169,20 @@ let make =
        : React.null}
     <ViewLink href style=styles##container>
       <View style=styles##containerContent>
-        image
+        <PlaceholderWithAspectRatio ratio=imageRatio style={styles##image}>
+          {featuredImageUri
+           ->Option.map(src =>
+               <Next.Image
+                 className="PostPreview-img"
+                 src
+                 width=imageWidth
+                 height=imageHeight
+                 layout=`responsive
+                 objectFit=`cover
+               />
+             )
+           ->Option.getWithDefault(React.null)}
+        </PlaceholderWithAspectRatio>
         <SpacedView vertical=S horizontal=M style=styles##text>
           <Text>
             <Text style=styles##categoryText> categoryName </Text>

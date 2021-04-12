@@ -4,13 +4,17 @@ const packageJson = require("./package.json");
 const modulesToTranspile = [
   "bs-platform",
   ...bsconfigJson["bs-dependencies"],
-  ...Object.keys(packageJson.dependencies).filter(dep =>
-    dep.startsWith("react-native"),
+  ...Object.keys(packageJson.dependencies).filter((dep) =>
+    dep.startsWith("react-native")
   ),
 ];
 // const withTM = require("next-transpile-modules")(modulesToTranspile);
 
 const config = {
+  images: {
+    domains: ["data.dame.bio"],
+  },
+
   env: {
     ENV: process.env.NODE_ENV,
   },
@@ -44,12 +48,12 @@ const config = {
     // logic below for externals has been extracted from "next-transpile-modules"
     // we won't use this modules as they don't allow package without "main" field...
     // https://github.com/martpie/next-transpile-modules/issues/170
-    const getPackageRootDirectory = m =>
+    const getPackageRootDirectory = (m) =>
       path.resolve(path.join(__dirname, "node_modules", m));
     const modulesPaths = modulesToTranspile.map(getPackageRootDirectory);
 
     const hasInclude = (context, request) => {
-      return modulesPaths.some(mod => {
+      return modulesPaths.some((mod) => {
         // If we the code requires/import an absolute path
         if (!request.startsWith(".")) {
           try {
@@ -64,7 +68,7 @@ const config = {
         return path.resolve(context, request).includes(mod);
       });
     };
-    config.externals = config.externals.map(external => {
+    config.externals = config.externals.map((external) => {
       if (typeof external !== "function") return external;
       // if (isWebpack5) {
       //   return async ({ context, request, getResolve }) => {

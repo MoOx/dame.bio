@@ -1,3 +1,6 @@
+open Consts.Colors
+let radius = Consts.Radius.box->Js.Float.toFixed ++ "px"
+
 @react.component
 let make = () => {
   <Next.Head>
@@ -30,7 +33,7 @@ let make = () => {
     <meta name="theme-color" content="#ffffff" />
     <style
       dangerouslySetInnerHTML={
-        "__html": `
+        "__html": j`
 html {
   height: 100%;
   background: #006579;
@@ -71,6 +74,11 @@ body {
   .device-large {
     display: none;
   }
+}
+
+.PostPreview-img {
+  border-top-left-radius: $radius;
+  border-top-right-radius: $radius;
 }
 
 /* https://github.com/necolas/react-native-web/issues/1250 */

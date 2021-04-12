@@ -1,15 +1,28 @@
+open Belt;
 open ReactNative;
 
 let styles =
   Style.(StyleSheet.create({"container": style(~overflow=`hidden, ())}));
 
 [@react.component]
-let make = (~ratio, ~children=?, ()) => {
+let make = (~ratio, ~style as s=?, ~children=?, ()) => {
   <View
     pointerEvents=`boxNone
     style=Style.(
-      style(~width=100.->pct, ~paddingBottom=(100. *. ratio)->pct, ())
+      arrayOption([|
+        Some(
+          style(~width=100.->pct, ~paddingBottom=(100. *. ratio)->pct, ()),
+        ),
+        s,
+      |])
     )>
-    {children->Belt.Option.getWithDefault(React.null)}
+    {children
+     ->Option.map(c =>
+         <View
+           style={Style.arrayOption([|Some(StyleSheet.absoluteFill), s|])}>
+           c
+         </View>
+       )
+     ->Option.getWithDefault(React.null)}
   </View>;
 };
