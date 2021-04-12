@@ -28,7 +28,7 @@ export async function getStaticProps(ctx) {
   });
 
   return injectApolloState(apolloClient, {
-    revalidate: false,
+    revalidate: 1,
     props: {
       categorySlug: ctx.params.pageOrCategorySlug,
       cursorBefore: ctx.params.cursorBefore,
@@ -62,7 +62,7 @@ export async function getStaticPaths(ctx) {
       return data.posts.edges.reduce((acc, item) => {
         try {
           if (item.node && item.node.categories && item.node.categories.nodes) {
-            item.node.categories.nodes.forEach(c => {
+            item.node.categories.nodes.forEach((c) => {
               acc.push("/" + c.slug + "/before/" + item.cursor);
             });
           }
@@ -73,7 +73,7 @@ export async function getStaticPaths(ctx) {
         return acc;
       }, []);
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(`received error ${error}`);
       return [];
     });

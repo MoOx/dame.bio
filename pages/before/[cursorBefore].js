@@ -25,7 +25,7 @@ export async function getStaticProps(ctx) {
   });
 
   return injectApolloState(apolloClient, {
-    revalidate: true,
+    revalidate: 1,
     props: {
       cursorBefore: ctx.params.cursorBefore,
     },
@@ -56,7 +56,7 @@ export async function getStaticPaths(ctx) {
     })
     .then(({ data }) => {
       return data.posts.edges
-        .map(item => {
+        .map((item) => {
           try {
             return "/before/" + item.cursor;
           } catch (e) {
@@ -64,9 +64,9 @@ export async function getStaticPaths(ctx) {
             console.log(JSON.stringify(item, null, 2));
           }
         })
-        .filter(i => i);
+        .filter((i) => i);
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(`received error ${error}`);
       return [];
     });
