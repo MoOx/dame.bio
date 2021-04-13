@@ -9,7 +9,9 @@ const modulesToTranspile = [
     dep.startsWith("react-native")
   ),
 ];
-const withTM = require("next-transpile-modules")(modulesToTranspile);
+const withTM = require("next-transpile-modules")(modulesToTranspile, {
+  debug: true,
+});
 
 const config = {
   images: {
@@ -24,15 +26,10 @@ const config = {
   // rescript
   pageExtensions: ["jsx", "js", "bs.js"],
 
+  future: {
+    webpack5: true,
+  },
   webpack: (config, options) => {
-    if (!options.isServer) {
-      // We shim fs for things like the blog slugs component
-      // where we need fs access in the server-side part
-      config.node = {
-        fs: "empty",
-      };
-    }
-
     // react-native-web
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
