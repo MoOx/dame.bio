@@ -36,7 +36,7 @@
     "get-graphql-schema": "^2.1.2",
     "husky": "^1.1.4",
     "lint-staged": "^8.0.5",
-    "next": "^10.0.8",
+    "next": "^10.1.0",
     "next-transpile-modules": "^6.3.0",
     "npm-run-all": "^4.0.2",
     "patch-package": "^6.2.0",
