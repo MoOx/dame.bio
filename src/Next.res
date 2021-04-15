@@ -30,13 +30,15 @@ module Image = {
   }
   @module("next/image") @react.component
   external make: (
-    ~src: string,
-    ~width: float=?,
+    ~alt: string=?,
+    ~className: string=?,
     ~height: float=?,
     ~layout: [#fixed | #intrinsic | #responsive | #fill]=?,
     ~loader: loaderOptions => string=?,
-    ~sizes: string=?,
-    ~quality: float=?,
+    ~loading: [
+      | #"lazy"
+      | #eager
+    ]=?,
     ~priority: bool=?,
     ~objectFit: [
       | #fill
@@ -46,12 +48,11 @@ module Image = {
       | #"scale-down"
     ]=?,
     ~objectPosition: string=?,
-    ~loading: [
-      | #"lazy"
-      | #eager
-    ]=?,
+    ~quality: float=?,
+    ~sizes: string=?,
+    ~src: string,
     ~unoptimized: bool=?,
-    ~className: string=?,
+    ~width: float=?,
   ) => React.element = "default"
 }
 

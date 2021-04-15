@@ -146,6 +146,7 @@ let make = (~item: WPGraphQL.PostPreviewFragment.t, ~withWatercolorBottomRightCo
               height=imageHeight
               layout=#responsive
               objectFit=#cover
+              alt=""
             />
           )
           ->Option.getWithDefault(React.null)}
@@ -173,7 +174,10 @@ let make = (~item: WPGraphQL.PostPreviewFragment.t, ~withWatercolorBottomRightCo
           <Text style={styles["actionText"]}> likes </Text> <ButtonLike id />
         </View>
         <Text> {"    "->React.string} </Text>
-        <ViewLink style={styles["action"]} href={href ++ "#comments"}>
+        <ViewLink
+          style={styles["action"]}
+          href={href ++ "#comments"}
+          accessibilityLabel="Accéder aux commentaires">
           <SVGSpeechBubbleOutline
             fill=ButtonLike.defaultColor
             width={ButtonLike.defaultSize->Js.Float.toString}

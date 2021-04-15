@@ -40,6 +40,7 @@ let make = (~id, ~size=defaultSize) => {
   let (unlike, _unlike_result) = UnlikePost.use()
   !isLiked
     ? <TouchableScale
+        accessibilityLabel="J'aime"
         style={styles["touchable"]}
         activeScale=1.5
         hoverScale=1.1
@@ -53,6 +54,7 @@ let make = (~id, ~size=defaultSize) => {
         />
       </TouchableScale>
     : <TouchableScale
+        accessibilityLabel="Supprimer J'aime"
         style={styles["touchable"]}
         activeScale=0.75
         hoverScale=1.1

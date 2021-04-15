@@ -38,7 +38,7 @@ let make = (~item: WPGraphQL.PostDetailFragment.t) => {
   | 0 => React.null
   | v => ("  " ++ v->string_of_int)->React.string
   }
-  <View style={styles["block"] /* accessibilityRole=`webAriaArticle */}>
+  <View style={styles["block"]} /* accessibilityRole=`webAriaArticle */>
     <SpacedView>
       <Heading>
         <span
