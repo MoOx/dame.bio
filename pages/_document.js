@@ -14,7 +14,7 @@ export default class extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="fr">
         <Head />
         <body>
           <Main />
