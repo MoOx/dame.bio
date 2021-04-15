@@ -76,11 +76,6 @@ body {
   }
 }
 
-.PostPreview-img {
-  border-top-left-radius: $radius;
-  border-top-right-radius: $radius;
-}
-
 /* https://github.com/necolas/react-native-web/issues/1250 */
 .ScrollView-snapToAlignment-center > div > div > div { scroll-snap-align: center !important }
 

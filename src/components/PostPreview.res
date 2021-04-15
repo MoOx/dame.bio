@@ -19,13 +19,15 @@ let styles = {
       ~shadowRadius=16.,
       (),
     ),
-    "containerContent": viewStyle(~flexGrow=1., ~flexShrink=1., ()),
-    "image": viewStyle(
+    "containerContent": viewStyle(
+      ~flexGrow=1.,
+      ~flexShrink=1.,
       ~borderTopLeftRadius=Consts.Radius.box,
       ~borderTopRightRadius=Consts.Radius.box,
-      ~backgroundColor=Consts.Colors.lightGrey,
+      ~overflow=#hidden,
       (),
     ),
+    "image": viewStyle(~backgroundColor=Consts.Colors.lightGrey, ()),
     "text": viewStyle(
       ~flexGrow=1.,
       ~flexShrink=1.,
@@ -136,21 +138,13 @@ let make = (~item: WPGraphQL.PostPreviewFragment.t, ~withWatercolorBottomRightCo
       : React.null}
     <ViewLink href style={styles["container"]}>
       <View style={styles["containerContent"]}>
-        <PlaceholderWithAspectRatio ratio=imageRatio style={styles["image"]}>
-          {featuredImageUri
-          ->Option.map(src =>
-            <Next.Image
-              className="PostPreview-img"
-              src
-              width=imageWidth
-              height=imageHeight
-              layout=#responsive
-              objectFit=#cover
-              alt=""
-            />
-          )
-          ->Option.getWithDefault(React.null)}
-        </PlaceholderWithAspectRatio>
+        {featuredImageUri
+        ->Option.map(src =>
+          <Next.Image
+            src width=imageWidth height=imageHeight layout=#responsive objectFit=#cover alt=""
+          />
+        )
+        ->Option.getWithDefault(React.null)}
         <SpacedView vertical=S horizontal=M style={styles["text"]}>
           <Text>
             <Text style={styles["categoryText"]}> categoryName </Text>
