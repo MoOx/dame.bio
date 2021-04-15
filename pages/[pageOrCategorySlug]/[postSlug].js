@@ -22,7 +22,7 @@ export async function getStaticProps(ctx) {
   });
 
   return injectApolloState(apolloClient, {
-    revalidate: 1,
+    revalidate: 30,
     props: {
       postSlug: ctx.params.postSlug,
     },
@@ -70,6 +70,6 @@ export async function getStaticPaths(ctx) {
     });
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }

@@ -25,7 +25,7 @@ export async function getStaticProps(ctx) {
   });
 
   return injectApolloState(apolloClient, {
-    revalidate: 1,
+    revalidate: 60,
     props: {
       cursorAfter: ctx.params.cursorAfter,
     },
@@ -33,6 +33,7 @@ export async function getStaticProps(ctx) {
 }
 
 export async function getStaticPaths(ctx) {
+  /*
   const apolloClient = initializeApollo();
   const paths = await apolloClient
     .query({
@@ -70,8 +71,9 @@ export async function getStaticPaths(ctx) {
       console.log(`received error ${error}`);
       return [];
     });
+  */
   return {
-    paths,
-    fallback: false,
+    paths: [],
+    fallback: true,
   };
 }
