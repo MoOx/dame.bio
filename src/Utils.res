@@ -31,28 +31,25 @@ let tagifyString = string => stringMapPartial(tagifyChar, string)
 let adjustUrls = s =>
   s
   // remove domains
-  ->Js.String.replaceByRe(%re("/href=\"https:\\/\\/(data\\.)?dame\\.bio\\//g"), "href=\"/", _)
-  // enforce internal links to have trailing slash
-  ->Js.String.replaceByRe(%re("/href=\"\\/([^\"]+)/g"), "href=\"/$1/", _)
-  // enforce internal links to have trailing slash, and ONLY one, cause the rules above can duplicated them
-  ->Js.String.replaceByRe(%re("/href=\"\\/([^\"]+)\\/\\//g"), "href=\"/$1/", _)
+  ->Js.String2.replaceByRe(%re("/href=\"https:\\/\\/(data\\.)?dame\\.bio\\//g"), "href=\"/")
+  // enforce internal links to have no trailing slash
+  ->Js.String2.replaceByRe(%re("/href=\"\\/([^\"]+)\//g"), "href=\"/$1")
   // re-force wordpress href/src to point to the right place
-  ->Js.String.replaceByRe(
+  ->Js.String2.replaceByRe(
     %re("/=\"\\/wp-content/g"),
     "=\"" ++ (Consts.backendUrl ++ "/wp-content"),
-    _,
   )
-  // legacy urls inside posts
+  ->// legacy urls inside posts
   // @todo, change in database
   // also check public/_redirects
-  ->Js.String.replaceByRe(%re("/href=\"\\/recettes\\//g"), "href=\"/alimentation/", _)
-  ->Js.String.replaceByRe(%re("/href=\"\\/ecologie\\//g"), "href=\"/permaculture/", _)
+  Js.String2.replaceByRe(%re("/href=\"\\/recettes\\//g"), "href=\"/alimentation/")
+  ->Js.String2.replaceByRe(%re("/href=\"\\/ecologie\\//g"), "href=\"/permaculture/")
 
 let frenchDate = (date: option<string>) =>
   date
   ->Option.flatMap(d =>
-    (d->Js.String.replace(" ", "T", _)->Js.String.split("T", _))[0]->Option.map(date => {
-      let parts = date->Js.String.split("-", _)
+    (d->Js.String2.replace(" ", "T")->Js.String2.split("T"))[0]->Option.map(date => {
+      let parts = date->Js.String2.split("-")
       parts[2]->Option.getWithDefault("") ++
         ("/" ++
         (parts[1]->Option.getWithDefault("") ++ ("/" ++ parts[0]->Option.getWithDefault(""))))
