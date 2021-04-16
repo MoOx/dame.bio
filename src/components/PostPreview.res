@@ -138,13 +138,21 @@ let make = (~item: WPGraphQL.PostPreviewFragment.t, ~withWatercolorBottomRightCo
       : React.null}
     <ViewLink href style={styles["container"]}>
       <View style={styles["containerContent"]}>
-        {featuredImageUri
-        ->Option.map(src =>
-          <Next.Image
-            src width=imageWidth height=imageHeight layout=#responsive objectFit=#cover alt=""
-          />
-        )
-        ->Option.getWithDefault(React.null)}
+        <PlaceholderWithAspectRatio ratio=imageRatio style={styles["image"]}>
+          {featuredImageUri
+          ->Option.map(src =>
+            <Next.Image
+              alt=""
+              src
+              width=imageWidth
+              height=imageHeight
+              layout=#responsive
+              objectFit=#cover
+              unoptimized={Consts.Env.process["env"]["NODE_ENV"] === Consts.Env.dev}
+            />
+          )
+          ->Option.getWithDefault(React.null)}
+        </PlaceholderWithAspectRatio>
         <SpacedView vertical=S horizontal=M style={styles["text"]}>
           <Text>
             <Text style={styles["categoryText"]}> categoryName </Text>
