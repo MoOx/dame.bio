@@ -1,3 +1,10 @@
+module Env = {
+  let isClient: bool = %raw("typeof window !== \"undefined\"")
+  @val external process: 'a = "process"
+  @inline
+  let dev = "development"
+}
+
 let frontendUrl = "https://dame.bio"
 let backendUrl = "https://data.dame.bio"
 let backendGrapqlUrl = backendUrl ++ "/graphql"

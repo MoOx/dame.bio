@@ -49,8 +49,6 @@ let height = 324. *. 0.75
 let renderItem = (~index as _, ~url, ~label, ~isActive as _) =>
   <TextLink style={styles["link"]} href=url key=url> {label->React.string} </TextLink>
 
-let isClient: bool = %raw("typeof window !== \"undefined\"")
-
 @react.component
 let make = (~globals=?, ~currentLocation) => {
   let year = Js.Date.now()->Js.Date.fromFloat->Js.Date.getFullYear->Js.Float.toString
