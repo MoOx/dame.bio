@@ -59,6 +59,14 @@ let make = (~content, ~category: option<WPGraphQL.PostDetailFragment.t_categorie
   let mediaDataRaw = mediaDataResult->Option.flatMap(result => result[1])
   let mediaData = mediaDataRaw->Option.map(parseMediaData)
 
+  // good posts to test
+  // http://localhost:3000/alimentation/les-meilleurs-endroits-pour-manger-bio-sain-sans-gluten-sans-lait-vegetarien-ou-vegan-a-londres
+  // http://localhost:3000/alimentation/riz-au-lait-damande-miel-et-vanille-sans-lactose
+  // http://localhost:3000/alimentation/gateau-a-l-amande-sans-gluten-sans-lait-sans-beurre-et-sans-farine
+  // http://localhost:3000/bien-etre/meditation-du-lac-demeraude
+  // http://localhost:3000/alimentation/menu-bio-pour-6-personnes-avec-la-vaisselle-jetable-biodegradable-de-dinovia
+  let cleanHtmlTagStartRe = %re("/(<[a-z]+(\s[^>]*)?>)+$/")
+  let cleanHtmlTagEndRe = %re("/^(<\/[a-z]+>)+/")
   let imageRe = %re(
     "/(<div(\s[^>]*)?><figure(\s[^>]*)?><span class=\"Db-Media dbtmp-element-protector-wrapper\"><img\s[^>]+\/><span class=\"Db-Media-overlay dbtmp-element-protector-overlay\"><\/span><\/span>(<figcaption(\s[^>]*)?>[^>]*<\/figcaption>)?<\/figure><\/div>)|(<p(\s[^>]*)?><figure(\s[^>]*)?><span class=\"Db-Media dbtmp-element-protector-wrapper\"><img\s[^>]+\/><span class=\"Db-Media-overlay dbtmp-element-protector-overlay\"><\/span><\/span>(<figcaption(\s[^>]*)?>[^>]*<\/figcaption>)?<\/figure><\/p>)|(<figure(\s[^>]*)?><span class=\"Db-Media dbtmp-element-protector-wrapper\"><img\s[^>]+\/><span class=\"Db-Media-overlay dbtmp-element-protector-overlay\"><\/span><\/span>(<figcaption(\s[^>]*)?>[^>]*<\/figcaption>)?<\/figure>)|(<p(\s[^>]*)?><a(\s[^>]*)?><span class=\"Db-Media dbtmp-element-protector-wrapper\"><img\s[^>]+\/><span class=\"Db-Media-overlay dbtmp-element-protector-overlay\"><\/span><\/span><\/a><\/p>)|(<a(\s[^>]*)?><span class=\"Db-Media dbtmp-element-protector-wrapper\"><img\s[^>]+\/><span class=\"Db-Media-overlay dbtmp-element-protector-overlay\"><\/span><\/span><\/a>)|(<p(\s[^>]*)?><span class=\"Db-Media dbtmp-element-protector-wrapper\"><img\s[^>]+\/><span class=\"Db-Media-overlay dbtmp-element-protector-overlay\"><\/span><\/span><\/p>)|(<span class=\"Db-Media dbtmp-element-protector-wrapper\"><img\s[^>]+\/><span class=\"Db-Media-overlay dbtmp-element-protector-overlay\"><\/span><\/span>)/g"
   )
@@ -76,7 +84,12 @@ let make = (~content, ~category: option<WPGraphQL.PostDetailFragment.t_categorie
       ->Option.flatMap(Js.Nullable.toOption)
       ->Option.map(match => {
         let index = result->Js.Re.index
-        let before = transformedContent->Js.String2.slice(~from=lastCheckpoint.contents, ~to_=index)
+        let before =
+          transformedContent
+          ->Js.String2.slice(~from=lastCheckpoint.contents, ~to_=index)
+          ->Js.String2.replaceByRe(cleanHtmlTagEndRe, "")
+          ->Js.String2.replaceByRe(cleanHtmlTagStartRe, "")
+          ->Js.String2.trim
         let next = imageRe->Js.Re.lastIndex
         lastCheckpoint.contents = next
         if before->Js.String2.length > 0 {
@@ -138,13 +151,18 @@ let make = (~content, ~category: option<WPGraphQL.PostDetailFragment.t_categorie
                     (media->Array.keep(m => m["name"]->Option.getWithDefault("") === "s"))[0]
                   )
                   ->Option.map(media => {
+                    let realWidth = media["width"]->Option.getWithDefault(imageFallbackWidth)
+                    let realHeight = media["height"]->Option.getWithDefault(imageFallbackWidth)
+                    // avoid oversized image
+                    let width = min(realWidth, imageMaxWidth)
+                    let height = realHeight /. realWidth *. width
                     <Next.Image
                       alt
                       quality=imageQuality
                       // src={media["sourceUrl"]->Option.getWithDefault(src)}
-                      src={src}
-                      width={media["width"]->Option.getWithDefault(imageFallbackWidth)}
-                      height={media["height"]->Option.getWithDefault(imageFallbackHeight)}
+                      src
+                      width
+                      height
                       unoptimized={Consts.Env.process["env"]["NODE_ENV"] === Consts.Env.dev}
                     />
                   })
@@ -183,7 +201,12 @@ let make = (~content, ~category: option<WPGraphQL.PostDetailFragment.t_categorie
     }
   }
   if lastCheckpoint.contents < transformedContent->Js.String2.length {
-    let after = transformedContent->Js.String2.sliceToEnd(~from=lastCheckpoint.contents)
+    let after =
+      transformedContent
+      ->Js.String2.sliceToEnd(~from=lastCheckpoint.contents)
+      ->Js.String2.replaceByRe(cleanHtmlTagEndRe, "")
+      ->Js.String2.replaceByRe(cleanHtmlTagStartRe, "")
+      ->Js.String2.trim
     acc
     ->Js.Array2.push(
       <div
