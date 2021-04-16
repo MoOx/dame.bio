@@ -149,6 +149,7 @@ type computedErrors = {
 let noErrors = {name: None, email: None, content: None}
 
 type action =
+  | RenderForm
   | CommentEdit(comment)
   | CommentSend(comment)
   | CommentSuccess((comment, WPRest.comment))
@@ -171,6 +172,7 @@ type animatedState = {
 type state = {
   comment: commentState,
   animated: animatedState,
+  renderForm: bool,
 }
 
 let sendComment = (commentToSend, success, failure) => {
@@ -222,9 +224,11 @@ let make = (~databaseId, ~parentCommentId, ()) =>
         metaTextInputOpacity: Animated.Value.create(transparent),
         metaTextInputY: Animated.Value.create(-.yHidden),
       },
+      renderForm: false,
     },
     reducer: (action, state) =>
       switch action {
+      | RenderForm => ReactCompat.Update({...state, renderForm: true})
       | CommentEdit(comment) =>
         switch state.comment {
         /* unless we are currently waiting for server reply for a comment
@@ -305,6 +309,9 @@ let make = (~databaseId, ~parentCommentId, ()) =>
       | CommentError((comment, err)) =>
         ReactCompat.Update({...state, comment: Errored((comment, err))})
       },
+    didMount: ({send}) => {
+      send(RenderForm)
+    },
     didUpdate: ({oldSelf, newSelf}) => {
       let (animate, showPreview) = switch (oldSelf.state.comment, newSelf.state.comment) {
       | (New, InProgress(newComment)) => (
@@ -383,211 +390,217 @@ let make = (~databaseId, ~parentCommentId, ()) =>
           </Text>
           <Spacer />
         </noscript>
-        {switch state.comment {
-        | Sent((_, _)) => <> <ActivityIndicator size=ActivityIndicator.Size.small /> <Spacer /> </>
-        | Posted((_, _)) => <>
-            <Text> {j`👍 Commentaire envoyé!`->React.string} </Text> <Spacer />
-          </>
-        | _ => React.null
-        }}
-        <View style={styles["row"]}>
-          {parentCommentId > 0 ? <Spacer size=XL /> : React.null}
-          <View style={styles["container"]}>
-            <View style={styles["row"]}>
-              <View style={styles["avatar"]}>
-                <Spacer />
-                <Spacer size=XXS />
-                <Avatar
-                  name=comment.name
-                  url={"https://secure.gravatar.com/avatar/" ++
-                  (Md5.make(comment.email) ++
-                  "?s=96&d=mm&r=g&d=blank")}
-                />
-              </View>
-              <Spacer size=XS />
-              <View style={styles["commentBox"]}>
-                <Animated.View
-                  style={
-                    open Style
-                    array([
-                      styles["metaPreview"],
-                      style(
-                        ~opacity=state.animated.metaPreviewOpacity->Animated.StyleProp.float,
-                        ~transform=[
-                          translateY(
-                            ~translateY=state.animated.metaPreviewY->Animated.StyleProp.float,
-                          ),
-                        ],
-                        (),
-                      ),
-                    ])
-                  }>
+        {!state.renderForm
+          ? React.null
+          : <>
+              {switch state.comment {
+              | Sent((_, _)) => <>
+                  <ActivityIndicator size=ActivityIndicator.Size.small /> <Spacer />
+                </>
+              | Posted((_, _)) => <>
+                  <Text> {j`👍 Commentaire envoyé!`->React.string} </Text> <Spacer />
+                </>
+              | _ => React.null
+              }}
+              <View style={styles["row"]} key=comment.name>
+                {parentCommentId > 0 ? <Spacer size=XL /> : React.null}
+                <View style={styles["container"]}>
                   <View style={styles["row"]}>
-                    <Spacer size=S />
-                    {String.length(comment.url) > 0
-                      ? <ViewLink href=comment.url>
-                          <Text style={styles["metaPreviewName"]}>
-                            {comment.name->React.string}
-                          </Text>
-                        </ViewLink>
-                      : <Text style={styles["metaPreviewName"]}>
-                          {comment.name->React.string}
-                        </Text>}
-                    <TouchableOpacity
-                      onPress={_ => send(CommentEdit({...comment, editMeta: true}))}>
-                      <Text style={styles["metaPreviewEdit"]}>
-                        {j`  ·  `->React.string} {j`Modifier`->React.string}
-                      </Text>
-                    </TouchableOpacity>
+                    <View style={styles["avatar"]}>
+                      <Spacer />
+                      <Spacer size=XXS />
+                      <Avatar
+                        name=comment.name
+                        url={"https://secure.gravatar.com/avatar/" ++
+                        (Md5.make(comment.email) ++
+                        "?s=96&d=mm&r=g&d=blank")}
+                      />
+                    </View>
+                    <Spacer size=XS />
+                    <View style={styles["commentBox"]}>
+                      <Animated.View
+                        style={
+                          open Style
+                          array([
+                            styles["metaPreview"],
+                            style(
+                              ~opacity=state.animated.metaPreviewOpacity->Animated.StyleProp.float,
+                              ~transform=[
+                                translateY(
+                                  ~translateY=state.animated.metaPreviewY->Animated.StyleProp.float,
+                                ),
+                              ],
+                              (),
+                            ),
+                          ])
+                        }>
+                        <View style={styles["row"]}>
+                          <Spacer size=S />
+                          {String.length(comment.url) > 0
+                            ? <ViewLink href=comment.url>
+                                <Text style={styles["metaPreviewName"]}>
+                                  {comment.name->React.string}
+                                </Text>
+                              </ViewLink>
+                            : <Text style={styles["metaPreviewName"]}>
+                                {comment.name->React.string}
+                              </Text>}
+                          <TouchableOpacity
+                            onPress={_ => send(CommentEdit({...comment, editMeta: true}))}>
+                            <Text style={styles["metaPreviewEdit"]}>
+                              {j`  ·  `->React.string} {j`Modifier`->React.string}
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                        <Spacer size=XXS />
+                      </Animated.View>
+                      <View
+                        style={
+                          open Style
+                          array([styles["textInputCommentRow"], styles["textInputWrapper"]])
+                        }>
+                        <TextInputAutoMultilines
+                          style={
+                            open Style
+                            arrayOption([
+                              Some(styles["textInput"]),
+                              errors.content->Option.map(_ => styles["textInputError"]),
+                              Some(styles["textInputComment"]),
+                            ])
+                          }
+                          value=comment.content
+                          placeholder={"Ajouter un commentaire " ++
+                          ((
+                            !comment.editMeta && String.length(comment.name) > 0
+                              ? "en tant que " ++ comment.name
+                              : ""
+                          ) ++
+                          "...")}
+                          onChangeText={text =>
+                            send(
+                              CommentEdit({
+                                ...comment,
+                                content: text,
+                                editMeta: String.length(comment.name) == 0 ||
+                                  String.length(comment.email) == 0,
+                              }),
+                            )}
+                          onFocus={_ => {
+                            let shouldEditComment = switch state.comment {
+                            | New => true
+                            | InProgress(_) => false
+                            | Sent((_, _)) => false
+                            | Posted((_, _)) => false
+                            | Errored((_, _)) => false
+                            }
+                            if shouldEditComment {
+                              send(
+                                CommentEdit({
+                                  ...comment,
+                                  editMeta: String.length(comment.name) == 0 ||
+                                    String.length(comment.email) == 0,
+                                }),
+                              )
+                            } |> ignore
+                          }}
+                        />
+                        {switch errors.content {
+                        | Some(message) =>
+                          <Text style={styles["errorText"]}> {message->React.string} </Text>
+                        | None => React.null
+                        }}
+                      </View>
+                      <Spacer size=XXS />
+                      <Animated.View
+                        style={
+                          open Style
+                          array([
+                            styles["textInputs"],
+                            style(
+                              ~opacity=state.animated.metaTextInputOpacity->Animated.StyleProp.float,
+                              ~transform=[
+                                translateY(
+                                  ~translateY=state.animated.metaTextInputY->Animated.StyleProp.float,
+                                ),
+                              ],
+                              (),
+                            ),
+                          ])
+                        }>
+                        <View style={styles["row"]}>
+                          <View style={styles["textInputWrapper"]}>
+                            <TextInput
+                              style={
+                                open Style
+                                arrayOption([
+                                  Some(styles["textInput"]),
+                                  errors.name->Option.map(_ => styles["textInputError"]),
+                                  Some(styles["textInputName"]),
+                                ])
+                              }
+                              value=comment.name
+                              placeholder="Nom *"
+                              onChangeText={text => {
+                                User.setName(text)
+                                send(CommentEdit({...comment, name: text}))
+                              }}
+                            />
+                            {switch errors.name {
+                            | Some(message) =>
+                              <Text style={styles["errorText"]}> {message->React.string} </Text>
+                            | None => React.null
+                            }}
+                          </View>
+                          <Spacer size=XXS />
+                          <View style={styles["textInputWrapper"]}>
+                            <TextInput
+                              style={
+                                open Style
+                                arrayOption([
+                                  Some(styles["textInput"]),
+                                  errors.email->Option.map(_ => styles["textInputError"]),
+                                  Some(styles["textInputEmail"]),
+                                ])
+                              }
+                              value=comment.email
+                              placeholder="Email *"
+                              onChangeText={text => {
+                                User.setEmail(text)
+                                send(CommentEdit({...comment, email: text}))
+                              }}
+                            />
+                            {switch errors.email {
+                            | Some(message) =>
+                              <Text style={styles["errorText"]}> {message->React.string} </Text>
+                            | None => React.null
+                            }}
+                          </View>
+                          <Spacer size=XXS />
+                          <View style={styles["textInputWrapper"]}>
+                            <TextInput
+                              style={
+                                open Style
+                                array([styles["textInput"], styles["textInputUrl"]])
+                              }
+                              value=comment.url
+                              placeholder="https://site.web"
+                              onChangeText={text => {
+                                User.setUrl(text)
+                                send(CommentEdit({...comment, url: text}))
+                              }}
+                            />
+                          </View>
+                        </View>
+                      </Animated.View>
+                      <TouchableOpacity
+                        onPress={_ => send(CommentSend(comment))} style={styles["buttonSend"]}>
+                        <Text style={styles["buttonSendText"]}> {"Envoyer"->React.string} </Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                  <Spacer size=XXS />
-                </Animated.View>
-                <View
-                  style={
-                    open Style
-                    array([styles["textInputCommentRow"], styles["textInputWrapper"]])
-                  }>
-                  <TextInputAutoMultilines
-                    style={
-                      open Style
-                      arrayOption([
-                        Some(styles["textInput"]),
-                        errors.content->Option.map(_ => styles["textInputError"]),
-                        Some(styles["textInputComment"]),
-                      ])
-                    }
-                    value=comment.content
-                    placeholder={"Ajouter un commentaire " ++
-                    ((
-                      !comment.editMeta && String.length(comment.name) > 0
-                        ? "en tant que " ++ comment.name
-                        : ""
-                    ) ++
-                    "...")}
-                    onChangeText={text =>
-                      send(
-                        CommentEdit({
-                          ...comment,
-                          content: text,
-                          editMeta: String.length(comment.name) == 0 ||
-                            String.length(comment.email) == 0,
-                        }),
-                      )}
-                    onFocus={_ => {
-                      let shouldEditComment = switch state.comment {
-                      | New => true
-                      | InProgress(_) => false
-                      | Sent((_, _)) => false
-                      | Posted((_, _)) => false
-                      | Errored((_, _)) => false
-                      }
-                      if shouldEditComment {
-                        send(
-                          CommentEdit({
-                            ...comment,
-                            editMeta: String.length(comment.name) == 0 ||
-                              String.length(comment.email) == 0,
-                          }),
-                        )
-                      } |> ignore
-                    }}
-                  />
-                  {switch errors.content {
-                  | Some(message) =>
-                    <Text style={styles["errorText"]}> {message->React.string} </Text>
-                  | None => React.null
-                  }}
                 </View>
-                <Spacer size=XXS />
-                <Animated.View
-                  style={
-                    open Style
-                    array([
-                      styles["textInputs"],
-                      style(
-                        ~opacity=state.animated.metaTextInputOpacity->Animated.StyleProp.float,
-                        ~transform=[
-                          translateY(
-                            ~translateY=state.animated.metaTextInputY->Animated.StyleProp.float,
-                          ),
-                        ],
-                        (),
-                      ),
-                    ])
-                  }>
-                  <View style={styles["row"]}>
-                    <View style={styles["textInputWrapper"]}>
-                      <TextInput
-                        style={
-                          open Style
-                          arrayOption([
-                            Some(styles["textInput"]),
-                            errors.name->Option.map(_ => styles["textInputError"]),
-                            Some(styles["textInputName"]),
-                          ])
-                        }
-                        value=comment.name
-                        placeholder="Nom *"
-                        onChangeText={text => {
-                          User.setName(text)
-                          send(CommentEdit({...comment, name: text}))
-                        }}
-                      />
-                      {switch errors.name {
-                      | Some(message) =>
-                        <Text style={styles["errorText"]}> {message->React.string} </Text>
-                      | None => React.null
-                      }}
-                    </View>
-                    <Spacer size=XXS />
-                    <View style={styles["textInputWrapper"]}>
-                      <TextInput
-                        style={
-                          open Style
-                          arrayOption([
-                            Some(styles["textInput"]),
-                            errors.email->Option.map(_ => styles["textInputError"]),
-                            Some(styles["textInputEmail"]),
-                          ])
-                        }
-                        value=comment.email
-                        placeholder="Email *"
-                        onChangeText={text => {
-                          User.setEmail(text)
-                          send(CommentEdit({...comment, email: text}))
-                        }}
-                      />
-                      {switch errors.email {
-                      | Some(message) =>
-                        <Text style={styles["errorText"]}> {message->React.string} </Text>
-                      | None => React.null
-                      }}
-                    </View>
-                    <Spacer size=XXS />
-                    <View style={styles["textInputWrapper"]}>
-                      <TextInput
-                        style={
-                          open Style
-                          array([styles["textInput"], styles["textInputUrl"]])
-                        }
-                        value=comment.url
-                        placeholder="https://site.web"
-                        onChangeText={text => {
-                          User.setUrl(text)
-                          send(CommentEdit({...comment, url: text}))
-                        }}
-                      />
-                    </View>
-                  </View>
-                </Animated.View>
-                <TouchableOpacity
-                  onPress={_ => send(CommentSend(comment))} style={styles["buttonSend"]}>
-                  <Text style={styles["buttonSendText"]}> {"Envoyer"->React.string} </Text>
-                </TouchableOpacity>
               </View>
-            </View>
-          </View>
-        </View>
+            </>}
       </View>
     },
   })
