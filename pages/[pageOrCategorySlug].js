@@ -24,7 +24,7 @@ export async function getStaticProps(ctx) {
   });
 
   return injectApolloState(apolloClient, {
-    revalidate: 30,
+    // revalidate: 30,
     props: {
       pageOrCategorySlug: ctx.params.pageOrCategorySlug,
     },

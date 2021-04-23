@@ -23,6 +23,6 @@ export async function getStaticProps() {
   });
 
   return injectApolloState(apolloClient, {
-    revalidate: 30,
+    // revalidate: 30,
   });
 }

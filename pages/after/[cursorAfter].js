@@ -25,7 +25,7 @@ export async function getStaticProps(ctx) {
   });
 
   return injectApolloState(apolloClient, {
-    revalidate: 60,
+    // revalidate: 60,
     props: {
       cursorAfter: ctx.params.cursorAfter,
     },
