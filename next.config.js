@@ -12,6 +12,21 @@ const modulesToTranspile = [
 const withTM = require("next-transpile-modules")(modulesToTranspile);
 
 const config = {
+  async redirects() {
+    return [
+      {
+        source: "/recettes/:slug",
+        destination: "/alimentation/:slug",
+        permanent: true,
+      },
+      {
+        source: "/ecologie/:slug",
+        destination: "/permaculture/:slug",
+        permanent: true,
+      },
+    ];
+  },
+
   images: {
     domains: ["data.dame.bio"],
   },
