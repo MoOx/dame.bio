@@ -89,12 +89,14 @@ let make = (~item: WPGraphQL.PostDetailFragment.t) => {
           tag
           ->Option.map(tag =>
             <Text key={tag.slug->Option.getWithDefault(string_of_int(index))}>
-              <TextLink href={"/tag/" ++ Utils.encodeURI(tag.slug->Option.getWithDefault(""))}>
-                <Text style={styles["tagText"]}>
-                  {"#" ++ Utils.tagifyString(tag.name->Option.getWithDefault("")) |> React.string}
-                </Text>
-              </TextLink>
-              {" "->React.string}
+              // <TextLink href={"/tag/" ++ Utils.encodeURI(tag.slug->Option.getWithDefault(""))}>
+              <Text style={styles["tagText"]}>
+                {"#" ++ Utils.tagifyString(tag.name->Option.getWithDefault("")) |> React.string}
+              </Text>
+              {
+                // </TextLink>
+                " "->React.string
+              }
             </Text>
           )
           ->Option.getWithDefault(React.null)
