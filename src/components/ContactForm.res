@@ -141,7 +141,7 @@ let sendMessage = (messageToSend, success, failure) => {
 let formName = "contact"
 
 @react.component
-let make = (~page: option<WPGraphQL.GetPage.GetPage_inner.t_pages_nodes>=?, ()) =>
+let make = (~page: option<WPGraphQL.GetPage.GetPage_inner.t_page>=?, ()) =>
   ReactCompat.useRecordApi({
     ...ReactCompat.component,
     initialState: () => {message: New},

@@ -159,24 +159,35 @@ module GetPagesAndPosts = %graphql(`
   `)
 
 module GetPost = %graphql(`
-  query GetPost($postSlug: String!){
-    posts(first: 1, where: {name: $postSlug}) {
-      nodes {
-        ...PostDetailFragment
-      }
+  query GetPost($postSlug: ID!){
+    post(id: $postSlug, idType: SLUG) {
+      ...PostDetailFragment
+    }
+  }`)
+
+module GetPostById = %graphql(`
+  query GetPost($postId: ID!){
+    post(id: $postId, idType: DATABASE_ID) {
+      ...PostDetailFragment
+    }
+  }`)
+
+module GetPreviewPost = %graphql(`
+  query GetPreviewPost($id: ID!) {
+    post(id: $id, idType: DATABASE_ID) {
+      databaseId
+      status
     }
   }`)
 
 module GetPage = %graphql(`
-  query GetPage($pageSlug: String){
-    pages(first: 1, where: {name: $pageSlug}) {
-      nodes {
-        id
-        title
-        slug
-        dateGmt
-        content
-      }
+  query GetPage($pageSlug: ID!){
+    page(id: $pageSlug, idType: SLUG) {
+      id
+      title
+      slug
+      dateGmt
+      content
     }
   }
   `)

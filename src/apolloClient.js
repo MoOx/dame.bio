@@ -8,12 +8,19 @@ import { backendUrl } from "./Consts.bs";
 
 let apolloClient;
 
-function createApolloClient() {
+function createApolloClient(authToken) {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     link: new HttpLink({
-      uri: backendUrl + "/graphql", // Server URL (must be absolute)
-      credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+      uri: backendUrl + "/graphql",
+      credentials: "same-origin",
+      ...(authToken !== undefined
+        ? {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        : {}),
     }),
     cache: new InMemoryCache({
       // fragmentMatcher: new IntrospectionFragmentMatcher({
@@ -30,8 +37,8 @@ function createApolloClient() {
   });
 }
 
-export function initializeApollo(initialState = null) {
-  const _apolloClient = apolloClient ?? createApolloClient();
+export function initializeApollo(initialState = null, authToken) {
+  const _apolloClient = apolloClient ?? createApolloClient(authToken);
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here
@@ -44,7 +51,9 @@ export function initializeApollo(initialState = null) {
       // combine arrays using object equality (like in sets)
       arrayMerge: (destinationArray, sourceArray) => [
         ...sourceArray,
-        ...destinationArray.filter(d => sourceArray.every(s => !isEqual(d, s))),
+        ...destinationArray.filter((d) =>
+          sourceArray.every((s) => !isEqual(d, s))
+        ),
       ],
     });
 
@@ -71,5 +80,5 @@ export const injectApolloState = (client, staticReturn = {}) => ({
 
 export function useApollo(pageProps) {
   const state = pageProps[APOLLO_STATE_PROP_NAME];
-  return useMemo(() => initializeApollo(state), [state]);
+  return useMemo(() => initializeApollo(state, pageProps.authToken), [state]);
 }

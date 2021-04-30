@@ -70,6 +70,6 @@ export async function getStaticPaths(ctx) {
     });
   return {
     paths,
-    fallback: true,
+    fallback: false,
   };
 }
