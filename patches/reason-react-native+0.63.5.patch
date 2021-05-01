@@ -1,11 +1,63 @@
+diff --git a/node_modules/reason-react-native/src/components/Text.re b/node_modules/reason-react-native/src/components/Text.re
+index 496b925..a230a62 100644
+--- a/node_modules/reason-react-native/src/components/Text.re
++++ b/node_modules/reason-react-native/src/components/Text.re
+@@ -38,18 +38,20 @@ external make:
+     ~rel: [@bs.string] [
+             | `alternate
+             | `author
+-            | [@bs.as "dns-prefetch"] `dnsPrefetch
+-            | `icon
++            | `bookmark
++            | `external_
++            | `help
+             | `license
+             | `next
+-            | `pingback
+-            | `preconnect
+-            | `prefetch
+-            | `preload
+-            | `prerender
++            | `nofollow
++            | `noopener
++            | `noreferrer
++            | `opener
+             | `prev
+             | `search
+-            | `stylesheet
++            | `tag
++            | `ugc
++            | [@bs.as "ugc, nofollow"] `ugcNoFollow
+           ]
+             =?,
+     ~href: string=?,
 diff --git a/node_modules/reason-react-native/src/components/View.re b/node_modules/reason-react-native/src/components/View.re
-index c938438..5cf3994 100644
+index c938438..bab1e18 100644
 --- a/node_modules/reason-react-native/src/components/View.re
 +++ b/node_modules/reason-react-native/src/components/View.re
-@@ -76,6 +76,7 @@ external make:
+@@ -76,6 +76,26 @@ external make:
      ~testID: string=?,
      ~children: React.element=?,
      // React Native Web Props
++    ~rel: [@bs.string] [
++            | `alternate
++            | `author
++            | `bookmark
++            | `external_
++            | `help
++            | `license
++            | `next
++            | `nofollow
++            | `noopener
++            | `noreferrer
++            | `opener
++            | `prev
++            | `search
++            | `tag
++            | `ugc
++            | [@bs.as "ugc, nofollow"] `ugcNoFollow
++          ]
++            =?,
 +    ~href: string=?,
      ~onMouseDown: ReactEvent.Mouse.t => unit=?,
      ~onMouseEnter: ReactEvent.Mouse.t => unit=?,

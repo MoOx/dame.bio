@@ -79,28 +79,42 @@ let make = (
       <View style={styles["commentTextContainer"]}>
         <View style={styles["commentMeta"]}>
           {String.length(url) > 0
-            ? <ViewLink style={styles["commentAuthor"]} href=url>
+            ? <TextLink style={styles["commentAuthor"]} href=url rel=#ugcNoFollow>
                 <Text style={styles["commentAuthorText"]}> {name->React.string} </Text>
-              </ViewLink>
+              </TextLink>
             : <Text style={styles["commentAuthor"]}> {name->React.string} </Text>}
           {switch comment.author {
           | Some(#User(a)) if a.userId->Option.getWithDefault(0) == 2 => <>
               <Text> {" "->React.string} </Text>
-              <ViewLink href=url style={styles["commentOwner"]}>
+              <TextLink href=url style={styles["commentOwner"]}>
                 <Text style={styles["commentOwnerText"]}> {"Auteur"->React.string} </Text>
-              </ViewLink>
+              </TextLink>
             </>
           | _ => React.null
           }}
+          {
+            // <Text style={styles["commentAuthorText"]}> {name->React.string} </Text>
+
+            // @todo investigate why this doesn't work
+            switch comment.author {
+            | Some(#User(a)) if a.userId->Option.getWithDefault(0) == 2 => <>
+                <Text> {" "->React.string} </Text>
+                <ViewLink href=url style={styles["commentOwner"]}>
+                  <Text style={styles["commentOwnerText"]}> {"Auteure"->React.string} </Text>
+                </ViewLink>
+              </>
+            | _ => React.null
+            }
+          }
         </View>
         <View style={styles["row"]}>
           <Text style={styles["commentDate"]}>
-            {comment.dateGmt
+            {(comment.dateGmt
             ->Option.mapWithDefault(Js.Date.make(), d =>
-              Js.Date.fromString(d |> Js.String.replace(" ", "T"))
+              Js.Date.fromString(d->Js.String2.replace(" ", "T"))
             )
             ->Date.relativeDate
-            ->String.capitalize_ascii ++ j`  ·  ` |> React.string}
+            ->String.capitalize_ascii ++ j`  ·  `)->React.string}
           </Text>
           {canReply
             ? <TouchableOpacity onPress=onReply>
@@ -112,9 +126,10 @@ let make = (
           <div
             className="dbComment"
             dangerouslySetInnerHTML={
-              "__html": comment.content->Option.getWithDefault("")
-              |> Js.String.replace("<p>", "")
-              |> Js.String.replace("</p>", ""),
+              "__html": comment.content
+              ->Option.getWithDefault("")
+              ->Js.String2.replace("<p>", "")
+              ->Js.String2.replace("</p>", ""),
             }
           />
         </Text>
