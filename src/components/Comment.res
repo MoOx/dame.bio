@@ -91,15 +91,6 @@ let make = (
                 <Text style={styles["commentAuthorText"]}> {name->React.string} </Text>
               </TextLink>
             : <Text style={styles["commentAuthor"]}> {name->React.string} </Text>}
-          {switch comment.author {
-          | Some(#User(a)) if a.userId->Option.getWithDefault(0) == 2 => <>
-              <Text> {" "->React.string} </Text>
-              <TextLink href=url style={styles["commentOwner"]}>
-                <Text style={styles["commentOwnerText"]}> {"Auteur"->React.string} </Text>
-              </TextLink>
-            </>
-          | _ => React.null
-          }}
           {
             // <Text style={styles["commentAuthorText"]}> {name->React.string} </Text>
 
