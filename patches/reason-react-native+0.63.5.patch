@@ -1,44 +1,46 @@
 diff --git a/node_modules/reason-react-native/src/components/Text.re b/node_modules/reason-react-native/src/components/Text.re
-index 496b925..a230a62 100644
+index 496b925..05cf86f 100644
 --- a/node_modules/reason-react-native/src/components/Text.re
 +++ b/node_modules/reason-react-native/src/components/Text.re
-@@ -38,18 +38,20 @@ external make:
-     ~rel: [@bs.string] [
-             | `alternate
-             | `author
+@@ -35,25 +35,9 @@ external make:
+     ~value: string=?,
+     ~children: React.element=?,
+     // React Native Web Props
+-    ~rel: [@bs.string] [
+-            | `alternate
+-            | `author
 -            | [@bs.as "dns-prefetch"] `dnsPrefetch
 -            | `icon
-+            | `bookmark
-+            | `external_
-+            | `help
-             | `license
-             | `next
+-            | `license
+-            | `next
 -            | `pingback
 -            | `preconnect
 -            | `prefetch
 -            | `preload
 -            | `prerender
-+            | `nofollow
-+            | `noopener
-+            | `noreferrer
-+            | `opener
-             | `prev
-             | `search
+-            | `prev
+-            | `search
 -            | `stylesheet
-+            | `tag
-+            | `ugc
-+            | [@bs.as "ugc, nofollow"] `ugcNoFollow
-           ]
-             =?,
+-          ]
+-            =?,
++    ~accessibilityHidden: bool=?,
      ~href: string=?,
+-    ~target: Web.target=?,
++    ~hrefAttrs: View.hrefAttrs=?,
+     ~onMouseDown: ReactEvent.Mouse.t => unit=?,
+     ~onMouseEnter: ReactEvent.Mouse.t => unit=?,
+     ~onMouseLeave: ReactEvent.Mouse.t => unit=?,
 diff --git a/node_modules/reason-react-native/src/components/View.re b/node_modules/reason-react-native/src/components/View.re
-index c938438..bab1e18 100644
+index c938438..3329661 100644
 --- a/node_modules/reason-react-native/src/components/View.re
 +++ b/node_modules/reason-react-native/src/components/View.re
-@@ -76,6 +76,26 @@ external make:
-     ~testID: string=?,
-     ~children: React.element=?,
-     // React Native Web Props
+@@ -1,5 +1,33 @@
+ include NativeElement;
+ 
++type hrefAttrs;
++[@bs.obj]
++external hrefAttrs:
++  (
 +    ~rel: [@bs.string] [
 +            | `alternate
 +            | `author
@@ -58,7 +60,21 @@ index c938438..bab1e18 100644
 +            | [@bs.as "ugc, nofollow"] `ugcNoFollow
 +          ]
 +            =?,
++    ~target: Web.target=?,
++    unit
++  ) =>
++  hrefAttrs;
++
+ type edgeInsets;
+ [@bs.obj]
+ external edgeInsets:
+@@ -76,6 +104,9 @@ external make:
+     ~testID: string=?,
+     ~children: React.element=?,
+     // React Native Web Props
++    ~accessibilityHidden: bool=?,
 +    ~href: string=?,
++    ~hrefAttrs: hrefAttrs=?,
      ~onMouseDown: ReactEvent.Mouse.t => unit=?,
      ~onMouseEnter: ReactEvent.Mouse.t => unit=?,
      ~onMouseLeave: ReactEvent.Mouse.t => unit=?,

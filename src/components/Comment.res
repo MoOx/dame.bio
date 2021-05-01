@@ -82,7 +82,12 @@ let make = (
             ? <TextLink
                 style={styles["commentAuthor"]}
                 href=url
-                rel=?{url->Js.String2.startsWith(Consts.frontendUrl) ? None : Some(#ugcNoFollow)}>
+                hrefAttrs={View.hrefAttrs(
+                  ~rel=?{
+                    url->Js.String2.startsWith(Consts.frontendUrl) ? None : Some(#ugcNoFollow)
+                  },
+                  (),
+                )}>
                 <Text style={styles["commentAuthorText"]}> {name->React.string} </Text>
               </TextLink>
             : <Text style={styles["commentAuthor"]}> {name->React.string} </Text>}
