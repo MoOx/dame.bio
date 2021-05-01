@@ -7,8 +7,8 @@ let styles = {
     "row": style(~flexDirection=#row, ()),
     "comment": style(~flexDirection=#row, ()),
     "commentTextContainer": style(~flex=1., ()),
-    "commentMeta": style(~flexDirection=#row, ()),
-    "commentAuthor": style(),
+    "commentMeta": style(~flexDirection=#row, ~flex=1., ()),
+    "commentAuthor": style(~flexShrink=1., ()),
     "commentAuthorText": style(
       ~color=Consts.Colors.darkLabel,
       ~fontWeight=#_600,
