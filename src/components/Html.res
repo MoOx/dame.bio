@@ -131,6 +131,7 @@ let make = (~content, ~category: option<WPGraphQL.PostDetailFragment.t_categorie
                   (),
                 )}>
                 <View
+                  accessibilityHidden=true
                   style={Style.array([
                     StyleSheet.absoluteFill,
                     Style.viewStyle(~justifyContent=#center, ()),
