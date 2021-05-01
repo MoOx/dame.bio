@@ -53,24 +53,10 @@ export async function getStaticPaths(ctx) {
     .then(({ data }) => {
       return [
         ...data.pages.nodes
-          .map((item) => {
-            try {
-              return "/" + item.slug;
-            } catch (e) {
-              console.log(`received error ${e}`);
-              console.log(JSON.stringify(item, null, 2));
-            }
-          })
+          .map((item) => "/" + item.slug)
           .filter((i) => i && i !== "/contact"),
         ...data.categories.nodes
-          .map((item) => {
-            try {
-              return "/" + item.slug;
-            } catch (e) {
-              console.log(`received error ${e}`);
-              console.log(JSON.stringify(item, null, 2));
-            }
-          })
+          .map((item) => "/" + item.slug)
           .filter((i) => i),
       ];
     })

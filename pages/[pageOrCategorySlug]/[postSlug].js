@@ -49,14 +49,7 @@ export async function getStaticPaths(ctx) {
     })
     .then(({ data }) => {
       return data.posts.nodes
-        .map((item) => {
-          try {
-            return "/" + item.categories.nodes[0].slug + "/" + item.node.slug;
-          } catch (e) {
-            console.log(`received error ${e}`);
-            console.log(JSON.stringify(item, null, 2));
-          }
-        })
+        .map((item) => "/" + item.categories.nodes[0].slug + "/" + item.slug)
         .filter((i) => i);
     })
     .catch((error) => {
