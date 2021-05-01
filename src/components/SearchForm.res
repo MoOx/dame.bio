@@ -23,11 +23,7 @@ let make = () =>
       | Edit(value) => ReactCompat.Update({...state, value: value})
       | Submit =>
         ReactCompat.SideEffects(
-          _ =>
-            Linking.openURL(
-              "https://www.ecosia.org/search?q=site%3Adame.bio+" ++
-              Utils.encodeURIComponent(state.value),
-            )->ignore,
+          _ => Linking.openURL("/recherche#" ++ Utils.encodeURIComponent(state.value))->ignore,
         )
       },
     render: ({state, send}) =>

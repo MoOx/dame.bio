@@ -18,7 +18,7 @@ export async function getStaticProps() {
     variables: {
       pageSlug: "noop",
       categorySlug: "",
-      first: perPage,
+      first: perPageForHome,
     },
   });
 

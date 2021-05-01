@@ -152,6 +152,25 @@ module GetPageAndPostsFromSlug = %graphql(`
   }
   `)
 
+module GetPostsFromSearch = %graphql(`
+  query GetPageAndPostsFromSlug($first: Int, $search: String){
+    posts(first: $first, where: {search: $search}) {
+      nodes {
+        ...PostPreviewFragment
+      }
+    }
+  }
+  `)
+module GetPostsFromTagSlug = %graphql(`
+  query GetPageAndPostsFromSlug($first: Int, $search: String){
+    posts(first: $first, where: {tagSlugIn: [$search]}) {
+      nodes {
+        ...PostPreviewFragment
+      }
+    }
+  }
+  `)
+
 module GetPost = %graphql(`
   query GetPost($postSlug: ID!){
     post(id: $postSlug, idType: SLUG) {

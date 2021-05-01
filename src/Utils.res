@@ -4,8 +4,10 @@ open Belt
 external fetchJsonp: string => Js.Promise.t<Fetch.Response.t> = "fetch-jsonp"
 
 @val external encodeURIComponent: string => string = "encodeURIComponent"
+@val external decodeURIComponent: string => string = "decodeURIComponent"
 
 let encodeURI = uri => encodeURIComponent(uri)
+let decodeURI = uri => decodeURIComponent(uri)
 
 let stringMapPartial = (f, s) => {
   let b = Buffer.create(String.length(s))

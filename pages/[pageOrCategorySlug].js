@@ -38,10 +38,8 @@ export async function getStaticPaths(ctx) {
       query: gql`
         {
           pages(first: 1000, where: { status: PUBLISH }) {
-            edges {
-              node {
-                slug
-              }
+            nodes {
+              slug
             }
           }
           categories {
@@ -54,10 +52,10 @@ export async function getStaticPaths(ctx) {
     })
     .then(({ data }) => {
       return [
-        ...data.pages.edges
+        ...data.pages.nodes
           .map((item) => {
             try {
-              return "/" + item.node.slug;
+              return "/" + item.slug;
             } catch (e) {
               console.log(`received error ${e}`);
               console.log(JSON.stringify(item, null, 2));

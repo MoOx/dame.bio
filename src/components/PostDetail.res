@@ -38,7 +38,7 @@ let make = (~item: WPGraphQL.PostDetailFragment.t) => {
   | 0 => React.null
   | v => ("  " ++ v->string_of_int)->React.string
   }
-  <View style={styles["block"]} /* accessibilityRole=`webAriaArticle */>
+  <View style={styles["block"]}>
     <SpacedView>
       <Heading>
         <span
@@ -89,14 +89,13 @@ let make = (~item: WPGraphQL.PostDetailFragment.t) => {
           tag
           ->Option.map(tag =>
             <Text key={tag.slug->Option.getWithDefault(string_of_int(index))}>
-              // <TextLink href={"/tag/" ++ Utils.encodeURI(tag.slug->Option.getWithDefault(""))}>
-              <Text style={styles["tagText"]}>
-                {"#" ++ Utils.tagifyString(tag.name->Option.getWithDefault("")) |> React.string}
-              </Text>
-              {
-                // </TextLink>
-                " "->React.string
-              }
+              <TextLink
+                href={"/recherche#" ++ tag.slug->Option.getWithDefault("")->Utils.encodeURI}>
+                <Text style={styles["tagText"]}>
+                  {("#" ++ tag.name->Option.getWithDefault("")->Utils.tagifyString)->React.string}
+                </Text>
+              </TextLink>
+              {" "->React.string}
             </Text>
           )
           ->Option.getWithDefault(React.null)
