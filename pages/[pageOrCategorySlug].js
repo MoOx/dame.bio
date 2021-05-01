@@ -5,7 +5,7 @@ export default page;
 
 import { gql } from "@apollo/client";
 import { perPage } from "../src/pages/PagePostsOrPage.bs.js";
-import { GetGlobals, GetPagesAndPosts } from "../src/WPGraphQL.bs.js";
+import { GetGlobals, GetPageAndPostsFromSlug } from "../src/WPGraphQL.bs.js";
 import { initializeApollo, injectApolloState } from "../src/apolloClient.js";
 
 export async function getStaticProps(ctx) {
@@ -15,7 +15,7 @@ export async function getStaticProps(ctx) {
     variables: {},
   });
   await apolloClient.query({
-    query: GetPagesAndPosts.query,
+    query: GetPageAndPostsFromSlug.query,
     variables: {
       first: perPage,
       pageSlug: ctx.params.pageOrCategorySlug,

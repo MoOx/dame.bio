@@ -4,7 +4,6 @@ import page from "../../../src/pages/PagePostById.bs.js";
 export default page;
 
 import { gql } from "@apollo/client";
-import { perPage } from "../../../src/pages/PagePostById.bs.js";
 import { GetGlobals, GetPostById } from "../../../src/WPGraphQL.bs.js";
 import {
   initializeApollo,

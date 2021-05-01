@@ -126,8 +126,8 @@ let useGlobals = () =>
   | _ => None
   }
 
-module GetPagesAndPosts = %graphql(`
-  query GetPagesAndPosts($first: Int, $last: Int, $pageSlug: String, $categorySlug: String, $tagSlug: String, $cursorAfter: String, $cursorBefore: String){
+module GetPageAndPostsFromSlug = %graphql(`
+  query GetPageAndPostsFromSlug($first: Int, $pageSlug: String, $categorySlug: String){
     categories(first: 1, where: {slug: [$categorySlug]}) {
       nodes {
         id
@@ -135,13 +135,7 @@ module GetPagesAndPosts = %graphql(`
         description
       }
     }
-    posts(first: $first, last: $last, after: $cursorAfter, before: $cursorBefore, where: {categoryName: $categorySlug, tag: $tagSlug}) {
-      pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-        hasPreviousPage
-      }
+    posts(first: $first, where: {categoryName: $categorySlug}) {
       nodes {
         ...PostPreviewFragment
       }

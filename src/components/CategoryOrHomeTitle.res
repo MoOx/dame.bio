@@ -2,7 +2,7 @@ open Belt
 
 @react.component
 let make = (
-  ~categories: option<WPGraphQL.GetPagesAndPosts.GetPagesAndPosts_inner.t_categories>,
+  ~categories: option<WPGraphQL.GetPageAndPostsFromSlug.GetPageAndPostsFromSlug_inner.t_categories>,
   ~generalSettings: option<WPGraphQL.GetGlobals.GetGlobals_inner.t_generalSettings>,
 ) => <>
   {categories

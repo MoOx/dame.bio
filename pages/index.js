@@ -3,8 +3,8 @@
 import page from "../src/pages/PagePostsOrPage.bs.js";
 export default page;
 
-import { perPage } from "../src/pages/PagePostsOrPage.bs.js";
-import { GetGlobals, GetPagesAndPosts } from "../src/WPGraphQL.bs.js";
+import { perPageForHome } from "../src/pages/PagePostsOrPage.bs.js";
+import { GetGlobals, GetPageAndPostsFromSlug } from "../src/WPGraphQL.bs.js";
 import { initializeApollo, injectApolloState } from "../src/apolloClient.js";
 
 export async function getStaticProps() {
@@ -14,7 +14,7 @@ export async function getStaticProps() {
     variables: {},
   });
   await apolloClient.query({
-    query: GetPagesAndPosts.query,
+    query: GetPageAndPostsFromSlug.query,
     variables: {
       pageSlug: "noop",
       categorySlug: "",

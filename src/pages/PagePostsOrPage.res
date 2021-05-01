@@ -1,19 +1,16 @@
 open Belt
 
-let perPage = 8
+let perPageForHome = 10
+let perPage = 250
 
 @react.component
-let make = (~pageOrCategorySlug, ~tagSlug, ~cursorAfter, ~cursorBefore, ()) => {
+let make = (~pageOrCategorySlug, ()) => {
   let globals = WPGraphQL.useGlobals()
-  let query = WPGraphQL.GetPagesAndPosts.use(
-    WPGraphQL.GetPagesAndPosts.makeVariables(
+  let query = WPGraphQL.GetPageAndPostsFromSlug.use(
+    WPGraphQL.GetPageAndPostsFromSlug.makeVariables(
       ~pageSlug=pageOrCategorySlug->Option.getWithDefault("noop"),
       ~categorySlug=pageOrCategorySlug->Option.getWithDefault(""),
-      ~tagSlug?,
-      ~first=?cursorBefore->Option.map(_ => None)->Option.getWithDefault(Some(perPage)),
-      ~cursorAfter?,
-      ~last=?cursorBefore->Option.map(_ => perPage),
-      ~cursorBefore?,
+      ~first=pageOrCategorySlug->Option.isNone ? perPageForHome : perPage,
       (),
     ),
   )
@@ -51,9 +48,10 @@ let make = (~pageOrCategorySlug, ~tagSlug, ~cursorAfter, ~cursorBefore, ()) => {
             generalSettings={globals->Option.flatMap(globals => globals.generalSettings)}
           />
           {page->Option.map(item => <PageDetail item />)->Option.getWithDefault(React.null)}
-          {hasPosts
-            ? <PostListWithNav posts=response.posts categorySlug=pageOrCategorySlug tagSlug />
-            : React.null}
+          {response.posts
+          ->Option.flatMap(p => p.nodes)
+          ->Option.map(nodes => <PostList nodes />)
+          ->Option.getWithDefault(React.null)}
           {!hasPage && !hasPosts ? <Error label={Some(`Aucun résultat`)} /> : React.null}
         </>
       | {error: Some(error)} => <Error label=Some(error.message) />

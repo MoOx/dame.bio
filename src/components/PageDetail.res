@@ -21,8 +21,11 @@ let styles = {
 }
 
 @react.component
-let make = (~item: WPGraphQL.GetPagesAndPosts.GetPagesAndPosts_inner.t_pages_nodes, ()) =>
-  <View style={styles["block"] /* accessibilityRole=`webAriaArticle */}>
+let make = (
+  ~item: WPGraphQL.GetPageAndPostsFromSlug.GetPageAndPostsFromSlug_inner.t_pages_nodes,
+  (),
+) =>
+  <View style={styles["block"]} /* accessibilityRole=`webAriaArticle */>
     <SpacedView>
       <Heading>
         <span
