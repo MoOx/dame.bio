@@ -79,7 +79,10 @@ let make = (
       <View style={styles["commentTextContainer"]}>
         <View style={styles["commentMeta"]}>
           {String.length(url) > 0
-            ? <TextLink style={styles["commentAuthor"]} href=url rel=#ugcNoFollow>
+            ? <TextLink
+                style={styles["commentAuthor"]}
+                href=url
+                rel=?{url->Js.String2.startsWith(Consts.frontendUrl) ? None : Some(#ugcNoFollow)}>
                 <Text style={styles["commentAuthorText"]}> {name->React.string} </Text>
               </TextLink>
             : <Text style={styles["commentAuthor"]}> {name->React.string} </Text>}
