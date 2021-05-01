@@ -25,7 +25,7 @@ let make = (
   ~item: WPGraphQL.GetPageAndPostsFromSlug.GetPageAndPostsFromSlug_inner.t_pages_nodes,
   (),
 ) =>
-  <View style={styles["block"]} /* accessibilityRole=`webAriaArticle */>
+  <View style={styles["block"]} accessibilityRole=#article>
     <SpacedView>
       <Heading>
         <span
