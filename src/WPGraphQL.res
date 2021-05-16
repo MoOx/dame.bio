@@ -195,7 +195,7 @@ module GetPreviewPost = %graphql(`
 
 module GetPage = %graphql(`
   query GetPage($pageSlug: ID!){
-    page(id: $pageSlug, idType: SLUG) {
+    page(id: $pageSlug, idType: URI) {
       id
       title
       slug
