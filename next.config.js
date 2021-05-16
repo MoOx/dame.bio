@@ -39,15 +39,11 @@ const config = {
   // rescript
   pageExtensions: ["jsx", "js", "bs.js"],
 
-  webpack: (config, options) => {
-    if (!options.isServer) {
-      // We shim fs for things like the blog slugs component
-      // where we need fs access in the server-side part
-      config.node = {
-        fs: "empty",
-      };
-    }
+  future: {
+    webpack5: true,
+  },
 
+  webpack: (config, options) => {
     // react-native-web
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
