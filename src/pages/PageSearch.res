@@ -7,6 +7,7 @@ let make = () => {
     None
   })
   <AppWrapper ?globals>
+    <Next.Head> <meta name="robots" content="noindex" /> </Next.Head>
     <ContainerMainContentLarge> {mounted ? <Search /> : React.null} </ContainerMainContentLarge>
     /* <SidebarSeparator /> */
     <Sidebar ?globals />
