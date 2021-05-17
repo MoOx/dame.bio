@@ -31,7 +31,7 @@ let rec make = (props: props<'comment, 'databaseId>) => {
   let parentCommentId = props["parentCommentId"]
   let comments = props["comments"]
 
-  let (replyOpen, replyOpen_set) = React.useState()
+  let (replyOpen, replyOpen_set) = React.useState(_ => false)
 
   <>
     <Comment
